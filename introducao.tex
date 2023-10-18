@@ -65,29 +65,6 @@ No presente projeto serão listados alguns modelos de algoritmos e \textit{frame
 
 Assim, espera-se que esta investigação possa contribuir para a geração futura de uma ferramenta automática para a geração detalhada de sobre as condições bucais e dentais de pacientes. Além de poder contribuir com os profissionais dentistas, isso pode contribuir como uma ferramenta de auxílio inicial ao diagnóstico e triagem, algo importante para locais do planeta que possuem recursos e acessos escassos para o tratamento odontológico.
 
-
-\section{Block-based Principal Component Analysis Pooling (BPCA Pooling)}
-\label{intro:bpca}
-Apresentado como uma variação do método convencional do Principal Component Analysis (PCA) no trabalho \cite{Salvadeo2011}, o BPCA propõe um método que inicialmente foi utilizado para a extração de características de imagens relacionadas a trabalhos de reconhecimento de face, propondo um método de extração que trouxesse à análise menor custo computacional, redução de dimensionalidade e uma geometria de hiperespaço que fosse mais intuitiva, destacando o diferencial de que com esse método fosse possível preservar a espacialidade da informação.
-
-O método proposto opera por meio da subdivisão de uma imagem em blocos $k \times k$, em que os blocos geralmente possuem tamanhos iguais (por exemplo, $3 \times 3$, $8 \times 8$, etc.). Em seguida, o PCA é aplicado a cada um desses blocos subdivididos. Consequentemente, cada bloco $k \times k$ passa a ter um tamanho reduzido, contendo apenas um subconjunto de pixels com $r$ características (o mesmo numero de blocos). Esse processo pode ser visualizado através da Figura X.
-
-É importante ressaltar que o BPCA não é uma simples combinação linear de amostras distintas. Em vez disso, ele cria uma representação organizada, formada por pequenos blocos do mapa de características original usado como entrada. O BPCA incorpora o PCA para realizar o mapeamento não supervisionado que minimiza o erro quadrático médio entre a entrada original e a representação projetada.
-
-Considerando os parágrafos anteriores e o fato de que as camadas de pooling são aplicadas com sucesso nas redes convolucionais com o objetivo de reduzir a dimensionalidade dos dados \cite{paul2019dimensionality}, a partir do presente trabalho, propõe-se a utilização dessa técnica não para a tarefa de extração de características, mas como uma camada de pooling que contenha o benefício de preservar a espacialidade da informação entre as camadas convolucionais.
-
-A camada de pooling adota o processo original do BPCA, que extrai as principais informações de cada bloco, reduzindo a dimensionalidade dos dados e preservando características relevantes. Além disso, o método foi aprimorado por meio da normalização dos blocos usando média ($\mu$) e desvio padrão ($\sigma$). Em seguida, é aplicada a decomposição em valores singulares (SVD) para extrair os componentes principais ($\text{{pca\_components}}$) que realizam a transformação dos blocos por meio da projeção nesses componentes selecionados. Como resultado, obtém-se um mapa de características reduzido em tamanho, mas que preserva a informação essencial ao concatenar os blocos transformados.
-
-A representação matemática do processo realizado pela camada de pooling BPCAPooling pode ser descrita pela seguinte equação:
-
-\[
-\text{{BPCAPooling}}(x) = \text{{reshape}}\left(\text{{SVD}}\left(\frac{{x - \mu}}{{\sigma}}\right) \cdot \text{{pca\_components}}\right),
-\]
-onde $x$ representa o mapa de características de entrada, $\text{{reshape}}$ reorganiza os blocos transformados em uma estrutura de saída adequada, $\text{{SVD}}$ denota a decomposição em valores singulares dos blocos normalizados, $\mu$ é o vetor médio dos blocos extraídos, $\sigma$ é o vetor de desvio padrão dos blocos extraídos, e $\text{{pca\_components}}$ é uma matriz que contém os primeiros componentes principais selecionados.
-
-Essa formulação matemática descreve o processo de pooling realizado pela camada BPCAPooling, que extrai informações relevantes dos blocos de entrada, reduzindo sua dimensionalidade e preservando características importantes para o aprendizado eficiente da rede neural convolucional.
-
-
 \subsection{Objetivos}
 \label{intro:objective}
 
