@@ -9,7 +9,7 @@
 Nesta Seção, serão discorridos os detalhes sobre as tecnologias que serão utilizadas para o desenvolvimento de um modelo de segmentação panóptica que segmenta componentes visuais (Seção \ref{project:tec}), as técnicas e métodos escolhidos para serem utilizados nos experimentos (Seção \ref{project:method}) e, por fim, sobre os conjuntos de dados selecionados para cumprirem com o objetivo da segmentação (Seção \ref{project:dataset}).
 
 
-\subsubsection{Tecnologias}
+\subsubsection{Tecnologias e \textit{Hardware}}
 \label{project:tec}
 Dentre as tecnologias planejadas para o desenvolvimento do presente trabalho, vale citar que destaca-se o uso da linguagem de programação interpretada e de alto nível, \textit{Python}, sendo essa uma linguagem vantajosa por ser popularmente conhecida no meio cientifico, com uma ampla comunidade e com  bibliotecas dispostas para facilitar o desenvolvimento de soluções \cite{Millman2011PythonEngineers}.
 
@@ -18,8 +18,12 @@ Já em relação às bibliotecas planejadas ao projeto, destacam-se aquelas cujo
 Por fim, em relação aos métodos desenvolvidos para cumprir com os objetivos do presente trabalho, no que lhes concerne, de realizar a segmentação de componentes visuais, declara-se que serão disponibilizado em forma de biblioteca por meio do \textit{Github} do autor\footnote{Perfil \textit{Github} do autor – \url{https://github.com/Lucs1590}}, segundo os preceitos a licença Apache v2.0 \cite{Licenses}, com o intuito de contribuir com o crescimento de futuros pesquisadores, além de possibilitar futuras melhorias da aréa de segmentação com uso de segmentação hierárquica.
 
 
-\subsubsection{Métodos}
-\label{project:method}
+\subsubsection{\textit{Block-based Principal Component Analysis Pooling} (BPCA Pooling)}
+\label{project:bpca}
+
+\paragraph{Funcionamento como \textit{Pooling}}
+
+\paragraph{Formula e Complexidade}
 Dentre os métodos disponíveis para realizar a tarefa de segmentação panóptica de componentes visuais, destaca-se que serão realizados testes a partir dos modelos disponibilizados pela biblioteca \textit{Detectron2} \cite{detectron2}, seguindo também a formatação inicial proposta por Kirillov \textit{et al.} \cite{Kirillov2019a}, a qual era composta por um modelo de Mask R-CNN (Seção \ref{instance:mask}) para realizar a parte de segmentação de instâncias e o modelo de FCN (Seção \ref{semantic:FCN}) para realizar a segmentação semântica.
 
 Todavia, haja vista o resultado esperado nesse trabalho, vide a Seção \ref{project:expres}, para as tarefas de segmentação panóptica com o uso de partes, diferente das abordagens de estruturas que possuem apenas as tarefas de segmentações de instâncias e semântica, seja de modo compartilhado, unificado, com conexões ou cascata, como demonstradas na Figura \ref{project:method:fig:1}, a segmentação de partes cientes necessita, também, de uma parte voltada para a segmentação das partes de objetos classificados como \textit{thing} ou \textit{stuff}, como demonstrado na Figura \ref{project:method:fig:2}, a qual representa uma estrutura voltada para a segmentação panóptica de modo unificado (segmentação semântica e de instância) e outra para a segmentação de partes cientes. Sendo assim, também será testada a estrutura desenhada por de Geus \textit{et al.} \cite{DeGeus2021}, a qual é composta por um modelo de segmentação panóptica (DLv3-ResNeSt269 \& DetectoRS) juntamente com um modelo responsável por realizar uma segmentação de partes (BSANet).
@@ -44,6 +48,10 @@ Todavia, haja vista o resultado esperado nesse trabalho, vide a Seção \ref{pro
 
 \subsubsection{Conjuntos de Dados}
 \label{project:dataset}
+
+\paragraph{\textit{Oxford-IIIT Pet}}
+
+\paragraph{Segundo Dataset}
 Em relação ao conjunto de dados, por esse trabalho fazer uso da segmentação \textit{Part-Aware Panoptic Segmentation} proposta em \cite{DeGeus2021}, sendo que esta é uma nova abordagem, vale dizer que a quantidade de conjuntos de dados ainda é escassa, principalmente quando se trata de trabalhos voltados para uma área em específico, como a odontológica.
 
 Todavia, no presente trabalho serão utilizados tanto conjuntos de dados que são mais generalistas, mas são voltados para a segmentação panóptica, quanto conjuntos de dados voltados para a parte odontológica, os quais precisarão ser anotados de modo a estarem adaptados para o seu uso em bases de treino e teste.
@@ -112,32 +120,19 @@ A técnica de transferência de aprendizado foi inspirada em casos do mundo real
 
 Sendo assim, por esse projeto se enquadrar no segundo caso citado dentro do parágrafo anterior, onde a quantidade de amostras do conjunto de dados para realizar a fase de treinamento é pequena, a técnica de transferência de aprendizado será adotada, utilizando amostras dos conjuntos de dados PASCAL \textit{Panoptic Parts}, \textit{Cityscapes Panoptic Parts} e PartsNet para o treinamento da rede, até dado momento e, depois, submetendo a mesma rede no conjunto de dados odontológico que será anotado em conjunto com a parceria realizada.
 
+\subsubsection{Aumento de Dados}
 
 \subsubsection{Alteração na Camada de \textit{Pooling}}
 \label{proposal:pcapooling}
-Como explicado na Seção \ref{deep:pooling}, a adaptação dos modelos de \textit{pooling} é crescente, sendo que essas modificações são motivadas pelos problemas a serem resolvidos, sendo assim, quando se trata de segmentações modernas, duas abordagens ganham destaque como técnicas de \textit{pooling}, sendo elas: \textit{Atrous Spatial Pyramid Pooling} (ASPP) \cite{Chen2018} e \textit{Pyramid Pooling} \cite{Zhao2017}.
 
-Basicamente, a abordagem relacionada ao módulo de ASPP está atrelada às segmentações semânticas \cite{Mohan2020}, sendo que este módulo tem como sua principal vantagem a captura de objetos e contexto úteis da imagem em várias escalas diferentes, haja vista que seu comportamento está atrelado à re-amostragem com diversas taxas de convolução para cada \textit{kernel}, possibilitando, assim, a sondagem de um mapa de características, antes mesmo do processo de convolução, com vários campos de visão \cite{Chen2018}. O exemplo desse módulo pode ser visualizado na Figura \ref{proposal:pcapooling:fig:1}.
 
-\begin{figure}[H]
-    \centering
-    \caption{Exemplo representativo do ASPP.}
-    \includegraphics[width=1\textwidth]{recursos/imagens/proposal/aspp.png}
-    \label{proposal:pcapooling:fig:1}
+\paragraph{VGG-16}
 
-    Fonte: retirado e adaptado de \cite{Chen2018}.
-\end{figure}
+\paragraph{U-Net-Like}
 
-Já quando se trata do módulo de \textit{Pyramid Pooling}, vale dizer que este está atrelado à dimensão das características, tendo como principal motivação provar ser um \textit{pooling} de contexto global antes de realizar sua representação \cite{Zhao2017}. Todavia, quando se trata desse modelo de \textit{pooling}, vale dizer que a sua maior vantagem está relacionada à flexibilidade que é cedida às entradas das redes, de modo que torna-se possível realizar entradas com tamanhos variados. O exemplo desse módulo pode ser visualizado na Figura \ref{proposal:pcapooling:fig:2}.
+\paragraph{U-Net}
 
-\begin{figure}[H]
-    \centering
-    \caption{Exemplo representativo do \textit{Pyramid Pooling}.}
-    \includegraphics[width=1\textwidth]{recursos/imagens/proposal/pyramidal.png}
-    \label{proposal:pcapooling:fig:2}
-
-    Fonte: retirado e adaptado de \cite{Zhao2017}.
-\end{figure}
+Como explicado na Seção \ref{deep:pooling}, a adaptação dos modelos de \textit{pooling} é crescente, sendo que essas modificações são motivadas pelos problemas a serem resolvidos, sendo assim, quando se trata de segmentações modernas, duas abordagens ganham destaque como técnicas de \textit{pooling}, sendo elas:
 
 Entretanto, vale citar que, no presente trabalho, além da escolha dos modelos acima listados, também será realizado um experimento com a aplicação da técnica de \textit{Block-Based Principal Component Analysis} (ou BPCA) nas camadas de \textit{pooling} dos modelos base para a realização da segmentação panóptica. O BPCA, desenvolvido por Salvadeo \textit{et al.} \cite{Salvadeo2011}, que se provou satisfatório para aplicações relacionadas ao reconhecimento de faces, realiza a aplicação do método \textit{Principal Component Analysis} (PCA) entre blocos que dividem uma imagem original, de modo a manter as estruturas espaciais da imagem original. Sendo assim, para o presente trabalho, tem-se a expectativa de adicionar esse método na camada de \textit{pooling} do modelo base  de segmentação panóptica ciente de parte, tendo uma redução de dimensionalidade e mantendo as estruturas originais da entrada em questão, o que normalmente é perdido quando se aplica uma estratégia de \textit{pooling} em escala global (como representado na Figura \ref{deep:fig:7}).  Um exemplo desse módulo pode ser visualizado na Figura \ref{proposal:pcapooling:fig:3}.
 
@@ -150,10 +145,13 @@ Entretanto, vale citar que, no presente trabalho, além da escolha dos modelos a
     Fonte: retirado e adaptado de \cite{Salvadeo2011}.
 \end{figure}
 
+\paragraph{VGG-16}
 
+\paragraph{U-Net-Like}
 
+\paragraph{U-Net}
 
-\subsection{Avaliação dos Experimentos}
+\subsection{Metodologia Experimental}
 \label{project:exp_result}
 O método de avaliação escolhido seguiu no mesmo caminho do artigo tomado como referência para realizar a segmentação \textit{Part-Aware Panoptic Segmentation} \cite{DeGeus2021}, que, no que lhe concerne, teve como base o artigo pioneiro de segmentação panóptica \cite{Kirillov2019a}, que aplica a métrica PQ (Equação \ref{panoptic:eq:2}), realizando uma sucinta adaptação que possibilita quantificar as partes das segmentações panópticas visto que é aplicado para cada uma das classes ($l$) presentes na cena, sendo elas \textit{thing} ou \textit{stuff}. Através da equação \ref{proposal:avaliation:eq:1} é possível entender a métrica de avaliação \textit{Part-PQ}, a qual fora escolhida para avaliação:
 
@@ -173,6 +171,10 @@ Em relação à Equação \ref{proposal:avaliation:eq:1}, destaca-se ainda que a
 \end{equation}
 
 Por fim, após a aplicação de PartPQ em todas as classes, calcula-se a média entre avaliações realizadas, de modo que é possível avaliar o desempenho do modelo em toda a cena e demonstrou resultados consideráveis quando comparado à métrica original \cite{DeGeus2021}.
+
+\subsubsection{Comportamento das Métricas}
+
+\subsubsection{Explicação de Modelos}
 
 
 \subsection{Revisão de Literatura}
@@ -262,3 +264,5 @@ Tendo em vista os estudos que estão relacionados à segmentação na área odon
     \vspace*{1cm}
     Fonte: do próprio autor.
 \end{table}
+
+\subsection{Considerações Finais do Capítulo}

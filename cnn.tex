@@ -73,8 +73,35 @@ Ainda, vale mencionar que outros modelos de \textit{pooling} também se fazem pr
 
 \subsubsection{\textit{Global Average Pooling}}
 
+\subsubsection{\textit{Average Pooling}}
+
 \subsubsection{\textit{Global Max Pooling}}
 
+\subsubsection{\textit{Max Pooling}}
+
+\subsubsection{\textit{Atrous Spatial Pyramid Pooling}(ASPP)}
+\label{cnn:pooling:aspp}
+Basicamente, a abordagem relacionada ao módulo de \textit{Atrous Spatial Pyramid Pooling} (ASPP) \citep{Chen2018} está atrelada às segmentações semânticas \citep{Mohan2020}, sendo que este módulo tem como sua principal vantagem a captura de objetos e contexto úteis da imagem em várias escalas diferentes, haja vista que seu comportamento está atrelado à re-amostragem com diversas taxas de convolução para cada \textit{kernel}, possibilitando, assim, a sondagem de um mapa de características, antes mesmo do processo de convolução, com vários campos de visão \cite{Chen2018}. O exemplo desse módulo pode ser visualizado na Figura \ref{proposal:pcapooling:fig:1}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplo representativo do ASPP.}
+    \includegraphics[width=1\textwidth]{recursos/imagens/proposal/aspp.png}
+    \label{proposal:pcapooling:fig:1}
+
+    Fonte: retirado e adaptado de \cite{Chen2018}.
+\end{figure}
+
+Já quando se trata do módulo de \textit{Pyramid Pooling} \citep{Zhao2017}, vale dizer que este está atrelado à dimensão das características, tendo como principal motivação provar ser um \textit{pooling} de contexto global antes de realizar sua representação \cite{Zhao2017}. Todavia, quando se trata desse modelo de \textit{pooling}, vale dizer que a sua maior vantagem está relacionada à flexibilidade que é cedida às entradas das redes, de modo que torna-se possível realizar entradas com tamanhos variados. O exemplo desse módulo pode ser visualizado na Figura \ref{proposal:pcapooling:fig:2}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplo representativo do \textit{Pyramid Pooling}.}
+    \includegraphics[width=1\textwidth]{recursos/imagens/proposal/pyramidal.png}
+    \label{proposal:pcapooling:fig:2}
+
+    Fonte: retirado e adaptado de \cite{Zhao2017}.
+\end{figure}
 
 \subsection{\textit{Dropout}}
 \label{cnn:dropout}
@@ -107,3 +134,8 @@ Por fim, para gerar a saída final normalmente se utiliza de funções de ativa�
 
 \subsection{Aumento de Dados}
 \label{cnn:augment}
+
+\subsection{VGG-16}
+\label{cnn:vgg}
+
+\subsection{Considerações Finais do Capítulo}
