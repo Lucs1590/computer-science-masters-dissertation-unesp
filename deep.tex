@@ -96,6 +96,7 @@ A função de ativação, como citado brevemente a priori, é calculada pelo neu
 
 
 \subsubsection{Função Limiar}
+\label{deep:limiar}
 A função limiar define um limite (\textit{threshold}) $\gamma$, em que valores abaixo de $\gamma$ indicam uma saída sem excitação, para valores acima de $\gamma$, há a excitação para o neurônio, utilizando assim, de medidas binárias, que normalmente são representadas por 0 e 1, respectivamente.
 
 Essa função se faz eficiente quando trabalhando com 2 classes, todavia passa a ter dificuldades quando atuando em problemas multi-classes, visto que não garante a excitação de um único neurônio da camada de saída.
@@ -104,14 +105,15 @@ Em relação à função de ativação ($f(Y')$) desenvolvida e utilizada no Per
 
 \begin{equation}
     \label{deep:eq:3}
-    f(Y') = \left\{\begin{matrix}
+    f(Y') = \begin{cases}
      1,& se \; Y' \geq \gamma \\ 
      0,& \text{caso contrário}.
-    \end{matrix}\right.
+    \end{cases}
 \end{equation}
 
 
 \subsubsection{Função Linear}
+\label{deep:linear}
 Para suprir a problemática de trabalhar com contextos de multi-classe, saídas contínuas podem ajudar quanto à interpretação e subjugar o problema da função limiar, sendo que para essa atividade é adequado o uso da função linear. Porém, é importante ter conhecimento que os resultados expressos por funções lineares também são lineares, não sendo recomendado o seu uso para atividades que não pertencem a problemas lineares. A função linear pode ser expressa pela Equação \ref{deep:eq:5}, segundo \cite{Rosenblatt1958}:
 
 \begin{equation}
@@ -121,6 +123,7 @@ Para suprir a problemática de trabalhar com contextos de multi-classe, saídas 
 
 
 \subsubsection{Função Sigmoide}
+\label{deep:sigmoide}
 As funções sigmoides não se limitam a problemas lineares, assim sendo caracterizada como função de ativação não-linear e possibilitando o uso de probabilidade quanto à saída do neurônio.
 
 Essa função de ativação também é cognominada e expressa por \cite{glorot2011deep} como função logística. Sua expressão matemática se dá por:
@@ -133,6 +136,7 @@ Essa função de ativação também é cognominada e expressa por \cite{glorot20
 A desvantagem dessa função encontra-se em situações de variação do eixo x, em que há uma  dissipação do seu gradiente, implicando em um aprendizado mais lento nos neurônios das primeiras camadas em relação aos das últimas, tendo em vista os valores muito pequenos no início.
 
 \subsubsection{Função ReLU}
+\label{deep:relu}
 A função desenvolvida por \cite{Hahnioser2000} e popularmente conhecida como ReLU (\textit{Rectified Linear Unit}) se faz útil nas camadas ocultas da rede neural \citep{Goodfellow2016}, sendo que sua utilidade é destacada por não permitir resultados negativos \citep{Dahl2013} e ter uma rápida convergência, principalmente quando comparada à função sigmoide, além de não passar por problemas de perda do gradiente. Sua função é definida pela Equação \ref{deep:eq:7} \citep{Hahnioser2000}:
 
 \begin{equation}
@@ -232,8 +236,8 @@ g = \nabla_{\boldsymbol{\theta}} \left(\frac{1}{m} \sum\limits_{i=1}^{m}L(f(\bol
 onde $L(x,y)$ é a função de custo, $\boldsymbol{x}$ representa a entrada, $\boldsymbol{y}$ indica a saída esperada, $m$ é o número de exemplos no conjunto de dados, e $f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta})$ é a saída da rede para o enésimo exemplo $\boldsymbol{x}^{(i)}$ com o conjunto de pesos $\boldsymbol{\theta}$.
 
 \paragraph{Adam}
+\label{deep:eq:adam}
 
-\paragraph{Taxa de Aprendizado Dinâmica}
 
 \paragraph{Parada antecipada}
 \label{deep:optimization:early_stoping}
@@ -244,7 +248,17 @@ Para abordar essa questão, diversos estudos têm sido realizados com o intuito 
 
 A aplicação da Parada Antecipada implica calcular a precisão da classificação nos dados de validação ao final de cada época \citep{Prechelt1998AutomaticCriteria}. Quando a precisão para de melhorar, encerramos o treinamento. Isso simplifica a definição do número de épocas, pois não é necessário explicitamente determinar como ele depende de outros hiperparâmetros - essa adaptação é feita automaticamente. Ademais, a Parada Antecipada atua como um mecanismo automático de prevenção ao \textit{overfitting}. Embora, em estágios iniciais de experimentação, possa ser útil desativar temporariamente a Parada Antecipada para identificar sinais de \textit{overfitting} e, assim, ajustar a abordagem de regularização.
 
-A implementação efetiva da Parada Antecipada exige uma definição mais precisa do que significa "parar de melhorar" em termos de precisão da classificação. Como observado anteriormente, a precisão pode oscilar mesmo durante uma tendência geral de melhora. Parar imediatamente quando há uma diminuição na precisão pode interromper o processo quando melhorias adicionais ainda são possíveis. Uma regra mais sensata é interromper o treinamento se a melhor precisão de classificação não melhorar por um determinado número de épocas consecutivas, como demonstra a Figura \ref{deep:fig:earlystopping}.
+A implementação efetiva da parada antecipada exige uma definição mais precisa do que significa "parar de melhorar" em termos de precisão da classificação. Como observado anteriormente, a precisão pode oscilar mesmo durante uma tendência geral de melhora. Parar imediatamente quando há uma diminuição na precisão pode interromper o processo quando melhorias adicionais ainda são possíveis \citep{Prechelt1998EarlyWhen}. Uma regra mais sensata para a parada antecipada $n(i)$ no treinamento é se a melhor precisão de classificação não melhorar por um determinado número de épocas consecutivas $j$ a partir da época de melhor acurácia $n_{Acc}$, como representado pela Equação \ref{deep:eq:early_stopping} e também pela Figura \ref{deep:fig:earlystopping}.
+
+\begin{equation}
+    \label{deep:eq:early_stopping}
+    n(i) = n_{Acc} + j.
+    % \text{Parada Antecipada} =\begin{cases}
+    %     1,& \text{se $Acc$ não melhore por $n$ épocas consecutivas} \\
+    %     0,& \text{caso contrário}
+    % \end{cases}
+\end{equation}
+
 
 \begin{figure}[H]
     \centering
@@ -255,15 +269,64 @@ A implementação efetiva da Parada Antecipada exige uma definição mais precis
     Fonte: do próprio autor.
 \end{figure}
 
+\paragraph{Taxa de Aprendizado Dinâmica}
+\label{deep:optimization:dynamic_lr}
 
+A taxa de aprendizado (\textit{learning rate} em inglês), como demonstrado anteriormente, é um dos hiperparâmetros fundamentais utilizados na etapa inicial do treinamento de modelos. Sua representação como $\epsilon$ pode ser observada na Equação \ref{deep:eq:graddesc} e desempenha um papel crucial na determinação do tamanho dos passos das iterações para a otimização de gradientes \citep{Smith2017CyclicalNetworks}.
 
+Definir a taxa de aprendizado, assim como abordado na situação de parada antecipada mencionada na Seção \ref{deep:optimization:early_stoping}, muitas vezes a metodologia para a definição desse hiperparâmetro torna-se um desafio sem que tenha um veredito definido como estado da arte \citep{Goodfellow2016}. Isso se deve ao fato de que quanto maior o valor definido, mais acentuada é a atualização dos parâmetros, possibilitando uma exploração mais rápida do espaço de características, como ilustrado na Figura \ref{deep:fig:dynamic_lr.1}. No entanto, essa abordagem frequentemente resulta na perda do valor ótimo \citep{Tang2021AnPump}. Por outro lado, ao diminuir o valor da taxa de aprendizado, a atualização dos parâmetros torna-se mais gradual, o que ajuda a evitar a perda de mínimos globais, como apresentado na Figura \ref{deep:fig:dynamic_lr.2}. Contudo, é importante salientar que essa estratégia consome consideravelmente mais recursos computacionais e, muitas vezes, não atinge o valor mínimo global devido ao grande número de iterações necessárias para a convergência \citep{Tang2021AnPump}.
 
+\begin{figure}[H]
+   \caption{Representação de atualização da taxa de aprendizado.}
+   \centering
+   \label{deep:fig:dynamic_lr}
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=1.5in]{recursos/imagens/deep/l_separavel.png}
+        \caption{Taxa de aprendizado muito alta.}
+        \label{deep:fig:dynamic_lr.1}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=1.5in]{recursos/imagens/deep/nl_separavel.png}
+        \caption{Taxa de aprendizado muito baixa.}
+        \label{deep:fig:dynamic_lr.2}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+Essas representações visuais na Figura \ref{deep:fig:dynamic_lr} evidenciam os impactos da variação da taxa de aprendizado na otimização do modelo. A escolha adequada desse hiperparâmetro é crucial para encontrar um equilíbrio entre a velocidade de convergência e a busca pelo valor ótimo da função de custo.
+
+O aumento no número de estudos, como os de \cite{Tang2021AnPump, Senior2013AnRecognition} e \cite{Smith2017CyclicalNetworks}, que visam aprimorar técnicas para encontrar valores ótimos de taxas de aprendizado tem se tornado uma tendência crescente. Esses estudos se concentram na busca por equilibrar os parâmetros ou otimizar a definição desses valores. Muitos desses estudos adotam uma abordagem baseada na programação de taxas de aprendizado dinâmicas, através do uso de um agendador de taxa de aprendizado (\textit{learning rate scheduler}) - um método que define critérios para aumentar ou diminuir o valor da taxa de aprendizado $\epsilon$. Normalmente, esse valor é programado para diminuir linearmente, resultando em atualizações de pesos maiores no início da otimização e menores à medida que a otimização avança e o ponto mínimo se aproxima. A redução gradual da taxa de aprendizado pode ser descrita pela Equação \ref{deep:eq:dynamic_lr}, proposta por \cite{Goodfellow2016}:
+
+\begin{equation}
+\label{deep:eq:dynamic_lr}
+\epsilon_i = (1 - \alpha) \epsilon_0 + \alpha\epsilon_\tau,
+\end{equation}
+sendo que nesta equação, $\tau$ representa o número de iterações em que $\epsilon$ será reduzido para uma constante, $i$ é a iteração atual, $\epsilon_0$ é a taxa de aprendizado inicial e $\alpha$ é determinado por $\frac{i}{\tau}$. Além disso, é importante destacar que o valor de $\tau$ é definido como o número de iterações necessárias para completar as épocas do conjunto de treinamento, enquanto $\epsilon_\tau$ é aproximadamente 1\% do valor de $\epsilon_0$, conforme indicado por \cite{Goodfellow2016}.
+
+É relevante mencionar que o valor de $\epsilon_0$ pode variar conforme o problema em questão. Em problemas que envolvem um grande número de imagens, como frequentemente ocorre em redes neurais profundas citadas na Seção \ref{cnn}, valores típicos de $\epsilon_0$ variam entre $1e^{-5}$ e $1e^{-6}$. Esse ajuste é necessário para garantir a eficiência do treinamento e a convergência do modelo.
+
+Por fim, vale mencionar que propostas de decaimento da taxa de aprendizado, como o \textit{Cyclical Learning Rates} (CLR), desenvolvido por \cite{Smith2017CyclicalNetworks}, buscam reduzir o tempo de treinamento e manter a estabilidade dos modelos com a aplicação de variações geométricas. Por exemplo, o modelo triangular busca iniciar o treinamento com baixos valores de taxa de aprendizado e aumentar gradualmente até certo limite, proporcionando uma aceleração de convergência e acompanhado de um processo de diminuição para não perder os mínimos globais em um processo cíclico. Essa proposta sugere uma aceleração da convergência do modelo \citep{Smith2017CyclicalNetworks}, o que pode ser observado através da Figura \ref{deep:optimization:cyclical_lr}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Comparação de convergência de modelos no conjunto de dados CIFAR \citep{Krizhevsky2014TheDataset} com uso de taxa de aprendizado cíclica.}
+    \includegraphics[width=0.8\linewidth]{recursos/imagens/deep/early_stopping.png}
+    \label{deep:optimization:cyclical_lr}
+
+    Fonte: retirado e adaptado de \cite{Smith2017CyclicalNetworks}.
+\end{figure}
 
 \subsubsection{Retro-propagação}
 \label{deep:backprop}
 
+\begin{sloppypar}
 Por meio do desenvolvimento de \cite{rumelhart1986learning}, o algoritmo de retro-propagação (ou em inglês, \textit{Backpropagation}) foi capaz de contribuir diretamente no desenvolvimento dos modelos de redes neurais profundas, de modo que esse algoritmo conseguiu realizar o reajuste de pesos em camadas ocultas dos modelos. Com o auxílio de uma função de custo (Seção
 \ref{deep:cust}), o erro é calculado na saída da rede $(y)$ e há a propagação do mesmo, iniciando da camada de saída em direção para a camada de entrada. Isso é realizado através do trabalho conjunto do algoritmo \textit{backpropagation} e de um algoritmo de otimização (Seção \ref{deep:optimization}), em que o \textit{backpropagation} realiza um cálculo rápido de gradientes utilizados pelos algoritmos de otimização.
+\end{sloppypar}
 
 Dessa forma, a explicação dessa Seção se resume em processos em que, dado o erro $E$ que é obtido a partir da saída da rede $(y)$ em relação a um \textit{ground truth} $(g)$, a primeira etapa é realizada com o cálculo da derivada parcial de $E$ em relação a cada neurônio de saída, sendo formada por $\frac{\partial E}{\partial \boldsymbol{y_i}}$ tendo que $i \in \mathbb{K}$ como a representação dos tamanhos de cada saída. Depois, com a aplicação da regra da cadeia de $E$ em relação às entradas $x_j$, é possível obter a seguinte expressão \citep{rumelhart1986learning}:
 

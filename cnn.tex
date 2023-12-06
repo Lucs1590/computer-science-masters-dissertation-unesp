@@ -1,13 +1,13 @@
 \section{Redes Neurais Convolucionais}
 \label{cnn}
 
-Dentre os tipos de rede de aprendizado profundo, a mais utilizada atualmente para trabalhar com visão computacional e processamento de imagens, de modo geral, e que possui valor notório para o trabalho com dados espaciais \citep{Goodfellow2016, ponti2018funciona, Ghosh2019}, destaca-se a denominada \textit{Convolutional Neural Networks}\citep{LeCun1999}, ou a célebre CNN, que tem esse nome por trabalhar com camadas convolucionais.
+Dentre os diversos tipos de redes de aprendizado profundo, as mais amplamente utilizadas atualmente para lidar com visão computacional, processamento de imagens e possuindo um valor notável para o trabalho com dados espaciais \citep{Goodfellow2016, ponti2018funciona, Ghosh2019}, destacam-se as \textit{Convolutional Neural Networks} (CNNs) \citep{LeCun1999}. As CNNs recebem esse nome por empregarem camadas convolucionais, sendo especialmente proeminentes e eficazes nesses contextos.
 
-Evidencia-se que as CNNs são consideradas como estado-da-arte em algumas competições \cite{Parkhi2015}, assim como modelo bioinspirado de sucesso \cite{Goodfellow2016}, visto que esta simula pontos cerebrais responsáveis pela captura de impulsos visuais e outras propriedades que são capturadas pelo córtex visual, além de obter diferentes características que desenvolveram as operações de \textit{pooling} \cite{Goodfellow2016}, que serão descritas na Seção \ref{cnn:pooling}.
+É inegável que as CNNs são consideradas o estado-da-arte em várias competições \citep{Parkhi2015}, além de serem modelos bioinspirados de sucesso \citep{Goodfellow2016}. Elas são capazes de simular pontos cerebrais responsáveis pela interpretação de impulsos visuais, reproduzindo propriedades do córtex visual. Além disso, essas redes têm a capacidade de extrair diferentes características, utilizando operações de \textit{pooling}, que serão detalhadas na Seção \ref{cnn:pooling}.
 
-Em meio à vasta quantidade de arquiteturas presentes para CNN, cita-se: AlexNet \cite{krizhevsky2012imagenet}, VGGNet \cite{Simonyan2015}, ResNet \cite{He2016}, GoogLeNet \cite{Szegedy2015}, MobileNet \cite{Howard2017} e DenseNet \cite{Huang2017}.
+Entre a vasta gama de arquiteturas disponíveis para as CNNs, destacam-se algumas das mais influentes: AlexNet \citep{krizhevsky2012imagenet}, VGGNet \citep{Simonyan2015}, ResNet \citep{He2016}, GoogLeNet \citep{Szegedy2015}, MobileNet \citep{Howard2017} e DenseNet \citep{Huang2017}. Essas arquiteturas possuem contribuições significativas e têm sido aplicadas em uma variedade de contextos, cada uma com suas características e aplicações específicas.
 
-Um modelo indicando uma entrada, as camadas convolucionais (Seção \ref{cnn:conv}) iniciais, que são utilizadas para extração de atributos, e finais, bem como a o sistema de \textit{pooling} (Seção \ref{cnn:pooling}) e a camada de saída (Seção \ref{cnn:output}) são representados por meio da Figura \ref{cnn:fig:10}:
+Um modelo indicando uma entrada, as camadas convolucionais iniciais e finais, que são utilizadas para extração de atributos, bem como o sistema de \textit{pooling} e a camada de saída (ou camada densa) são representados por meio da Figura \ref{cnn:fig:10}:
 
 \begin{figure}[H]
     \centering
@@ -24,11 +24,13 @@ Sendo assim, nas próximas seções, fatores que compõem uma rede convolucional
 \subsection{Camada Convolucional}
 \label{cnn:conv}
 
-Quando se trata de CNNs, a modelagem de cada neurônio da camada convolucional conta com um filtro que é aplicado na imagem em questão \cite{ponti2018funciona}, de modo que esses filtros também são compostos por pesos e que a convolução é classificada como uma operação linear \cite{Goodfellow2016}, tendo como resultado o que é definido como \textit{feature maps}.
+Na arquitetura das CNNs, a modelagem de cada neurônio presente na camada convolucional envolve a aplicação de um filtro na imagem em análise \citep{ponti2018funciona}. Esses filtros são compostos por pesos e a operação de convolução é categorizada como uma operação linear \citep{Goodfellow2016}, resultando nos chamados mapas de características (\textit{feature maps} em inglês).
 
-Além disso, é importante ter ciência de que em meio às camadas convolucionais, há N filtros, os quais são definidos de acordo com o problema em questão e que utilizam dos seus resultados para a formação dos tensores, como é comentado por \cite{ponti2018funciona}.
+É fundamental destacar que entre as camadas convolucionais existem $N$ filtros, cujos parâmetros são definidos de acordo com a natureza do problema em questão, utilizando seus resultados para formar tensores, conforme comentado por \cite{ponti2018funciona}.
 
-Uma operação de convolução pode ser retratada por meio da Figura \ref{cnn:fig:6}, em que é  utilizada de uma imagem de entrada (sendo representada pela maior matriz), assim como a definição de um \textit{kernel} de pesos que convolve com a matriz de entrada para extrair características específicas da imagem, sem perder as informações sobre seu arranjo espacial.
+A operação de convolução pode ser ilustrada pela Figura \ref{cnn:fig:6}, onde uma imagem de entrada é representada pela matriz de maior escala. Nesse processo, utiliza-se uma janela, conhecida como \textit{kernel}, composta por pesos, que convolui com a matriz de entrada para extrair características específicas da imagem, mantendo a integridade das informações sobre sua disposição espacial.
+
+Essas operações são fundamentais nas CNNs, pois permitem a extração eficiente de características importantes das imagens, o que é crucial para a eficácia e a precisão do processo de aprendizado da rede neural convolucional.
 
 \begin{figure}[H]
     \centering
@@ -39,15 +41,25 @@ Uma operação de convolução pode ser retratada por meio da Figura \ref{cnn:fi
     Fonte: do próprio autor.
 \end{figure}
 
-Ainda na Figura \ref{cnn:fig:6} é possível visualizar que há uma processo de deslizamento do \textit{kernel} para dar continuidade ao processo de convolução que resultará em um dos valores comportados pela saída, processo o qual se repete até a o fim da imagem em ordem de esquerda para a direita, até o fim da linha e de cima para baixo, até o fim das colunas.
+Ainda na Figura \ref{cnn:fig:6}, é possível observar o processo de deslizamento do \textit{kernel} durante a operação de convolução, resultando em um dos valores presentes na saída. Esse processo é repetido até que toda a imagem seja percorrida, de maneira sequencial da esquerda para a direita e de cima para baixo, movimentando-se através das linhas e colunas.
 
-Destaca-se que a convolução é um processo de média móvel, ou seja, há o calculo da média ponderada de uma dada janela na imagem, correspondente ao tamanho do \textit{kernel} utilizado, sendo que o \textit{kernel} define os pesos dos respectivos pontos. Por fim, esse \textit{kernel} vai sendo deslizado sobre a imagem, definindo novas janelas na imagem e obtendo suas respectivas médias ponderadas.
+É crucial ressaltar que a convolução é um processo de média móvel, isto é, implica no cálculo da média ponderada de uma janela específica na imagem, correspondente ao tamanho do \textit{kernel} utilizado. Nesse contexto, o \textit{kernel} define os pesos aplicados aos pontos da janela. Consequentemente, à medida que o \textit{kernel} desliza pela imagem, novas janelas são definidas e suas médias ponderadas são computadas.
+
+Essa abordagem de convolução, com seu deslizamento e cálculo ponderado, é essencial para a extração de informações significativas da imagem, contribuindo para a identificação de padrões relevantes ao longo do processo de aprendizado da rede neural convolucional.
 
 
 \subsection{Camada de \textit{Pooling}}
 \label{cnn:pooling}
 
-No âmbito das camadas de \textit{pooling}, vale citar que são amplamente utilizada nas CNNs para reduzir o tempo de treinamento, visto que estas camadas tem como objetivo a redução de dimensionalidade do mapa de características entre as execuções da rede, algo que fica muito claro ao observar a Figura \ref{cnn:fig:7}, que dá forma à técnica conhecida como \textit{max pooling}, a qual captura apenas os maiores valores do mapa de características, de acordo com o deslizamento do \textit{kernel}.
+Dentro do contexto das camadas de \textit{pooling}, é relevante mencionar que essas camadas são amplamente empregadas nas CNNs com o propósito de reduzir o tempo de treinamento, já que sua função primária é diminuir a dimensionalidade dos mapas de características entre as iterações da rede.
+
+É digno de nota que a adaptação e evolução desses métodos de \textit{pooling} têm recebido crescente atenção na literatura recente \citep{Sabri2020AClassificationb, zafar2022comparison}. Cada modificação busca contribuir para a solução de problemas específicos, evidenciando o constante desenvolvimento dessas técnicas na área de visão computacional e aprendizado profundo.
+
+Ademais, vale ressaltar que na literatura existem diversos modelos de \textit{pooling} que se destacam no uso em redes de aprendizado profundo. Entre eles, destacam-se o \textit{max pooling}, \textit{average pooling}, \textit{median pooling} e \textit{weighted average} \citep{Goodfellow2016}. Há também outros modelos comumente encontrados em redes mais modernas, como o \textit{global average pooling}, \textit{global max pooling} e \textit{astrous spatial pyramid pooling}, principalmente em aplicações de segmentação ou com propostas alternativas. Alguns desses modelos serão discutidos a seguir.
+
+\subsubsection{\textit{Max Pooling}}
+\label{cnn:pooling:max_pooling}
+Algo que fica muito claro ao observar a Figura \ref{cnn:fig:7}, que dá forma à técnica conhecida como \textit{max pooling}, a qual captura apenas os maiores valores do mapa de características, de acordo com o deslizamento do \textit{kernel}.
 
 \begin{figure}[H]
     \centering
@@ -58,9 +70,14 @@ No âmbito das camadas de \textit{pooling}, vale citar que são amplamente utili
     Fonte: do próprio autor.
 \end{figure}
 
-\begin{sloppypar}
-Ainda, vale mencionar que outros modelos de \textit{pooling} também se fazem presentes na literatura, dos quais podem ser citados o \textit{average pooling}, \textit{median pooling} e \textit{weighted average} \citep{Goodfellow2016} ou até mesmo o \textit{global average pooling}, que reduz o \textit{feature map} em um único valor e é exemplificado por meio da Figura \ref{cnn:fig:8}. Após estes modelos supracitados, a motivação para adaptação do método de \textit{pooling} vem crescendo, de modo que cada modificação contribua para solucionar o problema em questão.
-\end{sloppypar}
+\subsubsection{\textit{Average Pooling}}
+\label{cnn:pooling:avg_pooling}
+
+
+\subsubsection{\textit{Global Max Pooling}}
+\label{cnn:pooling:global_max_pooling}
+
+até mesmo o \textit{global average pooling}, que reduz o \textit{feature map} em um único valor e é exemplificado por meio da Figura \ref{cnn:fig:8}.
 
 \begin{figure}[H]
     \centering
@@ -72,12 +89,9 @@ Ainda, vale mencionar que outros modelos de \textit{pooling} também se fazem pr
 \end{figure}
 
 \subsubsection{\textit{Global Average Pooling}}
+\label{cnn:pooling:global_avg_pooling}
 
-\subsubsection{\textit{Average Pooling}}
 
-\subsubsection{\textit{Global Max Pooling}}
-
-\subsubsection{\textit{Max Pooling}}
 
 \subsubsection{\textit{Atrous Spatial Pyramid Pooling}(ASPP)}
 \label{cnn:pooling:aspp}
@@ -106,11 +120,9 @@ Já quando se trata do módulo de \textit{Pyramid Pooling} \citep{Zhao2017}, val
 \subsection{\textit{Dropout}}
 \label{cnn:dropout}
 
-\begin{sloppypar}
-Dentre as técnicas para a prevenção de \textit{overfitting} \cite{Goodfellow2016}, destaca-se a técnica de \textit{dropout} (Seção \ref{cnn:dropout}) que não se aplica na etapa de testes, mas consiste no desligamento aleatório de neurônios de camadas ocultas da rede CNN, de modo que haja uma diminuição do enviesamento de neurônios e eleve a importância dos neurônios restantes.
-\end{sloppypar}
+Dentre as estratégias para mitigar o \textit{overfitting} ,citado na Seção \ref{deep:overunder}, destaca-se a técnica de \textit{dropout} \citep{Goodfellow2016}. Esta técnica, embora não seja aplicada durante a fase de testes, consiste no desligamento aleatório de neurônios em camadas ocultas de uma rede CNN. O propósito do \textit{dropout} é reduzir o viés dos neurônios e aumentar a importância dos neurônios restantes.
 
-Esse processo de \textit{dropout} pode ser representado pela Figura \ref{cnn:fig:9}, demonstrando apenas ligações em neurônios restantes no lado direito.
+O processo de \textit{dropout} é ilustrado na Figura \ref{cnn:fig:9}, mostrando apenas as conexões entre os neurônios restantes, no lado direito da Figura.
 
 \begin{figure}[H]
     \centering
@@ -121,13 +133,15 @@ Esse processo de \textit{dropout} pode ser representado pela Figura \ref{cnn:fig
      Fonte: do próprio autor.
 \end{figure}
 
+A técnica de \textit{dropout} é uma estratégia eficaz para regularização em redes neurais, pois ajuda a evitar que a rede se ajuste excessivamente aos dados de treinamento, tornando-a mais capaz de generalizar para dados novos e não vistos durante o treinamento.
 
 \subsection{Camada de Saída}
 \label{cnn:output}
 
-Após a composição de várias camadas de convolução com filtros e determinadas camadas de \textit{poolling}, os modelos de CNN também contam com uma camada de saída, a qual se faz necessária para a obtenção das classes identificadas na imagem, sendo que essa camada não afeta questões de performance em relação ao tempo de convergência do modelo em questão, além de não afetar o desenvolvimento e evolução da etapa de treinamento.
+Após a composição de várias camadas de convolução, utilizando filtros, e a aplicação de camadas de \textit{pooling}, os modelos de CNN geralmente incluem uma camada de saída, também conhecida como camada densa. Esta camada é fundamental para a determinação das classes identificadas na imagem. Vale destacar que essa camada não tem um impacto significativo no desempenho em relação ao tempo de convergência do modelo, nem interfere no progresso e evolução do processo de treinamento, sendo que o processo de inferência é muito similar ao usado pelas CNNs na Seção \ref{cnn}.
 
-Por fim, para gerar a saída final normalmente se utiliza de funções de ativação como a Softmax (abordada na Seção \ref{cnn:soft}), possibilitando encontrar a classe de determinado objeto em uma imagem, por exemplo.
+Por fim, para gerar a saída final, é comum utilizar funções de ativação como a Softmax (abordada na Seção \ref{deep:soft}). A aplicação da Softmax permite a identificação da classe de um objeto específico em uma imagem, por exemplo. Essa função de ativação é utilizada para a tarefa de classificação, fornecendo as probabilidades de pertencimento a cada classe no conjunto de dados.
+
 
 \subsection{Transferência de Aprendizado}
 \label{cnn:transfer}
