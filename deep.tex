@@ -235,10 +235,6 @@ g = \nabla_{\boldsymbol{\theta}} \left(\frac{1}{m} \sum\limits_{i=1}^{m}L(f(\bol
 \end{equation}
 onde $L(x,y)$ é a função de custo, $\boldsymbol{x}$ representa a entrada, $\boldsymbol{y}$ indica a saída esperada, $m$ é o número de exemplos no conjunto de dados, e $f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta})$ é a saída da rede para o enésimo exemplo $\boldsymbol{x}^{(i)}$ com o conjunto de pesos $\boldsymbol{\theta}$.
 
-\paragraph{Adam}
-\label{deep:eq:adam}
-
-
 \paragraph{Parada antecipada}
 \label{deep:optimization:early_stoping}
 
@@ -319,6 +315,43 @@ Por fim, vale mencionar que propostas de decaimento da taxa de aprendizado, como
 
     Fonte: retirado e adaptado de \cite{Smith2017CyclicalNetworks}.
 \end{figure}
+
+\paragraph{Adam}
+\label{deep:optimization:adam}
+
+O algoritmo Adaptive Moment Estimation, conhecido como ADAM, foi proposto por \cite{Kingma2014Adam:Optimizationb} com o objetivo de otimizar adaptativamente a taxa de aprendizado, integrando conceitos dos algoritmos RMSProp \citep{Hinton2012NeuralDescent} e Momentum \citep{Polyak1964SomeMethods}. A atualização dos parâmetros ocorre por meio do controle da média móvel exponencialmente ponderada de cada algoritmo mencionado, utilizando os parâmetros $\rho_{1}$ e $\rho_{2}$ em cada iteração para calcular a estimativa de primeira ordem $\boldsymbol{s}$, conforme a Equação \ref{deep:eq:adam_1} \citep{Goodfellow2016}:
+
+\begin{equation}
+    \label{deep:eq:adam_1}
+    \boldsymbol{s} \leftarrow \rho_{1} \boldsymbol{s} + (1 - \rho_{1})\boldsymbol{g},
+\end{equation}
+tendo $\boldsymbol{g}$ como gradientes da iteração. E a estimativa de segunda ordem $\boldsymbol{r}$ do gradiente, como expresso na Equação \ref{deep:eq:adam_2} \citep{Goodfellow2016}:
+
+\begin{equation}
+    \label{deep:eq:adam_2}
+    \boldsymbol{r} \leftarrow \rho_{2} \boldsymbol{r} + (1 - \rho_{2})\boldsymbol{g} \odot \boldsymbol{g}.
+\end{equation}
+
+Além disso, é importante mencionar que é recomendado aplicar correção de viés às estimativas obtidas, o que pode ser realizado pelas Equações \ref{deep:eq:adam_3} e \ref{deep:eq:adam_4}, conforme proposto por \cite{Goodfellow2016}:
+
+\begin{equation}
+    \label{deep:eq:adam_3}
+    \boldsymbol{\hat{s}} \leftarrow \frac{\boldsymbol{s}}{1-\rho_1}
+\end{equation}
+e
+\begin{equation}
+    \label{deep:eq:adam_4}
+    \boldsymbol{\hat{r}} \leftarrow \frac{\boldsymbol{r}}{1-\rho_2}.
+\end{equation}
+
+Dessa forma, ao empregar o algoritmo Adam na otimização dos parâmetros, podemos representar a atualização dos parâmetros conforme demonstrado na Equação \ref{deep:eq:adam_5}:
+
+\begin{equation}
+    \label{deep:eq:adam_5}
+    \boldsymbol{\theta} \leftarrow \boldsymbol{\theta} + \left(-\epsilon \frac{\boldsymbol{\hat{s}}}{\sqrt{\boldsymbol{\hat{r}}}+\delta}\right),
+\end{equation}
+onde $\delta$ denota uma constante para estabilizar a divisão.
+
 
 \subsubsection{Retro-propagação}
 \label{deep:backprop}
@@ -432,7 +465,18 @@ Alerta-se que em situações em que a função de custo de treinamento continua 
 Sendo assim, \textit{underfitting} e \textit{overfitting}, quando presentes, devem ser corrigidos, embora os ajustes dos métodos à complexidade da situação ainda sejam feitos a partir de tentativa e erro e com o auxílio de gráficos \citep{Goodfellow2016}.
 
 \subsection{Extração de Características}
+\label{deep:feature_extraction}
+
+Lidar com grandes conjuntos de dados nas redes neurais profundas é um desafio, pois a análise desses dados pode ser pesada devido à sua densidade ou à dimensionalidade elevada \citep{Liang2017TextReview}. Essa questão demanda um hardware robusto, pois quanto maior a quantidade e a dimensionalidade dos dados, maior é a exigência de poder computacional \citep{Benyahia2022Multi-featuresClassification}. A abordagem de extração de características é especialmente comum em ambientes de aprendizado baseado em texto, conforme discutido por \cite{Liang2017TextReview}, e se estende ao uso de convoluções em CNNs, como será abordado na Seção \ref{cnn:conv}.
+
+Portanto, a extração de características surge como uma estratégia crucial para a redução da dimensionalidade, onde um conjunto inicial de dados brutos é transformado em grupos mais gerenciáveis para processamento \citep{Benyahia2022Multi-featuresClassification}. Esse processo frequentemente envolve a combinação ou seleção de variáveis, resultando em uma significativa redução na quantidade de dados a serem processados. Além disso, essas características ainda preservam a representatividade do conjunto original, sendo capazes de reduzir redundâncias para análises específicas.
+
+Um exemplo de algoritmo capaz de agregar essas vantagens ao processo de seleção e extração de características é o \textit{Principal Component Analysis} que será explorado na seguinte Seção (\ref{deep:feature_extraction:pca}). 
+
 
 \subsubsection{\textit{Principal Component Analysis} (PCA)}
+\label{deep:feature_extraction:pca}
+O \textit{Principal Component Analysis} (PCA) foi desenvolvido por \cite{Wold1987PrincipalAnalysis} ...
+
 
 \subsection{Considerações Finais do Capítulo}
