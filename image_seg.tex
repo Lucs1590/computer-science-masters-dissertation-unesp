@@ -5,7 +5,7 @@
 
 O processo de segmentação de imagens pertence às áreas de visão computacional e processamento digital de imagens, sendo seu objetivo principal a distinção de áreas ou propriedades desejadas \cite{Haralick1985, Yuheng2017, Ghosh2019} de uma determinada imagem, assim, sendo possível realizar análises mais precisas ou separar apenas as áreas que são convenientes e de interesse, de acordo com o objetivo da análise.
 
-A partir de segmentações de imagens é possível realizar tarefas de reconhecimento, que são muito utilizadas para áreas de reconhecimento facial \cite{Yuheng2017}, por exemplo. Além dessa, dentre outras grandes áreas para a aplicação das técnicas de segmentação de imagens destacam-se setores da medicina, pavimentações, pedestres, carros autônomos, sensoriamento remoto e afins. Para exemplificar, as Figuras \ref{segment:fig:1}\subref{segment:fig:1.1} e \ref{segment:fig:1}\subref{segment:fig:1.2} representam segmentações faciais e médicas, respectivamente.  
+A partir de segmentações de imagens é possível realizar tarefas de reconhecimento, que são muito utilizadas para áreas de reconhecimento facial \cite{Yuheng2017}, por exemplo. Além dessa, dentre outras grandes áreas para a aplicação das técnicas de segmentação de imagens destacam-se setores da medicina, pavimentações, pedestres, carros autônomos, sensoriamento remoto e afins. Para exemplificar, as Figuras \ref{segment:fig:1.1} e \ref{segment:fig:1.2} representam segmentações faciais e médicas, respectivamente.  
 
 \begin{figure}[H]
    \caption{Exemplos de segmentações de imagens.}
@@ -56,7 +56,7 @@ De um modo geral, a segmentação por meio da determinação de um limiar aconte
     ..
 \end{equation}
 
-Sobre \textit{Threshold Segmentation}, vale citar que há uma série de técnicas para determinar o valor de limiarização como é trabalhado por \cite{Al-amri2010}, mas habitualmente utiliza-se da média \cite{Al-amri2010, Yanowitz1989, Yuheng2017} ou de técnicas adaptativas que são citadas em trabalhos, como \cite{Yanowitz1989}, mas que ganham repercussões abrangentes e é evidenciada na técnica Otsu \cite{Otsu1979}, principalmente quando se trata de segmentações com um limiar global como demonstra o histograma na Figura \ref{segment:fig:2}\subref{segment:fig:2.1} e o exemplo prático na Figura  \ref{segment:fig:3}\subref{segment:fig:3.3}. Todavia, quando as regiões de interesse estão divididas, faz-se necessário a divisão de limiares locais, como pode ser observado no histograma da Figura \ref{segment:fig:2}\subref{segment:fig:2.2}, Equação \ref{segment:eq:2} ou na Figura \ref{segment:fig:3}\subref{segment:fig:3.4}:
+Sobre \textit{Threshold Segmentation}, vale citar que há uma série de técnicas para determinar o valor de limiarização como é trabalhado por \cite{Al-amri2010}, mas habitualmente utiliza-se da média \cite{Al-amri2010, Yanowitz1989, Yuheng2017} ou de técnicas adaptativas que são citadas em trabalhos, como \cite{Yanowitz1989}, mas que ganham repercussões abrangentes e é evidenciada na técnica Otsu \cite{Otsu1979}, principalmente quando se trata de segmentações com um limiar global como demonstra o histograma na Figura \ref{segment:fig:2.1} e o exemplo prático na Figura  \ref{segment:fig:3.3}. Todavia, quando as regiões de interesse estão divididas, faz-se necessário a divisão de limiares locais, como pode ser observado no histograma da Figura \ref{segment:fig:2.2}, Equação \ref{segment:eq:2} ou na Figura \ref{segment:fig:3.4}:
 
 \begin{equation}
 \label{segment:eq:2}
@@ -169,7 +169,7 @@ Por fim, ainda sobre o aspecto de crescimento de região, salienta-se que é de 
 \subsubsection{Segmentação por Bordas}
 \label{segment:limit}
 
-Em meio às categorias de segmentação tradicional estão as segmentações por descontinuidade, com subcategorias de segmentação por pontos, retas, junções e, finalmente, por bordas \cite{pedrini2008analise}. Correntemente, é a partir dessas segmentações que são construídos os filtros convolucionais que foram explorados na Seção \ref{deep:CNN}.
+Em meio às categorias de segmentação tradicional estão as segmentações por descontinuidade, com subcategorias de segmentação por pontos, retas, junções e, finalmente, por bordas \cite{pedrini2008analise}. Correntemente, é a partir dessas segmentações que são construídos os filtros convolucionais que foram explorados na Seção \ref{cnn}.
 
 Sendo assim, é de referir que as bordas são definidas como limites que possuem regiões com contrastes discrepantes em relação ao seus níveis de cinza  ou que separam duas regiões homogêneas \cite{pedrini2008analise,Yuheng2017}, algo que não é tão perceptível em imagens reais, considerando o fato de que os dispositivos de captura costumeiramente realizam a suavização e o borramento das bordas.
 
@@ -348,9 +348,9 @@ Na Figura \ref{segment:fig:5}, é possível observar o uso do algoritmo K-means 
 \subsubsection{Segmentação com Redes Neurais}
 \label{segment:neural}
 
-As segmentações por meio de redes neurais, profundas (Seção \ref{deep:deep}) ou por meio das redes convolucionais (Seção \ref{deep:CNN}) regularmente são confundidas com a área de detecção de objetos \cite{Ghosh2019} pela característica de demarcação e pelo uso das \textit{bounding box}. Não obstante vale destacar que para segmentações de imagens as redes mais utilizadas são as CNNs, de modo que esta consegue trabalhar com a extração das características mais importantes de determinada imagem e, em seguida, organizá-las, sendo eficiente não somente em tarefas de detecção, localização e rastreamento de objetos, mas também, como neste caso, segmentação de imagens \cite{Ghosh2019}.
+As segmentações por meio de redes neurais, profundas (Seção \ref{deep}) ou por meio das redes convolucionais (Seção \ref{cnn}) regularmente são confundidas com a área de detecção de objetos \cite{Ghosh2019} pela característica de demarcação e pelo uso das \textit{bounding box}. Não obstante vale destacar que para segmentações de imagens as redes mais utilizadas são as CNNs, de modo que esta consegue trabalhar com a extração das características mais importantes de determinada imagem e, em seguida, organizá-las, sendo eficiente não somente em tarefas de detecção, localização e rastreamento de objetos, mas também, como neste caso, segmentação de imagens \cite{Ghosh2019}.
 
-Métodos mais modernos que seguem essa linha serão explicados detalhadamente nos capítulos \ref{semantic:semantic}, \ref{instance:instance} e \ref{panoptic:panoptic}.
+Métodos mais modernos que seguem essa linha serão explicados detalhadamente nos capítulos \ref{semantic}.
 
 
 \subsection{Considerações Finais do Capítulo}

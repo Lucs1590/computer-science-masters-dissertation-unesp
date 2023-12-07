@@ -2,7 +2,7 @@
 \clearpage
 
 \section{Redes Neurais Profundas}
-\label{deep:deep}
+\label{deep}
 Inspiradas no modelo de sistema nervoso de seres inteligentes, as redes neurais são compostas por um conjunto interconectado de neurônios de modo que, assim como o sistema humano, um neurônio, quando conectado com outros neurônios, pode comunicar impulsos nervosos por meio de sinapses. A representação do modelo humano pode ser observado na Figura \ref{deep:fig:1}.
 
 \begin{figure}[H]
@@ -44,7 +44,7 @@ A partir do modelo de neurônio desenvolvido por \cite{mcculloch1943logical},  o
 
 Dessa forma, entende-se que $b$ representa o viés que determina um limiar para a ativação do neurônio. O vetor $\textbf{x}$, corresponde à entrada da rede, enquanto $\textbf{W}$ é a matriz de pesos que deve ser inicializada aleatoriamente e é ajustada no decorrer do treinamento.
 
-Dentre as vantagens para o modelo Perceptron, pode-se salientar a sua aptidão para resolução de problemas lógicos, como também para problemas linearmente separáveis, todavia, em meio às suas limitações, reforça-se sua imperícia em relação a problemas não linearmente separáveis como os do exemplo na Figura \ref{deep:fig:3}\subref{deep:fig:3.2}.
+Dentre as vantagens para o modelo Perceptron, pode-se salientar a sua aptidão para resolução de problemas lógicos, como também para problemas linearmente separáveis, todavia, em meio às suas limitações, reforça-se sua imperícia em relação a problemas não linearmente separáveis como os do exemplo na Figura \ref{deep:fig:3.2}.
 
 \begin{figure}[H]
    \caption{Representação de problemas linearmente e não linearmente separáveis.}
@@ -84,7 +84,7 @@ Além disso, vale citar que um diferencial dos modelos de \textit{deep learning}
 
 Destarte, o uso e desenvolvimento de \textit{deep learning} tem se popularizado e sido considerado a resposta para problemas de diversas áreas, como segmentações em vários contextos, desenvolvimentos de carros autônomos, segurança, otimização de modelos de busca e afins \citep{Ghosh2019}, sendo que essa popularização é propicia devido: 1) ao desenvolvimento acelerado de \textit{hardwares} que acrescentam velocidade no treinamento dessas redes e 2) ao grande aumento de dados variados (com adventos como o \textit{big data}) \citep{Szegedy2015, ponti2018funciona}.
 
-Por conseguinte, nas demais seções deste capítulo serão apresentadas algumas variações de funções de ativação (Seção \ref{deep:activation}), sobre o processo de treinamento (Seção \ref{deep:train}) e de testes (Seção \ref{deep:test}) e, finalmente, sobre redes neurais convolucionais (Seção \ref{deep:CNN}).
+Por conseguinte, nas demais seções deste capítulo serão apresentadas algumas variações de funções de ativação (Seção \ref{deep:activation}), sobre o processo de treinamento (Seção \ref{deep:train}) e de testes (Seção \ref{deep:test}), bem como algumas peculiaridades que são utilizadas para facilitar o trabalho com dados de grande dimensionalidades com a extração de características (Seção \ref{deep:feature_extraction}).
 
 
 \subsection{Funções de Ativação}
@@ -303,7 +303,7 @@ O aumento no número de estudos, como os de \cite{Tang2021AnPump, Senior2013AnRe
 \end{equation}
 sendo que nesta equação, $\tau$ representa o número de iterações em que $\epsilon$ será reduzido para uma constante, $i$ é a iteração atual, $\epsilon_0$ é a taxa de aprendizado inicial e $\alpha$ é determinado por $\frac{i}{\tau}$. Além disso, é importante destacar que o valor de $\tau$ é definido como o número de iterações necessárias para completar as épocas do conjunto de treinamento, enquanto $\epsilon_\tau$ é aproximadamente 1\% do valor de $\epsilon_0$, conforme indicado por \cite{Goodfellow2016}.
 
-É relevante mencionar que o valor de $\epsilon_0$ pode variar conforme o problema em questão. Em problemas que envolvem um grande número de imagens, como frequentemente ocorre em redes neurais profundas citadas na Seção \ref{cnn}, valores típicos de $\epsilon_0$ variam entre $1e^{-5}$ e $1e^{-6}$. Esse ajuste é necessário para garantir a eficiência do treinamento e a convergência do modelo.
+É relevante mencionar que o valor de $\epsilon_0$ pode variar conforme o problema em questão. Em problemas que envolvem um grande número de imagens, como frequentemente ocorre em redes neurais profundas citadas na Seção \ref{deep}, valores típicos de $\epsilon_0$ variam entre $1e^{-5}$ e $1e^{-6}$. Esse ajuste é necessário para garantir a eficiência do treinamento e a convergência do modelo.
 
 Por fim, vale mencionar que propostas de decaimento da taxa de aprendizado, como o \textit{Cyclical Learning Rates} (CLR), desenvolvido por \cite{Smith2017CyclicalNetworks}, buscam reduzir o tempo de treinamento e manter a estabilidade dos modelos com a aplicação de variações geométricas. Por exemplo, o modelo triangular busca iniciar o treinamento com baixos valores de taxa de aprendizado e aumentar gradualmente até certo limite, proporcionando uma aceleração de convergência e acompanhado de um processo de diminuição para não perder os mínimos globais em um processo cíclico. Essa proposta sugere uma aceleração da convergência do modelo \citep{Smith2017CyclicalNetworks}, o que pode ser observado através da Figura \ref{deep:optimization:cyclical_lr}.
 
@@ -430,7 +430,7 @@ ou por meio da Equação \ref{deep:eq:16}, quando se refere ao \textit{k-fold cr
 
 As situações de \textit{overfitting} e \textit{underfitting} comumente ocorrem quando o modelo está com uma alta variância, em que os dados são \quotes{decorados} no conjunto de treino e não são generalizados quando apresentado a outros dados, como os do conjunto de teste, e, respectivamente, quando apresenta dificuldades de aprendizado, sendo assim caracterizado como um modelo enviesado e não atinge o mínimo de acurácia necessária, a qual normalmente é determinada pelo desenvolvedor.
 
-A partir da representação na Figura \ref{deep:fig:5} é possível exemplificar os fenômenos supracitados, em que na Figura \ref{deep:fig:5}\subref{deep:fig:5.1} se visualiza uma situação característica de \textit{underfitting} ao tentar utilizar um modelo linear para um tipo de problema não linear. Já na imagem \ref{deep:fig:5}\subref{deep:fig:5.2} se encontra uma situação em que há uma função que é utilizada adequadamente para a situação, tendo esta convergido e com uma boa adaptação para demais situações com contextos similares. E, por fim, há a representação de uma situação com \textit{overfitting} na Figura \ref{deep:fig:5}\subref{deep:fig:5.3}, em que o conjunto está decorado e o modelo se ajustou demais ao conjunto de dados - situação que acontece devido ao uso de funções complexas para situações simples.
+A partir da representação na Figura \ref{deep:fig:5} é possível exemplificar os fenômenos supracitados, em que na Figura \ref{deep:fig:5.1} se visualiza uma situação característica de \textit{underfitting} ao tentar utilizar um modelo linear para um tipo de problema não linear. Já na imagem \ref{deep:fig:5.2} se encontra uma situação em que há uma função que é utilizada adequadamente para a situação, tendo esta convergido e com uma boa adaptação para demais situações com contextos similares. E, por fim, há a representação de uma situação com \textit{overfitting} na Figura \ref{deep:fig:5.3}, em que o conjunto está decorado e o modelo se ajustou demais ao conjunto de dados - situação que acontece devido ao uso de funções complexas para situações simples.
 
 \begin{figure}[H]
    \caption{Fenômenos de \textit{underfitting} e \textit{overfitting}.}
@@ -476,7 +476,60 @@ Um exemplo de algoritmo capaz de agregar essas vantagens ao processo de seleçã
 
 \subsubsection{\textit{Principal Component Analysis} (PCA)}
 \label{deep:feature_extraction:pca}
-O \textit{Principal Component Analysis} (PCA) foi desenvolvido por \cite{Wold1987PrincipalAnalysis} ...
+O \textit{Principal Component Analysis} (PCA) foi desenvolvido por \cite{Wold1987PrincipalAnalysis} como uma técnica estatística de transformações ortogonais que almeja transformar um conjunto de variáveis correlacionadas em um conjunto linearmente não correlacionados, extraindo de um conjunto de dados as características essenciais \citep{Wold1987PrincipalAnalysis} e obtendo como resultado, um conjunto de dados menor, mas sem perdas em relação ao conjunto original.
+
+O funcionamento do algoritmo de PCA para a extração de características pode ser resumido pelo passo-a-passo a seguir \citep{Song2010FeatureAnalysis}:
+
+\begin{enumerate}
+    \item Padronização dos dados, com a subtração da média $\mu$ de todas as dimensões em relação ao valor de entrada inicial $\boldsymbol{z}$, dividido pelo desvio padrão $\sigma$, como descrito na Equação \ref{deep:eq:pca_1}:
+
+    \begin{equation}
+        \label{deep:eq:pca_1}
+        z = \frac{\boldsymbol{x} - \mu}{\sigma};
+    \end{equation}
+
+    \item Calculo da matriz de covariância, com o uso de  $X$ representando a primeira dimensão da entrada e $Y$ a segunda, como descrito na Equação \ref{deep:eq:pca_2}: 
+
+    \begin{equation}
+        \label{deep:eq:pca_2}
+        \boldsymbol{A} = cov(X, Y) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{x}) (Y_i - \bar{y});
+    \end{equation}
+
+    \item Cálculo dos autovetores e autovalores correspondentes. Para a realização desse passo, o calculo dos autovetores em relação à matriz de covariância $\boldsymbol{A}$ pode ser representado pela Equação \ref{deep:eq:pca_3}:
+
+    \begin{equation}
+        \label{deep:eq:pca_3}
+        A\overrightarrow{v} = \lambda\overrightarrow{v},
+    \end{equation}
+    em que $\lambda$ representa um valor escalar denominado autovalor. O que significa que a transformação linear é definida por $\lambda$ e a equação pode ser transcrita pela Equação \ref{deep:eq:pca_4}:
+
+        \begin{equation}
+        \label{deep:eq:pca_4}
+        A\overrightarrow{v} - \lambda\overrightarrow{v} = 0
+        \Rightarrow \overrightarrow{v}(\boldsymbol{A} - \lambda I) = 0,
+    \end{equation}
+    tendo $I$ como uma matriz identidade.
+
+    \item Escolha de $k$ autovetores com maiores autovalores, após realizar uma organização decrescente de autovalores, como demonstra a Equação \ref{deep:eq:pca_5}:
+
+    \begin{equation}
+        \label{deep:eq:pca_5}
+        \boldsymbol{W}_k = \begin{bmatrix} \overrightarrow{v}_1 & \overrightarrow{v}_2 & \cdots & \overrightarrow{v}_k \end{bmatrix}.
+    \end{equation}
+
+    Nessa equação, $\boldsymbol{W}_k$ representa a matriz formada pelos $k$ autovetores correspondentes aos maiores autovalores selecionados após a organização decrescente dos autovalores. Cada autovetor $\overrightarrow{v}_i$ faz parte da matriz $\boldsymbol{W}_k$ e compõe as novas dimensões do conjunto de dados transformado, onde $k$ é o número desejado de dimensões para o novo conjunto de dados após a aplicação do PCA.
+
+    
+\end{enumerate}
+
+Além disso, é importante mencionar que o PCA também pode ser obtido através do método de Decomposição em Valores Singulares (\textit{Singular Value Decomposition} - SVD) \citep{Stewart2006OnDecomposition}, o qual é utilizado para extrair os componentes principais do conjunto de dados de entrada.
+
+Entre as vantagens do algoritmo PCA, destaca-se a eliminação das correlações entre as características, garantindo a independência entre os componentes principais e evitando viés em relação a características específicas. Além disso, o algoritmo melhora o desempenho e reduz o custo computacional ao diminuir as dimensões dos dados, especialmente útil ao lidar com conjuntos de dados de alta dimensionalidade. Finalmente, o PCA ajuda a reduzir problemas de superajustamento ao diminuir o número de características, mitigando os riscos associados a ter muitas variáveis e, frequentemente, facilita a visualização dos dados ao transformar dados de alta dimensão em uma forma de dimensão mais baixa e mais gerenciável, simplificando a compreensão dos dados.
+
+No entanto, o PCA também apresenta desvantagens, como o fato de tornar os componentes gerados menos interpretáveis do que os dados originais, uma vez que os componentes principais gerados são combinações das características originais. Além disso, o PCA requer a padronização dos dados antes da implementação; sem isso, o algoritmo pode falhar em determinar os componentes principais ideais. Finalmente, embora o PCA busque capturar a máxima variância entre as características, uma seleção inadequada dos componentes principais pode resultar na perda de alguma informação em comparação com o conjunto original de características.
 
 
 \subsection{Considerações Finais do Capítulo}
+\label{deep:conclusion}
+
+Na Seção \ref{deep}, abordamos desde a concepção inicial das redes neurais profundas, apresentando as ideias propostas por \cite{mcculloch1943logical}, até detalhes das arquiteturas das \textit{deep learnings}. No entanto, é importante ressaltar que, após o surgimento das \textit{deep learnings}, algumas redes foram direcionadas para resolver problemas específicos. Um exemplo é o uso generalizado das Convolutional Neural Networks (CNNs) no contexto de processamento de imagens e informações espaciais, tópico que será discutido na próxima seção.
