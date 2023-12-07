@@ -53,13 +53,22 @@ Essa abordagem de convolução, com seu deslizamento e cálculo ponderado, é es
 
 Dentro do contexto das camadas de \textit{pooling}, é relevante mencionar que essas camadas são amplamente empregadas nas CNNs com o propósito de reduzir o tempo de treinamento, já que sua função primária é diminuir a dimensionalidade dos mapas de características entre as iterações da rede.
 
-É digno de nota que a adaptação e evolução desses métodos de \textit{pooling} têm recebido crescente atenção na literatura recente \citep{Sabri2020AClassificationb, zafar2022comparison}. Cada modificação busca contribuir para a solução de problemas específicos, evidenciando o constante desenvolvimento dessas técnicas na área de visão computacional e aprendizado profundo.
+É digno de nota que a adaptação e evolução desses métodos de \textit{pooling} têm recebido crescente atenção na literatura recente \citep{Sabri2020AClassificationb, Zafar2022ANetworks}. Cada modificação busca contribuir para a solução de problemas específicos, evidenciando o constante desenvolvimento dessas técnicas na área de visão computacional e aprendizado profundo.
 
 Ademais, vale ressaltar que na literatura existem diversos modelos de \textit{pooling} que se destacam no uso em redes de aprendizado profundo. Entre eles, destacam-se o \textit{max pooling}, \textit{average pooling}, \textit{median pooling} e \textit{weighted average} \citep{Goodfellow2016}. Há também outros modelos comumente encontrados em redes mais modernas, como o \textit{global average pooling}, \textit{global max pooling} e \textit{astrous spatial pyramid pooling}, principalmente em aplicações de segmentação ou com propostas alternativas. Alguns desses modelos serão discutidos a seguir.
 
 \subsubsection{\textit{Max Pooling}}
 \label{cnn:pooling:max_pooling}
-Algo que fica muito claro ao observar a Figura \ref{cnn:fig:7}, que dá forma à técnica conhecida como \textit{max pooling}, a qual captura apenas os maiores valores do mapa de características, de acordo com o deslizamento do \textit{kernel}.
+O \textit{max pooling} é uma das técnicas mais conhecidas e amplamente utilizadas para realizar o \textit{pooling} em CNNs \citep{Zafar2022ANetworks, Paul2019DimensionalityPooling}. Esta técnica é preferida devido à sua simplicidade, não exigindo ajuste de parâmetros, além de atender de forma eficiente à necessidade de reduzir a dimensionalidade das entradas \citep{Boureau2010ARecognition}.
+
+O funcionamento do \textit{max pooling}, denotado por $f_{\max}(\boldsymbol{X})$, pode ser representado pela Equação \ref{cnn:eq:pooling:max_pooling}:
+
+\begin{equation}
+\label{cnn:eq:pooling:max_pooling}
+f_{\max}(\boldsymbol{X})_{i, j, k} = \max_{m, n} X_{i \cdot s_x + m, j \cdot s_{y} + n, k}.
+\end{equation}
+
+Nesta equação, $\boldsymbol{X}$ representa o valor de entrada, $(i, j)$ são os índices do valor de saída e $k$ é a quantidade de canais (ou camadas) associadas ao valor de entrada. Além disso, $s_{x}$ e $s_{y}$ representam os tamanhos de deslocamento (ou \textit{stride}) horizontal e vertical, respectivamente. O resultado da operação de \textit{max pooling} é obtido utilizando um \textit{kernel} como ilustrado na Figura \ref{cnn:fig:7}, onde a técnica captura apenas os maiores valores do mapa de características.
 
 \begin{figure}[H]
     \centering
@@ -70,52 +79,97 @@ Algo que fica muito claro ao observar a Figura \ref{cnn:fig:7}, que dá forma à
     Fonte: do próprio autor.
 \end{figure}
 
+É relevante destacar que a aplicação da técnica de \textit{max pooling} adiciona uma leve invariância por translação ao processo. No entanto, de modo geral, isso não afeta de maneira significativa os valores de saída da camada de \textit{pooling} \citep{Boureau2010ARecognition}.
+
+A técnica de \textit{max pooling} é conhecida por preservar características importantes da entrada, ao mesmo tempo em que reduz a dimensionalidade dos mapas de características, tornando-os mais computacionalmente eficientes e facilitando a detecção de padrões por camadas subsequentes da rede neural convolucional. Todavia, essa técnica não se demonstra adequada quando se trata da preservação de espacialidade da entradas \citep{Liu2019Multi-LevelNetworks}.
+
 \subsubsection{\textit{Average Pooling}}
 \label{cnn:pooling:avg_pooling}
+A técnica de \textit{average pooling}, semelhante à técnica de \textit{max pooling} descrita na Seção \ref{cnn:pooling:max_pooling}, é considerada uma técnica estabelecida e tradicional para aplicação em CNNs \citep{Zafar2022ANetworks, Paul2019DimensionalityPooling}. O funcionamento de ambas as técnicas é bastante semelhante, diferenciando-se principalmente pela aplicação da média em vez da função $\max$ para obter o resultado do \textit{Average Pooling}, denotado por $f_{avg}(\boldsymbol{X})$, conforme ilustrado na Equação \ref{cnn:eq:pooling:avg_pooling}:
 
+\begin{equation}
+    \label{cnn:eq:pooling:avg_pooling}
+    f_{avg}(\boldsymbol{X})_{i, j, k} = \frac{1}{f{x} \cdot f_{y}} \sum_{m, n} X_{i \cdot s_x + m, j \cdot s_{y} + n, k}.
+\end{equation}
+
+Nesta equação, $\boldsymbol{X}$ representa o valor de entrada, $(i, j)$ são os índices do valor de saída e $k$ é o número de camadas. Os parâmetros $s_x$ e $s_y$ representam os valores de \textit{stride} vertical e horizontal, respectivamente, enquanto os tamanhos dos filtros $f_x$ e $f_y$ determinam a janela de \textit{pooling}, centrada nos índices de saída $(i,j)$. Uma representação visual dessa fórmula é ilustrada na Figura \ref{cnn:fig:avg_pooling}.
+
+\begin{figure}[H]
+    \centering
+    \caption{\textit{Average pooling}.}
+    \includegraphics[width=0.5\linewidth]{recursos/imagens/deep/avgpooling.png}
+    \label{cnn:fig:avg_pooling}
+
+    Fonte: do próprio autor.
+\end{figure}
+
+Por fim, é relevante mencionar que o resultado visual obtido pelo \textit{average pooling} tende a extrair características de maneira mais suave do que o \textit{max pooling}. Enquanto o \textit{max pooling} enfatiza características mais proeminentes, como bordas, o método de \textit{average pooling} tende a extrair características mais suaves, como informações relacionadas às cores. Essa técnica foi utilizada na primeira rede neural profunda baseada em convolução \citep{LeCun1998Gradient-basedRecognition}. Contudo, observam-se desafios semelhantes em relação à preservação da espacialidade das entradas \citep{Liu2019Multi-LevelNetworks}, como ocorre também no algoritmo de \textit{max pooling}.
+
+\subsubsection{\textit{Global Average Pooling}}
+\label{cnn:pooling:global_avg_pooling}
+A técnica de \textit{Global Average Pooling}, por sua vez, permite a redução dos mapas de características a um único valor por camada, como ilustrado na Figura \ref{cnn:fig:8}.
+
+\begin{figure}[H]
+    \centering
+    \caption{\textit{Global Average Pooling}.}
+    \includegraphics[height=3in]{recursos/imagens/deep/global_average_pooling.png}
+    \label{cnn:fig:8}
+    
+    \caption*{Fonte: do próprio autor.}
+\end{figure}
+
+Neste caso, percebe-se que essa técnica é uma variação do \textit{Average Pooling}. Em vez de usar um \textit{kernel} e \textit{strides}, o \textit{Global Average Pooling} aplica a média em todos os valores de entrada. Isso pode ser descrito pela Equação \ref{cnn:eq:pooling:gavg_pooling}:
+
+\begin{equation}
+    \label{cnn:eq:pooling:gavg_pooling}
+    f_{\text{global avg}}(\boldsymbol{X})_{k} = f_{avg}(\boldsymbol{X}:,:,k),
+\end{equation}
+onde $k$ representa o índice das camadas e $\boldsymbol{X}$ denota o valor de entrada.
+
+É importante ressaltar que o \textit{Global Average Pooling} também pode ser empregado como uma operação para substituir as camadas totalmente conectadas (em inglês, \textit{fully connected layers}) em CNNs. Nessa abordagem, o método utiliza a média de cada mapa de características para alimentar uma camada de saída com Softmax, que será discutida na Seção \ref{cnn:output}, como foi realizado no trabalho de \cite{Kumar2021Multi-classPooling}.
 
 \subsubsection{\textit{Global Max Pooling}}
 \label{cnn:pooling:global_max_pooling}
 
-até mesmo o \textit{global average pooling}, que reduz o \textit{feature map} em um único valor e é exemplificado por meio da Figura \ref{cnn:fig:8}.
+O método de \textit{Global Max Pooling} possui semelhanças em comparação com os métodos de \textit{Max Pooling} e \textit{Global Average Pooling}. Este método aplica a função de maximização ao longo de todo o mapa de características de cada camada dos valores de entrada, como pode ser visualizado na Equação \ref{cnn:eq:pooling:gmax_pooling}.
+
+\begin{equation}
+    \label{cnn:eq:pooling:gmax_pooling}
+    f_{\text{global max}}(\boldsymbol{X})_{k} = f_{max}(\boldsymbol{X}:,:,k),
+\end{equation}
+onde $k$ representa o índice das camadas e $\boldsymbol{X}$ denota o valor de entrada. Essa representação também pode ser exemplificada por meio da Figura \ref{cnn:fig:gmax_pooling}.
 
 \begin{figure}[H]
     \centering
-    \caption{\textit{Global average pooling}.}
-    \includegraphics[height=3in]{recursos/imagens/deep/global_average_pooling.png}
-    \label{cnn:fig:8}
-
-     Fonte: do próprio autor.
+    \caption{\textit{Global Max Pooling}.}
+    \includegraphics[height=3in]{recursos/imagens/deep/global_max_pooling.png}
+    \label{cnn:fig:gmax_pooling}
+    
+    \caption*{Fonte: do próprio autor.}
 \end{figure}
 
-\subsubsection{\textit{Global Average Pooling}}
-\label{cnn:pooling:global_avg_pooling}
-
-
+Entretanto, é crucial ressaltar que os métodos convencionais não preservam informações espaciais. Isso se aplica ainda mais aos métodos globais, os quais resumem toda a representação da entrada em um único valor \citep{Christlein2019DeepPooling}. Essa perda de informações espaciais pode ser limitante em algumas tarefas, especialmente em contextos onde a disposição e a relação entre os elementos na entrada têm um papel significativo na análise ou no reconhecimento de padrões.
 
 \subsubsection{\textit{Atrous Spatial Pyramid Pooling}(ASPP)}
 \label{cnn:pooling:aspp}
-Basicamente, a abordagem relacionada ao módulo de \textit{Atrous Spatial Pyramid Pooling} (ASPP) \citep{Chen2018} está atrelada às segmentações semânticas \citep{Mohan2020}, sendo que este módulo tem como sua principal vantagem a captura de objetos e contexto úteis da imagem em várias escalas diferentes, haja vista que seu comportamento está atrelado à re-amostragem com diversas taxas de convolução para cada \textit{kernel}, possibilitando, assim, a sondagem de um mapa de características, antes mesmo do processo de convolução, com vários campos de visão \cite{Chen2018}. O exemplo desse módulo pode ser visualizado na Figura \ref{proposal:pcapooling:fig:1}.
+Além da proposta de preservação de escala, embora ainda sem manter a espacialidade, foi introduzido o método \textit{Atrous Spatial Pyramid Pooling} (ASPP) por \cite{Chen2018}. Este tipo de operação de \textit{pooling} está intrinsecamente ligado às segmentações semânticas \citep{Mohan2020} (que serão discutidas na Seção \ref{semantic}). A principal vantagem desse algoritmo é a capacidade de capturar objetos e contexto relevantes da imagem em várias escalas distintas. Essa funcionalidade está associada à re-amostragem utilizando convoluções com diferentes taxas de dilatação para cada \textit{kernel}, permitindo explorar um mapa de características com múltiplos campos de visão antes mesmo do processo de convolução \citep{Chen2018}. Um exemplo desse módulo pode ser visualizado na Figura \ref{cnn:fig:aspp}.
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplo representativo do ASPP.}
+    \caption{Exemplo ilustrativo do ASPP.}
     \includegraphics[width=1\textwidth]{recursos/imagens/proposal/aspp.png}
-    \label{proposal:pcapooling:fig:1}
+    \label{cnn:fig:aspp}
 
-    Fonte: retirado e adaptado de \cite{Chen2018}.
+    Fonte: Adaptado de \cite{Chen2018}.
 \end{figure}
 
-Já quando se trata do módulo de \textit{Pyramid Pooling} \citep{Zhao2017}, vale dizer que este está atrelado à dimensão das características, tendo como principal motivação provar ser um \textit{pooling} de contexto global antes de realizar sua representação \cite{Zhao2017}. Todavia, quando se trata desse modelo de \textit{pooling}, vale dizer que a sua maior vantagem está relacionada à flexibilidade que é cedida às entradas das redes, de modo que torna-se possível realizar entradas com tamanhos variados. O exemplo desse módulo pode ser visualizado na Figura \ref{proposal:pcapooling:fig:2}.
+O funcionamento do ASPP, que realiza ajustes no mapa de características para calcular informações em múltiplas escalas, pode ser expresso pela Equação \ref{cnn:eq:pooling:aspp}, proposta por \cite{Chen2018}:
 
-\begin{figure}[H]
-    \centering
-    \caption{Exemplo representativo do \textit{Pyramid Pooling}.}
-    \includegraphics[width=1\textwidth]{recursos/imagens/proposal/pyramidal.png}
-    \label{proposal:pcapooling:fig:2}
-
-    Fonte: retirado e adaptado de \cite{Zhao2017}.
-\end{figure}
+\begin{equation}
+    \label{cnn:eq:pooling:aspp}
+    y[i] = \sum_{k}x[i + r \cdot k]w [k],
+\end{equation}
+onde $r$ representa uma taxa de dilatação que determina as \textit{strides} para amostrar o mapa de características de entrada $x$, tendo que para cada pixel $i$ na saída $y$ e com o filtro $w$, a convolução dilatada (em inglês, \textit{atrous convolution}) sendo aplicada.
 
 \subsection{\textit{Dropout}}
 \label{cnn:dropout}
