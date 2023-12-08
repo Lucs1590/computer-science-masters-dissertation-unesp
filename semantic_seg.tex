@@ -4,12 +4,11 @@
 
 \section{Segmentação Semântica}
 \label{semantic}
-No tocante às segmentações que fazem uso de técnicas de \textit{deep learning}, a segmentação semântica é uma das que fazem parte desse grupo, sendo que essas possuem o propósito de atribuir uma determinada classe, ou rótulo, para cada pixel presente em uma cena \citep{Wang2017, Ghosh2019, Shelhamer2016, Arbelaez2012,Zhang2018} o que é determinado como um trabalho de nível de pixel.
+No contexto das segmentações baseadas em técnicas de \textit{deep learning} com uma vertente mais específica das CNNs, a segmentação semântica se destaca por atribuir uma classe ou rótulo específico a cada pixel em uma cena \citep{Wang2017, Ghosh2019, Shelhamer2016, Arbelaez2012, Zhang2018}, constituindo, assim, um trabalho em nível de pixel.
 
-O uso de técnicas de segmentações semânticas tem sido útil para situações em que o contexto é desconhecido, visto que por meio dessas abordagens é possível entender à categoria dos objetos presentes na cena, assim como propriedades relacionadas a sua localização e os formatos dos objetos \citep{Zhang2018}, sendo de extrema importância para o trabalho com imagens médicas, sistemas autônomos e afins.
+O emprego de técnicas de segmentação semântica tem demonstrado utilidade em cenários onde o contexto é desconhecido, permitindo compreender a categoria dos objetos presentes na cena, além de suas propriedades de localização, espacialidade, dimensionalidade e formatos \citep{Zhang2018}. Essas abordagens são de extrema importância em áreas como imagens médicas, sistemas autônomos e campos correlatos.
 
-A saída de redes que pertencem à categoria de segmentação semântica comumente são uma máscara de 
-pixels com uma única e determinada classe, o que pode ser visualizado na Figura \ref{semantic:fig:3}.
+Normalmente, as saídas das redes de segmentação semântica consistem em máscaras de pixels organizadas como mapas de características, mapeando todas as classes na imagem original. Um exemplo visual dessa saída pode ser observado especificamente na Figura \ref{semantic:fig:3.2}, tendo a Figura \ref{semantic:fig:3.1} como referência da imagem original.
 
 \begin{figure}[H]
    \caption{Segmentação semântica.}
@@ -32,8 +31,7 @@ pixels com uma única e determinada classe, o que pode ser visualizado na Figura
     Fonte: \cite{Neuhold2017_ICCV}.
 \end{figure}
 
-Sendo assim, neste capítulo, assuntos relacionados a abordagens de estado-da-arte nessa questão (Seção \ref{semantic:FCN}) e às métricas utilizadas para esse tipo de segmentação (Seção \ref{semantic:metrics}) serão detalhadamente trabalhados.
-
+Portanto, neste capítulo, serão abordados tópicos relacionados às técnicas de ponta no âmbito das arquiteturas de segmentação semântica, conforme detalhado na Seção \ref{semantic:arch}. Três variantes proeminentes serão discutidas nessa seção, buscando oferecer uma visão aprofundada dessas estratégias. Ademais, as métricas frequentemente utilizadas para avaliar a qualidade das segmentações semânticas serão minuciosamente detalhadas na Seção \ref{semantic:metrics}, fornecendo uma compreensão abrangente dos critérios de avaliação relevantes nesse tipo de abordagem.
 
 \subsection{Arquiteturas}
 \label{semantic:arch}
@@ -94,9 +92,9 @@ Voltando ao contexto mais amplo, onde a segmentação semântica tem como objeti
 
 \subsection{Métricas}
 \label{semantic:metrics}
-Tendo dito que o objetivo principal das segmentações semânticas está relacionado com a assimilação de classes para cada um dos pixels presentes na imagem \cite{Csurka2013} fazem-se necessárias métricas que mensurem o desenvolvimento positivo ou negativo do modelo em questão.
+Considerando que o objetivo principal das segmentações semânticas está relacionado à atribuição de classes para cada um dos pixels presentes na imagem \citep{Csurka2013}, é fundamental o uso de métricas para avaliar o desempenho positivo ou negativo dos modelos.
 
-Sendo assim, nesta seção, métricas comuns para a avaliação de segmentações semânticas serão discutidas: métricas baseadas em região (Sessão \ref{semantic:pa}), \textit{intersection over union} (Seção \ref{semantic:IoU}) e F1 \textit{Score} (Seção \ref{semantic:f1}).
+Nesta seção, serão discutidas métricas comuns para avaliação de segmentações semânticas: métricas baseadas em região, como a precisão de pixel (Seção \ref{semantic:pa}), a interseção sobre a união (Seção \ref{semantic:IoU}) e sua variação, a média da interseção sobre a união (Seção \ref{semantic:miou}), e por fim, o escore F1 (ou F1 \textit{score}) (Seção \ref{semantic:f1}).
 
 
 \subsubsection{\textit{Pixel Accuracy}}
@@ -114,9 +112,9 @@ Todavia, é relevante citar que essa métrica indicando apenas precisão dos pix
 
 \subsubsection{\textit{Intersection over Union} (IoU)}
 \label{semantic:IoU}
-Já a métrica de intersecção entre a união, do inglês \textit{Intersection over Union} (IoU) ou Jaccard Index, é uma métrica que não passa por problemas de desbalanceamento de classes, além de ser considerada uma das métricas mais comuns para esse tipo de atividade \cite{Minaee2021}.
+Já a métrica de intersecção entre a união, do inglês \textit{Intersection over Union} (IoU) ou Jaccard Index, é uma métrica que não passa por problemas de desbalanceamento de classes, além de ser considerada uma das métricas mais comuns para esse tipo de atividade \citep{Minaee2021}.
 
-Sua representação pode ser visualizada a partir da Figura \ref{semantic:fig:1}, além de que pela Equação \ref{semantic:eq:2} é possível entender que o resultado de IoU se dá pela razão entre a intersecção da segmentação predita (A) e \textit{ground truth} (B), e a união entre a segmentação predita e o \textit{ground truth}, ou seja,
+Sua representação pode ser visualizada a partir da Figura \ref{semantic:fig:1}, além de que pela Equação \ref{semantic:eq:2} é possível entender que o resultado de $IoU$ se dá pela razão entre a intersecção da segmentação predita (A) e \textit{ground truth} (B), e a união entre a segmentação predita e o \textit{ground truth}, ou seja,
 
 \begin{equation}
     \label{semantic:eq:2}
@@ -133,14 +131,21 @@ Sua representação pode ser visualizada a partir da Figura \ref{semantic:fig:1}
 \end{figure}
 
 \subsubsection{\textit{Mean Intersection Over Union} (MIoU)}
-\begin{sloppypar}
-Após a criação dessa métrica, outras variações ganharam repercussão, das quais destaca-se \textit{Mean Intersection-over-Union (mIoU)}, a qual realiza a média entre todos os valores de IoU das classes presentes na cena e apresenta um valor escalar como resultado para a segmentação como um todo \cite{Minaee2021}, sendo utilizada em trabalhos como \cite{Mohan2020}.
-\end{sloppypar}
+\label{semantic:miou}
+Após a introdução da métrica IoU, outras variações ganharam destaque, destacando-se o \textit{Mean Intersection-over-Union} (mIoU), que calcula a média dos valores de IoU para todas as classes presentes na cena, fornecendo um valor escalar como resultado para a segmentação como um todo \citep{Minaee2021}. Esta métrica tem sido empregada em estudos relevantes, como exemplificado por \cite{Mohan2020}.
 
+É relevante ressaltar que métricas como mIoU e também \textit{Mean Average Precision} (mAP), em relação à métrica \textit{Average Precision}, possuem maior relevância na análise de problemas com múltiplas classes ou objetos, permitindo medir a capacidade de generalização do modelo em questão.
 
-\subsubsection{F1 \textit{Score}}
+A Equação \ref{semantic:eq:miou} pode ser utilizada para ilustrar o funcionamento do $mIoU$, onde $N$ é o número de regiões no conjunto de dados e as demais variáveis são baseadas na Equação \ref{semantic:eq:2}:
+
+\begin{equation}
+    \label{semantic:eq:miou}
+    mIoU = \frac{\sum_{i=1}^N IoU(A_i, B_i)}{N}.
+\end{equation}
+
+\subsubsection{F1-\textit{Score}}
 \label{semantic:f1}
-Para a definição da métrica F1-\textit{score}, que é extremamente comum na esfera de segmentação de imagens, é necessário ter ciência de antemão que ela é composta pelo uso de outras duas métricas, sendo elas: 1) precisão, que é a divisão de verdadeiros positivos pela soma de verdadeiros positivos e falsos positivos; 2) revocação, que é a divisão de verdadeiros positivos pela soma de verdadeiros positivos e falsos negativos, como mostrados nas Equações \ref{semantic:eq:3} e \ref{semantic:eq:4}, respectivamente,
+Para a definição da métrica F1-\textit{score}, que é extremamente comum na esfera de segmentação de imagens, é necessário ter ciência de antemão que ela é composta pelo uso de outras duas métricas, sendo elas: 1) precisão, que é a divisão de verdadeiros positivos ($VP$) pela soma de verdadeiros positivos ($VP$) e falsos positivos ($FP$); 2) revocação, que é a divisão de verdadeiros positivos ($VP$) pela soma de verdadeiros positivos ($VP$) e falsos negativos ($FN$), como mostrados nas Equações \ref{semantic:eq:3} e \ref{semantic:eq:4}, respectivamente,
 
 \begin{equation}
     \label{semantic:eq:3}
@@ -152,14 +157,14 @@ e
     \text{Revocação} = \frac{VP}{VP + FN}.
 \end{equation}
 
-Assim, para a definição de F1-\textit{score} é utilizada a média harmônica entre a precisão e revocação \cite{Minaee2021}, a qual pode ser expressa pela Equação \ref{semantic:eq:5}:
+Assim, para a definição de F1-\textit{score} é utilizada a média harmônica entre a precisão e revocação \citep{Minaee2021}, a qual pode ser expressa pela Equação \ref{semantic:eq:5}:
 
 \begin{equation}
     \label{semantic:eq:5}
-    F1-score = \frac{2 . \text{Precisão} . \text{Revocação}}{\text{Precisão} + \text{Revocação}}.
+    F1-score = \frac{2 \cdot \text{Precisão} \cdot \text{Revocação}}{\text{Precisão} + \text{Revocação}}.
 \end{equation}
 
-Por fim, vale comentar que para situações em que tem-se uma segmentação binária, o valor de F1-\textit{score} é semelhante ao valor do coeficiente Dice, o qual normalmente é utilizado para situações médicas \cite{Minaee2021} e utiliza conceitos de intersecção assim como a métrica de IoU (Seção \ref{semantic:IoU}), visto que quando não está assimilado a situações binárias, pode ser representado pela Equação \ref{semantic:eq:6} ou pela Figura \ref{semantic:fig:2}:
+Por fim, vale comentar que para situações em que tem-se uma segmentação binária, o valor de F1-\textit{score} é semelhante ao valor do coeficiente Dice, o qual normalmente é utilizado para situações médicas \citep{Minaee2021} e utiliza conceitos de intersecção assim como a métrica de IoU (Seção \ref{semantic:IoU}), visto que quando não está assimilado a situações binárias, pode ser representado pela Equação \ref{semantic:eq:6} ou pela Figura \ref{semantic:fig:2}:
 
 \begin{equation}
     \label{semantic:eq:6}
