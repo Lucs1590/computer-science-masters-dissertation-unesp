@@ -36,11 +36,14 @@ Sendo assim, neste capítulo, assuntos relacionados a abordagens de estado-da-ar
 
 
 \subsection{Arquiteturas}
+\label{semantic:arch}
+Quando abordamos as arquiteturas para os modelos de segmentação semântica, é evidente o crescente desenvolvimento de oportunidades para resolver a problemática de separar classes de objetos a nível de pixel, como mencionado por \citep{Guo2018ANetworksb}. No contexto das arquiteturas de segmentação semântica, existe uma divisão relevante relacionada ao nível de supervisão da rede, que inclui abordagens totalmente supervisionadas, fracamente supervisionadas e semi-supervisionadas, conforme detalhado por \citep{Hao2020ALearning}. No entanto, este trabalho se concentra exclusivamente nas arquiteturas consideradas estado-da-arte na parte totalmente supervisionada, pressupondo a disponibilidade de dados de treinamento rotulados, incluindo imagens originais juntamente com suas respectivas máscaras anotadas \citep{Hao2020ALearning}.
 
+Para esmiuçar mais sobre essas arquiteturas, é importante ressaltar a diferença em relação às CNNs convencionais, que tendem a perder detalhes espaciais devido aos processos de \textit{pooling} e convoluções. As redes de segmentação semântica, ao contrário, são mais atentas a esses detalhes. Nesse contexto, a colaboração adequada entre esses dois tipos de características possui o potencial de aprimorar significativamente o desempenho da segmentação semântica, seguindo a estratégia denominada de \quotes{aprimoramento de recursos}, a qual será explorada adiante.
 
 \subsubsection{\textit{Fully Convolutional Networks} (FCN)}
 \label{semantic:FCN}
-Quando se trata de segmentações semânticas, várias arquiteturas e \textit{frameworks} são propostos para a resolução de problemas, de modo que garanta evolução quanto ao desempenho e às suas capacidades, contudo, o primeiro \textit{framework} a ser considerado estado-da-arte para esse atividade de segmentação baseia-se na arquitetura de \textit{Fully Convolutional Networks} \citep{Shelhamer2016} ou FCN, que propõem o trabalho apenas com camadas convolucionais - incluindo a última camada \citep{Hesamian2019}, como demonstrado na Figura \ref{semantic:fig:5} - assim, estabelecendo uma subamostragem de pixels (\textit{pixelwise}), seguida pela construção de um mapa de segmentação de mesmo tamanho que a imagem de entrada \citep{Minaee2021, Zhang2018} e \citep{Hesamian2019}.
+Quando se trata de segmentações semânticas, várias arquiteturas e \textit{frameworks} são propostos para a resolução de problemas, de modo que garanta evolução quanto ao desempenho e às suas capacidades, contudo, o primeiro \textit{framework} a ser considerado estado-da-arte para esse atividade de segmentação baseia-se na arquitetura de \textit{Fully Convolutional Networks} \citep{Shelhamer2016} ou FCN, que propõem o trabalho apenas com camadas convolucionais - incluindo a última camada \citep{Hesamian2019}, como demonstrado na Figura \ref{semantic:fig:5} - assim, estabelecendo uma subamostragem de pixels (\textit{pixelwise}), seguida pela construção de um mapa de segmentação de mesmo tamanho que a imagem de entrada \citep{Minaee2021, Zhang2018, Hesamian2019}.
 
 \begin{figure}[H]
     \centering
@@ -51,11 +54,9 @@ Quando se trata de segmentações semânticas, várias arquiteturas e \textit{fr
     Fonte: retirada e adaptado de \cite{Shelhamer2016}.
 \end{figure}
 
-\begin{sloppypar}
-Essa configuração de FCN foi aplicada nos \textit{datasets} PASCAL VOC 2011 \citep{everingham2010pascal}, SIFT Flow \citep{Liu2011} e NYUDv2 \citep{Silberman:ECCV12} chegando a resultados de 90,3\% de \hyperref[semantic:pa]{PA} e 62,7\% de \textit{mean IoU} no primeiro \textit{dataset} citado \citep{Ghosh2019} e estabelecendo referência de estado-da-arte em sua performance \citep{Minaee2021}.
-\end{sloppypar}
+Essa configuração de FCN foi aplicada nos \textit{datasets} PASCAL VOC 2011 \citep{everingham2010pascal}, SIFT Flow \citep{Liu2011} e NYUDv2 \citep{Silberman:ECCV12} chegando a resultados de 90,3\% de PA e 62,7\% de \textit{mean IoU} no primeiro \textit{dataset} citado \citep{Ghosh2019} e estabelecendo referência de estado-da-arte em sua performance \citep{Minaee2021}.
 
-Para sua configuração foram utilizados conceitos e modificações da arquitetura das CNNs VGG16 \citep{Simonyan2015} e GoogLeNet \citep{Szegedy2015}, possibilitando a entrada e saída de tamanhos variados na rede \citep{Minaee2021}, de sorte que a entrada e saída tenham o mesmo tamanho, o que fica visível na Figura \ref{semantic:fig:6}.
+Para sua configuração foram utilizados conceitos e modificações da arquitetura das CNNs VGG16 (explorada na Seção \ref{cnn:vgg}) e GoogLeNet \citep{Szegedy2015}, possibilitando a entrada e saída de tamanhos variados na rede \citep{Minaee2021}, de sorte que a entrada e saída tenham o mesmo tamanho, o que fica visível na Figura \ref{semantic:fig:6}.
 
 \begin{figure}[H]
     \centering

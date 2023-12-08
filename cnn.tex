@@ -21,7 +21,7 @@ Um modelo indicando uma entrada, as camadas convolucionais iniciais e finais, qu
     Fonte: retirada e adaptado de \cite{Minaee2021DeepClassification}.
 \end{figure}
 
-Sendo assim, nas próximas seções, fatores que compõem uma rede convolucional serão detalhados, como a camada convolucional (Seção \ref{cnn:conv}), a camada de \textit{pooling} (Seção \ref{cnn:pooling}), fator \textit{dropout} (Seção \ref{cnn:dropout}) e a camada de saída (Seção \ref{cnn:output}) da rede.
+Dessa forma, nas seções seguintes, os elementos fundamentais que compõem uma rede neural convolucional serão minuciosamente explorados. Estes incluem a camada convolucional (Seção \ref{cnn:conv}), a camada de \textit{pooling} (Seção \ref{cnn:pooling}), o componente \textit{dropout} (Seção \ref{cnn:dropout}) e a camada de saída (Seção \ref{cnn:output}) da rede. Adicionalmente, serão abordados temas complementares que impactam significativamente no desempenho das CNNs, tais como transferência de aprendizado (Seção \ref{cnn:transfer}) e aumento de dados (Seção \ref{cnn:augment}). Por fim, será explorada uma das arquiteturas que exerceu considerável influência na evolução desse campo, a VGG (Seção \ref{cnn:vgg}).
 
 
 \subsection{Camada Convolucional}
@@ -179,7 +179,7 @@ onde $r$ representa uma taxa de dilatação que determina as \textit{strides} pa
 
 Dentre as estratégias para mitigar o \textit{overfitting} ,citado na Seção \ref{deep:overunder}, destaca-se a técnica de \textit{dropout} \citep{Goodfellow2016}. Esta técnica, embora não seja aplicada durante a fase de testes, consiste no desligamento aleatório de neurônios em camadas ocultas de uma rede CNN. O propósito do \textit{dropout} é reduzir o viés dos neurônios e aumentar a importância dos neurônios restantes.
 
-O processo de \textit{dropout} é ilustrado na Figura \ref{cnn:fig:9}, mostrando apenas as conexões entre os neurônios restantes, no lado direito da Figura.
+O processo de \textit{dropout} é ilustrado na Figura \ref{cnn:fig:9}, mostrando apenas as conexões entre os neurônios restantes, no lado direito da Figura \ref{cnn:fig:9}.
 
 \begin{figure}[H]
     \centering
@@ -208,5 +208,7 @@ Por fim, para gerar a saída final, é comum utilizar funções de ativação co
 
 \subsection{VGG-16}
 \label{cnn:vgg}
+\citep{Simonyan2015}
 
 \subsection{Considerações Finais do Capítulo}
+\label{cnn:conclusion}
