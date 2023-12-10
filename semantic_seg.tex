@@ -69,10 +69,11 @@ Por fim, quanto às suas limitações, é informado que as configurações de FC
 
 \subsubsection{U-Net}
 \label{semantic:unet}
-
 No âmbito das arquiteturas voltadas para segmentação semântica, a evolução trouxe a U-Net \citep{Ronneberger2015U-net:Segmentation}, que se destacou após o período das FCNs. Introduzida em 2015, a U-Net rapidamente ganhou notoriedade, superando a popularidade das mencionadas FCNs \citep{Sultana2020EvolutionSurvey}.
 
 As U-Nets operam com um caminho de contração (também conhecido como \textit{encoder}) que progressivamente reduz a resolução espacial dos dados e captura o contexto dos exemplos, seguido por um caminho de expansão simétrica (também conhecido como \textit{decoder}) que restaura a resolução original por meio de convoluções transpostas e realiza a segmentação. A estrutura se assemelha a um \quotes{U}, como retrata a Figura \ref{semantic:fig:unet}, o que levou à sugestão do nome da arquitetura. A conexão entre as camadas de \textit{encoder} e \textit{decoder}, conhecida como \quotes{\textit{skip connection}}, permite a preservação de informações de baixo nível e ajuda a mitigar problemas de perda de detalhes durante a redução da resolução \citep{Minaee2021, Minaee2021DeepClassification}. Por não conter camadas densas nas U-Nets, elas podem ser consideradas modelos baseados em FCNs \citep{Minaee2021}, sendo que a maior diferença entre essas arquiteturas está no uso de \quotes{\textit{skip connections}} entre as convoluções e \textit{up-samplings}, além da simetria das U-nets \citep{OZTURK2020ComparisonImageries}.
+
+Vale citar que para a implementação de \quotes{up-samplings}, originalmente nas U-nets, foram utilizadas as convoluções transpostas com duas dimensões, que também são conhecidas como deconvoluções ou camada de deconvolução, realizando o processo contrário às camadas de \textit{pooling} \citep{Zeiler2014Visualizing2013}. Quando observa-se a parte técnica, essa camada é denominada \textit{Conv2DTranspose}, sendo que seu maior diferencial é que  ela amplia a resolução espacial dos dados, em oposição à redução feita pelas camadas de pooling. No entanto, ao contrário das camadas de pooling, a \textit{Conv2DTranspose} faz uso de uma janela de convolução para aumentar as dimensões dos dados. Essa camada é crucial para a U-Net, pois desempenha um papel fundamental na reconstrução das características espaciais, restaurando a resolução original e contribuindo para a precisão da segmentação, ao mesmo tempo em que mantém as conexões entre as características de nível mais baixo e mais alto, garantindo a riqueza dos detalhes na segmentação final.
 
 \begin{figure}[H]
     \centering
@@ -88,7 +89,16 @@ As vantagens inerentes a essa arquitetura incluem uma capacidade robusta para li
 Voltando ao contexto mais amplo, onde a segmentação semântica tem como objetivo atribuir rótulos de classe a cada pixel em uma imagem, a arquitetura da U-Net se mostra relevante e eficaz, sendo exemplificado pelos resultados obtidos desde seu desenvolvimento com \cite{Ronneberger2015U-net:Segmentation}. No entanto, questões que exploram a preservação da espacialidade da imagem durante a segmentação nesse tipo de estrutura ainda são pouco explorados, principalmente quando a proposta está em variações das tradicionais camadas de \textit{pooling} que são os atuais estado-da-arte \citep{Minaee2021}.
 
 \subsubsection{U-Net-Like}
+\label{semantic:unetlike}
+Após o surgimento e o êxito alcançado pelas U-nets, surgiram variações dessas redes, frequentemente denominadas de \textit{U-Net-Like}, inspiradas pela estrutura original proposta por \cite{Ronneberger2015U-net:Segmentation} e amplamente documentada em \citep{Kugelman2022ASegmentationb}.
 
+Essas redes mantêm a arquitetura de contração e expansão da U-Net original, mas apresentam características distintas. Uma das diferenças significativas é a adição de \textit{skip connections}, com a inclusão de uma camada extra, e a incorporação de técnicas como \textit{Batch Normalization} proposta por \cite{Ioffe2015BatchShift} e a função de ativação ReLU, discutida na Seção \ref{deep:relu}, nas camadas de contração. Essas alterações têm como objetivo manter as médias e variâncias das entradas constantes, acelerando o aprendizado e aumentando a estabilidade durante a fase de treinamento \citep{Pfister2019AutomatedNetworks}.
+
+Outra modificação presente nas U-Net-Like diz respeito à forma como as convoluções são aplicadas. Enquanto \cite{Ronneberger2015U-net:Segmentation} não aplicava preenchimento (\textit{padding}) devido ao processo de divisão de imagens maiores em blocos menores durante o processamento, a abordagem das U-Net-Like introduz pixels adicionais ao redor das bordas da imagem. Esse procedimento permite que as convoluções utilizem pixels vizinhos, aprimorando a eficiência e a qualidade da segmentação \citep{Pfister2019AutomatedNetworks}.
+
+Dentre os últimos detalhes, vale dizer que diferente do método de \textit{up-sampling} com as convoluções transpostas em duas dimensões, esse método utiliza de um método chamado originalmente de \textit{Upsampling2D}, o qual emprega uma abordagem diferente para aumentar a resolução espacial dos dados. Enquanto as convoluções transpostas realizam a ampliação por meio do aprendizado de pesos, o método \textit{Upsampling2D} opera replicando os valores existentes nos mapas de características, efetivamente duplicando-os e, assim, aumentando a resolução espacial. Além disso, sua maior mudança em relação às convoluções transpostas em duas dimensões se dá pela ausência de parâmetros treináveis, resultando em uma operação mais simples e menos custosa computacionalmente.
+
+Finalmente, vale dizer que no uso das U-Net-Like é possível visualizar uma diminuição dos parâmetros de treinamento da rede \citep{Pfister2019AutomatedNetworks}, contribuindo para uma arquitetura mais enxuta e eficiente. Além disso, o uso do \textit{Upsampling2D} nas U-Net-Like implica não só em uma redução de parâmetros, mas também em um processo de treinamento mais rápido e menos complexo, uma vez que essa abordagem não requer parâmetros treináveis adicionais, proporcionando uma operação computacionalmente mais leve e uma convergência mais ágil durante o treinamento.
 
 \subsection{Métricas}
 \label{semantic:metrics}
@@ -182,15 +192,15 @@ Por fim, vale comentar que para situações em que tem-se uma segmentação bin�
 
 \subsection{Considerações Finais do Capítulo}
 \label{semantic:conclusion}
-Concluindo em relação a segmentações semânticas, pode-se dizer que são um grande avanço quando comparadas a tarefas de detecção de objetos, como ocorre em \cite{Vaillant1994}, visto que esse novo modelo de segmentações possibilita o trabalho com mais dados em relação às cenas, como citado neste capitulo (Capítulo \ref{semantic}).
+Em conclusão sobre as segmentações semânticas, é notável o avanço significativo em comparação com tarefas de detecção de objetos, como destacado em \cite{Vaillant1994}. Esses novos modelos de segmentação permitem o trabalho com um volume maior de dados em cenas complexas, como abordado neste capítulo (Capítulo \ref{semantic}).
 
-Entretanto, essa rede possui dificuldade quando o problema em questão está relacionado à separação de objetos que possuem a mesma classe, mas são objetos diferentes, visto que não há uma separação por indivíduos \cite{Kirillov2019a} como é possível observar na Figura \ref{semantic:fig:4.1}, em que todas as pessoas próximas se encontram conectadas ou em situações que se torna necessária a segmentação minuciosa de uma cena \cite{Ghosh2019}, como as partes do corpo de uma pessoa, por exemplo.
+No entanto, é importante ressaltar que essas redes enfrentam dificuldades quando o problema requer a separação de objetos da mesma classe, mas distintos e sobrepostos, resultando na ausência de uma segmentação individualizada \citep{Kirillov2019a}. Isso fica evidente na Figura \ref{semantic:fig:4.1}, onde pessoas próximas estão conectadas, ou em situações que exigem uma segmentação detalhada da cena \citep{Ghosh2019}.
 
 \begin{figure}[H]
    \caption{Exemplo de segmentação semântica com instâncias unificadas.}
    \centering
    \label{semantic:fig:4}
-    \begin{subfigure}[t]{0.6\textwidth}
+    \begin{subfigure}[t]{0.8\textwidth}
         \centering
         \includegraphics[width=1\linewidth]{recursos/imagens/semantic/sema_ori.png}
         \caption{Imagem original.}
@@ -198,7 +208,7 @@ Entretanto, essa rede possui dificuldade quando o problema em questão está rel
     \end{subfigure}%
     ~ 
 
-    \begin{subfigure}[t]{0.6\textwidth}
+    \begin{subfigure}[t]{0.8\textwidth}
         \centering
         \includegraphics[width=1\linewidth]{recursos/imagens/semantic/sema_unified.png}
         \caption{Segmentação com instâncias unificadas.}
@@ -208,4 +218,4 @@ Entretanto, essa rede possui dificuldade quando o problema em questão está rel
     Fonte: \cite{Fischer2017}.
 \end{figure}
 
-Por fim, vale destacar que modelos de segmentação semântica não são recomendados para sistemas que precisam realizar segmentações próximas de um tempo real, levando em conta câmeras com menos de 25 quadros por segundo, devido ao seu desempenho, como aponta \cite{Minaee2021}.
+Por fim, é relevante salientar que os modelos de segmentação semântica não são recomendados para sistemas que necessitam de segmentações em tempo real, especialmente quando operando com câmeras capturando menos de 25 quadros por segundo, devido ao seu desempenho computacional, conforme observado por \cite{Minaee2021}.

@@ -6,20 +6,39 @@
 
 \subsection{Materiais e Métodos}
 \label{project:matmet}
-Nesta Seção, serão discorridos os detalhes sobre as tecnologias que serão utilizadas para o desenvolvimento de um modelo de segmentação panóptica que segmenta componentes visuais (Seção \ref{project:tec}), as técnicas e métodos escolhidos para serem utilizados nos experimentos (Seção \ref{project:method}) e, por fim, sobre os conjuntos de dados selecionados para cumprirem com o objetivo da segmentação (Seção \ref{project:dataset}).
+Nesta Seção, serão discorridos os detalhes sobre as tecnologias que serão utilizadas para o desenvolvimento de um modelo de segmentação panóptica que segmenta componentes visuais (Seção \ref{project:techard}), as técnicas e métodos escolhidos para serem utilizados nos experimentos (Seção \ref{project:method}) e, por fim, sobre os conjuntos de dados selecionados para cumprirem com o objetivo da segmentação (Seção \ref{project:dataset}).
 
 
 \subsubsection{Tecnologias e \textit{Hardware}}
-\label{project:tec}
-Dentre as tecnologias planejadas para o desenvolvimento do presente trabalho, vale citar que destaca-se o uso da linguagem de programação interpretada e de alto nível, \textit{Python}, sendo essa uma linguagem vantajosa por ser popularmente conhecida no meio cientifico, com uma ampla comunidade e com  bibliotecas dispostas para facilitar o desenvolvimento de soluções \cite{Millman2011PythonEngineers}.
+\label{project:techard}
+Dentre as tecnologias utilizadas para o desenvolvimento do presente trabalho, vale citar que destaca-se o uso da linguagem de programação interpretada e de alto nível, \textit{Python}, sendo essa uma linguagem vantajosa por ser popularmente conhecida no meio cientifico, com uma ampla comunidade e com  bibliotecas dispostas para facilitar o desenvolvimento de soluções tanto para a parte de aprendizado de máquina e aprendizado de redes neurais profundas, quanto para a parte de visão computacional \citep{Millman2011PythonEngineers}.
 
-Já em relação às bibliotecas planejadas ao projeto, destacam-se aquelas cujo desenvolvimento é amplamente utilizado para o auxilio de projetos de visão computacional, aprendizado de máquina e redes neurais, das quais cita-se: \textit{PyTorch}, \textit{Keras}, \textit{TensorFlow}, \textit{OpenCV}, \textit{Numpy}, \textit{Pandas}, entre outras, dando destaque para a biblioteca \textit{Detectron2} \cite{detectron2} que já possui algumas funções especializadas para o trabalho com segmentações, incluindo redes de segmentação panóptica.
+Já em relação às bibliotecas utilizadas em conjunto com a linguagem \textit{Python} para o andamento do projeto, destacam-se aquelas cujo desenvolvimento é amplamente utilizado para o auxilio de projetos de visão computacional, aprendizado de máquina e redes neurais, das quais cita-se: \textit{TensorFlow} juntamente com \textit{Keras}, formando, assim, um \textit{framework} para orquestração e definição dos modelos, etapas de treinamento e teste, bem como otimizadores, funções de custo e métricas de avaliação para a analise de performance dos modelos. \textit{OpenCV} também foi uma biblioteca importante para trabalhar com a aplicação de filtros das imagens e realização de testes manuais para calibração dos métodos que utilizara \textit{deep learning}. Por fim, foi utilizado da bilbioteca \textit{Numpy} para a realização de calculos matemáticos e análises matriciais.
 
-Por fim, em relação aos métodos desenvolvidos para cumprir com os objetivos do presente trabalho, no que lhes concerne, de realizar a segmentação de componentes visuais, declara-se que serão disponibilizado em forma de biblioteca por meio do \textit{Github} do autor\footnote{Perfil \textit{Github} do autor – \url{https://github.com/Lucs1590}}, segundo os preceitos a licença Apache v2.0 \cite{Licenses}, com o intuito de contribuir com o crescimento de futuros pesquisadores, além de possibilitar futuras melhorias da aréa de segmentação com uso de segmentação hierárquica.
+Por fim, em relação aos métodos desenvolvidos para cumprir com os objetivos do presente trabalho, no que lhes concerne, de realizar a segmentação semântica, declara-se que serão disponibilizado por meio do \textit{Github} do autor\footnote{Perfil \textit{Github} do autor – \url{https://github.com/Lucs1590}}, segundo os preceitos a licença Apache v2.0 \citep{Licenses}, com o intuito de contribuir com o crescimento de futuros pesquisadores, além de possibilitar futuras melhorias da área de segmentação com uso camadas de \textit{pooling} personalizadas, com é o caso do BPCAPooling, que será detalhado na Seção \ref{project:bpca}.
 
 
 \subsubsection{\textit{Block-based Principal Component Analysis Pooling} (BPCA Pooling)}
 \label{project:bpca}
+
+Apresentado como uma variação do método convencional do Principal Component Analysis (PCA) no trabalho \cite{Salvadeo2011}, o BPCA propõe um método que inicialmente foi utilizado para a extração de características de imagens relacionadas a trabalhos de reconhecimento de face, propondo um método de extração que trouxesse à análise menor custo computacional, redução de dimensionalidade e uma geometria de hiperespaço que fosse mais intuitiva, destacando o diferencial de que com esse método fosse possível preservar a espacialidade da informação.
+
+O método proposto opera por meio da subdivisão de uma imagem em blocos $k \times k$, em que os blocos geralmente possuem tamanhos iguais (por exemplo, $3 \times 3$, $8 \times 8$, etc.). Em seguida, o PCA é aplicado a cada um desses blocos subdivididos. Consequentemente, cada bloco $k \times k$ passa a ter um tamanho reduzido, contendo apenas um subconjunto de pixels com $r$ características (o mesmo numero de blocos). Esse processo pode ser visualizado através da Figura X.
+
+É importante ressaltar que o BPCA não é uma simples combinação linear de amostras distintas. Em vez disso, ele cria uma representação organizada, formada por pequenos blocos do mapa de características original usado como entrada. O BPCA incorpora o PCA para realizar o mapeamento não supervisionado que minimiza o erro quadrático médio entre a entrada original e a representação projetada.
+
+Considerando os parágrafos anteriores e o fato de que as camadas de pooling são aplicadas com sucesso nas redes convolucionais com o objetivo de reduzir a dimensionalidade dos dados \cite{paul2019dimensionality}, a partir do presente trabalho, propõe-se a utilização dessa técnica não para a tarefa de extração de características, mas como uma camada de pooling que contenha o benefício de preservar a espacialidade da informação entre as camadas convolucionais.
+
+A camada de pooling adota o processo original do BPCA, que extrai as principais informações de cada bloco, reduzindo a dimensionalidade dos dados e preservando características relevantes. Além disso, o método foi aprimorado por meio da normalização dos blocos usando média ($\mu$) e desvio padrão ($\sigma$). Em seguida, é aplicada a decomposição em valores singulares (SVD) para extrair os componentes principais ($\text{{pca\_components}}$) que realizam a transformação dos blocos por meio da projeção nesses componentes selecionados. Como resultado, obtém-se um mapa de características reduzido em tamanho, mas que preserva a informação essencial ao concatenar os blocos transformados.
+
+A representação matemática do processo realizado pela camada de pooling BPCAPooling pode ser descrita pela seguinte equação:
+
+\[
+\text{{BPCAPooling}}(x) = \text{{reshape}}\left(\text{{SVD}}\left(\frac{{x - \mu}}{{\sigma}}\right) \cdot \text{{pca\_components}}\right),
+\]
+onde $x$ representa o mapa de características de entrada, $\text{{reshape}}$ reorganiza os blocos transformados em uma estrutura de saída adequada, $\text{{SVD}}$ denota a decomposição em valores singulares dos blocos normalizados, $\mu$ é o vetor médio dos blocos extraídos, $\sigma$ é o vetor de desvio padrão dos blocos extraídos, e $\text{{pca\_components}}$ é uma matriz que contém os primeiros componentes principais selecionados.
+
+Essa formulação matemática descreve o processo de pooling realizado pela camada BPCAPooling, que extrai informações relevantes dos blocos de entrada, reduzindo sua dimensionalidade e preservando características importantes para o aprendizado eficiente da rede neural convolucional.
 
 \paragraph{Funcionamento como \textit{Pooling}}
 
