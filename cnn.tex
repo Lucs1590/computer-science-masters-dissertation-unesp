@@ -206,12 +206,49 @@ Por fim, para gerar a saída final, é comum utilizar funções de ativação co
 \subsection{Aumento de Dados}
 \label{cnn:augment}
 
-\subsection{VGG-16}
+A abordagem de aumento de dados, ou \textit{data augmentation}, em inglês, que é sua nomenclatura mais conhecida, é uma 
+
+\subsubsection{VGG}
 \label{cnn:vgg}
-\citep{Simonyan2015}
+
+A Rede Neural Convolutiva \textit{Visual Geometry Group} (VGG), desenvolvida pelos pesquisadores do grupo VGG na Universidade de Oxford \citep{Simonyan2015}, tem sido uma das arquiteturas mais influentes no campo da Visão Computacional. A VGG proporcionou avanços significativos no entendimento das redes neurais convolutivas por sua simplicidade arquitetônica e eficiência para lidar com tarefas de aprendizado profundo \citep{Simonyan2015}.
+
+A VGG foi projetada com o objetivo de aumentar a profundidade das redes neurais convolutivas, empregando uma estrutura arquitetônica empilhada de camadas convolutivas pequenas, especificamente filtros de $3 \times 3$, seguidas de camadas \textit{max-pooling} \citep{Simonyan2015}. As camadas convolutivas fazem uso de preenchimento (\textit{padding}) para garantir que a espacialidade seja preservada após cada convolução, antes da redução de tamanho por \textit{max-pooling}. Essa abordagem permitiu que a VGG atingisse profundidades de até 19 camadas \citep{Simonyan2015}.
+
+A maior contribuição da VGG à comunidade de aprendizado de máquina foi a constatação de que a profundidade da rede, ou seja, o número de camadas ocultas, tem grande influência no desempenho do modelo \citep{Simonyan2015}. Essa ideia é refletida na arquitetura homogênea da VGG, que emprega uma pilha de camadas convolutivas para aumentar a profundidade da rede de maneira eficiente, afinal a VGG-16 e 19 possuem cinco blocos de convolução, com pelo menos duas camadas de convolução em cada, e uma camada densa, como representado na Figura \ref{cnn:fig:vgg}.
+
+
+\begin{figure}[H]
+   \caption{Representação de VGG.}
+   \centering
+   \label{cnn:fig:vgg}
+    \begin{subfigure}[t]{0.8\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/image_seg/original_watershed.png}
+        \caption{VGG-16.}
+        \label{cnn:fig:vgg.1}
+    \end{subfigure}%
+    ~ 
+
+    \begin{subfigure}[t]{0.8\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/image_seg/segmented_watershed.png}
+        \caption{VGG-19.}
+        \label{cnn:fig:vgg.2}
+    \end{subfigure}%
+    ~
+
+    Fonte: retirado e adaptado de \cite{Neuhold2017_ICCV}.
+\end{figure}
+
+A VGG foi pioneira em demonstrar a utilidade de filtros convolutivos pequenos \citep{Simonyan2015}. Os filtros de $3 \times 3$ podem cobrir a vizinhança imediata de um pixel e, quando vários desses filtros são empilhados, a região do campo receptivo pode se expandir e abranger uma maior porção da imagem. Esse processo é similar a aplicar convoluções com filtros maiores, porém, com menos parâmetros. Isso evita o \textit{overfitting} e melhora a capacidade de generalização da rede \citep{Simonyan2015}.
+
+No entanto, a VGG também tem suas limitações. Devido à sua arquitetura profunda, a VGG demanda alto poder computacional e detém grande uso de memória. Além disso, a ausência de camadas totalmente conectadas reduziu a capacidade de modelar dependências de alto nível entre os recursos \citep{Simonyan2015}.
+
+Apesar dessas limitações, a VGG continua sendo amplamente usada na comunidade de aprendizado profundo, principalmente como ponto de partida para a transferência de aprendizado, onde os pesos pré-treinados da VGG são usados como inicialização de outras tarefas de aprendizado. Além disso, a VGG forneceu um ponto de partida sólido para o desenvolvimento de arquiteturas mais profundas e eficientes, como a ResNet \citep{He2016}. Ao introduzir a ideia de \quotes{profundidade} nas redes neurais convolutivas, a VGG marcou um passo importante na evolução das redes de aprendizado profundo.
 
 \subsection{Considerações Finais do Capítulo}
 \label{cnn:conclusion}
-Neste capítulo, é evidenciada a importância das CNNs na abordagem de problemas espaciais, especialmente no domínio de imagens. São abordados detalhes sobre como as características são extraídas por meio de filtros e camadas convolucionais (Seção \ref{cnn:conv}), além da forma como as técnicas de \textit{pooling} (Seção \ref{cnn:pooling}) são empregadas para reduzir a dimensionalidade dos dados gerados pelas convoluções. Também se destaca a relevância das camadas de saída (Seção \ref{cnn:output}) na definição das classes presentes na imagem, assim como a aplicação de \textit{dropout} (Seção \ref{cnn:dropout}) para mitigar problemas de \textit{overfitting} (Seção \ref{deep:overunder}).
+Neste capítulo, é evidenciada a importância das CNNs na abordagem de problemas espaciais, especialmente no domínio de imagens. São abordados detalhes sobre como as características são extraídas por meio de filtros e camadas convolucionais (Seção \ref{cnn:conv}), além da forma como as técnicas de \textit{pooling} (Seção \ref{cnn:pooling}) são empregadas para reduzir a dimensionalidade dos dados gerados pelas convoluções. Também se destaca a relevância das camadas de saída (Seção \ref{cnn:output}) na definição das classes presentes na imagem, assim como a aplicação de \textit{dropout} (Seção \ref{cnn:dropout}) para mitigar problemas de \textit{overfitting} (Seção \ref{deep:overunder}), formando assim, arquiteturas profundas, como é o caso das VGGs (Seção \ref{cnn:vgg}).
 
 No entanto, o próximo capítulo se concentrará na segmentação de imagens, uma tarefa mais específica que não requer necessariamente o uso de redes profundas. Muitos métodos podem ser explorados de forma mais artesanal e menos complexa, como será discutido na Seção \ref{segment:segment}.
