@@ -6,7 +6,7 @@
 
 \subsection{Materiais e Métodos}
 \label{project:matmet}
-Nesta Seção, serão discorridos os detalhes sobre as tecnologias que serão utilizadas para o desenvolvimento de um modelo de segmentação panóptica que segmenta componentes visuais (Seção \ref{project:techard}), as técnicas e métodos escolhidos para serem utilizados nos experimentos (Seção \ref{project:method}) e, por fim, sobre os conjuntos de dados selecionados para cumprirem com o objetivo da segmentação (Seção \ref{project:dataset}).
+Nesta Seção, serão discorridos os detalhes sobre as tecnologias que serão utilizadas para o desenvolvimento de um modelo de segmentação panóptica que segmenta componentes visuais (Seção \ref{project:techard}), as técnicas e métodos escolhidos para serem utilizados nos experimentos (Seção \ref{project:methodology}) e, por fim, sobre os conjuntos de dados selecionados para cumprirem com o objetivo da segmentação (Seção \ref{project:dataset}).
 
 
 \subsubsection{Tecnologias e \textit{Hardware}}
@@ -27,7 +27,7 @@ O método proposto opera por meio da subdivisão de uma imagem em blocos $k \tim
 
 É importante ressaltar que o BPCA não é uma simples combinação linear de amostras distintas. Em vez disso, ele cria uma representação organizada, formada por pequenos blocos do mapa de características original usado como entrada. O BPCA incorpora o PCA para realizar o mapeamento não supervisionado que minimiza o erro quadrático médio entre a entrada original e a representação projetada.
 
-Considerando os parágrafos anteriores e o fato de que as camadas de pooling são aplicadas com sucesso nas redes convolucionais com o objetivo de reduzir a dimensionalidade dos dados \cite{paul2019dimensionality}, a partir do presente trabalho, propõe-se a utilização dessa técnica não para a tarefa de extração de características, mas como uma camada de pooling que contenha o benefício de preservar a espacialidade da informação entre as camadas convolucionais.
+Considerando os parágrafos anteriores e o fato de que as camadas de pooling são aplicadas com sucesso nas redes convolucionais com o objetivo de reduzir a dimensionalidade dos dados \cite{Paul2019DimensionalityPooling}, a partir do presente trabalho, propõe-se a utilização dessa técnica não para a tarefa de extração de características, mas como uma camada de pooling que contenha o benefício de preservar a espacialidade da informação entre as camadas convolucionais.
 
 A camada de pooling adota o processo original do BPCA, que extrai as principais informações de cada bloco, reduzindo a dimensionalidade dos dados e preservando características relevantes. Além disso, o método foi aprimorado por meio da normalização dos blocos usando média ($\mu$) e desvio padrão ($\sigma$). Em seguida, é aplicada a decomposição em valores singulares (SVD) para extrair os componentes principais ($\text{{pca\_components}}$) que realizam a transformação dos blocos por meio da projeção nesses componentes selecionados. Como resultado, obtém-se um mapa de características reduzido em tamanho, mas que preserva a informação essencial ao concatenar os blocos transformados.
 

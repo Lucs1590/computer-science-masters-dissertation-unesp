@@ -199,14 +199,53 @@ Após a composição de várias camadas de convolução, utilizando filtros, e a
 
 Por fim, para gerar a saída final, é comum utilizar funções de ativação como a Softmax (abordada na Seção \ref{deep:soft}). A aplicação da Softmax permite a identificação da classe de um objeto específico em uma imagem, por exemplo. Essa função de ativação é utilizada para a tarefa de classificação, fornecendo as probabilidades de pertencimento a cada classe no conjunto de dados.
 
-
-\subsection{Transferência de Aprendizado}
+\subsubsection{Transferência de Aprendizado}
 \label{cnn:transfer}
+
+A transferência de aprendizado é uma técnica valiosa no campo da aprendizagem profunda, que sustenta a ideia de usar conhecimento adquirido ao resolver um problema para ajudar a resolver um problema diferente, mas relacionado. Particularmente na aprendizagem profunda, a transferência de aprendizado tem se mostrado benéfica, especialmente, quando se lida com conjuntos de dados com limitações \citep{Pan2010}.
+
+A mais comum estratégia de aplicação da transferência de aprendizado em CNNs é o uso de modelos pré-treinados, onde uma rede treinada em uma tarefa grande e bem definida, como a classificação de imagens em ImageNet \citep{Deng2009ImageNet:Database}, é reutilizada em outra tarefa específica. Isso é feito substituindo as últimas camadas do modelo pré-treinado para se ajustar à tarefa específica e treinando o modelo para ajustar esses novos parâmetros \citep{Yosinski2014HowNetworks}. Com essa mudança, as camadas ou pesos reaproveitados veêm inicialmente de modo \quotes{congelado}, de modo que não há atualização dos erros dessa camada no processo de retro-propagação.
+
+Essa abordagem é altamente eficaz, uma vez que durante a fase inicial do treinamento, conhecida como \textit{warmup}, os modelos aprendem características de baixo nível nas camadas iniciais e gradualmente capturam características mais abstratas nas camadas posteriores. A premissa é que as camadas iniciais do modelo extraem recursos genéricos, como bordas e texturas, que são fundamentais para uma ampla variedade de tarefas, enquanto as camadas finais são mais especializadas na tarefa específica para a qual o modelo foi originalmente treinado \citep{Yosinski2014HowNetworks}.
+
+É importante ressaltar que a aplicação da transferência de aprendizado também contribui significativamente para mitigar o \textit{overfitting} \citep{Geron2017Hands-onSystems}. Após a fase de \textit{warmup}, ocorre o gradual \textit{descongelamento} das camadas, iniciando o processo de ajuste fino (ou \textit{fine-tuning}), permitindo que as camadas se adaptem melhor ao problema atual. Quanto mais dados estiverem disponíveis no conjunto, mais camadas ou blocos podem ser descongelados para ajustes finos \citep{Geron2017Hands-onSystems}.
+
+Utilizando transferência de aprendizado, a comunidade pode economizar tempo e recursos computacionais, evitando treinar uma rede complexa do zero para cada nova tarefa. Além disso, modelos pré-treinados podem ajudar a melhorar o desempenho do aprendizado, principalmente quando o conjunto de dados da nova tarefa é pequeno ou semelhante ao conjunto de dados inicial do modelo pré-treinado \citep{Pan2010}.
+
+Apesar dessas vantagens, aplicar transferência de aprendizado em CNNs não é uma tarefa trivial. A seleção e ajuste das camadas para a tarefa pretendida, bem como a seleção das políticas adequadas de otimização e a taxa de aprendizado, são desafios que podem afetar a eficácia da transferência de aprendizado \citep{Yosinski2014HowNetworks}.
+
+Não obstante, a transferência de aprendizado continua sendo uma estratégia amplamente vencedora na atual prática de aprendizagem profunda e sua aplicação está em crescimento contínuo, especialmente em tarefas como análise de sentimentos, detecção de objetos, reconhecimento facial, dentre outros \citep{Pan2010}.
 
 \subsection{Aumento de Dados}
 \label{cnn:augment}
 
-A abordagem de aumento de dados, ou \textit{data augmentation}, em inglês, que é sua nomenclatura mais conhecida, é uma 
+A técnica conhecida como aumento de dados, ou \textit{data augmentation} em inglês, é uma estratégia que visa mitigar o \textit{overfitting} e aumentar a robustez do modelo. Essa abordagem consiste em aplicar transformações geométricas e de intensidade nas imagens durante o processo de treinamento, introduzindo variações nas instâncias para enriquecer o conjunto de dados \citep{Geron2017Hands-onSystems}.
+
+A utilização desse método apresenta a vantagem de aumentar a invariância do modelo diante de alterações nas condições de captura das imagens. Por meio dessas transformações, é possível criar diversas variações em termos de escala, posição, cor, luminosidade, saturação e contraste dos objetos, promovendo uma maior capacidade de generalização do modelo. Isso assegura que o reconhecimento das figuras ocorra em diferentes contextos adversos. A Figura \ref{cnn:augment} ilustra exemplos de algumas dessas técnicas de aumento de dados aplicadas a uma imagem.
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplo de aumento de dados com transformações geométricas.}
+    \includegraphics[width=1\linewidth]{recursos/imagens/deep/dataaugmentation.png}
+    \label{cnn:fig:augment}
+
+     Fonte: do próprio autor, utilizando o \textit{dataset} \cite{Bossard2014Food-101Forests}.
+\end{figure}
+
+Como mencionado anteriormente, é importante destacar que o aumento de dados geralmente envolve o uso de transformações geométricas e de intensidade. As transformações geométricas são responsáveis por aplicar mapeamentos e alterações nos pixels das imagens, incluindo rotação, cisalhamento, translação, redimensionamento e outras técnicas comuns usadas em processos de registro de imagens \citep{pedrini2008analise}. Por outro lado, as transformações de intensidade manipulam as cores e os valores dos pixels, modificando-os por meio de operações matemáticas como raiz quadrada, potenciação, logaritmos e outras técnicas similares \citep{pedrini2008analise}.
+
+No entanto, é crucial salientar que a seleção das transformações deve ser feita de maneira personalizada para cada problema específico a ser abordado. Isso ocorre porque, além de aumentar a carga computacional, muitas vezes as transformações podem levar à degradação do desempenho do modelo \citep{Carneiro2021EfficientProcessing, Hyttinen2020}. Essas transformações podem modificar o rótulo original do exemplo utilizado ou gerar casos que resultem em falsos positivos ou negativos, como no caso da inversão aplicada ao conjunto de dados MNIST \citep{LeCun2010MNISTDatabase}, ilustrado na Figura \ref{cnn:fig:augment2}, e o uso de \textit{Generative Adversarial Networks} (GANs) em áreas sensíveis, como na medicina.
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplo de inversão no conjunto de dados MNIST, em que o dígito \quotes{5} é alterado para \quotes{2}.}
+    \includegraphics[width=1\linewidth]{recursos/imagens/deep/fivetwo.png}
+    \label{cnn:fig:augment2}
+    Fonte: do próprio autor, utilizando o conjunto de dados \cite{LeCun2010MNISTDatabase}.
+\end{figure}
+
+Por fim, é importante destacar que o processo de aumento de dados geralmente ocorre durante o treinamento do modelo, garantindo que os exemplos utilizados para o aprendizado nunca sejam idênticos, contribuindo para a robustez do modelo. Outra abordagem é aplicar o aumento de dados antes do treinamento, mas essa prática pode resultar em um maior consumo de memória e armazenamento.
+
 
 \subsubsection{VGG}
 \label{cnn:vgg}
@@ -219,12 +258,12 @@ A maior contribuição da VGG à comunidade de aprendizado de máquina foi a con
 
 
 \begin{figure}[H]
-   \caption{Representação de VGG.}
+   \caption{Representação de VGGs.}
    \centering
    \label{cnn:fig:vgg}
     \begin{subfigure}[t]{0.8\textwidth}
         \centering
-        \includegraphics[width=1\linewidth]{recursos/imagens/image_seg/original_watershed.png}
+        \includegraphics[width=1\linewidth]{recursos/imagens/deep/vgg16.png}
         \caption{VGG-16.}
         \label{cnn:fig:vgg.1}
     \end{subfigure}%
@@ -232,13 +271,13 @@ A maior contribuição da VGG à comunidade de aprendizado de máquina foi a con
 
     \begin{subfigure}[t]{0.8\textwidth}
         \centering
-        \includegraphics[width=1\linewidth]{recursos/imagens/image_seg/segmented_watershed.png}
+        \includegraphics[width=1\linewidth]{recursos/imagens/deep/vgg19.png}
         \caption{VGG-19.}
         \label{cnn:fig:vgg.2}
     \end{subfigure}%
     ~
 
-    Fonte: retirado e adaptado de \cite{Neuhold2017_ICCV}.
+    Fonte: retirado e adaptado de \cite{Mahdianpari2018VeryImagery}.
 \end{figure}
 
 A VGG foi pioneira em demonstrar a utilidade de filtros convolutivos pequenos \citep{Simonyan2015}. Os filtros de $3 \times 3$ podem cobrir a vizinhança imediata de um pixel e, quando vários desses filtros são empilhados, a região do campo receptivo pode se expandir e abranger uma maior porção da imagem. Esse processo é similar a aplicar convoluções com filtros maiores, porém, com menos parâmetros. Isso evita o \textit{overfitting} e melhora a capacidade de generalização da rede \citep{Simonyan2015}.

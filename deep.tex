@@ -270,7 +270,7 @@ A implementação efetiva da parada antecipada exige uma definição mais precis
 
 A taxa de aprendizado (\textit{learning rate} em inglês), como demonstrado anteriormente, é um dos hiperparâmetros fundamentais utilizados na etapa inicial do treinamento de modelos. Sua representação como $\epsilon$ pode ser observada na Equação \ref{deep:eq:graddesc} e desempenha um papel crucial na determinação do tamanho dos passos das iterações para a otimização de gradientes \citep{Smith2017CyclicalNetworks}.
 
-Definir a taxa de aprendizado, assim como abordado na situação de parada antecipada mencionada na Seção \ref{deep:optimization:early_stoping}, muitas vezes a metodologia para a definição desse hiperparâmetro torna-se um desafio sem que tenha um veredito definido como estado da arte \citep{Goodfellow2016}. Isso se deve ao fato de que quanto maior o valor definido, mais acentuada é a atualização dos parâmetros, possibilitando uma exploração mais rápida do espaço de características, como ilustrado na Figura \ref{deep:fig:dynamic_lr.1}. No entanto, essa abordagem frequentemente resulta na perda do valor ótimo \citep{Tang2021AnPump}. Por outro lado, ao diminuir o valor da taxa de aprendizado, a atualização dos parâmetros torna-se mais gradual, o que ajuda a evitar a perda de mínimos globais, como apresentado na Figura \ref{deep:fig:dynamic_lr.2}. Contudo, é importante salientar que essa estratégia consome consideravelmente mais recursos computacionais e, muitas vezes, não atinge o valor mínimo global devido ao grande número de iterações necessárias para a convergência \citep{Tang2021AnPump}.
+Definir a taxa de aprendizado, assim como abordado na situação de parada antecipada mencionada na Seção \ref{deep:optimization:early_stoping}, muitas vezes torna-se um desafio sem que tenha um veredito definido como estado da arte \citep{Goodfellow2016}. Isso se deve ao fato de que quanto maior o valor definido, mais acentuada é a atualização dos parâmetros, possibilitando uma exploração mais rápida do espaço de características, como ilustrado na Figura \ref{deep:fig:dynamic_lr.1}. No entanto, essa abordagem frequentemente resulta na perda do valor ótimo \citep{Tang2021AnPump}. Por outro lado, ao diminuir o valor da taxa de aprendizado, a atualização dos parâmetros torna-se mais gradual, o que ajuda a evitar a perda de mínimos globais, como apresentado na Figura \ref{deep:fig:dynamic_lr.2}. Contudo, é importante salientar que essa estratégia consome consideravelmente mais recursos computacionais e, muitas vezes, não atinge o valor mínimo global devido ao grande número de iterações necessárias para a convergência \citep{Tang2021AnPump}.
 
 \begin{figure}[H]
    \caption{Representação de atualização da taxa de aprendizado.}
@@ -278,14 +278,14 @@ Definir a taxa de aprendizado, assim como abordado na situação de parada antec
    \label{deep:fig:dynamic_lr}
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=1.5in]{recursos/imagens/deep/l_separavel.png}
+        \includegraphics[width=1\linewidth]{recursos/imagens/deep/lr_high.png}
         \caption{Taxa de aprendizado muito alta.}
         \label{deep:fig:dynamic_lr.1}
     \end{subfigure}%
     ~ 
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=1.5in]{recursos/imagens/deep/nl_separavel.png}
+        \includegraphics[width=1\linewidth]{recursos/imagens/deep/lr_low.png}
         \caption{Taxa de aprendizado muito baixa.}
         \label{deep:fig:dynamic_lr.2}
     \end{subfigure}%
@@ -309,8 +309,8 @@ Por fim, vale mencionar que propostas de decaimento da taxa de aprendizado, como
 
 \begin{figure}[H]
     \centering
-    \caption{Comparação de convergência de modelos no conjunto de dados CIFAR \citep{Krizhevsky2014TheDataset} com uso de taxa de aprendizado cíclica.}
-    \includegraphics[width=0.8\linewidth]{recursos/imagens/deep/early_stopping.png}
+    \caption{Comparação de convergência de modelos no \textit{dataset} CIFAR \citep{Krizhevsky2014TheDataset} com uso de taxa de aprendizado cíclica.}
+    \includegraphics[width=0.8\linewidth]{recursos/imagens/deep/cifar_lr.png}
     \label{deep:optimization:cyclical_lr}
 
     Fonte: retirado e adaptado de \cite{Smith2017CyclicalNetworks}.
