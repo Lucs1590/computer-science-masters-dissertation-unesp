@@ -77,9 +77,27 @@ Todavia, haja vista o resultado esperado nesse trabalho, vide a Seção \ref{pro
 \subsubsection{Conjuntos de Dados}
 \label{project:dataset}
 
-\paragraph{\textit{Oxford-IIIT Pet}}
+Os conjuntos de dados selecionados para esta pesquisa são essencialmente de duas categorias distintas. Dois deles - CIFAR100 e Food-101 - foram empregados especificamente para o treinamento, teste e validação voltados exclusivamente à classificação de imagens \citep{Krizhevsky2009LearningImages, Bossard2014Food-101Forests}.
 
-\paragraph{Segundo Dataset}
+Nessa configuração, os modelos de classificação foram treinados para atribuir um rótulo a cada imagem, identificando o objeto de interesse sem foco na sua localização ou delimitação por caixas. Em outras palavras, o objetivo foi reconhecer a presença de um objeto em particular na imagem inteira, sem segmentar ou isolar essa entidade \citep{Viitaniemi2008TechniquesSegmentation}.
+
+Por outro lado, um terceiro conjunto de dados - que será detalhado na Seção \ref{project:dataset:pets} - foi preparado especificamente para treinar e validar modelos de segmentação semântica. Este conjunto de dados inclui máscaras que mapeiam a localização dos objetos de interesse em todos os pixels da imagem de entrada.
+
+O emprego desses conjuntos diversificados de dados permite comparar e contrastar a eficácia de diferentes abordagens de segmentação e classificação no campo da visão computacional. Também permite avaliar como esses diferentes métodos respondem a variações nas características dos dados.
+
+As Seções \ref{project:dataset:cifar} e \ref{project:dataset:food101} a seguir detalharão mais apropriadamente os conjuntos de dados utilizados para os experimentos de classificação, e descreverão como foram utilizados no escopo desta pesquisa.
+
+\paragraph{\textit{Oxford-IIIT Pet}}
+\label{project:dataset:pets}
+
+\paragraph{CIFAR 1O0}
+\label{project:dataset:cifar}
+
+\paragraph{\textit{Food}-101}
+\label{project:dataset:food101}
+
+
+
 Em relação ao conjunto de dados, por esse trabalho fazer uso da segmentação \textit{Part-Aware Panoptic Segmentation} proposta em \cite{DeGeus2021}, sendo que esta é uma nova abordagem, vale dizer que a quantidade de conjuntos de dados ainda é escassa, principalmente quando se trata de trabalhos voltados para uma área em específico, como a odontológica.
 
 Todavia, no presente trabalho serão utilizados tanto conjuntos de dados que são mais generalistas, mas são voltados para a segmentação panóptica, quanto conjuntos de dados voltados para a parte odontológica, os quais precisarão ser anotados de modo a estarem adaptados para o seu uso em bases de treino e teste.
