@@ -59,7 +59,7 @@ Todavia, haja vista o resultado esperado nesse trabalho, vide a Seção \ref{pro
 \begin{figure}[H]
     \centering
     \caption{Metodologias de rede para segmentação panóptica.}
-    \includegraphics[width=1\textwidth]{recursos/imagens/proposal/model_methodologies.png}
+    \includegraphics[width=1\textwidth]{recursos/imagens/project/model_methodologies.png}
     \label{project:method:fig:1}
 
     Fonte: retirado e adaptado de \cite{Elharrouss2021}.
@@ -68,7 +68,7 @@ Todavia, haja vista o resultado esperado nesse trabalho, vide a Seção \ref{pro
 \begin{figure}[H]
     \centering
     \caption{Estrutura exemplificando metodologia para segmentação \textit{Part-Aware}.}
-    \includegraphics[width=4in]{recursos/imagens/proposal/estrutura.png}
+    \includegraphics[width=4in]{recursos/imagens/project/estrutura.png}
     \label{project:method:fig:2}
 
     Fonte: do próprio autor.
@@ -87,79 +87,100 @@ O emprego desses conjuntos diversificados de dados permite comparar e contrastar
 
 As Seções \ref{project:dataset:cifar} e \ref{project:dataset:food101} a seguir detalharão mais apropriadamente os conjuntos de dados utilizados para os experimentos de classificação, e descreverão como foram utilizados no escopo desta pesquisa.
 
-\paragraph{\textit{Oxford-IIIT Pet}}
+\paragraph{\textit{Oxford-IIIT Pets}}
 \label{project:dataset:pets}
+
+O conjunto de dados \textit{Oxford-III Pets} \footnote{Conjuntos de dados Oxford-III Pets - \url{https://www.robots.ox.ac.uk/\%7Evgg/data/pets/}} \citep{Parkhi2012CatsDogs} é um composto majoritariamente de exemplos de gatos e cachorros. Esse \textit{dataset} possui cerca de $200$ exemplos para $37$ classes diferentes, resultando no total de $7.349$ amostras. Essas classes é identificada pela raça do animal de estimação em questão, mas cada uma dos registros nesse conjunto de dados trás consigo o nome da imagem, o rotulo baseado na raça, a espécie (gato ou cachorro), a imagem com o animal e uma mascara de características com o fundo, contorno e animal mapeados cada um de uma cor, como representado pela Figura \ref{project:fig:dataset:pets_1}.
+
+\begin{figure}[H]
+   \caption{Exemplo de exemplo com mascara de características.}
+   \caption{Segmentação semântica.}   \centering
+   \label{project:fig:dataset:pets_1}
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/project/pets_ori.png}
+        \caption{Imagem original do animal de estimação.}
+        \label{project:fig:dataset:pets_1.1}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/project/pets_mask.png}
+        \caption{Máscara com fundo em verde, contorno em amarelo e animal em roxo.}
+        \label{project:fig:dataset:pets_1.2}
+    \end{subfigure}%
+
+    Fonte: retirado e adaptado de \cite{Parkhi2012CatsDogs}.
+\end{figure}
+
+Vale dizer que originalmente essas amostras estão separadas entre $3.669$ ($49,925\%$) para a etapa de teste e $3.680$ ($50,074\%$) para a etapa de treinamento, todavia nos testes realizados foi utilizado também um conjunto de dados voltado para validação, o qual foi extraído a partir do \textit{dataset} de teste, sendo assim para o presente trabalho a divisão passou a ser de $669$ exemplos para teste, 3.000 amostras para validação e 3.680 instancias para treino, levando em conta os conceitos tratados na Seções \ref{deep:train} e \ref{deep:test}.
+
+É relevante salientar que as imagens do conjunto de dados original são tridimensionais, ou seja, cada amostra inclui informações dos canais de cores vermelho, verde e azul. Já as máscaras são unidimensionais, apresentando um mapa de valores singulares para representar as regiões de interesse baseadas na imagem original. Os valores numéricos nas máscaras correspondem ao fundo, à borda ou ao animal.
+
+Vale observar que diferentemente de muitos outros conjuntos de dados de imagem \citep{Bossard2014Food-101Forests}, o \textit{Oxford-III Pets} não apresenta dimensões padronizadas para suas amostras, todavia no atual trabalho houve uma alteração nesse aspecto, em que foram aplicadas duas técnicas, além da técnica de aumento de dados que será discutida na Seção \ref{project:augment}, em todos os exemplos do conjunto de dados. Sendo que a primeira técnica aplicada foi a padronização tanto imagens originais, quanto das mascaras, em relação às suas dimensões, em que ambas passaram a ter o valor de $256 \times 256$, que é o um valor comumente utilizado na área de imagens para substanciar as características da mesma \citep{Lee1983DigitalFilter}.
+
+Além disso, foi realizada uma normalização dos valores do conjunto de dados. Todas as imagens e máscaras foram normalizadas para um intervalo de $0$ a $1$, conforme a Equação \ref{project:eq:dataset:pets_1}. Para a máscara, essa normalização foi conduzida subtraindo-se um valor unitário de cada pixel, transformando assim o intervalo de valores de $0$ a $1$, conforme a Equação \ref{project:eq:dataset:pets_2}.
+
+\begin{equation}
+    \label{project:eq:dataset:pets_1}
+    \text{imagem de entrada normalizada}_{(i,j,k)} = \frac{\text{imagem de entrada}_{(i,j,k)}}{255}
+\end{equation}
+
+e
+
+\begin{equation}
+    \label{project:eq:dataset:pets_2}
+    \text{mascara de entrada normalizada} = \text{mascara de entrada} - 1,
+\end{equation}
+onde $(i,j,k)$ representa as coordenadas de altura, largura e canal, respectivamente.
+
+Por fim, é relevante ressaltar que esse conjunto de dados se mostra adequado para o treinamento em segmentação semântica, uma vez que conta com todos os dados devidamente rotulados, proporcionando um cenário propício para esse propósito. O resultado gerado por essa abordagem será um mapa de características, ilustrado de forma análoga ao apresentado na Figura \ref{project:fig:dataset:pets_1.2}.
 
 \paragraph{CIFAR 1O0}
 \label{project:dataset:cifar}
+O conjunto de dados CIFAR-100 \footnote{Conjuntos de dados CIFAR-10 e CIFAR-100 - \url{https://www.cs.toronto.edu/~kriz/cifar.html}} \citep{Krizhevsky2014TheDataset} é composto por um total de $60.000$ imagens, cada uma com dimensões de $32 \times 32$ pixels. Estas imagens são categorizadas em $20$ \quotes{superclasses}, cada uma contendo $5$ \quotes{classes finas}.
+
+De maneira geral, o \textit{dataset} possui $100$ classes, com $600$ amostras em cada classe. Cada exemplo neste conjunto de dados é rotulado com uma \textit{superclass}, que representa uma categoria mais abrangente (como "veículo"), e uma \textit{fine class}, que representa uma categoria mais específica (como \quotes{bicicleta}, \quotes{ônibus}, etc.). Alguns exemplos dessas amostras podem ser visualizados na Figura \ref{project:fig:dataset:cifar}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplos de amostras do conjunto de dados CIFAR-100.}
+    \includegraphics[width=1\textwidth]{recursos/imagens/project/cifar100v2.png}
+    \label{project:fig:dataset:cifar}
+
+    Fonte: retirado e adaptado de \cite{Krizhevsky2014TheDataset}.
+\end{figure}
+
+Em contraste com a configuração original proposta por \cite{Krizhevsky2014TheDataset}, dividimos o conjunto de dados em $83,33\%$ para treinamento, $11,66\%$ para validação e $5\%$ para teste, visando evitar qualquer viés nos resultados, conforme recomendado por \cite{Domingos2012ALearning}. Além de aplicar um processo de normalização das amostras, deixando o valor de todos os pixels das amostras entre o domínio de $[0, 1]$, com um processo muito semelhante ao da Equação \ref{project:eq:dataset:pets_1}.
+
+Finalmente, vale citar que todas as imagens do conjunto de dados se encontram rotuladas e prontas para serem usadas na tarefa de classificação.
 
 \paragraph{\textit{Food}-101}
 \label{project:dataset:food101}
+O conjunto de dados \textit{Food}-101 \footnote{Conjunto de dados Food-101 - \url{https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/}} \citep{Bossard2014Food-101Forests} foi empregado como um segundo conjunto de dados para a classificação de imagens neste trabalho. Este \textit{dataset} contém $101.000$ imagens, originalmente com uma resolução de $512 \times 512$ pixels, no entanto, para otimizar o processamento do modelo e manter a representatividade da amostra, essas imagens foram redimensionadas para $224 \times 224$ pixels.
 
-
-
-Em relação ao conjunto de dados, por esse trabalho fazer uso da segmentação \textit{Part-Aware Panoptic Segmentation} proposta em \cite{DeGeus2021}, sendo que esta é uma nova abordagem, vale dizer que a quantidade de conjuntos de dados ainda é escassa, principalmente quando se trata de trabalhos voltados para uma área em específico, como a odontológica.
-
-Todavia, no presente trabalho serão utilizados tanto conjuntos de dados que são mais generalistas, mas são voltados para a segmentação panóptica, quanto conjuntos de dados voltados para a parte odontológica, os quais precisarão ser anotados de modo a estarem adaptados para o seu uso em bases de treino e teste.
-
-Quanto aos conjuntos de dados mais generalistas vale dizer que há algumas estratégias e justificativas para o seu uso, as quais serão descritas na Seção \ref{project:transf}, entretanto, dentre os conjuntos de dados escolhidos, destacam-se PASCAL \textit{Panoptic Parts} e \textit{Cityscapes Panoptic Parts}, sendo que os estes foram desenvolvidos pelos autores que abrolharam a segmentação panóptica com uso da técnica \textit{Part-Aware} \cite{DeGeus2021}.
-
-O conteúdo dos conjuntos PASCAL \textit{Panoptic Parts} e \textit{Cityscapes Panoptic Parts} foram criados a partir dos conjuntos de dados \cite{everingham2010pascal} e \cite{Cordts2016}, sendo que o conteúdo do primeiro está voltado para pessoas, animais, veículos e cenas em locais fechados, quando o segundo conta com cenas de cidades, respectivamente, os quais são exemplificados na Figura \ref{project:dataset:fig:1}.
-
-\begin{figure}[H]
-   \caption{Imagens originais e anotadas dos \textit{datasets} para \textit{Part-Aware Panoptic Segmentation}.}
-   \centering
-   \label{project:dataset:fig:1}
-    \begin{subfigure}[t]{0.45\textwidth}
-        \centering
-        \includegraphics[height=2.5in]{recursos/imagens/proposal/city.png}
-        \caption{Imagem original e anotada do \textit{Cityscapes Panoptic Parts}, respectivamente.}
-        \label{project:dataset:fig:1.1}
-    \end{subfigure}%
-    ~ 
-    \begin{subfigure}[t]{0.45\textwidth}
-        \centering
-        \includegraphics[height=2.5in]{recursos/imagens/proposal/pascal.png}
-        \caption{Imagem original e anotada do PASCAL \textit{Panoptic Parts}, respectivamente.}
-        \label{project:dataset:fig:1.2}
-    \end{subfigure}%
-
-    Fonte: retirado e adaptado de \cite{Lin2016}.
-\end{figure}
-
-
-Os conjuntos criados por \cite{DeGeus2021}, os quais contemplam segmentação \textit{Part-Aware}, quando relacionado ao \textit{Cityscape Panoptic Parts}, vale dizer que este possui 2975 imagens para treino e 500 para validação, totalizando em 3475 imagens dispostas em resolução de 1024×2048. Por sua vez, o PASCAL \textit{Panoptic Parts} possui 4998 imagens para treino e  5105 imagens para validação, as quais estão em resoluções de 387×470, totalizando à disposição de 10103 imagens.
-
-Por fim, ainda há a disposição do conjunto de dados de partes, do qual se cita \textit{PartNet} \cite{mo2019} e \textit{PartImageNet} \cite{He2021}, sendo que o primeiro abrange a anotação de 573585 partes de instâncias, realizando a cobertura de 24 categorias de objetos, as quais também podem ser úteis para agregar ao projeto. Já o segundo, por ter sido criado com base no trabalho desenvolvido por \cite{DeGeus2021}, encontra-se disponível para o exercício das redes panópticas \textit{part-aware}, com 158 classes e por volta de 24000 imagens, visto que a fonte das imagens anotadas é o projeto \textit{ImageNet}.
-
-Quanto aos conjuntos de dados comentados anteriormente que estarão dispostos para o meio odontológico, vale citar que esses não possuem uma anotação com classes de partes, as quais se fazem \textit{mister} para a aplicação panóptica com uso de \textit{Part-Aware}, todavia vale destacar que temos uma parceria da Faculdade de Odontologia de Araraquara (FOAr) - UNESP, a qual terá com líder o Prof. Dr. Osmir Batista de Oliveira Júnior, de modo que estudantes e especialistas da área realizem as anotações, bem como a disponibilização, de 5000 imagens de fotografias odontológicas, de modo a contribuírem para o projeto.
-
-Além das fotografias cedidas pela parceria, vale destacar que alguns conjuntos de dados serão utilizados com o intuito de agregar em volume de imagens odontológicas, dos quais, cita-se o conjunto de dados desenvolvido por You \textit{et al.} \cite{You2020}, o qual possui 886 anotadas, o conjunto desenvolvido por Hyttinen \textit{et al.} \cite{Hyttinen2020}, com 316 imagens, sendo que 215 dessas imagens possuem uma anotação inicial e, por fim, o conjunto de dados disponível no \textit{website} da \textit{Dental Care}\footnote{\textit{Website \textit{Dental Care}} – \url{https://www.dentalcare.com/en-us/research/media-library}}, o qual cede 839 imagens odontológicas como cortesia para estudos e desenvolvimento científico. O objetivo é que todas essas 1370 imagens sejam agregadas à \textit{pipeline} de anotação e ao conjunto disponibilizado pela parceria, de modo a se tornarem úteis para a construção do modelo proposto no presente trabalho. Exemplos dos conjuntos de dados citados podem ser observados na Figura \ref{project:dataset:fig:2}.
+Ao contrário do conjunto CIFAR-100, que abrange classes mais generalistas (vide Seção \ref{project:dataset:cifar}), o conjunto de dados \textit{Food}-101 se concentra exclusivamente em classes relacionadas à alimentação. Ele é composto por $101$ classes (por exemplo, \quotes{pizza}, \quotes{bruscheta}, entre outros), cada uma com $1.000$ amostras. Alguns exemplos dessas classes podem ser visualizados na Figura \ref{project:fig:dataset:food}.
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplo de imagens dos conjuntos de dados odontológicos.}
-    \includegraphics[width=1\textwidth]{recursos/imagens/proposal/image_odonto_dataset.png}
-    \label{project:dataset:fig:2}
+    \caption{Exemplos de amostras do conjunto de dados \textit{Food}-101.}
+    \label{project:fig:dataset:food}
+    \includegraphics[width=1\textwidth]{recursos/imagens/project/food101v2.png}
 
-    Fonte: retirado e adaptado de \cite{You2020, Hyttinen2020} e \textit{Dental Care}, respectivamente.
+    Fonte: Adaptado de \cite{Bossard2014Food-101Forests}.
 \end{figure}
+
+Adicionalmente, houve uma reorganização do conjunto de dados em relação à sua configuração original, sendo que $75\%$ das amostras foram designadas para o conjunto de treinamento, $17,5\%$ para validação e $7,5\%$ para teste. Além disso, foi aplicado um pré-processamento de normalização, conforme representado na Equação \ref{project:eq:dataset:pets_1}, com o intuito de reduzir o viés do modelo durante o treinamento \citep{Shorten2019ALearning}.
+
+É importante ressaltar que o conjunto de dados \textit{Food}-101 também foi empregado no processo de classificação de imagens. Ele atua como um conjunto alternativo, permitindo demonstrar a capacidade de generalização do modelo e da técnica utilizada em diversos cenários. Devido ao seu tamanho, uma amostra do \textit{dataset} \textit{Food}-101 contém aproximadamente dezesseis vezes mais informações do que uma amostra do CIFAR-100, o que proporciona uma maior riqueza de detalhes e complexidade para o treinamento e validação do modelo.
 
 \subsection{Metodologia}
 \label{project:methodology}
-Nesta Seção, será descrito quanto à metodologia adotada para os experimentos a serem realizados, de modo a conquistar os objetivos propostos no presente trabalho. Na Seção \ref{proposal:transf} será detalhado sobre o processo de transferência de aprendizado a ser realizado no conjunto de dados, na Seção \ref{proposal:pcapooling} se discorrerá sobre o processo de alteração na camada de \textit{pooling} dos modelos e, finalmente, na Seção \ref{proposal:avaliation} será descrito o método de avaliação escolhido para a submissão dos modelos. Em resumo, o processo esperado resume-se na Figura \ref{project:methodology:fig:1}.
+Nesta seção, descreveremos a metodologia adotada e como as técnicas foram empregadas nos experimentos realizados para alcançar os objetivos propostos neste trabalho. Detalharemos o processo de transferência de aprendizado utilizado para determinados conjuntos de dados na Seção \ref{project:transf}. Este procedimento inclui o \textit{fine-tuning} do modelo para enfrentar o problema já com os pesos aquecidos. Na Seção \ref{project:augment}, abordaremos o processo de aumento de dados aplicado em cada um dos modelos para reduzir o viés, além de discutir os parâmetros utilizados para cada experimento, conforme descrito na Seção \ref{project:params}. Por fim, na Seção \ref{project:change_pooling}, será tratado das modificações realizadas na camada de \textit{pooling} dos modelos.
 
-\begin{figure}[H]
-    \centering
-    \caption{\textit{Pipeline} do presente trabalho.}
-    \includegraphics[width=0.7\textwidth]{recursos/imagens/proposal/full_diagram.png}
-    \label{project:methodology:fig:1}
-
-    Fonte: do próprio autor.
-\end{figure}
 
 \subsubsection{Transferência de Aprendizado}
-\label{proposal:transf}
+\label{project:transf}
 Tendo em vista que os conjuntos de dados na área odontológica preparados para a aplicação de segmentação panóptica com o uso da técnica \textit{Part-Aware} são inexistentes e que temos alguns conjuntos de dados que suportam os requisitos dessa técnica, justifica-se o uso de técnicas de transferência de aprendizado \cite{Weiss2016}, mesmo em casos de espaços de características heterogêneos.
 
 A técnica de transferência de aprendizado foi inspirada em casos do mundo real, onde um panorama sobre determinado assunto tende a trazer mais eficácia para o aprendizado de novos assuntos \cite{Pan2010}, mas também para casos em que há uma pequena quantidade de amostras disponíveis em um conjunto de dados alvo para o treinamento de uma rede \cite{Weiss2016}, ocasionando em problemas, haja vista que redes de aprendizado profundo contam de uma grande quantidade de dados para ter bom desempenho \cite{Goodfellow2016}
@@ -167,9 +188,20 @@ A técnica de transferência de aprendizado foi inspirada em casos do mundo real
 Sendo assim, por esse projeto se enquadrar no segundo caso citado dentro do parágrafo anterior, onde a quantidade de amostras do conjunto de dados para realizar a fase de treinamento é pequena, a técnica de transferência de aprendizado será adotada, utilizando amostras dos conjuntos de dados PASCAL \textit{Panoptic Parts}, \textit{Cityscapes Panoptic Parts} e PartsNet para o treinamento da rede, até dado momento e, depois, submetendo a mesma rede no conjunto de dados odontológico que será anotado em conjunto com a parceria realizada.
 
 \subsubsection{Aumento de Dados}
+\label{project:augment}
+
+\paragraph{VGG-16}
+
+\paragraph{U-Net-Like}
+
+\paragraph{U-Net}
+
+\subsubsection{Parâmetros de Treinamento e Teste}
+\label{project:params}
+
 
 \subsubsection{Alteração na Camada de \textit{Pooling}}
-\label{proposal:pcapooling}
+\label{project:change_pooling}
 
 
 \paragraph{VGG-16}
@@ -180,36 +212,30 @@ Sendo assim, por esse projeto se enquadrar no segundo caso citado dentro do par�
 
 Como explicado na Seção \ref{cnn:pooling}, a adaptação dos modelos de \textit{pooling} é crescente, sendo que essas modificações são motivadas pelos problemas a serem resolvidos, sendo assim, quando se trata de segmentações modernas, duas abordagens ganham destaque como técnicas de \textit{pooling}, sendo elas:
 
-Entretanto, vale citar que, no presente trabalho, além da escolha dos modelos acima listados, também será realizado um experimento com a aplicação da técnica de \textit{Block-Based Principal Component Analysis} (ou BPCA) nas camadas de \textit{pooling} dos modelos base para a realização da segmentação panóptica. O BPCA, desenvolvido por Salvadeo \textit{et al.} \cite{Salvadeo2011}, que se provou satisfatório para aplicações relacionadas ao reconhecimento de faces, realiza a aplicação do método \textit{Principal Component Analysis} (PCA) entre blocos que dividem uma imagem original, de modo a manter as estruturas espaciais da imagem original. Sendo assim, para o presente trabalho, tem-se a expectativa de adicionar esse método na camada de \textit{pooling} do modelo base  de segmentação panóptica ciente de parte, tendo uma redução de dimensionalidade e mantendo as estruturas originais da entrada em questão, o que normalmente é perdido quando se aplica uma estratégia de \textit{pooling} em escala global (como representado nas Figuras \ref{cnn:fig:gmax_pooling} e \ref{cnn:fig:gmax_pooling} ).  Um exemplo desse módulo pode ser visualizado na Figura \ref{proposal:pcapooling:fig:3}.
+Entretanto, vale citar que, no presente trabalho, além da escolha dos modelos acima listados, também será realizado um experimento com a aplicação da técnica de \textit{Block-Based Principal Component Analysis} (ou BPCA) nas camadas de \textit{pooling} dos modelos base para a realização da segmentação panóptica. O BPCA, desenvolvido por Salvadeo \textit{et al.} \cite{Salvadeo2011}, que se provou satisfatório para aplicações relacionadas ao reconhecimento de faces, realiza a aplicação do método \textit{Principal Component Analysis} (PCA) entre blocos que dividem uma imagem original, de modo a manter as estruturas espaciais da imagem original. Sendo assim, para o presente trabalho, tem-se a expectativa de adicionar esse método na camada de \textit{pooling} do modelo base  de segmentação panóptica ciente de parte, tendo uma redução de dimensionalidade e mantendo as estruturas originais da entrada em questão, o que normalmente é perdido quando se aplica uma estratégia de \textit{pooling} em escala global (como representado nas Figuras \ref{cnn:fig:gmax_pooling} e \ref{cnn:fig:gmax_pooling} ).  Um exemplo desse módulo pode ser visualizado na Figura \ref{project:pcapooling:fig:3}.
 
 \begin{figure}[H]
     \centering
     \caption{Exemplo representativo do BPCA.}
-    \includegraphics[width=1\textwidth]{recursos/imagens/proposal/BPCA.png}
-    \label{proposal:pcapooling:fig:3}
+    \includegraphics[width=1\textwidth]{recursos/imagens/project/BPCA.png}
+    \label{project:pcapooling:fig:3}
 
     Fonte: retirado e adaptado de \cite{Salvadeo2011}.
 \end{figure}
 
-\paragraph{VGG-16}
-
-\paragraph{U-Net-Like}
-
-\paragraph{U-Net}
-
 \subsection{Metodologia Experimental}
 \label{project:exp_result}
-O método de avaliação escolhido seguiu no mesmo caminho do artigo tomado como referência para realizar a segmentação \textit{Part-Aware Panoptic Segmentation} \cite{DeGeus2021}, que, no que lhe concerne, teve como base o artigo pioneiro de segmentação panóptica \cite{Kirillov2019a}, que aplica a métrica PQ (Equação \ref{panoptic:eq:2}), realizando uma sucinta adaptação que possibilita quantificar as partes das segmentações panópticas visto que é aplicado para cada uma das classes ($l$) presentes na cena, sendo elas \textit{thing} ou \textit{stuff}. Através da equação \ref{proposal:avaliation:eq:1} é possível entender a métrica de avaliação \textit{Part-PQ}, a qual fora escolhida para avaliação:
+O método de avaliação escolhido seguiu no mesmo caminho do artigo tomado como referência para realizar a segmentação \textit{Part-Aware Panoptic Segmentation} \cite{DeGeus2021}, que, no que lhe concerne, teve como base o artigo pioneiro de segmentação panóptica \cite{Kirillov2019a}, que aplica a métrica PQ (Equação \ref{panoptic:eq:2}), realizando uma sucinta adaptação que possibilita quantificar as partes das segmentações panópticas visto que é aplicado para cada uma das classes ($l$) presentes na cena, sendo elas \textit{thing} ou \textit{stuff}. Através da equação \ref{project:avaliation:eq:1} é possível entender a métrica de avaliação \textit{Part-PQ}, a qual fora escolhida para avaliação:
 
 \begin{equation}
-\label{proposal:avaliation:eq:1}
+\label{project:avaliation:eq:1}
     PartPQ = \frac{\sum _{(p,g) \in VP} IoU_p(p,g)}{|VP|+ \frac{1}{2}|FP| + \frac{1}{2}|FN|}.
 \end{equation}
 
-Em relação à Equação \ref{proposal:avaliation:eq:1}, destaca-se ainda que a segmentação das partes dentro de um segmento é capturada principalmente por meio do termo $IoU_p(p,g)$, sendo que no termo é aplicado um condicional com o intuito de deixar a classe segmentada com parte ($\mathcal{L}^{parts}$) e sem partes ($\mathcal{L}^{no-parts}$) dentro das mesmas condições, ou seja, para as classes com partes presentes, aplica-se a métrica de $mIoU$ para cada pixel de parte dentro de um segmento, enquanto para segmentações sem partes, aplica-se a $IoU$ que comumente é utilizada na métrica PQ (Equação \ref{panoptic:eq:2}). O condicional supracitado dá-se por meio da seguinte expressão:
+Em relação à Equação \ref{project:avaliation:eq:1}, destaca-se ainda que a segmentação das partes dentro de um segmento é capturada principalmente por meio do termo $IoU_p(p,g)$, sendo que no termo é aplicado um condicional com o intuito de deixar a classe segmentada com parte ($\mathcal{L}^{parts}$) e sem partes ($\mathcal{L}^{no-parts}$) dentro das mesmas condições, ou seja, para as classes com partes presentes, aplica-se a métrica de $mIoU$ para cada pixel de parte dentro de um segmento, enquanto para segmentações sem partes, aplica-se a $IoU$ que comumente é utilizada na métrica PQ (Equação \ref{panoptic:eq:2}). O condicional supracitado dá-se por meio da seguinte expressão:
 
 \begin{equation}
-\label{proposal:avaliation:eq:2}
+\label{project:avaliation:eq:2}
     IoU_p(p,g)= \left\{\begin{matrix}
         mIoU_{part}(p,g), & l \in \mathcal{L}^{parts}    & \\ 
         IoU_{ins}(p,g),        & l \in \mathcal{L}^{no-parts} & 
@@ -224,7 +250,7 @@ Por fim, após a aplicação de PartPQ em todas as classes, calcula-se a média 
 
 
 \subsection{Revisão de Literatura}
-\label{proposal:revision}
+\label{project:revision}
 Em meio a vários estilos de revisão, vale dizer que a revisão sistemática é amplamente difundida em meio cientifico, destacando-se em pesquisas de âmbito clínico e médico e garantindo menos viés, maior confiabilidade e um resumo de forma crítica dos trabalhos científicos \cite{barbosa2019}. Sendo assim, no presente trabalho, foi realizada uma revisão, bem como buscas baseadas nos artigos \cite{barbosa2019} e \cite{liberati2009}, de modo que se inspirou nas recomendações dos mesmos, salvo os casos relacionados a questões de aplicações clínicas.
 
 Em relação às revisões, foram realizadas duas, de modo a abranger tanto os artigos técnicos em relação à segmentação panóptica, quanto artigos que servissem de base para a segmentação na área odontológica. A questão a ser tomada como base para esse estudo é: Como projetar um arcabouço para segmentar imagens de componentes visuais hierarquicamente?
@@ -233,23 +259,23 @@ Para a primeira revisão citada, foram procurados todo tipo de estudo publicados
 
 O critério de inclusão baseou-se em artigos que possuíssem a citação da técnica de segmentação \textit{part-aware}, de modo a contribuir com uma segmentação hierárquica dos componentes que compunham a cena. Já em relação aos critérios de exclusão destaca-se artigos com descrição inadequada em relação ao interesse dessa revisão. Quando o artigo era específico para uma determinada aplicação que não condizia com o tema (como carros autônomos) e quando o estudo estava duplicado entre as ferramentas de busca.
 
-Sendo assim, os indicadores referentes às pesquisas realizadas sobre esse assunto podem ser visualizadas no diagrama abaixo (Figura \ref{proposal:revision:fig:1}).
+Sendo assim, os indicadores referentes às pesquisas realizadas sobre esse assunto podem ser visualizadas no diagrama abaixo (Figura \ref{project:revision:fig:1}).
 
 \begin{figure}[H]
     \centering
     \caption{Diagrama de revisão de estudos em segmentação panóptica.}
-    \includegraphics[height=4.5in]{recursos/imagens/proposal/revisao_panoptica.png}
-    \label{proposal:revision:fig:1}
+    \includegraphics[height=4.5in]{recursos/imagens/project/revisao_panoptica.png}
+    \label{project:revision:fig:1}
 
     Fonte: do próprio autor.
 \end{figure}
 
-Sendo assim, por meio do estudo realizado em relação às referências de segmentação panóptica apenas nove foram escolhidos, para complementar o presente estudo, como demonstrado na Figura \ref{proposal:revision:fig:1}, os quais são listados na Tabela \ref{proposal:revision:tab:1}.
+Sendo assim, por meio do estudo realizado em relação às referências de segmentação panóptica apenas nove foram escolhidos, para complementar o presente estudo, como demonstrado na Figura \ref{project:revision:fig:1}, os quais são listados na Tabela \ref{project:revision:tab:1}.
 
 \begin{table}[H]
     \centering
     \caption{Trabalhos selecionados a partir da revisão sobre segmentação panóptica.}
-    \label{proposal:revision:tab:1}
+    \label{project:revision:tab:1}
     \resizebox{\textwidth}{!}{
     \begin{tabular}{l|l}
         \textbf{Título}                                                &  \textbf{Referência}    \\ \hline
@@ -270,24 +296,24 @@ Sendo assim, por meio do estudo realizado em relação às referências de segme
 
 Quando se trata da segunda revisão em pauta, a que contempla as segmentações na área odontológica, destaca-se que os estudos procurados também não se limitaram ao tipo, incluindo congressos, artigos de revista, entre outros, além de utilizarem o intervalo dos anos de 2019 a 2022 como métrica, de modo a encontrar segmentações odontológicas que acompanhassem a técnica de segmentação panóptica. Os termos utilizados estão listados a seguir, de modo que foram buscados em diferentes combinações: ``odonto'', ``\textit{dentistry}'', ``\textit{deep learning}'', ``\textit{semantic segmentation}'', ``\textit{instance segmentation}'', ``\textit{panoptic segmentation}'' e ``CNN''. Os idiomas foram restritos à português e inglês.
 
-Quanto aos critérios de inclusão, destaca-se os artigos que abordaram ao menos uma das segmentações modernas, de feitio a estarem alinhados com a proposta do projeto. Quanto aos critérios de exclusão, pode-se dizer que são similares aos da primeira revisão, relatando artigos com descrição inadequada acerca da revisão em questão, estudos duplicados entre as ferramentas de busca e quando o estudo não estava diretamente relacionado aos temas ``segmentação'' e ``odontologia''. Dessa forma, por meio da Figura \ref{proposal:revision:fig:2} é possível visualizar a representação da revisão realizada.
+Quanto aos critérios de inclusão, destaca-se os artigos que abordaram ao menos uma das segmentações modernas, de feitio a estarem alinhados com a proposta do projeto. Quanto aos critérios de exclusão, pode-se dizer que são similares aos da primeira revisão, relatando artigos com descrição inadequada acerca da revisão em questão, estudos duplicados entre as ferramentas de busca e quando o estudo não estava diretamente relacionado aos temas ``segmentação'' e ``odontologia''. Dessa forma, por meio da Figura \ref{project:revision:fig:2} é possível visualizar a representação da revisão realizada.
 
 \begin{figure}[H]
     \centering
     \caption{Diagrama de revisão de estudos em segmentação odontológica.}
-    \includegraphics[height=4.5in]{recursos/imagens/proposal/revisao_odonto.png}
-    \label{proposal:revision:fig:2}
+    \includegraphics[height=4.5in]{recursos/imagens/project/revisao_odonto.png}
+    \label{project:revision:fig:2}
 
 
     Fonte: do próprio autor.
 \end{figure}
 
-Tendo em vista os estudos que estão relacionados à segmentação na área odontológica, destacando aqueles que fazem uso das segmentações modernas (semântica, de instâncias ou panóptica), por meio da Figura \ref{proposal:revision:fig:2} cita-se que apenas 14 foram determinados como relevantes, os quais são listados na Tabela \ref{proposal:revision:tab:2}.
+Tendo em vista os estudos que estão relacionados à segmentação na área odontológica, destacando aqueles que fazem uso das segmentações modernas (semântica, de instâncias ou panóptica), por meio da Figura \ref{project:revision:fig:2} cita-se que apenas 14 foram determinados como relevantes, os quais são listados na Tabela \ref{project:revision:tab:2}.
 
 \begin{table}[H]
     \centering
     \caption{Trabalhos selecionados a partir da revisão sobre segmentação odontológica.}
-    \label{proposal:revision:tab:2}
+    \label{project:revision:tab:2}
     \resizebox{\textwidth}{!}{
     \begin{tabular}{l|l}
         \textbf{Título}                                                                                                              &  \textbf{Referência}  \\ \hline
