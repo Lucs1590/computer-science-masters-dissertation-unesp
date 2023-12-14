@@ -29,54 +29,46 @@ Por fim, é importante ressaltar que todos os métodos desenvolvidos neste proje
 
 \subsubsection{\textit{Block-based Principal Component Analysis Pooling} (BPCA Pooling)}
 \label{project:bpca}
+A técnica \textit{Block-based Principal Component Analysis} (BPCA) foi introduzida como uma variação do método convencional do \textit{Principal Component Analysis} (PCA) no trabalho de \cite{Salvadeo2011}, propondo um método que inicialmente foi utilizado para a extração de características de imagens como parte de uma \textit{pipeline} de reconhecimento de reconhecimento facial no conjunto de dados \textit{The AR Face Database}\footnote{\textit{AR Face Database Webpage} - \url{https://www2.ece.ohio-state.edu/~aleix/ARdatabase.html}} \citep{MartNez1998TheDatabase} , propondo um método de extração que trouxesse à análise menor custo computacional, redução de dimensionalidade e uma geometria de hiperespaço que fosse mais intuitiva, destacando o diferencial de que com esse método fosse possível preservar a espacialidade da informação.
 
-Apresentado como uma variação do método convencional do Principal Component Analysis (PCA) no trabalho \cite{Salvadeo2011}, o BPCA propõe um método que inicialmente foi utilizado para a extração de características de imagens relacionadas a trabalhos de reconhecimento de face, propondo um método de extração que trouxesse à análise menor custo computacional, redução de dimensionalidade e uma geometria de hiperespaço que fosse mais intuitiva, destacando o diferencial de que com esse método fosse possível preservar a espacialidade da informação.
+O método proposto opera por meio da subdivisão de uma imagem em blocos $k \times k$, em que os blocos geralmente possuem tamanhos iguais (por exemplo, $3 \times 3$, $8 \times 8$, etc.). Em seguida, o PCA é aplicado a cada um desses blocos subdivididos. Consequentemente, cada bloco $k \times k$ passa a ter um tamanho reduzido, contendo apenas um subconjunto de pixels com $r$ características (o mesmo numero de blocos). Esse processo pode ser visualizado através da Figura \ref{project:fig:bpca_1}.
 
-O método proposto opera por meio da subdivisão de uma imagem em blocos $k \times k$, em que os blocos geralmente possuem tamanhos iguais (por exemplo, $3 \times 3$, $8 \times 8$, etc.). Em seguida, o PCA é aplicado a cada um desses blocos subdivididos. Consequentemente, cada bloco $k \times k$ passa a ter um tamanho reduzido, contendo apenas um subconjunto de pixels com $r$ características (o mesmo numero de blocos). Esse processo pode ser visualizado através da Figura X.
+\begin{figure}[H]
+    \centering
+    \caption{Exemplo de aplicação do BPCA.}
+    \label{project:fig:bpca_1}
+    \includegraphics[width=1\textwidth]{recursos/imagens/project/BPCA.png}
 
-É importante ressaltar que o BPCA não é uma simples combinação linear de amostras distintas. Em vez disso, ele cria uma representação organizada, formada por pequenos blocos do mapa de características original usado como entrada. O BPCA incorpora o PCA para realizar o mapeamento não supervisionado que minimiza o erro quadrático médio entre a entrada original e a representação projetada.
+    Fonte: retirado e adaptado de \cite{Salvadeo2011}.
+\end{figure}
 
-Considerando os parágrafos anteriores e o fato de que as camadas de pooling são aplicadas com sucesso nas redes convolucionais com o objetivo de reduzir a dimensionalidade dos dados \cite{Paul2019DimensionalityPooling}, a partir do presente trabalho, propõe-se a utilização dessa técnica não para a tarefa de extração de características, mas como uma camada de pooling que contenha o benefício de preservar a espacialidade da informação entre as camadas convolucionais.
-
-A camada de pooling adota o processo original do BPCA, que extrai as principais informações de cada bloco, reduzindo a dimensionalidade dos dados e preservando características relevantes. Além disso, o método foi aprimorado por meio da normalização dos blocos usando média ($\mu$) e desvio padrão ($\sigma$). Em seguida, é aplicada a decomposição em valores singulares (SVD) para extrair os componentes principais ($\text{{pca\_components}}$) que realizam a transformação dos blocos por meio da projeção nesses componentes selecionados. Como resultado, obtém-se um mapa de características reduzido em tamanho, mas que preserva a informação essencial ao concatenar os blocos transformados.
-
-A representação matemática do processo realizado pela camada de pooling BPCAPooling pode ser descrita pela seguinte equação:
-
-\[
-\text{{BPCAPooling}}(x) = \text{{reshape}}\left(\text{{SVD}}\left(\frac{{x - \mu}}{{\sigma}}\right) \cdot \text{{pca\_components}}\right),
-\]
-onde $x$ representa o mapa de características de entrada, $\text{{reshape}}$ reorganiza os blocos transformados em uma estrutura de saída adequada, $\text{{SVD}}$ denota a decomposição em valores singulares dos blocos normalizados, $\mu$ é o vetor médio dos blocos extraídos, $\sigma$ é o vetor de desvio padrão dos blocos extraídos, e $\text{{pca\_components}}$ é uma matriz que contém os primeiros componentes principais selecionados.
-
-Essa formulação matemática descreve o processo de pooling realizado pela camada BPCAPooling, que extrai informações relevantes dos blocos de entrada, reduzindo sua dimensionalidade e preservando características importantes para o aprendizado eficiente da rede neural convolucional.
+Ao contrário de uma combinação linear simples de amostras distintas, BPCA compõe uma representação organizada, formada por pequenos blocos do mapa de características original, conforme exibido no canto inferior esquerdo da Figura \ref{project:fig:bpca_1}. Esta técnica incorpora a teoria do PCA para realização do mapeamento não supervisionado visando a minimização do erro quadrático médio entre a entrada original e a apresentação projetada. Dessa forma, é possível sintetizar características essenciais da imagem de entrada numa representação compacta de maior relevância contextual \citep{Kuncheva2014PCAData}. Isso permite que a BPCA seja um componente eficaz ao enfrentar grandes volumes de dados, como é comum no âmbito de processamento de imagens.
 
 \paragraph{Funcionamento como \textit{Pooling}}
+\label{project:bpca:pooling}
+As camadas de \textit{pooling} têm sido eficazes em CNNs para reduzir a dimensionalidade dos dados \citep{Paul2019DimensionalityPooling}. Neste trabalho, a inovação proposta é a aplicação da técnica BPCA como uma camada de \textit{pooling} - sendo nomeada de BPCAPooling - não mais para extração de características, conforme proposto originalmente por \cite{Salvadeo2011}, mas como uma estratégia para preservar a espacialidade da informação entre as camadas convolucionais, associada ao benefício proposto pela técnica de minimização do erro quadrático médio entre a entrada e saída como uma camada de \textit{pooling}.
 
-\paragraph{Formula e Complexidade}
-Dentre os métodos disponíveis para realizar a tarefa de segmentação panóptica de componentes visuais, destaca-se que serão realizados testes a partir dos modelos disponibilizados pela biblioteca \textit{Detectron2} \cite{detectron2}, seguindo também a formatação inicial proposta por Kirillov \textit{et al.} \cite{Kirillov2019a}, a qual era composta por um modelo de Mask R-CNN (Seção \ref{instance:mask}) para realizar a parte de segmentação de instâncias e o modelo de FCN (Seção \ref{semantic:FCN}) para realizar a segmentação semântica.
+Essa camada de \textit{pooling} segue o processo original do BPCA, onde são extraídas informações principais de cada bloco, reduzindo a dimensionalidade dos dados e preservando características relevantes. Além disso, o método foi aprimorado pela normalização dos blocos utilizando média ($\mu$) e desvio padrão ($\sigma$). Na sequência, é aplicada a técnica de \textit{Singular Value Decomposition} (SVD) para extrair os componentes principais ($\text{{pca\_components}}$), como explicado na Seção \ref{deep:feature_extraction:pca}, e, finalmente, os blocos são transformados por meio da projeção nesses componentes selecionados. O resultado é um mapa de características menor em tamanho, porém, preservando informações essenciais ao concatenar os blocos transformados.
 
-Todavia, haja vista o resultado esperado nesse trabalho, vide a Seção \ref{project:expres}, para as tarefas de segmentação panóptica com o uso de partes, diferente das abordagens de estruturas que possuem apenas as tarefas de segmentações de instâncias e semântica, seja de modo compartilhado, unificado, com conexões ou cascata, como demonstradas na Figura \ref{project:method:fig:1}, a segmentação de partes cientes necessita, também, de uma parte voltada para a segmentação das partes de objetos classificados como \textit{thing} ou \textit{stuff}, como demonstrado na Figura \ref{project:method:fig:2}, a qual representa uma estrutura voltada para a segmentação panóptica de modo unificado (segmentação semântica e de instância) e outra para a segmentação de partes cientes. Sendo assim, também será testada a estrutura desenhada por de Geus \textit{et al.} \cite{DeGeus2021}, a qual é composta por um modelo de segmentação panóptica (DLv3-ResNeSt269 \& DetectoRS) juntamente com um modelo responsável por realizar uma segmentação de partes (BSANet).
+A formulação matemática do processo realizado pela camada de \textit{pooling} BPCAPooling pode ser representada pela Equação \ref{project:eq:bpca}:
 
-\begin{figure}[H]
-    \centering
-    \caption{Metodologias de rede para segmentação panóptica.}
-    \includegraphics[width=1\textwidth]{recursos/imagens/project/model_methodologies.png}
-    \label{project:method:fig:1}
+\begin{equation}
+    \label{project:eq:bpca}
+    \begin{split}
+        Y_{i,j,k} &= \text{BPCAPooling}(X_{i',j',k'}) \\
+                  &= \text{reshape}\left(\text{SVD}\left(\frac{{X - \mu}}{{\sigma}}\right) \cdot \text{pca\_components}\right),
+    \end{split}
+\end{equation}
+onde $X$ é a imagem de entrada com $i'$ como altura de entrada, $j'$ como largura de entrada e $k'$ como número de canais de entrada; e $Y$ é a imagem de saída, com $i$ representando altura de saída, $j$ como largura de saída e $k$ como profundidade de saída (ou seja, o número de canais). Aqui, $\text{reshape}$ reorganiza os blocos transformados para uma estrutura de saída apropriada, $\text{SVD}$ representa a decomposição em valores singulares dos blocos normalizados, $\mu$ é o vetor médio dos blocos extraídos, $\sigma$ é o vetor de desvio padrão dos blocos extraídos, e $\text{pca\_components}$ é uma matriz contendo os primeiros componentes principais selecionados.
 
-    Fonte: retirado e adaptado de \cite{Elharrouss2021}.
-\end{figure}
+Essa formulação matemática descreve o processo de \textit{pooling} realizado pela camada BPCAPooling, que extrai informações relevantes dos blocos de entrada, reduzindo sua dimensionalidade e preservando características importantes para o aprendizado eficiente da rede neural convolucional.
 
-\begin{figure}[H]
-    \centering
-    \caption{Estrutura exemplificando metodologia para segmentação \textit{Part-Aware}.}
-    \includegraphics[width=4in]{recursos/imagens/project/estrutura.png}
-    \label{project:method:fig:2}
+Quando se trata de complexidade em notação Big O, uma forma de classificar o quanto a função é escalável, pode-se dizer que recebe a notação de ordem $O(mnp^2 + p^3)$ no pior caso. Isso se dá visto que o algoritmo BPCA, constituinte do BPCAPooling passa pelos processos de divisão dos blocos ($p^2$ para cada elemento da imagem de tamanho $m$ e $n$) e a decomposição em valores singulares (operação cúbica em $p$), sendo $m$ e $n$ as dimensões da imagem, e $p$ a profundidade dos blocos. Esse desempenho assinala um compromisso entre a eficiência computacional e a capacidade de extração de características relevantes, demonstrando a relevância do BPCAPooling no contexto da aprendizagem profunda.
 
-    Fonte: do próprio autor.
-\end{figure}
+Em suma, a camada de BPCAPooling emerge como uma proposta inovadora para aprimorar a atuação das redes neurais convolucionais ao lidar com tarefas de segmentação semântica. Ao incorporar a técnica de BPCA, essa camada de \textit{pooling} permite que a informação espacial seja preservada na passagem entre as camadas convolucionais, mantendo simultaneamente uma redução de dimensionalidade efetiva dos dados. Com seu mecanismo eficiente de extração de características cruciais, o BPCAPooling demonstra uma inovação para auxiliar aos modelos de aprendizado profundo, abrindo caminho para futuras investigações e desenvolvimentos com foco em técnicas de \textit{pooling}.
 
 \subsubsection{Conjuntos de Dados}
 \label{project:dataset}
-
 Os conjuntos de dados selecionados para esta pesquisa são essencialmente de duas categorias distintas. Dois deles - CIFAR100 e Food-101 - foram empregados especificamente para o treinamento, teste e validação voltados exclusivamente à classificação de imagens \citep{Krizhevsky2009LearningImages, Bossard2014Food-101Forests}.
 
 Nessa configuração, os modelos de classificação foram treinados para atribuir um rótulo a cada imagem, identificando o objeto de interesse sem foco na sua localização ou delimitação por caixas. Em outras palavras, o objetivo foi reconhecer a presença de um objeto em particular na imagem inteira, sem segmentar ou isolar essa entidade \citep{Viitaniemi2008TechniquesSegmentation}.
@@ -90,11 +82,12 @@ As Seções \ref{project:dataset:cifar} e \ref{project:dataset:food101} a seguir
 \paragraph{\textit{Oxford-IIIT Pets}}
 \label{project:dataset:pets}
 
-O conjunto de dados \textit{Oxford-III Pets} \footnote{Conjuntos de dados Oxford-III Pets - \url{https://www.robots.ox.ac.uk/\%7Evgg/data/pets/}} \citep{Parkhi2012CatsDogs} é um composto majoritariamente de exemplos de gatos e cachorros. Esse \textit{dataset} possui cerca de $200$ exemplos para $37$ classes diferentes, resultando no total de $7.349$ amostras. Essas classes é identificada pela raça do animal de estimação em questão, mas cada uma dos registros nesse conjunto de dados trás consigo o nome da imagem, o rotulo baseado na raça, a espécie (gato ou cachorro), a imagem com o animal e uma mascara de características com o fundo, contorno e animal mapeados cada um de uma cor, como representado pela Figura \ref{project:fig:dataset:pets_1}.
+O conjunto de dados \textit{Oxford-III Pets} \footnote{Conjuntos de dados \textit{Oxford-III Pets} - \url{https://www.robots.ox.ac.uk/\%7Evgg/data/pets/}} \citep{Parkhi2012CatsDogs} é um composto majoritariamente de exemplos de gatos e cachorros. Esse \textit{dataset} possui cerca de $200$ exemplos para $37$ classes diferentes, resultando no total de $7.349$ amostras. Essas classes é identificada pela raça do animal de estimação em questão, mas cada uma dos registros nesse conjunto de dados trás consigo o nome da imagem, o rotulo baseado na raça, a espécie (gato ou cachorro), a imagem com o animal e uma mascara de características com o fundo, contorno e animal mapeados cada um de uma cor, como representado pela Figura \ref{project:fig:dataset:pets_1}.
 
 \begin{figure}[H]
+   \centering
    \caption{Exemplo de exemplo com mascara de características.}
-   \caption{Segmentação semântica.}   \centering
+   \caption{Segmentação semântica.}
    \label{project:fig:dataset:pets_1}
     \begin{subfigure}[t]{0.5\textwidth}
         \centering
@@ -157,7 +150,7 @@ Finalmente, vale citar que todas as imagens do conjunto de dados se encontram ro
 
 \paragraph{\textit{Food}-101}
 \label{project:dataset:food101}
-O conjunto de dados \textit{Food}-101 \footnote{Conjunto de dados Food-101 - \url{https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/}} \citep{Bossard2014Food-101Forests} foi empregado como um segundo conjunto de dados para a classificação de imagens neste trabalho. Este \textit{dataset} contém $101.000$ imagens, originalmente com uma resolução de $512 \times 512$ pixels, no entanto, para otimizar o processamento do modelo e manter a representatividade da amostra, essas imagens foram redimensionadas para $224 \times 224$ pixels.
+O conjunto de dados \textit{Food}-101 \footnote{Conjunto de dados \textit{Food}-101 - \url{https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/}} \citep{Bossard2014Food-101Forests} foi empregado como um segundo conjunto de dados para a classificação de imagens neste trabalho. Este \textit{dataset} contém $101.000$ imagens, originalmente com uma resolução de $512 \times 512$ pixels, no entanto, para otimizar o processamento do modelo e manter a representatividade da amostra, essas imagens foram redimensionadas para $224 \times 224$ pixels.
 
 Ao contrário do conjunto CIFAR-100, que abrange classes mais generalistas (vide Seção \ref{project:dataset:cifar}), o conjunto de dados \textit{Food}-101 se concentra exclusivamente em classes relacionadas à alimentação. Ele é composto por $101$ classes (por exemplo, \quotes{pizza}, \quotes{bruscheta}, entre outros), cada uma com $1.000$ amostras. Alguns exemplos dessas classes podem ser visualizados na Figura \ref{project:fig:dataset:food}.
 
