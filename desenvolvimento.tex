@@ -8,14 +8,14 @@ Nos capítulos anteriores, analisamos como as Redes Neurais Convolucionais (CNNs
 
 Entretanto, ainda existem questões não resolvidas relacionadas às potenciais melhorias que modificações específicas nas componentes destas redes podem proporcionar \citep{AsgariTaghanaki2021DeepReview}. Dentre esses componentes, particular atenção é dada às limitações das camadas de \textit{pooling} tradicionais \citep{Liu2019Multi-LevelNetworks, He2015SpatialRecognition}. Estas camadas têm duas tarefas principais: reduzir a dimensionalidade dos dados, a fim de diminuir a carga computacional do modelo, e, simultaneamente, preservar as informações mais relevantes, principalmente as espaciais.
 
-Neste contexto, o objetivo primordial deste trabalho é propor uma nova técnica de \textit{pooling} para CNNs, com ênfase na segmentação semântica. A abordagem proposta visa manter as informações espaciais dos dados de entrada enquanto realiza a necessária redução de dimensionalidade algo que não ocorre com os métodos tradicionais de \textit{pooling}. Os resultados obtidos serão posteriormente comparados com aqueles produzidos pelos métodos de \textit{pooling} comumente utilizados.
+Neste contexto, o objetivo primordial deste trabalho é propor uma nova técnica de \textit{pooling} para CNNs, aplicando testes em CNNs convencionais, mas com ênfase na segmentação semântica com o modelo U-Net. A abordagem proposta visa manter as informações espaciais dos dados de entrada enquanto realiza a necessária redução de dimensionalidade algo que não ocorre com os métodos tradicionais de \textit{pooling}. Os resultados obtidos serão posteriormente comparados com aqueles produzidos pelos métodos de \textit{pooling} comumente utilizados.
 
 Este capítulo trata detalhadamente dos materiais e métodos utilizados para a condução e avaliação da pesquisa, discutidos em profundidade na Seção \ref{project:matmet}. Enquanto a aplicação de métricas específicas para a avaliação dos resultados será discutida na Seção \ref{project:exp_result} e uma breve revisão quanto aos trabalhos relacionados à pesquisa proposta será discorrida na Seção \ref{project:revision}.
 
 Finalmente, vale citar que nesse capítulo será possível encontrar uma apresentação detalhada do novo método de \textit{pooling} proposto e seu impacto na performance das redes de aprendizado profundo.
 
 
-\subsection{Material e Métodos}
+\subsection{Materiais e Métodos}
 \label{project:matmet}
 A Seção de Materiais e Métodos busca esclarecer sobre todos os recursos tecnológicos, \textit{hardwares} e abordagens metodológicas que foram empregados para suportar a consecução dos experimentos deste estudo (Seção \ref{project:techard}). Neste contexto, é essencial elucidar acerca da implementação de uma nova técnica de \textit{pooling}, denominada BPCAPooling (Seção \ref{project:bpca}), aplicada em estruturas de CNNs. Além disso, a descrição dos conjuntos de dados utilizados fornece um embasamento sólido para compreender a motivação e a importância dos resultados obtidos ao longo das fases de desenvolvimento, treinamento, validação e teste (Seção \ref{project:dataset}).
 
@@ -80,7 +80,7 @@ Em suma, a camada de BPCAPooling emerge como uma proposta inovadora para aprimor
 
 \subsubsection{Conjuntos de Dados}
 \label{project:dataset}
-Os conjuntos de dados selecionados para esta pesquisa são essencialmente de duas categorias distintas. Dois deles - CIFAR100 e Food-101 - foram empregados especificamente para o treinamento, teste e validação voltados exclusivamente à classificação de imagens \citep{Krizhevsky2009LearningImages, Bossard2014Food-101Forests}.
+Os conjuntos de dados selecionados para esta pesquisa são essencialmente de duas categorias distintas. Dois deles - CIFAR100 e \textit{Food}-101 - foram empregados especificamente para o treinamento, teste e validação voltados exclusivamente à classificação de imagens \citep{Krizhevsky2009LearningImages, Bossard2014Food-101Forests}.
 
 Nessa configuração, os modelos de classificação foram treinados para atribuir um rótulo a cada imagem, identificando o objeto de interesse sem foco na sua localização ou delimitação por caixas. Em outras palavras, o objetivo foi reconhecer a presença de um objeto em particular na imagem inteira, sem segmentar ou isolar essa entidade \citep{Viitaniemi2008TechniquesSegmentation}.
 
@@ -180,11 +180,22 @@ Adicionalmente, houve uma reorganização do conjunto de dados em relação à s
 
 \subsubsection{Transferência de Aprendizado}
 \label{project:transf}
-Tendo em vista que os conjuntos de dados na área odontológica preparados para a aplicação de segmentação panóptica com o uso da técnica \textit{Part-Aware} são inexistentes e que temos alguns conjuntos de dados que suportam os requisitos dessa técnica, justifica-se o uso de técnicas de transferência de aprendizado \cite{Weiss2016}, mesmo em casos de espaços de características heterogêneos.
+A técnica de transferência de aprendizado, empregada neste estudo, encontra inspiração em cenários do cotidiano, onde um conhecimento prévio sobre um tema pode ser crucial para acelerar e incrementar a aprendizagem de novos conteúdos \citep{Pan2010}. Esta técnica mostra-se especialmente útil em situações onde se dispõe de um conjunto de dados alvo com uma quantidade limitada de amostras para o treinamento de uma rede \citep{Weiss2016}, considerando que Redes Profundas necessitam vastas quantidades de dados para obter um desempenho satisfatório \citep{Goodfellow2016}.
 
-A técnica de transferência de aprendizado foi inspirada em casos do mundo real, onde um panorama sobre determinado assunto tende a trazer mais eficácia para o aprendizado de novos assuntos \cite{Pan2010}, mas também para casos em que há uma pequena quantidade de amostras disponíveis em um conjunto de dados alvo para o treinamento de uma rede \cite{Weiss2016}, ocasionando em problemas, haja vista que redes de aprendizado profundo contam de uma grande quantidade de dados para ter bom desempenho \cite{Goodfellow2016}
+Sob essa perspectiva, o treinamento das redes de classificação VGG-16 para os conjuntos de dados CIFAR 100 e \textit{Food}-101 se ancorou nos conceitos de transferência de aprendizado. Utilizamos os pesos da rede VGG16 pré-treinada no \textit{dataset} ImageNet\footnote{Conjunto de dados ImageNet - \url{https://www.image-net.org/download.php}} \citep{Deng2009ImageNet:Database}, que dispõe de um milhar ($1.000$) de classes com $1.281.167$, $50.000$ e $100.000$ exemplos para treinamento, validação e testes, respectivamente.
 
-Sendo assim, por esse projeto se enquadrar no segundo caso citado dentro do parágrafo anterior, onde a quantidade de amostras do conjunto de dados para realizar a fase de treinamento é pequena, a técnica de transferência de aprendizado será adotada, utilizando amostras dos conjuntos de dados PASCAL \textit{Panoptic Parts}, \textit{Cityscapes Panoptic Parts} e PartsNet para o treinamento da rede, até dado momento e, depois, submetendo a mesma rede no conjunto de dados odontológico que será anotado em conjunto com a parceria realizada.
+Dessa forma, a inicialização da rede contou com os pesos da VGG-16 pré-instanciados. Gradativamente durante os treinamentos, realizou-se o processo de descongelamento das camadas da VGG-16, a partir das camadas densas até o terceiro bloco convolucional, escolhendo sempre o melhor modelo, como ilustrado na Figura \ref{project:fig:transf1} e recomendado por \cite{Chollet2021DeepPython}, aplicando essa abordagem a ambos os conjuntos de dados e métodos de \textit{pooling} testados (\textit{AvgPooling}, \textit{MaxPooling}, e BPCAPooling).
+
+\begin{figure}[H]
+    \centering
+    \caption{Processo de \textit{fine-tuning} da VGG-16, com o descongelamento dos blocos representados pelo fundo azul.}
+    \includegraphics[width=1\textwidth]{recursos/imagens/project/fine-tunning.png}
+    \label{project:fig:transf1}
+
+    Fonte: do próprio autor.
+\end{figure}
+
+No que tange aos testes efetuados com os modelos U-Net e U-Net-Like, é relevante salientar que não se empregou as técnicas de transferência de aprendizado, devido a alguns aspectos cruciais da própria técnica. O primeiro desafio é a necessidade de utilizar a mesma arquitetura para o modelo de base adotado para a transferência de aprendizado e para o modelo treinado. Ainda que soluções para essa questão tenham sido propostas, como a adoção de camadas da VGG-16 dentro da estrutura de uma U-Net \citep{Pravitasari2020UNet-VGG16Segmentation}, a aplicação de tal técnica poderia afetar os resultados pretendidos decorrentes exclusivamente da modificação da camada de \textit{pooling} nos modelos U-Net e U-Net-Like. Adicionalmente, a escassez de conjuntos de dados robustos, similares ao ImageNet, direcionados ao processo de segmentação semântica, configura outro obstáculo, especialmente considerando a falta de padronização no formato das anotações. Como referência para um adequado conjunto de dados e modelo de anotação, podemos citar o COCO-\textit{stuff} \citep{Caesar2016} e o formato de anotação COCO, que pode ser desenvolvido a partir da ferramenta \textit{COCO Annotator} \citep{Brooks2019COCOAnnotator}.
 
 \subsubsection{Aumento de Dados}
 \label{project:augment}
@@ -215,7 +226,7 @@ Entretanto, vale citar que, no presente trabalho, além da escolha dos modelos a
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplo representativo do BPCA.}
+    \caption{Exemplo representativo do processo do BPCA.}
     \includegraphics[width=1\textwidth]{recursos/imagens/project/BPCA.png}
     \label{project:pcapooling:fig:3}
 

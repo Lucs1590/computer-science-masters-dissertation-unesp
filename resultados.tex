@@ -5,10 +5,18 @@
 \label{result:result}
 
 - Classificação de Imagens
+        - Apresentar processo de preservação espacial, lime, fine tunning e custo computacional.
+        - Será que o uso de transferência de aprendizado foi bom nesse caso? Pois as camadas de pooling não têm parâmetros, mas a atuação das mesmas acabam influenciando as demais camadas.
+        - A imagens menores (CIFAR 100) possuem muito menos informações em relação às de maior resolução (Food 101), então quando a aplicação do pooling ocorre, as imagens perdem todo o significado semântico.
+        - As camadas mais profundas, responsáveis pelas informações de mais baixo nível, incluindo linhas e bordas que dão senso de espacialidade, sofrem maior impacto de acurácia do que camadas mais superficiais.
+        - O método proposto se apresenta pior em ambos os datasets.
 
-- Segmentação de Imagens com U-net Like
-
-- Segmentação de Imagens com U-net
+- Segmentação de Imagens com U-net e U-net-like
+        - Não há uma discrepância significativa em relação às métricas quando comparado com max pooling, mas se apresenta mais lento e ainda tem menores métricas.
+        - Valeria um teste com outros datasets contendo objetos de diversos tamanhos, como lost and found, cityscape ou celulas. Mas a adaptação de código com o framework tensforflow se torna custosa, valeria a migração para o pytorch tentando minimizar essa barreira tecnológica.
+        - Valeria a implementação de um método de unpooling com o processo reverso de bpca (colocar a fórmula e imagens), a diferença é que esse método contaria com parâmetros, sendo necessário usar uma camada densa por baixo dos panos.
+        - O treinamento com U-Net-Like realmente ocorrem mais rápido do que as U-Nets convencionais, visto que a quantidade de parâmetros é menor e as normalizações de batch normalization trazem o beneficio das otimizações.
+        - Na prática em relação não tem muita mudança no resultado final.
 
 \subsection{Considerações Finais do Capítulo}
 \label{result:final}
