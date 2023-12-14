@@ -10,11 +10,22 @@ Entretanto, ainda existem questões não resolvidas relacionadas às potenciais 
 
 Neste contexto, o objetivo primordial deste trabalho é propor uma nova técnica de \textit{pooling} para CNNs, com ênfase na segmentação semântica. A abordagem proposta visa manter as informações espaciais dos dados de entrada enquanto realiza a necessária redução de dimensionalidade algo que não ocorre com os métodos tradicionais de \textit{pooling}. Os resultados obtidos serão posteriormente comparados com aqueles produzidos pelos métodos de \textit{pooling} comumente utilizados.
 
-Este capítulo trata detalhadamente dos materiais e métodos utilizados para a condução da pesquisa, discutidos na Seção \ref{project:matmet}. Além disso, a metodologia empregada para conduzir os experimentos e as avaliações será explorada em profundidade na Seção \ref{project:methodology}, enquanto a aplicação de métricas específicas para a avaliação dos resultados será discutida na Seção \ref{project:exp_result}. Finalmente, vale citar que nesse capítulo será possível encontrar uma apresentação detalhada do novo método de \textit{pooling} proposto e seu impacto na performance das redes de aprendizado profundo.
+Este capítulo trata detalhadamente dos materiais e métodos utilizados para a condução e avaliação da pesquisa, discutidos em profundidade na Seção \ref{project:matmet}. Enquanto a aplicação de métricas específicas para a avaliação dos resultados será discutida na Seção \ref{project:exp_result} e uma breve revisão quanto aos trabalhos relacionados à pesquisa proposta será discorrida na Seção \ref{project:revision}.
 
-\subsection{Materiais e Métodos}
+Finalmente, vale citar que nesse capítulo será possível encontrar uma apresentação detalhada do novo método de \textit{pooling} proposto e seu impacto na performance das redes de aprendizado profundo.
+
+
+\subsection{Material e Métodos}
 \label{project:matmet}
-A seção de Materiais e Métodos tem como objetivo detalhar as tecnologias utilizadas durante a pesquisa, abordando a implementação de uma nova técnica como a camada de \textit{pooling} em modelos de segmentação semântica (Seção \ref{project:bpca}), os recursos tecnológicos e \textit{hardwares} empregados para dar suporte aos testes, validações e avaliações de desempenho dos modelos (Seção \ref{project:techard}), e, por fim, os conjuntos de dados utilizados, fundamentais para todo o desenvolvimento, tanto em pesquisas preliminares quanto na etapa de segmentação (Seção \ref{project:dataset}).
+A Seção de Materiais e Métodos busca esclarecer sobre todos os recursos tecnológicos, \textit{hardwares} e abordagens metodológicas que foram empregados para suportar a consecução dos experimentos deste estudo (Seção \ref{project:techard}). Neste contexto, é essencial elucidar acerca da implementação de uma nova técnica de \textit{pooling}, denominada BPCAPooling (Seção \ref{project:bpca}), aplicada em estruturas de CNNs. Além disso, a descrição dos conjuntos de dados utilizados fornece um embasamento sólido para compreender a motivação e a importância dos resultados obtidos ao longo das fases de desenvolvimento, treinamento, validação e teste (Seção \ref{project:dataset}).
+
+Nesta mesma Seção, procura-se detalhar a metodologia e as estratégias adotadas nos experimentos realizados. A abordagem de transferência de aprendizado, em particular, recebe destaque (Seção \ref{project:transf}). Tal técnica envolve a adaptação, ou o chamado \textit{fine-tuning}, de um pré-modelo treinado para operar especificamente na tarefa de interesse, iniciando o processo de aprendizagem a partir de uma configuração pré-definida de pesos, como foi citado na Seção \ref{cnn:augment}.
+
+Além disso, é válida a discussão acerca do procedimento de aumento de dados (Seção \ref{project:augment}), adotado como uma medida para minimizar possíveis vieses nos modelos e potencializar sua capacidade de generalização \citep{Shorten2019ALearning}.
+
+Relacionado aos experimentos, serão expostos os parâmetros-chave selecionados para instanciar e treinar os modelos (Seção \ref{project:params}). Estes parâmetros foram rigorosamente escolhidos de acordo com as melhores práticas.
+
+Por fim, na Seção \ref{project:change_pooling}, abordaremos as respectivas modificações realizadas na camada de \textit{pooling} dos modelos, que foram cruciais para a realização e a validação do experimento. O entendimento dessa sistematização se faz necessário para garantir a replicação das etapas pelos futuros pesquisadores da comunidade científica e proporcionar avanços consideráveis na área de visão computacional.
 
 \subsubsection{Tecnologias e \textit{Hardware}}
 \label{project:techard}
@@ -166,11 +177,6 @@ Ao contrário do conjunto CIFAR-100, que abrange classes mais generalistas (vide
 Adicionalmente, houve uma reorganização do conjunto de dados em relação à sua configuração original, sendo que $75\%$ das amostras foram designadas para o conjunto de treinamento, $17,5\%$ para validação e $7,5\%$ para teste. Além disso, foi aplicado um pré-processamento de normalização, conforme representado na Equação \ref{project:eq:dataset:pets_1}, com o intuito de reduzir o viés do modelo durante o treinamento \citep{Shorten2019ALearning}.
 
 É importante ressaltar que o conjunto de dados \textit{Food}-101 também foi empregado no processo de classificação de imagens. Ele atua como um conjunto alternativo, permitindo demonstrar a capacidade de generalização do modelo e da técnica utilizada em diversos cenários. Devido ao seu tamanho, uma amostra do \textit{dataset} \textit{Food}-101 contém aproximadamente dezesseis vezes mais informações do que uma amostra do CIFAR-100, o que proporciona uma maior riqueza de detalhes e complexidade para o treinamento e validação do modelo.
-
-\subsection{Metodologia}
-\label{project:methodology}
-Nesta seção, descreveremos a metodologia adotada e como as técnicas foram empregadas nos experimentos realizados para alcançar os objetivos propostos neste trabalho. Detalharemos o processo de transferência de aprendizado utilizado para determinados conjuntos de dados na Seção \ref{project:transf}. Este procedimento inclui o \textit{fine-tuning} do modelo para enfrentar o problema já com os pesos aquecidos. Na Seção \ref{project:augment}, abordaremos o processo de aumento de dados aplicado em cada um dos modelos para reduzir o viés, além de discutir os parâmetros utilizados para cada experimento, conforme descrito na Seção \ref{project:params}. Por fim, na Seção \ref{project:change_pooling}, será tratado das modificações realizadas na camada de \textit{pooling} dos modelos.
-
 
 \subsubsection{Transferência de Aprendizado}
 \label{project:transf}
