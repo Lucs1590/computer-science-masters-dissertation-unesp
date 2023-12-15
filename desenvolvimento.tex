@@ -197,14 +197,117 @@ Dessa forma, a inicialização da rede contou com os pesos da VGG-16 pré-instan
 
 No que tange aos testes efetuados com os modelos U-Net e U-Net-Like, é relevante salientar que não se empregou as técnicas de transferência de aprendizado, devido a alguns aspectos cruciais da própria técnica. O primeiro desafio é a necessidade de utilizar a mesma arquitetura para o modelo de base adotado para a transferência de aprendizado e para o modelo treinado. Ainda que soluções para essa questão tenham sido propostas, como a adoção de camadas da VGG-16 dentro da estrutura de uma U-Net \citep{Pravitasari2020UNet-VGG16Segmentation}, a aplicação de tal técnica poderia afetar os resultados pretendidos decorrentes exclusivamente da modificação da camada de \textit{pooling} nos modelos U-Net e U-Net-Like. Adicionalmente, a escassez de conjuntos de dados robustos, similares ao ImageNet, direcionados ao processo de segmentação semântica, configura outro obstáculo, especialmente considerando a falta de padronização no formato das anotações. Como referência para um adequado conjunto de dados e modelo de anotação, podemos citar o COCO-\textit{stuff} \citep{Caesar2016} e o formato de anotação COCO, que pode ser desenvolvido a partir da ferramenta \textit{COCO Annotator} \citep{Brooks2019COCOAnnotator}.
 
+
 \subsubsection{Aumento de Dados}
 \label{project:augment}
+O uso de técnicas de aumento de dados tem se revelado eficaz para o fortalecimento da capacidade de aprendizado dos modelos, especialmente no que tange à mitigação de problemas de \textit{overfitting}, como discutido na Seção \ref{cnn:augment}. Portanto, é relevante destacar a importância da implementação de transformações geométricas e de intensidade de cor, as quais foram empregadas de forma diversificada e com base em uma abordagem probabilística estocástica nos experimentos desenvolvidos neste trabalho. Adicionalmente, cabe enfatizar que a probabilidade de aplicação do aumento de dados durante o processo de treinamento a cada imagem pode resultar na aplicação simultânea de múltiplas transformações na mesma imagem.
 
-\paragraph{VGG-16}
+É importante enfatizar que, em todos os conjuntos de dados utilizados, a técnica de aumento de dados foi aplicada exclusivamente nos subconjuntos de treinamento. Esta abordagem foi adotada considerando que os subconjuntos de teste e validação são empregados para avaliar o desempenho do modelo, não para ensiná-lo em diferentes cenários.
 
-\paragraph{U-Net-Like}
+As próximas seções, especificamente \ref{project:augment:cifar}, \ref{project:augment:food}, e \ref{project:augment:pets}, discutem as transformações aplicadas nos conjuntos de dados CIFAR 100, \textit{Food}-101 e \textit{Oxford-IIIT Pets}, respectivamente. Estas discussões proporcionam \textit{insights} relevantes que poderão orientar futuras pesquisas na área e facilitar a reprodução dos testes conduzidos neste estudo.
 
-\paragraph{U-Net}
+\paragraph{CIFAR 100}
+\label{project:augment:cifar}
+Para o conjunto de dados CIFAR 100, optou-se primordialmente por aplicar transformações geométricas como técnicas de aumento de dados. Considerando a diversidade das classes presentes no conjunto e o baixo risco de distorção de significado do rótulo do exemplo em questão - uma preocupação discutida por \cite{Shorten2019ALearning} no contexto do conjunto de dados MNIST -, foi possível utilizar filtros com um intervalo considerável sem, contudo, deixar a imagem irreconhecível para a interpretação humana.
+
+As transformações aplicadas no conjunto de dados CIFAR 100, bem como a variação permitida para cada uma delas, estão detalhadamente descritas na Tabela \ref{project:tab:augment:cifar}.
+
+\begin{table}[H]
+    \centering
+    \caption{Transformações geométricas aplicadas no conjunto de dados CIFAR 100.}
+    \label{project:tab:augment:cifar}
+    \resizebox{0.6\textwidth}{!}{
+    \begin{tabular}{l|l|l}
+        \textbf{Tipo de transformação}              &  \textbf{Intervalo}        & \textbf{Parâmetro} \\ \hline
+        Deslocamento Vertical                       &  $-25\% - 25\%$            &  -                 \\
+        Deslocamento Horizontal                     &  $-25\% - 25\%$            &  -                 \\
+        Cisalhamento                                &  $0^{\circ} - 25^{\circ}$  &  -                 \\
+        \textit{Zoom}                               &  $0\% - 25\%$              &  -                 \\
+        Rotação                                     &  $0^{\circ} - 45^{\circ}$  &  -                 \\
+        Espelhamento Horizontal                     &  -                         &  Verdadeiro        \\
+        Preenchimento                               &  -                         &  Mais próximo
+    \end{tabular}}
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+\end{table}
+
+É importante ressaltar que, no contexto dos parâmetros listados na Tabela \ref{project:tab:augment:cifar}, os termos \quotes{Espelhamento Horizontal} e \quotes{Preenchimento} indicam, respectivamente, que a imagem pode ser submetida a um espelhamento horizontal e que o tipo de preenchimento escolhido, dentre as opções \quotes{constante}, \quotes{mais próximo}, \quotes{refletir} ou \quotes{envolver}, foi o método \quotes{mais próximo}. O efeito dessas transformações pode ser observado por meio do exemplo apresentado na Figura \ref{cnn:fig:augment}.
+
+\paragraph{\textit{Food}-101}
+\label{project:augment:food}
+No que se refere ao \textit{dataset} \textit{Food}-101, é importante salientar que, apesar da técnica de aumento de dados ter sido aplicada e utilizada em alguns testes, somente foi possível implementá-la manualmente dentro do modelo. Isso resultou no aumento da complexidade do modelo padrão VGG-16, devido à necessidade de se acrescentar uma camada inicial responsável pela aplicação dos filtros de forma estocástica. Logo, os resultados comentados na Seção \ref{results}, referentes ao conjunto de dados \textit{Food}-101, não contemplam a aplicação da técnica de aumento de dados.
+
+Ressalta-se, no entanto, que similarmente ao conjunto CIFAR 100, o \textit{dataset} \textit{Food}-101 não apresenta problemas relacionados à alteração da interpretação dos rótulos em função da aplicação do aumento de dados. Dessa forma, os filtros utilizados para os testes são descritos na seguinte Tabela \ref{project:tab:augment:food}.
+
+\begin{table}[H]
+    \centering
+    \caption{Transformações geométricas aplicadas no conjunto de dados \textit{Food}-101.}
+    \label{project:tab:augment:food}
+    \resizebox{0.6\textwidth}{!}{
+    \begin{tabular}{l|l|l}
+        \textbf{Tipo de transformação}              &  \textbf{Intervalo}         & \textbf{Parâmetro} \\ \hline
+        Deslocamento Vertical                       &  $-25\% - 25\%$             &  -                 \\
+        Deslocamento Horizontal                     &  $-25\% - 25\%$             &  -                 \\
+        \textit{Zoom}                               &  $0\% - 25\%$               &  -                 \\
+        Rotação                                     &  $-45^{\circ} - 45^{\circ}$ &  -                 \\
+        Espelhamento Horizontal                     &  -                          &  Verdadeiro
+    \end{tabular}}
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+\end{table}
+
+Neste conjunto de dados, nota-se uma ampliação na taxa de zoom em relação ao CIFAR, o que pôde ser explorado devido à maior resolução das amostras em relação ao primeiro conjunto. A representação visual do resultado da aplicação deste aumento de dados está evidenciada na Figura \ref{project:fig:augment:food}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Ilustração do aumento de dados com transformações geométricas aplicadas ao conjunto de dados \textit{Food}-101.}
+    \label{project:fig:augment:food}
+    \includegraphics[width=1\textwidth]{recursos/imagens/project/dataaugmentation_food.png}
+
+    Fonte: do próprio autor, com base no conjunto de dados \textit{Food}-101 \citep{Bossard2014Food-101Forests}.
+\end{figure}
+
+
+\paragraph{\textit{Oxford-IIIT Pets}}
+\label{project:augment:pets}
+Para o conjunto de dados \textit{Oxford-IIIT Pets}, destinado à aplicação dos métodos de segmentação semântica com uso das arquiteturas U-Net-Like e convencionais U-Nets, um procedimento de aumento de dados foi implementado previamente à fase de treinamento dos modelos. Isto permitiu que os filtros empregados fomentassem o aprendizado dos modelos e contribuíssem para a melhoria nas métricas de avaliação, que serão discutidas em detalhes na Seção \ref{project:exp_result}.
+
+Contrariamente aos conjuntos de dados direcionados à classificação, nesse conjunto de dados foram aplicadas transformações que alteraram a cor das imagens, além de modificações geométricas. As especificações dessas transformações podem ser visualizadas na Tabela \ref{project:tab:augment:pets}.
+
+\begin{table}[H]
+    \centering
+    \caption{Transformações executadas no conjunto de dados \textit{Oxford-IIIT Pets}.}
+    \label{project:tab:augment:pets}
+    \resizebox{0.6\textwidth}{!}{
+    \begin{tabular}{l|l|l}
+        \textbf{Tipo de transformação}              &  \textbf{Intervalo}         & \textbf{Parâmetro} \\ \hline
+        Contraste                                   &  $0\% - 20\%$               &  -                 \\
+        Brilho                                      &  $0\% - 35\%$               &  -                 \\
+        Saturação                                   &  $0\% - 20\%$               &  -                 \\
+        Rotação                                     &  $0^{\circ} - 90^{\circ}$   &  -                 \\
+        Borramento                                  &  -                          &  Verdadeiro        \\
+        Espelhamento Horizontal                     &  -                          &  Verdadeiro        \\
+        Espelhamento Vertical                       &  -                          &  Verdadeiro
+    \end{tabular}}
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+\end{table}
+
+Neste conjunto de dados, percebe-se que as transformações de cor são bastante similares às aplicadas nos outros bons conjuntos de dados. Entretanto, aqui os intervalos se referem às intensidades de alteração no contraste, brilho e saturação das imagens. A Figura \ref{project:fig:augment:pets} ilustra a aplicação aleatória das transformações descritas na Tabela \ref{project:tab:augment:pets}, juntamente com a máscara correspondente.
+
+\begin{figure}[H]
+    \centering
+    \caption{Ilustração do aumento de dados com transformações aplicadas ao conjunto de dados \textit{Oxford-IIIT Pets}.}
+    \label{project:fig:augment:pets}
+    \includegraphics[width=1\textwidth]{recursos/imagens/project/dataaugmentation_pets.png}
+
+    Fonte: do próprio autor, com base no conjunto de dados \textit{Oxford-IIIT Pets} \citep{Parkhi2012CatsDogs}.
+\end{figure}
+
+Estas manipulações através do aumento de dados favorecem a robustez dos modelos empregados, potencializando a captura de características úteis e reduzindo a probabilidade de \textit{overfitting}, mesmo quando enfrentamos cenários com diversidade e quantidade insatisfatória de amostras.
 
 \subsubsection{Parâmetros de Treinamento e Teste}
 \label{project:params}
