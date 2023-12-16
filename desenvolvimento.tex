@@ -95,8 +95,7 @@ O conjunto de dados \textit{Oxford-III Pets} \footnote{Conjuntos de dados \texti
 
 \begin{figure}[H]
    \centering
-   \caption{Exemplo de exemplo com mascara de características.}
-   \caption{Segmentação semântica.}
+   \caption{Exemplo de amostra com mascara de características.}
    \label{project:fig:dataset:pets_1}
     \begin{subfigure}[t]{0.5\textwidth}
         \centering
@@ -353,6 +352,7 @@ Adicionalmente, com a adoção da métrica mIoU como métrica principal, incorpo
 
 Em suma, a seleção apropriada de métricas para avaliar o desempenho dos modelos de aprendizagem profunda é crítica para fornecer uma demonstração adequada de seu desempenho e adaptabilidade a diferentes tarefas. Nos experimentos realizados neste estudo, optou-se por uma combinação de métricas apropriadas para tarefas de classificação e segmentação semântica com base nas especificações únicas atribuídas a cada tarefa. O uso rigoroso e bem planejado dessas métricas por meio da hipótese orientada aumentou a robustez e a credibilidade dos resultados obtidos. A lista completa de métricas utilizadas, assim como suas aplicações, é chave para observar uma ótima otimização dos parâmetros do modelo de aprendizagem e, assim, atingir uma interpretação ideal da tarefa variada que o modelo é treinado para resolver.
 
+
 \subsubsection{Parâmetros de Treinamento e Teste}
 \label{project:params}
 Nessa Seção serão esmiuçados os detalhes dos parâmetros utilizados para o treinamento e teste das redes neurais. Esta investigação contemplará tanto os experimentos voltados à classificação, que empregaram a arquitetura da VGG-16 nos conjuntos de dados \textit{Food}-101 e CIFAR 100, quanto aqueles destinados à segmentação semântica. No caso da segmentação, exploramos as arquiteturas U-Net-\textit{Like} e U-Net aplicadas no conjunto de dados \textit{Oxford-IIIT Pets}.
@@ -375,7 +375,68 @@ Comentar que foi utilizado CLR \citep{Smith2017CyclicalNetworks}
 
 \subsubsection{Explicação de Modelos}
 \label{project:explain}
+No contexto da explicação de modelos, abordaremos o uso de ferramentas pertencentes à área de Inteligência Artificial Explicável, também conhecida como \textit{Explainable Artificial Intelligence} (XAI) \citep{Gunning2019XAIExplainableIntelligence}. Essa área visa mitigar as limitações dos modelos de \quotes{caixa-preta}, tornando-os mais compreensíveis para os humanos, elucidando seu funcionamento de maneira mais transparente e interpretável \citep{Angelov2021ExplainableReview}.
 
+Durante os experimentos realizados com os modelos de classificação, empregou-se a ferramenta \textit{Local Interpretable Model-Agnostic Explanations} (LIME) \citep{Ribeiro2016WhyClassifier}. Essa ferramenta foi especialmente desenvolvida para explicar modelos de inteligência artificial, identificando as regiões de uma imagem que mais influenciam a inferência do modelo. Ao analisar as áreas destacadas geradas pelo LIME, é possível avaliar se o modelo é influenciado pelo fundo ou por objetos não relacionados à classe correta. Um exemplo disso é mostrado na Figura \ref{project:fig:explain:lime1}, onde o fundo nevado na imagem fez com que o modelo identificasse um cachorro Husky como um lobo, animal frequentemente fotografado em ambientes semelhantes.
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplo de saída gerado pelo LIME em situação de erro.}
+    \label{project:fig:explain:lime1}
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/project/husky.png}
+        \caption{Cachorro Husky identificado erroneamente como Lobo.}
+        \label{project:fig:explain:lime1.1}
+    \end{subfigure}%
+    ~
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/project/fundo_husky.png}
+        \caption{Destaque na explicação da predição.}
+        \label{project:fig:explain:lime1.2}
+    \end{subfigure}%
+
+    Fonte: retirado e adaptado de \cite{Ribeiro2016WhyClassifier}.
+\end{figure}
+
+Idealmente, o LIME destaca partes da imagem diretamente associadas às regiões do objeto que influenciam a inferência do modelo, oferecendo informações cruciais sobre o processo de tomada de decisão do modelo, conforme ilustrado na Figura \ref{project:fig:explain:lime2}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplo de saída gerado pelo LIME em situação correta.}
+    \label{project:fig:explain:lime2}
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/project/gato.png}
+        \caption{Classificação correta do \quotes{Gato} como \quotes{gato}.}
+        \label{project:fig:explain:lime2.1}
+    \end{subfigure}%
+    ~
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/project/mascara_gato.png}
+        \caption{Destaque na explicação da predição.}
+        \label{project:fig:explain:lime2.2}
+    \end{subfigure}%
+
+    Fonte: retirado e adaptado de \cite{Ribeiro2016WhyClassifier}.
+\end{figure}
+
+Contudo, ao tentar aplicar os conceitos de \textit{Explainable AI} (XAI) com o uso do LIME em problemas de segmentação semântica, não se obteve sucesso, uma vez que todos os pixels nessas segmentações representam áreas de interesse. Diante dessa limitação, recorreu-se à ferramenta Xplique \citep{Fel2022Xplique:Toolbox}, que, dentre suas funcionalidades, apresenta métodos de atribuição destinados a produzir mapas de calor (\textit{heatmaps}) com o intuito de explicar as áreas de foco dos modelos em relação às instâncias segmentadas \citep{Fel2022Xplique:Toolbox}. Essa abordagem assemelha-se ao propósito do LIME e pode ser visualizada na Figura \ref{project:fig:explain:xplique}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Aplicação das técnicas da ferramenta Xplique, evidenciando áreas de interesse por meio de mapas de calor.}
+    \includegraphics[width=1\textwidth]{recursos/imagens/project/xplique.png}
+    \label{project:fig:explain:xplique}
+
+    Fonte: retirado e adaptado de \cite{Fel2022Xplique:Toolbox}.
+\end{figure}
+
+Por fim, é evidente que a incorporação de ferramentas de Inteligência Artificial Explicável (XAI) proporciona \textit{insights} cruciais sobre a dinâmica interna dos modelos de aprendizagem profunda. A capacidade de revelar as regiões da imagem de entrada que mais influenciam as predições do modelo, viabilizada pelo uso do LIME e do Xplique, oferece uma visão mais detalhada do processo interpretativo dos modelos. Assim, a adoção dessas abordagens explanatórias não apenas promove a confiança nos modelos de Aprendizado Profundo, mas também aprimora sua compreensibilidade, aspectos essenciais tanto em aplicações do mundo real quanto em propostas de pesquisas futuras.
+
+As descobertas e desafios enfrentados durante a utilização dessas técnicas serão minuciosamente explorados no Capítulo \ref{results}, o qual se dedica a apresentar os resultados dos experimentos em profundidade.
 
 \subsection{Revisão de Literatura}
 \label{project:revision}
