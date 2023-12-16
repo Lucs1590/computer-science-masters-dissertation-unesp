@@ -23,19 +23,17 @@ Nesta mesma Seção, procura-se detalhar a metodologia e as estratégias adotada
 
 Além disso, é válida a discussão acerca do procedimento de aumento de dados (Seção \ref{project:augment}), adotado como uma medida para minimizar possíveis vieses nos modelos e potencializar sua capacidade de generalização \citep{Shorten2019ALearning}.
 
-Relacionado aos experimentos, serão expostos os parâmetros-chave selecionados para instanciar e treinar os modelos (Seção \ref{project:params}). Estes parâmetros foram rigorosamente escolhidos de acordo com as melhores práticas.
-
 Por fim, na Seção \ref{project:change_pooling}, abordaremos as respectivas modificações realizadas na camada de \textit{pooling} dos modelos, que foram cruciais para a realização e a validação do experimento. O entendimento dessa sistematização se faz necessário para garantir a replicação das etapas pelos futuros pesquisadores da comunidade científica e proporcionar avanços consideráveis na área de visão computacional.
 
 \subsubsection{Tecnologias e \textit{Hardware}}
 \label{project:techard}
-Um dos principais recursos tecnológicos utilizados neste trabalho é a linguagem de programação \textit{Python}. Esta linguagem interpretada de alto nível é amplamente reconhecida na comunidade científica, com uma vasta gama de bibliotecas disponíveis que facilitam o desenvolvimento de soluções tanto em aprendizado de máquina e redes neurais profundas, quanto em visão computacional \citep{Millman2011PythonEngineers, Perkel2015Programming:Python}.
+Um dos principais recursos tecnológicos utilizados neste trabalho é a linguagem de programação Python (versão 3.9.18) \citep{VanRossum2009PythonManual}. Esta linguagem interpretada de alto nível é amplamente reconhecida na comunidade científica, com uma vasta gama de bibliotecas disponíveis que facilitam o desenvolvimento de soluções tanto em aprendizado de máquina e redes neurais profundas, quanto em visão computacional \citep{Millman2011PythonEngineers, Perkel2015Programming:Python}.
 
-Várias bibliotecas complementaram o \textit{Python} no desenvolvimento deste projeto, especialmente aquelas projetadas para auxiliar na implementação de soluções de visão computacional, aprendizado de máquina e redes neurais. Destas, destaco o \textit{TensorFlow} e \textit{Keras}, utilizados juntos como um \textit{framework} para modelar, treinar e testar redes neurais, bem como definir otimizadores, funções de custo e métricas de desempenho \citep{Geron2017Hands-onSystems, Chollet2021DeepPython}. O \textit{OpenCV}, uma biblioteca poderosa para o processamento de imagens e aplicações de visão computacional, também desempenhou um papel crucial na aplicação de filtros de imagens e na realização de testes manuais para afinar os métodos que utilizam aprendizado profundo \citep{Bradski2000TheLibrary.}. Adicionalmente, a biblioteca \textit{Numpy} foi fundamental para realizar cálculos matemáticos e manipulações matriciais \citep{Oliphant2007PythonComputing, VanDerWalt2011TheComputation}.
+Várias bibliotecas complementaram o Python no desenvolvimento deste projeto, especialmente aquelas projetadas para auxiliar na implementação de soluções de visão computacional, aprendizado de máquina e redes neurais. Destas, destaco o \textit{TensorFlow} (versão 2.13.0) \citep{MartinAbadi2015Systems} e \textit{Keras} (versão 2.13.1) \citep{Chollet2015Keras}, utilizados juntos como um \textit{framework} para modelar, treinar e testar redes neurais, bem como definir otimizadores, funções de custo e métricas de desempenho \citep{Geron2017Hands-onSystems, Chollet2021DeepPython}. O \textit{OpenCV} (versão 4.8.1) \citep{Bradski2000TheLibrary.}, uma biblioteca poderosa para o processamento de imagens e aplicações de visão computacional, também desempenhou um papel crucial na aplicação de filtros de imagens e na realização de testes manuais para afinar os métodos que utilizam aprendizado profundo \citep{Bradski2000TheLibrary.}. Adicionalmente, a biblioteca \textit{Numpy} (versão 1.22.3) \citep{Harris2020ArrayNumPy} foi fundamental para realizar cálculos matemáticos e manipulações matriciais \citep{Oliphant2007PythonComputing, VanDerWalt2011TheComputation}.
 
 No que diz respeito ao \textit{hardware} empregado para a pesquisa e desenvolvimento deste projeto, os componentes de \textit{hardware}, tais como as placas de vídeo e os processadores, foram cruciais para o processamento de dados durante as fases de treinamento e validação dos modelos de aprendizado de máquina. Inicialmente, os ensaios foram realizados na plataforma de computação em nuvem Google Colab \citep{Bisong2019GoogleColaboratory}, que disponibilizava uma placa de vídeo Tesla T4 GPU e um processador Intel Xeon CPU. No entanto, devido à limitações de disponibilidade e considerações de custo financeiro, foi realizada a transição para um sistema físico equipado com um processador Intel Core i9-12900F CPU e uma placa de vídeo NVIDIA RTX 4090 GPU, o qual foi considerado para todos os resultados e testes descritos no presente trabalho.
 
-Por fim, é importante ressaltar que todos os métodos desenvolvidos neste projeto com o objetivo de realizar a segmentação semântica serão disponibilizados no repositório Github do autor\footnote{Perfil Github do autor - \url{https://github.com/Lucs1590}}, em conformidade com a licença Apache v2.0 \citep{Licenses}. A intenção é fomentar o crescimento acadêmico e de pesquisa, assim como facilitar futuras melhorias no campo de segmentação com o uso de camadas de \textit{pooling} personalizadas, como a camada BPCAPooling, que é detalhada na Seção \ref{project:bpca}.
+Por fim, é importante ressaltar que todos os métodos desenvolvidos neste projeto com o objetivo de realizar a segmentação semântica serão disponibilizados nos repositórios Github do autor\footnote{Perfil Github do autor - \url{https://github.com/Lucs1590}} de modo \textit{open-source}, em conformidade com a licença Apache v2.0 \citep{Licenses}. A intenção é fomentar o crescimento acadêmico e de pesquisa, assim como facilitar futuras melhorias no campo de segmentação com o uso de camadas de \textit{pooling} personalizadas, como a camada BPCAPooling, que é detalhada na Seção \ref{project:bpca}.
 
 
 \subsubsection{\textit{Block-based Principal Component Analysis Pooling} (BPCA Pooling)}
@@ -309,13 +307,8 @@ Neste conjunto de dados, percebe-se que as transformações de cor são bastante
 
 Estas manipulações através do aumento de dados favorecem a robustez dos modelos empregados, potencializando a captura de características úteis e reduzindo a probabilidade de \textit{overfitting}, mesmo quando enfrentamos cenários com diversidade e quantidade insatisfatória de amostras.
 
-\subsubsection{Parâmetros de Treinamento e Teste}
-\label{project:params}
-
-
 \subsubsection{Alteração na Camada de \textit{Pooling}}
 \label{project:change_pooling}
-
 
 \paragraph{VGG-16}
 
@@ -338,28 +331,50 @@ Entretanto, vale citar que, no presente trabalho, além da escolha dos modelos a
 
 \subsection{Metodologia Experimental}
 \label{project:exp_result}
-O método de avaliação escolhido seguiu no mesmo caminho do artigo tomado como referência para realizar a segmentação \textit{Part-Aware Panoptic Segmentation} \cite{DeGeus2021}, que, no que lhe concerne, teve como base o artigo pioneiro de segmentação panóptica \cite{Kirillov2019a}, que aplica a métrica PQ (Equação \ref{panoptic:eq:2}), realizando uma sucinta adaptação que possibilita quantificar as partes das segmentações panópticas visto que é aplicado para cada uma das classes ($l$) presentes na cena, sendo elas \textit{thing} ou \textit{stuff}. Através da equação \ref{project:avaliation:eq:1} é possível entender a métrica de avaliação \textit{Part-PQ}, a qual fora escolhida para avaliação:
+A seção de Metodologia Experimental, discutida a seguir, busca elucidar as métricas de avaliação escolhidas para determinar o desempenho dos experimentos realizados neste estudo para atingir os objetivos mencionados na Seção \ref{intro:objectives}. Essas métricas são categorizadas em duas vertentes: classificação e segmentação semântica, que serão exploradas na Seção \ref{project:metrics}.
+
+Com o intuito de promover a reproduzibilidade deste trabalho, oferece-se na Seção \ref{project:params} detalhes acerca dos parâmetros empregados no treinamento e testes conduzidos. Adicionalmente, na Seção \ref{project:explain}, será discorrido sobre os projetos utilizados neste estudo para melhor entender as classificações e segmentações à luz das percepções derivadas dos modelos.
+
+\subsubsection{Escolha das Métricas}
+\label{project:metrics}
+Para a avaliação da VGG-16 nos processos de treinamento e teste nos conjuntos de dados CIFAR-100 e \textit{Food}-101, foram empregadas duas métricas: \textit{Sparse Categorical Crossentropy} para cálculo do erro e acurácia para avaliar o desempenho da rede. Essa métrica de erro é frequentemente utilizada em problemas de classificação multi-classe, como é o caso dos problemas nos conjuntos de dados mencionados, onde a saída é codificada de forma esparsa (categórica). Essa função de perda mede a diferença entre as previsões do modelo e os rótulos reais, penalizando as discrepâncias entre eles, conforme discutido na Seção \ref{deep:cust}. Essa função pode ser representada pela Equação \ref{project:eq:metrics1}:
 
 \begin{equation}
-\label{project:avaliation:eq:1}
-    PartPQ = \frac{\sum _{(p,g) \in VP} IoU_p(p,g)}{|VP|+ \frac{1}{2}|FP| + \frac{1}{2}|FN|}.
+    \label{project:eq:metrics1}
+    J(\boldsymbol{w}) = - \sum_{i=1}^{N} y_i \cdot \text{log}(\hat{y}_i),
 \end{equation}
+em que $\boldsymbol{w}$ denota os parâmetros do modelo, $N$ é o número total de amostras, $y_i$ representa o rótulo real da amostra $i$, e $\hat{y}_i$ é a previsão do modelo para a amostra $i$.
 
-Em relação à Equação \ref{project:avaliation:eq:1}, destaca-se ainda que a segmentação das partes dentro de um segmento é capturada principalmente por meio do termo $IoU_p(p,g)$, sendo que no termo é aplicado um condicional com o intuito de deixar a classe segmentada com parte ($\mathcal{L}^{parts}$) e sem partes ($\mathcal{L}^{no-parts}$) dentro das mesmas condições, ou seja, para as classes com partes presentes, aplica-se a métrica de $mIoU$ para cada pixel de parte dentro de um segmento, enquanto para segmentações sem partes, aplica-se a $IoU$ que comumente é utilizada na métrica PQ (Equação \ref{panoptic:eq:2}). O condicional supracitado dá-se por meio da seguinte expressão:
+Quanto à acurácia, discutida na Seção \ref{deep:metrics} e representada pela Equação \ref{deep:eq:13}, vale ressaltar que foi escolhida como métrica principal. Decisões durante o treinamento e teste, como o ponto de parada antecipado (Seção \ref{deep:optimization:early_stoping}), ajuste planejado da taxa de aprendizado (Seção \ref{deep:optimization:dynamic_lr}), seleção do melhor modelo, entre outros, foram baseadas no progresso dessa métrica.
 
-\begin{equation}
-\label{project:avaliation:eq:2}
-    IoU_p(p,g)= \left\{\begin{matrix}
-        mIoU_{part}(p,g), & l \in \mathcal{L}^{parts}    & \\ 
-        IoU_{ins}(p,g),        & l \in \mathcal{L}^{no-parts} & 
-    \end{matrix}\right.
-\end{equation}
+Para avaliar as segmentações semânticas usando as arquiteturas U-Net-\textit{Like} e U-Net no conjunto de dados \textit{Oxford-IIIT Pets}, uma variedade de métricas foi empregada nos testes. Inicialmente, a métrica principal adotada foi a acurácia, conforme utilizado nos testes de classificação. Entretanto, o uso da métrica de acurácia é desencorajado para problemas de segmentação, já que muitos desses problemas podem enfrentar desequilíbrios entre as classes de interesse e o fundo \citep{Muller2022TowardsSegmentation}. Assim, a métrica principal adotada para os modelos de segmentação semântica passou a ser o \textit{Mean Intersection Over Union}, ou mIoU, detalhado na Seção \ref{semantic:miou}, representado pela Equação \ref{semantic:eq:miou}, superando as limitações da acurácia \citep{Muller2022TowardsSegmentation}.
 
-Por fim, após a aplicação de PartPQ em todas as classes, calcula-se a média entre avaliações realizadas, de modo que é possível avaliar o desempenho do modelo em toda a cena e demonstrou resultados consideráveis quando comparado à métrica original \cite{DeGeus2021}.
+Adicionalmente, com a adoção da métrica mIoU como métrica principal, incorporou-se o uso do \textit{Dice Similarity Coefficient} (DSC) mencionado na Seção \ref{semantic:f1}, para fornecer uma visão adicional sobre a performance dos modelos treinados. Quanto à métrica de função de custo empregada nos problemas de segmentação semântica, destaca-se que os desafios encontrados no conjunto de dados \textit{Oxford-IIIT Pets} são semelhantes aos encontrados nos \textit{datasets} de classificação mencionados anteriormente nesta seção. Portanto, a métrica \textit{Sparse Categorical Crossentropy} continuou a ser utilizada.
 
-\subsubsection{Comportamento das Métricas}
+Em suma, a seleção apropriada de métricas para avaliar o desempenho dos modelos de aprendizagem profunda é crítica para fornecer uma demonstração adequada de seu desempenho e adaptabilidade a diferentes tarefas. Nos experimentos realizados neste estudo, optou-se por uma combinação de métricas apropriadas para tarefas de classificação e segmentação semântica com base nas especificações únicas atribuídas a cada tarefa. O uso rigoroso e bem planejado dessas métricas por meio da hipótese orientada aumentou a robustez e a credibilidade dos resultados obtidos. A lista completa de métricas utilizadas, assim como suas aplicações, é chave para observar uma ótima otimização dos parâmetros do modelo de aprendizagem e, assim, atingir uma interpretação ideal da tarefa variada que o modelo é treinado para resolver.
+
+\subsubsection{Parâmetros de Treinamento e Teste}
+\label{project:params}
+Nessa Seção serão esmiuçados os detalhes dos parâmetros utilizados para o treinamento e teste das redes neurais. Esta investigação contemplará tanto os experimentos voltados à classificação, que empregaram a arquitetura da VGG-16 nos conjuntos de dados \textit{Food}-101 e CIFAR 100, quanto aqueles destinados à segmentação semântica. No caso da segmentação, exploramos as arquiteturas U-Net-\textit{Like} e U-Net aplicadas no conjunto de dados \textit{Oxford-IIIT Pets}.
+
+Os parâmetros de treinamento e teste são de extrema importância no desenvolvimento de um modelo, uma vez que eles determinam o comportamento do aprendizado da rede. Aqui, buscaremos elucidar como a seleção destes parâmetros foi realizada para os diferentes cenários de nossa pesquisa. Deste modo, permitiremos que futuras pesquisas na área possam ser facilmente replicáveis ou até mesmo aprimoradas, através do ajuste destes parâmetros.
+
+\paragraph{VGG-16 + \textit{Food}-101}
+
+Comentar que foi utilizado CLR \citep{Smith2017CyclicalNetworks}
+
+\paragraph{VGG-16 + CIFAR 100}
+
+Comentar que foi utilizado CLR \citep{Smith2017CyclicalNetworks}
+
+
+\paragraph{U-Net-\textit{Like} + \textit{Oxford-IIIT Pets}}
+
+\paragraph{U-Net + \textit{Oxford-IIIT Pets}}
+
 
 \subsubsection{Explicação de Modelos}
+\label{project:explain}
 
 
 \subsection{Revisão de Literatura}
