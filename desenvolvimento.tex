@@ -308,25 +308,20 @@ Estas manipulações através do aumento de dados favorecem a robustez dos model
 
 \subsubsection{Alteração na Camada de \textit{Pooling}}
 \label{project:change_pooling}
+A camada de \textit{pooling} desempenha um papel crucial na arquitetura das CNNs, contribuindo significativamente para a redução da dimensionalidade e a invariância de translação, como mencionado na Seção \ref{cnn:pooling}. Nessa seção será discutido sobre a substituição das operações \textit{Max Pooling} e \textit{Average Pooling}, amplamente utilizadas \citep{Ozdemir2023Avg-topk:Networks}, nas arquiteturas VGG-16, U-Net-\textit{Like} e U-Net pelo método BPCAPooling que foi proposto no presente trabalho e é detalhado na Seção \ref{project:bpca}.
 
-\paragraph{VGG-16}
+É importante ressaltar que para todas as arquiteturas, 
 
-\paragraph{U-Net-Like}
+Na arquitetura VGG-16, que foi aplicada na tarefa de classificação de imagens nos conjuntos de dados CIFAR-100 e \textit{Food}-101, as camadas de \textit{Max Pooling} e \textit{Avg Pooling} foram substituídas pela BPCAPooling. Tal modificação visa melhorar a capacidade do modelo de capturar características discriminativas mais relevantes, proporcionando assim uma melhoria potencial no desempenho do modelo.
 
-\paragraph{U-Net}
 
-Como explicado na Seção \ref{cnn:pooling}, a adaptação dos modelos de \textit{pooling} é crescente, sendo que essas modificações são motivadas pelos problemas a serem resolvidos, sendo assim, quando se trata de segmentações modernas, duas abordagens ganham destaque como técnicas de \textit{pooling}, sendo elas:
+Da mesma forma, na arquitetura U-Net-Like, empregada para segmentação semântica no conjunto de dados Oxford-IIIT Pets, as camadas de \textit{Max Pooling} foram igualmente trocadas pela BPCAPooling. Este rearranjo procura potenciar o desempenho do modelo no que diz respeito à detecção de bordas e regiões de interesse, incrementando assim a precisão da segmentação semântica produzida.
 
-Entretanto, vale citar que, no presente trabalho, além da escolha dos modelos acima listados, também será realizado um experimento com a aplicação da técnica de \textit{Block-Based Principal Component Analysis} (ou BPCA) nas camadas de \textit{pooling} dos modelos base para a realização da segmentação panóptica. O BPCA, desenvolvido por Salvadeo \textit{et al.} \cite{Salvadeo2011}, que se provou satisfatório para aplicações relacionadas ao reconhecimento de faces, realiza a aplicação do método \textit{Principal Component Analysis} (PCA) entre blocos que dividem uma imagem original, de modo a manter as estruturas espaciais da imagem original. Sendo assim, para o presente trabalho, tem-se a expectativa de adicionar esse método na camada de \textit{pooling} do modelo base  de segmentação panóptica ciente de parte, tendo uma redução de dimensionalidade e mantendo as estruturas originais da entrada em questão, o que normalmente é perdido quando se aplica uma estratégia de \textit{pooling} em escala global (como representado nas Figuras \ref{cnn:fig:gmax_pooling} e \ref{cnn:fig:gmax_pooling} ).  Um exemplo desse módulo pode ser visualizado na Figura \ref{project:pcapooling:fig:3}.
 
-\begin{figure}[H]
-    \centering
-    \caption{Exemplo representativo do processo do BPCA.}
-    \includegraphics[width=1\textwidth]{recursos/imagens/project/BPCA.png}
-    \label{project:pcapooling:fig:3}
+Por fim, na arquitetura U-Net, também utilizada para a tarefa de segmentação, procedeu-se à mesma substituição das camadas de \textit{Max Pooling} pelas camadas de BPCAPooling. Esta modificação visa aprimorar os recursos de segmentação da arquitetura U-Net, promovendo assim resultados mais precisos e robustos.
 
-    Fonte: retirado e adaptado de \cite{Salvadeo2011}.
-\end{figure}
+Ao longo da dissertação, será discutido o impacto desta alteração na performance dos modelos e sua relevância no contexto da aprendizagem profunda de maneira mais aprofundada.
+
 
 \subsection{Metodologia Experimental}
 \label{project:exp_result}
