@@ -310,18 +310,55 @@ Estas manipulações através do aumento de dados favorecem a robustez dos model
 \label{project:change_pooling}
 A camada de \textit{pooling} desempenha um papel crucial na arquitetura das CNNs, contribuindo significativamente para a redução da dimensionalidade e a invariância de translação, como mencionado na Seção \ref{cnn:pooling}. Nessa seção será discutido sobre a substituição das operações \textit{Max Pooling} e \textit{Average Pooling}, amplamente utilizadas \citep{Ozdemir2023Avg-topk:Networks}, nas arquiteturas VGG-16, U-Net-\textit{Like} e U-Net pelo método BPCAPooling que foi proposto no presente trabalho e é detalhado na Seção \ref{project:bpca}.
 
-É importante ressaltar que para todas as arquiteturas, 
+É fundamental salientar que a modificação da camada de \textit{pooling} envolveu a inclusão de argumentos adicionais para a camada. Enquanto os métodos de \textit{pooling} convencionais normalmente recebem parâmetros como a camada anterior, tamanho de passo (\textit{stride}) e tamanho da \textit{kernel}, para o processo BPCAPooling, além desses parâmetros, foi necessário especificar o número de componentes principais atribuídos a cada bloco. Tipicamente, esse número era definido como $1$ para manter a consistência entre os tamanhos de blocos e o subconjunto de pixels (conforme discutido na Seção \ref{project:bpca}), e o tamanho esperado da saída, o que estava diretamente relacionado à quantidade de dados de entrada.
 
-Na arquitetura VGG-16, que foi aplicada na tarefa de classificação de imagens nos conjuntos de dados CIFAR-100 e \textit{Food}-101, as camadas de \textit{Max Pooling} e \textit{Avg Pooling} foram substituídas pela BPCAPooling. Tal modificação visa melhorar a capacidade do modelo de capturar características discriminativas mais relevantes, proporcionando assim uma melhoria potencial no desempenho do modelo.
+Na arquitetura VGG-16, utilizada para classificação de imagens nos conjuntos de dados CIFAR-100 e \textit{Food}-101, as camadas de \textit{Max Pooling} e \textit{Avg Pooling} foram substituídas pelo BPCAPooling. Essa mudança foi implementada com o intuito de melhorar a capacidade do modelo de capturar características discriminativas mais relevantes, potencialmente aprimorando o desempenho do modelo. A Figura \ref{project:fig:change_pooling:vgg-cifar} ilustra essa substituição para o conjunto de dados CIFAR-100.
 
+\begin{figure}[H]
+    \centering
+    \caption{Demonstração da substituição das camadas de \textit{pooling} convencionais por BPCAPooling no conjunto de dados CIFAR-100.}
+    \includegraphics[width=1\textwidth]{recursos/imagens/project/vgg-with-bpca-cifar.png}
+    \label{project:fig:change_pooling:vgg-cifar}
 
-Da mesma forma, na arquitetura U-Net-Like, empregada para segmentação semântica no conjunto de dados Oxford-IIIT Pets, as camadas de \textit{Max Pooling} foram igualmente trocadas pela BPCAPooling. Este rearranjo procura potenciar o desempenho do modelo no que diz respeito à detecção de bordas e regiões de interesse, incrementando assim a precisão da segmentação semântica produzida.
+    Fonte: do próprio autor.
+\end{figure}
 
+Quanto à alteração da camada de \textit{pooling} na VGG-16 para o conjunto de dados \textit{Food}-101, a única diferença notável foi na camada de saída, que agora possui $413.797$ parâmetros. Isso se deve ao fato de que a camada de saída é sensível ao tamanho da imagem. A Figura \ref{project:fig:change_pooling:vgg-food} ilustra essa mudança para o conjunto de dados \textit{Food}-101.
 
-Por fim, na arquitetura U-Net, também utilizada para a tarefa de segmentação, procedeu-se à mesma substituição das camadas de \textit{Max Pooling} pelas camadas de BPCAPooling. Esta modificação visa aprimorar os recursos de segmentação da arquitetura U-Net, promovendo assim resultados mais precisos e robustos.
+\begin{figure}[H]
+    \centering
+    \caption{Demonstração da substituição das camadas de \textit{pooling} convencionais por BPCAPooling no conjunto de dados \textit{Food}-101.}
+    \includegraphics[width=1\textwidth]{recursos/imagens/project/vgg-with-bpca-food.png}
+    \label{project:fig:change_pooling:vgg-food}
 
-Ao longo da dissertação, será discutido o impacto desta alteração na performance dos modelos e sua relevância no contexto da aprendizagem profunda de maneira mais aprofundada.
+    Fonte: do próprio autor.
+\end{figure}
 
+Dessa forma, ao comparar as alterações nas camadas em relação à VGG-16 original para ambos os conjuntos de dados, nota-se a inclusão de uma camada de \textit{dropout} no final da rede, visando mitigar problemas de \textit{overfitting}, conforme discutido na Seção \ref{cnn:dropout}, que assim como as camadas de \textit{pooling}, não é visível uma influencia quanto à quantidade de parâmetros treináveis. A rede para o conjunto de \textit{Food}-101 possui um total de $34.011.045$ parâmetros, enquanto para o conjunto CIFAR-100, são $34.006.948$ parâmetros.
+
+Da mesma forma, na arquitetura U-Net-Like, empregada para segmentação semântica no conjunto de dados \textit{Oxford-IIIT Pets}, as camadas de \textit{Max Pooling} foram igualmente trocadas pela BPCAPooling, destacando que para as arquiteturas de segmentação semântica, não houve testes com o uso de \textit{Avg Pooling} visto que esse tipo de \textit{pooling} não é utilizado nas arquiteturas estado da arte \citep{Ronneberger2015U-net:Segmentation,Kugelman2022ASegmentation}. Este rearranjo procura potenciar o desempenho do modelo no que diz respeito à precisão da segmentação semântica produzida, preservando a espacialidade das entradas no decorrer das camadas, como representado pela Figura \ref{project:fig:change_pooling:unet-like}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Demonstração da substituição das camadas de \textit{pooling} por BPCAPooling em U-Net-\textit{Like}.}
+    \includegraphics[width=1\textwidth]{recursos/imagens/project/vgg-with-bpca-food.png}
+    \label{project:fig:change_pooling:unet-like}
+
+    Fonte: do próprio autor.
+\end{figure}
+
+Na arquitetura U-Net, também utilizada para a tarefa de segmentação semântica, procedeu-se à mesma substituição das camadas de \textit{Max Pooling} pelas camadas de BPCAPooling. Esta modificação visa aprimorar os recursos de segmentação da arquitetura U-Net, trazendo os mesmos benefícios citados para a arquitetura de U-Net-Like, todavia de forma mais robusta. A representação dessa mudança pode ser visulizada através da Figura \ref{project:fig:change_pooling:unet}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Demonstração da substituição das camadas de \textit{pooling} por BPCAPooling em U-Net-\textit{Like}.}
+    \includegraphics[width=1\textwidth]{recursos/imagens/project/vgg-with-bpca-food.png}
+    \label{project:fig:change_pooling:unet}
+
+    Fonte: do próprio autor.
+\end{figure}
+
+Ao comparar as arquiteturas retratadas nas Figuras \ref{project:fig:change_pooling:unet-like} e \ref{project:fig:change_pooling:unet} é possível observar os detalhes comentados na Seção \ref{semantic:arch}, em que a quantidade de parâmetros 
 
 \subsection{Metodologia Experimental}
 \label{project:exp_result}
