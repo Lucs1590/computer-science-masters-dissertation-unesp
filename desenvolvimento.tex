@@ -336,29 +336,29 @@ Quanto à alteração da camada de \textit{pooling} na VGG-16 para o conjunto de
 
 Dessa forma, ao comparar as alterações nas camadas em relação à VGG-16 original para ambos os conjuntos de dados, nota-se a inclusão de uma camada de \textit{dropout} no final da rede, visando mitigar problemas de \textit{overfitting}, conforme discutido na Seção \ref{cnn:dropout}, que assim como as camadas de \textit{pooling}, não é visível uma influencia quanto à quantidade de parâmetros treináveis. A rede para o conjunto de \textit{Food}-101 possui um total de $34.011.045$ parâmetros, enquanto para o conjunto CIFAR-100, são $34.006.948$ parâmetros.
 
-Da mesma forma, na arquitetura U-Net-Like, empregada para segmentação semântica no conjunto de dados \textit{Oxford-IIIT Pets}, as camadas de \textit{Max Pooling} foram igualmente trocadas pela BPCAPooling, destacando que para as arquiteturas de segmentação semântica, não houve testes com o uso de \textit{Avg Pooling} visto que esse tipo de \textit{pooling} não é utilizado nas arquiteturas estado da arte \citep{Ronneberger2015U-net:Segmentation,Kugelman2022ASegmentation}. Este rearranjo procura potenciar o desempenho do modelo no que diz respeito à precisão da segmentação semântica produzida, preservando a espacialidade das entradas no decorrer das camadas, como representado pela Figura \ref{project:fig:change_pooling:unet-like}.
+Da mesma forma, na arquitetura U-Net-\textit{Like}, empregada para segmentação semântica no conjunto de dados \textit{Oxford-IIIT Pets}, as camadas de \textit{Max Pooling} foram substituídas pela BPCAPooling. Vale ressaltar que, para as arquiteturas de segmentação semântica, não foi explorado o uso de \textit{Avg Pooling}, pois esse tipo de \textit{pooling} não é comumente empregado em arquiteturas de estado da arte \citep{Ronneberger2015U-net:Segmentation,Kugelman2022ASegmentation}. Essa adaptação teve como objetivo potencializar a precisão da segmentação semântica, mantendo a espacialidade das entradas ao longo das camadas, como ilustrado na Figura \ref{project:fig:change_pooling:unet-like}.
 
 \begin{figure}[H]
     \centering
     \caption{Demonstração da substituição das camadas de \textit{pooling} por BPCAPooling em U-Net-\textit{Like}.}
-    \includegraphics[width=1\textwidth]{recursos/imagens/project/vgg-with-bpca-food.png}
+    \includegraphics[width=1\textwidth]{recursos/imagens/project/unet-like-with-bpca-food.png}
     \label{project:fig:change_pooling:unet-like}
 
     Fonte: do próprio autor.
 \end{figure}
 
-Na arquitetura U-Net, também utilizada para a tarefa de segmentação semântica, procedeu-se à mesma substituição das camadas de \textit{Max Pooling} pelas camadas de BPCAPooling. Esta modificação visa aprimorar os recursos de segmentação da arquitetura U-Net, trazendo os mesmos benefícios citados para a arquitetura de U-Net-Like, todavia de forma mais robusta. A representação dessa mudança pode ser visulizada através da Figura \ref{project:fig:change_pooling:unet}.
+Na arquitetura U-Net, também empregada para segmentação semântica, as camadas de \textit{Max Pooling} foram substituídas pelas camadas de BPCAPooling. Essa modificação busca aprimorar as capacidades de segmentação da arquitetura U-Net, proporcionando os mesmos benefícios descritos para a U-Net-\textit{Like}, porém de maneira mais robusta. A representação dessa adaptação está na Figura \ref{project:fig:change_pooling:unet}, similar às representações anteriores (\ref{project:fig:change_pooling:vgg-cifar} e \ref{project:fig:change_pooling:vgg-food}). Nessa figura, foi apresentada a arquitetura final com a aplicação do BPCAPooling, demonstrando a quantidade de parâmetros em cada camada.
 
 \begin{figure}[H]
     \centering
-    \caption{Demonstração da substituição das camadas de \textit{pooling} por BPCAPooling em U-Net-\textit{Like}.}
-    \includegraphics[width=1\textwidth]{recursos/imagens/project/vgg-with-bpca-food.png}
+    \caption{Arquitetura U-Net com aplicação de BPCAPooling.}
+    \includegraphics[width=1\textwidth]{recursos/imagens/project/unet-with-bpca.png}
     \label{project:fig:change_pooling:unet}
 
     Fonte: do próprio autor.
 \end{figure}
 
-Ao comparar as arquiteturas retratadas nas Figuras \ref{project:fig:change_pooling:unet-like} e \ref{project:fig:change_pooling:unet} é possível observar os detalhes comentados na Seção \ref{semantic:arch}, em que a quantidade de parâmetros 
+Comparando as arquiteturas representadas nas Figuras \ref{project:fig:change_pooling:unet-like} e \ref{project:fig:change_pooling:unet}, é possível observar os detalhes discutidos na Seção \ref{semantic:arch}. A U-Net possui aproximadamente quinze vezes mais parâmetros do que a U-Net-\textit{Like}, com um total de $31.056.963$ parâmetros treináveis, enquanto a U-Net-\textit{Like} possui $2.058.979$ parâmetros treináveis, para ambas as abordagens de \textit{pooling}. Além disso, é interessante notar que os parâmetros do BPCAPooling permanecem zerados, assim como observado na VGG, replicando o comportamento do \textit{Max Pooling}.
 
 \subsection{Metodologia Experimental}
 \label{project:exp_result}

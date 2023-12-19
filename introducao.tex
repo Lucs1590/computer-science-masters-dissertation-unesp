@@ -6,29 +6,39 @@
 \section{Introdução}
 \label{intro:intro}
 
-A segmentação de imagens tem sido de extrema importância em meio ao contexto de visão computacional e entendimento de cenas, assim como uma grande auxiliadora para as questões relacionadas a atividades humanas. É visível que as segmentações sozinhas não causam um efeito de ação, mas são amplamente utilizadas como forma de auxiliar atividades humanas, das quais se destaca as análises das áreas médicas \citep{Lai2015, Withey2008} e exemplifica-se por meio da extração de limite de tumor \citep{Malkanthi2017}, medição de volumes de tecido e mapeamento de órgãos específicos em exames de imagem \citep{Gibson2018, Schoppe2020}, como é possível observar na Figura \ref{intro:fig:1}.
+A segmentação de imagens assume um papel fundamental no campo de visão computacional e análise de cenas, desempenhando uma função instrumental no auxílio de atividades humanas complexas. Embora a segmentação em si não desencadeie uma ação, a sua aplicação está profundamente enraizada em diversas áreas que dependem de análise visual, particularmente nas ciências da saúde.
+
+Em particular, na medicina, a segmentação de imagens tem sido uma ferramenta valiosa, possibilitando avaliações analíticas mais precisas e detalhadas \citep{Lai2015, Withey2008}. É visível, por exemplo, na radiologia, onde a segmentação é aplicada para delimitar com precisão tumores \citep{Malkanthi2017}, proporcionando informações vitais para a programação de intervenções cirúrgicas e tratamentos oncológicos. O mesmo se aplica à quantificação de volumes teciduais e ao mapeamento preciso de órgãos específicos a partir de exames de imagem \citep{Gibson2018, Schoppe2020}. Estas aplicações culminam em uma melhor compreensão da anatomia do paciente e possíveis patologias, levando a decisões de tratamento mais bem fundamentadas e precisas. A Figura \ref{intro:fig:1} demonstra situações em que a segmentação de imagens desempenha um papel imprescindível no cenário médico.
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplos de segmentação no contexto médico. Representação de segmentação de vasos sanguíneos, câncer de pele, câncer pulmonar e núcleos celulares, respectivamente.}
+    \caption{Exemplos de aplicação da segmentação no contexto médico, representando segmentação de vasos sanguíneos, câncer de pele, câncer pulmonar e núcleos celulares, respectivamente.}
     \includegraphics[width=1\linewidth]{recursos/imagens/introduction/medical-image-segmentation.png}
     \label{intro:fig:1}
 
     Fonte: \cite{Asadi-Aghbolaghi2020}.
 \end{figure}
 
-Outro contexto que tem usufruído muito das segmentações, que são aplicadas em imagens e vídeos, é o de sistemas autônomos \citep{Kaymak2019, Liu2020, Pan2020, Teichmann2018}, dos quais se cita os de máquinas empresariais para controle de qualidade e os carros autônomos, que necessitam realizar a segmentação de pedestres, placas e sinaleiros, como nos trabalhos realizados por \cite{Lee2018, Fleyeh2004} e \cite{Pan2020}, dos quais é possível observar exemplos a partir da Figura \ref{intro:fig:2}.
+A segmentação de imagens e vídeos é igualmente crucial no desenvolvimento e implementação de sistemas autônomos \citep{Kaymak2019, Liu2020, Pan2020, Teichmann2018}. Nestes sistemas, que abrangem diversas áreas - da indústria ao transporte - a segmentação é frequentemente aplicada a uma variedade de tarefas essenciais.
+
+No setor industrial, por exemplo, máquinas autônomas frequentemente dependem da segmentação para realizar tarefas de controle de qualidade. Isso envolve a análise meticulosa de imagens de produtos em linhas de montagem para identificar, por exemplo, possíveis defeitos de fabricação.
+
+De modo similar, em sistemas de transporte autônomo, como carros completamente automatizados, a segmentação de imagens é vital para garantir a segurança e a eficácia operacional. Tais sistemas utilizam a segmentação para distinguir e identificar precisamente vários elementos em um ambiente de condução - como pedestres, placas de trânsito e sinais de trânsito, conforme desenvolvido por \cite{Lee2018} e \cite{Fleyeh2004}. Esta análise permite que o sistema reaja de maneira adequada a uma variedade de situações de condução e potenciais obstáculos \citep{Lee2018, Fleyeh2004, Pan2020}. A Figura \ref{intro:fig:2} apresenta exemplos de tais aplicações, evidenciando o papel crucial que a segmentação de imagens e vídeos desempenha em sistemas autônomos.
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplos de segmentação feita por sistemas autônomos.}
+    \caption{Exemplos de segmentação em sistemas autônomos.}
     \includegraphics[width=1\linewidth]{recursos/imagens/introduction/placas.png}
     \label{intro:fig:2}
 
     Fonte: \cite{Lee2018}.
 \end{figure}
 
-Todavia, como citado no início deste capítulo, as segmentações não geram diretamente uma ação, mas são altamente difundidas como um processo intermediário para o reconhecimento de imagens ou detecção de objetos, como ocorre no trabalho executado por \cite{Carneiro2021}, que utiliza do método \textit{GrabCut} \citep{rother2004grabcut}, um método de segmentação baseado em grafos (que também são comuns no contexto de segmentação, como apresentado por \cite{Yi2012}) para realizar a segmentação das folhas de café antes de realizar a detecção de doenças e pragas na folha do café, como demonstrado na Figura \ref{intro:fig:3}. Este tipo de abordagem para as segmentações de imagens é muito comum como forma auxiliar em relação ao fluxo completo de sistemas de visão computacional.
+Embora a segmentação seja um passo essencial no processo de análise de imagens, como mencionado anteriormente, ela não gera diretamente uma ação. Em vez disso, a segmentação muitas vezes faz parte de um protocolo intermediário em fluxos de trabalho que envolvem reconhecimento de imagens ou detecção de objetos.
+
+Um exemplo distinto do papel primordial da segmentação pode ser observado no estudo conduzido por \cite{Carneiro2021}, onde é implementado o método \textit{GrabCut} \citep{rother2004grabcut} para a segmentação de imagens. \textit{GrabCut} é um método de segmentação baseado em grafos, uma abordagem bastante frequente no domínio da segmentação, como explorado por \cite{Yi2012}.
+
+No caso do estudo de \cite{Carneiro2021}, o processo de segmentação é uma etapa prévia à crucial fase de detecção de doenças e pragas em folhas de café. Inicialmente, a segmentação por meio do \textit{GrabCut} é empregada para isolar as folhas de café na imagem. Seguidamente, os resultados desta segmentação servem como base para a detecção mais precisa de possíveis enfermidades ou infestações nessas folhas. A Figura \ref{intro:fig:3} ilustra essa aplicação.
 
 \begin{figure}[H]
     \centering
@@ -40,7 +50,13 @@ Todavia, como citado no início deste capítulo, as segmentações não geram di
     Fonte: \cite{Carneiro2021}.
 \end{figure}
 
-Quanto às áreas de aplicação que viabilizam o uso das técnicas de segmentação e podem usufruir da mesma, vale citar também a área odontológica, em que há uma busca em relação à exploração de todos os componentes presentes na boca dos pacientes, desde doenças (como as cáries) até a contagem e classificação de saúde dos dentes. Para várias dessas atividades, o diagnóstico é acompanhado de análises de imagens clínicas, buscando evidenciar as necessidades com o uso de aparelhos \citep{Schwendicke2020}. Deste modo, como citado por \cite{Bansal2021, Nguyen2021} e \cite{Schwendicke2020}, destaca-se que as soluções para esses tipos de problemas têm sido encontradas com a aplicação de inteligência artificial que aumentam o desempenho da atuação humana. A Figura \ref{intro:fig:4} exemplifica algumas aplicações desenvolvidas com o intuito de segmentar dentes e cáries.
+Este modelo é emblemático de como a segmentação de imagens auxilia em cadeias complexas de processamento em sistemas de visão computacional. Ao facilitar o isolamento preciso de áreas de interesse, a segmentação permite extrair informações mais detalhadas e significativas de imagens, gerando impactos expressivos nos resultados finais. Dessa forma, continua sendo uma ferramenta indispensável em uma grande variedade de aplicações práticas e pesquisas acadêmicas.
+
+Também entre os domínios de aplicação da segmentação de imagens revela-se a área odontológica, com diversas oportunidades e desafios \citep{Ghazvinian2021,Minyoung2020}. Neste ramo, há um contínuo empenho na identificação precisa de todos os componentes presentes na cavidade bucal dos pacientes, variando desde o diagnóstico de condições patológicas, como as cáries, até a avaliação do estado de saúde dos dentes.
+
+Para muitas destas atividades, o diagnóstico é acentuadamente baseado na análise de imagens clínicas, cuja interpretação precisa é fundamental para determinar os próximos passos do tratamento, inclusive a necessidade de dispositivos ortodônticos \citep{Schwendicke2020}. Nessa direção, conforme destacado por \cite{Bansal2021, Nguyen2021} e \cite{Schwendicke2020}, as abordagens baseadas em inteligência artificial têm emergido como soluções promissoras. Ao melhorar a precisão e a velocidade do diagnóstico, elas potencializam o desempenho humano e melhoram os resultados do tratamento.
+
+Um exemplo explícito disso é a aplicação da segmentação de imagens para o reconhecimento de dentes e cáries. Através do uso de métodos de segmentação avançados, é possível isolar e identificar precisamente estas estruturas dentárias e patologias na imagem, facilitando a análise e o diagnóstico subsequente. A Figura \ref{intro:fig:4} apresenta algumas aplicações exemplares da segmentação de imagens em odontologia, demonstrando o potencial deste método para aprimorar a prática clínica.
 
 \begin{figure}[H]
     \centering
@@ -51,25 +67,38 @@ Quanto às áreas de aplicação que viabilizam o uso das técnicas de segmenta�
     Fonte: retirado e adaptado de \cite{Shuai2016,Bayrakdar2021,Gil2019}, respectivamente.
 \end{figure}
 
-Dentre as abordagens de segmentação, vale dizer que muitos algoritmos foram desenvolvidos para suprir a necessidade de segmentação, dos quais se destacam métodos artesanais (que serão trabalhados no Capitulo \ref{segment}), como os baseados em região ou limiar (Seção \ref{segment:region}), em bordas (Seção \ref{segment:limit}) e agrupamentos (Seção \ref{segment:group}) ou até em métodos mais complexos, devido ao progresso proporcionado pelos avanços de redes neurais, como os algoritmos baseados nessa hipótese (Seção \ref{segment:neural}).
+Dentre as abordagens de segmentação, vale dizer que muitos algoritmos foram desenvolvidos para suprir a necessidade de segmentação, dos quais se destacam métodos artesanais (que serão trabalhados no Capitulo \ref{segment}), como os baseados em região ou limiar (Seção \ref{segment:region}), em bordas (Seção \ref{segment:limit}), grafos (Seção \ref{segment:graph}), algorítimos como \textit{Watershed} (Seção \ref{segment:watershed}), \textit{Livewire} (Seção \ref{segment:livewire}) e Superpixel (Seção \ref{segment:superpixel}), além dos agrupamentos (Seção \ref{segment:group}) ou até em métodos mais complexos, devido ao progresso proporcionado pelos avanços de redes neurais, como os algoritmos baseados nessa hipótese (Seção \ref{segment:neural}).
 
-Na medida em que algumas propostas utilizadas em inteligência artificial vêm avançando, observa-se diversos avanços nas áreas de aprendizado profundo, tendo grande destaque e evolução quanto ao âmbito de segmentação de imagens. Esses avanços ocorrem não só devido a um \textit{hardware} com mais capacidade de processamento ou uma maior quantidade de dados disponíveis, mas também por causa da criação de novos algoritmos e abordagens para resolver esses problemas \citep{Szegedy2015}.
+Na medida em que algumas propostas utilizadas em inteligência artificial vêm avançando, observa-se diversos avanços nas áreas de aprendizado profundo, tendo grande destaque e evolução quanto ao âmbito de segmentação de imagens. Esses avanços ocorrem não só devido a um \textit{hardware} com mais capacidade de processamento ou uma maior quantidade de dados disponíveis, mas também por causa da criação de novos algoritmos e abordagens para resolver esses problemas \citep{Szegedy2015} de modo mais adequado.
 
-A partir desses modelos mais modernos que utilizam como recurso o aprendizado profundo, cita-se que estes possuem capacidade de segmentar e propor classes para todos os pixels de uma imagem \citep{Minaee2021}, outros são capazes de segmentar objetos de mesma classe como instâncias diferentes, ou ainda outros que propõe fazer a unificação de ambas propostas anteriores dando um maior detalhamento das cenas, como é o caso das segmentações semânticas (Capitulo \ref{semantic}).
+A partir desses modelos mais modernos que utilizam como recurso o aprendizado profundo, cita-se que estes possuem a capacidade de realizar combinações matriciais com o destaque de características específicas ou até mesmo capacidade de segmentar e propor classes para todos os pixels de uma imagem \citep{Minaee2021}, como é o caso das redes neurais convolucionais (Capitulo \ref{cnn}) e das segmentações semânticas (Capitulo \ref{semantic}).
 
 Com o avanço das técnicas de segmentação mais modernas, tornou-se possível trabalhar com um maior volume de dados presentes nas imagens, abrindo oportunidades para a realização de experimentos relacionados à escala dos objetos presentes na cena e à dimensionalidade preservada pelos modelos. No entanto, mesmo com as abordagens de segmentação mais avançadas, a segmentação de objetos pequenos na imagem ainda representa um grande desafio \citep{Sang2023Small-ObjectAttention, Su2021Small-scaleFusion}.
 
-O tratamento de objetos em pequena escala oferece perspectivas promissoras para aplicações na área odontológica, entre outras. Compartilhando diversos desafios específicos, a área odontológica pode se beneficiar da aplicação de modelos modernos de segmentação, como demonstrado por \cite{Ghazvinian2021} e \cite{Minyoung2020}, em contraste com a prática mais comum de utilizar métodos tradicionais \citep{Hammad2020}. O desenvolvimento de projetos de segmentação voltados para essa área pode auxiliar profissionais a descreverem a saúde bucal do paciente, contribuindo significativamente para o diagnóstico \citep{Ghazvinian2021}.
+Outro ponto que pode ser explorados desde os modelos mais profundos que utilizam técnicas para reduzir a dimensionalidade das imagens, até os modelos mais novos com a tarefa de segmentar cada detalhe da imagem, é se os métodos comumente utilizados são os melhores para quesitos de preservação espacial.
 
-No presente projeto serão listados alguns modelos de algoritmos e \textit{frameworks} conhecidos, dos quais alguns são definidos como estado-da-arte (\textit{Mask} R-CNN e U-Net, por exemplo), de modo que estes estejam relacionados a segmentações e que seja possível encontrar vantagens, desvantagens e possibilidades de exploração em relação aos mesmos para basear novos experimentos, assim, contribuindo para a evolução científica na esfera de segmentações, principalmente das que fazem uso de aprendizado profundo.
-
-Assim, espera-se que esta investigação possa contribuir para a geração futura de uma ferramenta automática para a geração detalhada de sobre as condições bucais e dentais de pacientes. Além de poder contribuir com os profissionais dentistas, isso pode contribuir como uma ferramenta de auxílio inicial ao diagnóstico e triagem, algo importante para locais do planeta que possuem recursos e acessos escassos para o tratamento odontológico.
+Sendo assim, no presente projeto serão listados alguns modelos de algoritmos e \textit{frameworks} conhecidos, dos quais alguns são definidos como estado-da-arte (U-Net, por exemplo), de modo que estes estejam relacionados a segmentações e que seja possível encontrar vantagens, desvantagens e possibilidades de exploração em relação aos mesmos para basear novos experimentos, assim, contribuindo para a evolução científica na esfera de segmentações, principalmente das que fazem uso de aprendizado profundo.
 
 \subsection{Objetivos}
 \label{intro:objectives}
-- Propor um novo modelo de pooling que preserve a espacialidade no lugar dos convencionais que não fazem isso (pegar referências do artigo do SIBIGRAPI)
-- Aplicar um novo modelo de pooling substituindo os convencionais utilizados nas CNNs comuns;
-- Aplicar um novo modelo de pooling substituindo os convencionais utilizados em modelos de segmentação semântica;
+O objetivo geral deste trabalho consiste em propor um novo método de \textit{pooling} que, além de reduzir a dimensionalidade, preserva as informações espaciais, visando aprimorar o detalhamento das segmentações. Tal proposta se diferencia dos métodos convencionais de \textit{pooling}, os quais não atendem a esse requisito \citep{Liu2019Multi-LevelNetworks}. Para validar essa abordagem, foram conduzidos experimentos considerando diferentes arquiteturas, desde redes convolucionais convencionais até modelos mais avançados para a segmentação semântica, buscando observar o impacto em diferentes contextos. As principais questões de pesquisa deste trabalho são:
+
+\begin{enumerate}
+    \item É possível conceber um método de \textit{pooling} que reduza a dimensionalidade e preserve a espacialidade?
+    \item O método de \textit{pooling} proposto é capaz de substituir os métodos convencionais?
+    \item Existem diferenças significativas na aplicação do método proposto entre redes convolucionais convencionais e modelos de segmentação semântica?
+\end{enumerate}
+
+A primeira questão foi explorada por meio do desenvolvimento de uma proposta de \textit{pooling} denominada \textit{Block-based Principal Component Analysis} (BPCAPooling), a qual será detalhada na Seção \ref{project:bpca}, visando abordar os desafios mencionados nessa questão específica.
+
+O segundo item de pesquisa busca testar o método proposto em comparação com os métodos convencionalmente utilizados para a tarefa de \textit{pooling}. Esta etapa está diretamente relacionada ao terceiro ponto mencionado, o qual visa realizar esses testes em diferentes arquiteturas, desde aquelas mais antigas que introduzem conceitos de \textit{pooling} até arquiteturas mais modernas dedicadas à segmentação detalhada de imagens. Dessa forma, as contribuições pretendidas por esta pesquisa são:
+
+\begin{enumerate}
+    \item Desenvolver um novo método de \textit{pooling}.
+    \item Avaliar a aplicabilidade do novo método de \textit{pooling} substituindo os métodos convencionais em redes convolucionais tradicionais.
+    \item Analisar a eficácia do novo método de \textit{pooling} em substituir os métodos convencionais em modelos de segmentação semântica.
+\end{enumerate}
+
 
 \subsection{Considerações Finais do Capítulo}
 \label{intro:end}
