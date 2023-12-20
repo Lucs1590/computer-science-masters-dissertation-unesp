@@ -392,12 +392,171 @@ Nessa Seção serão esmiuçados os detalhes dos parâmetros utilizados para o t
 Os parâmetros de treinamento e teste são de extrema importância no desenvolvimento de um modelo, uma vez que eles determinam o comportamento do aprendizado da rede. Aqui, buscaremos elucidar como a seleção destes parâmetros foi realizada para os diferentes cenários de nossa pesquisa. Deste modo, permitiremos que futuras pesquisas na área possam ser facilmente replicáveis ou até mesmo aprimoradas, através do ajuste destes parâmetros.
 
 \paragraph{VGG-16 + \textit{Food}-101}
+\label{params:vggfood}
+Na configuração da VGG-16 para o conjunto de dados \textit{Food}-101, é relevante destacar a definição inicial das sementes (\textit{seeds}) iguais à $77$ para as bibliotecas TensorFlow e NumPy. Essas sementes foram estabelecidas visando a reprodução consistente dos resultados nos testes, reduzindo variações indesejadas \citep{Alahmari2020ChallengesModels}. Além disso, durante a fase de preparação dos dados, um parâmetro crucial foi o tamanho do lote (\textit{batch size}), estabelecido em $64$. Este parâmetro determina a quantidade de imagens usadas no treinamento durante uma única época \citep{Kandel2020TheDataset}. Por fim, entre as variáveis mantidas constantes em todos os procedimentos, destaca-se a taxa de aprendizado definida como $1e^{-5}$, considerada uma taxa mais conservadora, cuja importância é discutida na Seção \ref{deep:optimization:dynamic_lr}.
 
-Comentar que foi utilizado CLR \citep{Smith2017CyclicalNetworks}
+Outros parâmetros relevantes incluem o número de épocas usadas para treinamento e teste do modelo, bem como as funções de otimização empregadas nesses processos. Adicionalmente, a estratégia de atualização dinâmica da taxa de aprendizado com CLR \citep{Smith2017CyclicalNetworks} é digna de menção. No entanto, devido à realização de um processo de ajuste fino (\textit{fine-tuning}) nas arquiteturas da VGG-16, é importante ressaltar que esses parâmetros variavam de acordo com a fase da execução. Cada modelo foi treinado quatro vezes, como ilustrado na Figura \ref{project:fig:transf1} e mencionado na Seção \ref{project:transf}. Portanto, as Tabelas \ref{project:tab:params:vggfoodbpca}, \ref{project:tab:params:vggfoodmax} e \ref{project:tab:params:vggfoodavg} apresentam os parâmetros utilizados em cada fase do processo de \textit{fine-tuning} com o uso de BPCAPooling, \textit{Max Pooling} e \textit{Avg Pooling}, respectivamente.
+
+\begin{table}[H]
+    \centering
+    \caption{Parâmetros de treinamento e teste com VGG-16 e BPCAPooling no conjunto \textit{Food}-101.}
+    \label{project:tab:params:vggfoodbpca}
+    \resizebox{1\textwidth}{!}{
+        \begin{tabular}{l|l|l|l|l|l|l|l|l}
+            % \firsthline
+            \multicolumn{1}{c|}{\textbf{Parâmetros}}      & \multicolumn{2}{c|}{\textbf{\textit{Warm-up}}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}     \\
+            \cline{2-9}
+            \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c}{\textbf{Uso}} \\
+            \hline
+            Épocas                                       & 700                                & -                       & 700                                & -                       & 700                                & -                       & 700                                & -                                                                  \\
+            Época de Parada                              & 188                                & -                       & 167                                & -                       & 700                                & -                       & 219                                & -                                                                  \\
+            Parada Antecipada                            & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+            CLR                                          & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+            Taxa de Aprendizado Mínima                   & 0.0001                             & -                       & 0.00001                            & -                       & 0.00001                            & -                       & 0.00001                            & -                                                                  \\
+            Taxa de Aprendizado Máxima                   & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                                                                  \\
+            Função de Otimização                         & Adam                               & -                       & SGD                                & -                       & SGD                                & -                       & SGD                                & -                       
+        \end{tabular}
+        }
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Parâmetros de treinamento e teste com VGG-16 e \textit{Max Pooling} no conjunto \textit{Food}-101.}
+    \label{project:tab:params:vggfoodmax}
+    \resizebox{1\textwidth}{!}{
+        \begin{tabular}{l|l|l|l|l|l|l|l|l}
+            % \firsthline
+            \multicolumn{1}{c|}{\textbf{Parâmetros}}      & \multicolumn{2}{c|}{\textbf{\textit{Warm-up}}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}     \\
+            \cline{2-9}
+            \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c}{\textbf{Uso}} \\
+            \hline
+            Épocas                                       & 700                                & -                       & 700                                & -                       & 700                                & -                       & 700                                & -                                                                  \\
+            Época de Parada                              & 700                                & -                       & 700                                & -                       & 514                                & -                       & 105                                & -                                                                  \\
+            Parada Antecipada                            & -                                  & Falso                   & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+            CLR                                          & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+            Taxa de Aprendizado Mínima                   & 0.0001                             & -                       & 0.00001                            & -                       & 0.00001                            & -                       & 0.00001                            & -                                                                  \\
+            Taxa de Aprendizado Máxima                   & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                                                                  \\
+            Função de Otimização                         & Adam                               & -                       & SGD                                & -                       & SGD                                & -                       & SGD                                & -                       
+        \end{tabular}
+        }
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Parâmetros de treinamento e teste com VGG-16 e \textit{Avg Pooling} no conjunto \textit{Food}-101.}
+    \label{project:tab:params:vggfoodavg}
+    \resizebox{1\textwidth}{!}{
+        \begin{tabular}{l|l|l|l|l|l|l|l|l}
+            % \firsthline
+            \multicolumn{1}{c|}{\textbf{Parâmetros}}      & \multicolumn{2}{c|}{\textbf{\textit{Warm-up}}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}     \\
+            \cline{2-9}
+            \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c}{\textbf{Uso}} \\
+            \hline
+            Épocas                                       & 700                                & -                       & 700                                & -                       & 700                                & -                       & 700                                & -                                                                  \\
+            Época de Parada                              & 700                                & -                       & 700                                & -                       & 700                                & -                       & 249                                & -                                                                  \\
+            Parada Antecipada                            & -                                  & Falso                   & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+            CLR                                          & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+            Taxa de Aprendizado Mínima                   & 0.0001                             & -                       & 0.00001                            & -                       & 0.00001                            & -                       & 0.00001                            & -                                                                  \\
+            Taxa de Aprendizado Máxima                   & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                                                                  \\
+            Função de Otimização                         & Adam                               & -                       & SGD                                & -                       & SGD                                & -                       & SGD                                & -                       
+        \end{tabular}
+        }
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+\end{table}
+
+Analisando as Tabelas \ref{project:tab:params:vggfoodbpca}, \ref{project:tab:params:vggfoodmax} e \ref{project:tab:params:vggfoodavg}, observa-se que o parâmetro que mais se destaca é a Época de Parada, o qual é influenciado pela técnica de Parada Antecipada (\textit{Early Stopping}). Ademais, as variações entre as configurações se dão pelo emprego ou não da taxa de aprendizado dinâmica utilizando o método CLR (\textit{Cyclical Learning Rate}). Essas discrepâncias refletem diferentes estratégias adotadas no treinamento dos modelos.
 
 \paragraph{VGG-16 + CIFAR 100}
+\label{params:vggcifar}
+A abordagem aplicada na combinação da VGG-16 com o conjunto de dados CIFAR-100 segue um padrão semelhante à utilizada na combinação da VGG-16 com o conjunto de dados \textit{Food}-101, com relação ao uso das técnicas. Dentre os parâmetros mantidos constantes durante o processo, destaca-se a taxa de aprendizado máxima, o tamanho do lote (\textit{batch size}) e o número de épocas, estabelecidos em $1e^{-5}$, $64$, e $700$, respectivamente. Quanto às outras variáveis, os valores específicos podem ser visualizados detalhadamente nas Tabelas \ref{project:tab:params:vggcifarbpca}, \ref{project:tab:params:vggcifarmax} e \ref{project:tab:params:vggcifaravg}, para as configurações de BPCAPooling, \textit{Max Pooling} e \textit{Avg Pooling}, respectivamente.
 
-Comentar que foi utilizado CLR \citep{Smith2017CyclicalNetworks}
+
+\begin{table}[H]
+    \centering
+    \caption{Parâmetros de treinamento e teste com VGG-16 e BPCAPooling no conjunto CIFAR 100.}
+    \label{project:tab:params:vggcifarbpca}
+    \resizebox{1\textwidth}{!}{
+        \begin{tabular}{l|l|l|l|l|l|l|l|l}
+            % \firsthline
+            \multicolumn{1}{c|}{\textbf{Parâmetros}}      & \multicolumn{2}{c|}{\textbf{\textit{Warm-up}}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}     \\
+            \cline{2-9}
+            \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c}{\textbf{Uso}} \\
+            \hline
+            Épocas                                       & 700                                & -                       & 700                                & -                       & 700                                & -                       & 700                                & -                                                                  \\
+            Época de Parada                              & 700                                & -                       & 700                                & -                       & 473                                & -                       & 700                                & -                                                                  \\
+            Parada Antecipada                            & -                                  & Falso                   & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+            CLR                                          & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+            Taxa de Aprendizado Mínima                   & 0.0001                             & -                       & 0.00001                            & -                       & 0.00001                            & -                       & 0.00001                            & -                                                                  \\
+            Taxa de Aprendizado Máxima                   & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                                                                  \\
+            Função de Otimização                         & Adam                               & -                       & SGD                                & -                       & SGD                                & -                       & SGD                                & -                       
+        \end{tabular}
+        }
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Parâmetros de treinamento e teste com VGG-16 e \textit{Max Pooling} no conjunto CIFAR 100.}
+    \label{project:tab:params:vggcifarmax}
+    \resizebox{1\textwidth}{!}{
+        \begin{tabular}{l|l|l|l|l|l|l|l|l}
+            % \firsthline
+            \multicolumn{1}{c|}{\textbf{Parâmetros}}      & \multicolumn{2}{c|}{\textbf{\textit{Warm-up}}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}     \\
+            \cline{2-9}
+            \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c}{\textbf{Uso}} \\
+            \hline
+            Épocas                                       & 700                                & -                       & 700                                & -                       & 700                                & -                       & 700                                & -                                                                  \\
+            Época de Parada                              & 700                                & -                       & 700                                & -                       & 700                                & -                       & 550                                & -                                                                  \\
+            Parada Antecipada                            & -                                  & Falso                   & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+            CLR                                          & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+            Taxa de Aprendizado Mínima                   & 0.0001                             & -                       & 0.00001                            & -                       & 0.00001                            & -                       & 0.00001                            & -                                                                  \\
+            Taxa de Aprendizado Máxima                   & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                                                                  \\
+            Função de Otimização                         & Adam                               & -                       & SGD                                & -                       & SGD                                & -                       & SGD                                & -                       
+        \end{tabular}
+        }
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Parâmetros de treinamento e teste com VGG-16 e \textit{Avg Pooling} no conjunto CIFAR 100.}
+    \label{project:tab:params:vggcifaravg}
+    \resizebox{1\textwidth}{!}{
+        \begin{tabular}{l|l|l|l|l|l|l|l|l}
+            % \firsthline
+            \multicolumn{1}{c|}{\textbf{Parâmetros}}      & \multicolumn{2}{c|}{\textbf{\textit{Warm-up}}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}     \\
+            \cline{2-9}
+            \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c}{\textbf{Uso}} \\
+            \hline
+            Épocas                                       & 700                                & -                       & 700                                & -                       & 700                                & -                       & 700                                & -                                                                  \\
+            Época de Parada                              & 700                                & -                       & 700                                & -                       & 700                                & -                       & 350                                & -                                                                  \\
+            Parada Antecipada                            & -                                  & Falso                   & -                                  & Falso                   & -                                  & Falso                   & -                                  & Verdadeiro                                                         \\
+            CLR                                          & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+            Taxa de Aprendizado Mínima                   & 0.0001                             & -                       & 0.00001                            & -                       & 0.00001                            & -                       & 0.00001                            & -                                                                  \\
+            Taxa de Aprendizado Máxima                   & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                                                                  \\
+            Função de Otimização                         & Adam                               & -                       & SGD                                & -                       & SGD                                & -                       & SGD                                & -                       
+        \end{tabular}
+        }
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+\end{table}
 
 
 \paragraph{U-Net-\textit{Like} + \textit{Oxford-IIIT Pets}}
