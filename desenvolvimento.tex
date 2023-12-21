@@ -340,7 +340,7 @@ Da mesma forma, na arquitetura U-Net-\textit{Like}, empregada para segmentação
 
 \begin{figure}[H]
     \centering
-    \caption{Demonstração da substituição das camadas de \textit{pooling} por BPCAPooling em U-Net-\textit{Like}.}
+    \caption{Arquitetura U-Net-\textit{Like} com aplicação de BPCAPooling.}
     \includegraphics[width=1\textwidth]{recursos/imagens/project/unet-like-with-bpca-food.png}
     \label{project:fig:change_pooling:unet-like}
 
@@ -358,7 +358,8 @@ Na arquitetura U-Net, também empregada para segmentação semântica, as camada
     Fonte: do próprio autor.
 \end{figure}
 
-Comparando as arquiteturas representadas nas Figuras \ref{project:fig:change_pooling:unet-like} e \ref{project:fig:change_pooling:unet}, é possível observar os detalhes discutidos na Seção \ref{semantic:arch}. A U-Net possui aproximadamente quinze vezes mais parâmetros do que a U-Net-\textit{Like}, com um total de $31.056.963$ parâmetros treináveis, enquanto a U-Net-\textit{Like} possui $2.058.979$ parâmetros treináveis, para ambas as abordagens de \textit{pooling}. Além disso, é interessante notar que os parâmetros do BPCAPooling permanecem zerados, assim como observado na VGG, replicando o comportamento do \textit{Max Pooling}.
+A comparação entre as arquiteturas apresentadas nas Figuras \ref{project:fig:change_pooling:unet-like} e \ref{project:fig:change_pooling:unet} permite uma análise detalhada dos aspectos abordados na Seção \ref{semantic:arch}. A U-Net possui aproximadamente quinze vezes mais parâmetros do que a U-Net-\textit{Like}, totalizando $31.056.963$ parâmetros treináveis, enquanto a U-Net-\textit{Like} conta com $2.058.979$ parâmetros treináveis, considerando ambas as abordagens de \textit{pooling}. Notavelmente, os parâmetros do BPCAPooling permanecem zerados, seguindo o comportamento do \textit{Max Pooling}. Vale mencionar que a arquitetura U-Net-\textit{Like} inclui camadas de convolução separáveis e camadas de \textit{upsampling}. As camadas de \textit{upsampling} foram elucidadas na Seção \ref{semantic:unetlike}, enquanto as camadas convolucionais separáveis realizam convoluções espaciais profundas seguidas por uma convolução pontual, que mescla os canais de saída resultantes \citep{Zhao2018AutomaticFPGA}.
+
 
 \subsection{Metodologia Experimental}
 \label{project:exp_result}
