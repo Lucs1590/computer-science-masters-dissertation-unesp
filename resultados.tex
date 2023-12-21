@@ -3,20 +3,53 @@
 
 \section{Resultados e Discussões}
 \label{results}
+Neste capítulo, dedicado a Resultados e Discussões, serão apresentados e analisados os resultados dos experimentos realizados no transcurso deste estudo, acompanhados de uma reflexão criteriosa sobre os dados obtidos. Nesta etapa, será possível, portanto, avaliar a eficácia dos métodos que foram propostos e implementados, além de discutir as ideias futuras de implementação e as perspectivas coletadas para a evolução do tema em questão.
 
-- Classificação de Imagens
-        - Apresentar processo de preservação espacial, lime, fine tunning e custo computacional.
-        - Será que o uso de transferência de aprendizado foi bom nesse caso? Pois as camadas de pooling não têm parâmetros, mas a atuação das mesmas acabam influenciando as demais camadas.
-        - A imagens menores (CIFAR 100) possuem muito menos informações em relação às de maior resolução (Food 101), então quando a aplicação do pooling ocorre, as imagens perdem todo o significado semântico.
-        - As camadas mais profundas, responsáveis pelas informações de mais baixo nível, incluindo linhas e bordas que dão senso de espacialidade, sofrem maior impacto de acurácia do que camadas mais superficiais.
-        - O método proposto se apresenta pior em ambos os datasets.
+A estrutura do capítulo é delineada em seções que facilitam a compreensão dos resultados de acordo com o contexto do experimento aplicado. Na Seção \ref{results:class}, será discutido sobre os experimentos realizados prioritariamente para a tarefa de classificação. Esses experimentos iniciais foram fundamentais para balizar as análises e refinamentos subsequentes da técnica proposta.
 
-- Segmentação de Imagens com U-net e U-net-like
-        - Não há uma discrepância significativa em relação às métricas quando comparado com max pooling, mas se apresenta mais lento e ainda tem menores métricas.
-        - Valeria um teste com outros datasets contendo objetos de diversos tamanhos, como lost and found, cityscape ou celulas. Mas a adaptação de código com o framework tensforflow se torna custosa, valeria a migração para o pytorch tentando minimizar essa barreira tecnológica.
-        - Valeria a implementação de um método de unpooling com o processo reverso de bpca (colocar a fórmula e imagens), a diferença é que esse método contaria com parâmetros, sendo necessário usar uma camada densa por baixo dos panos.
-        - O treinamento com U-Net-Like realmente ocorrem mais rápido do que as U-Nets convencionais, visto que a quantidade de parâmetros é menor e as normalizações de batch normalization trazem o beneficio das otimizações.
-        - Na prática em relação não tem muita mudança no resultado final.
+Na sequência, a Seção \ref{results:semantic} irá abordar os resultados obtidos nos experimentos que se destinam diretamente à área de segmentação, que constitui o núcleo da aplicação da técnica proposta. Aqui, expandiremos o foco para a parcela mais crítica de nossa pesquisa, apresentando a eficácia de nosso método na tarefa de segmentação semântica de imagens.
+
+Por fim, na Seção \ref{result:final} proporcionaremos as considerações finais em relação as seções anteriores, salientando as implicações dos resultados no campo de estudo do trabalho.
+
+\subsection{Resultados da Classificação de Imagens}
+\label{results:class}
+- Apresentar os valores dos resultados finais
+- O método proposto se apresenta pior em ambos os datasets.
+
+\subsubsection{Diferença de conjuntos de dados}
+\label{results:class:datasets}
+- A imagens menores (CIFAR 100) possuem muito menos informações em relação às de maior resolução (Food 101), então quando a aplicação do pooling ocorre, as imagens perdem todo o significado semântico.
+- As camadas mais profundas, responsáveis pelas informações de mais baixo nível, incluindo linhas e bordas que dão senso de espacialidade, sofrem maior impacto de acurácia do que camadas mais superficiais.
+
+\subsubsection{LIME e Preservação de Espacialidade}
+\label{results:class:lime}
+- Apresentar processo de preservação espacial, lime, fine tunning e custo computacional.
+
+\subsubsection{Trabalhos Futuros}
+\label{results:class:future}
+- Será que o uso de transferência de aprendizado foi bom nesse caso? Pois as camadas de pooling não têm parâmetros, mas a atuação das mesmas acabam influenciando as demais camadas.
+
+
+\subsection{Resultados da Segmentação Semântica}
+\label{results:semantic}
+- Colocar imagem para cada um dos resultados dos modelos e falar sobre a baixa diferença visualmente falando (falar que a diferença será relatada na seção \ref{results:semantic:xai})
+- Não há uma discrepância significativa em relação às métricas quando comparado com max pooling, mas se apresenta mais lento e ainda tem menores métricas.
+- Na prática em relação não tem muita mudança no resultado final exceto pelo tempo, complexidade e baixa acurácia
+
+\subsubsection{Diferença de arquiteturas}
+\label{results:semantic:arch}
+- O treinamento com U-Net-Like realmente ocorrem mais rápido do que as U-Nets convencionais, visto que a quantidade de parâmetros é menor e as normalizações de batch normalization e convolução separáveis trazem o beneficio das otimizações.
+
+\subsection{Explicação de modelos}
+\label{results:semantic:xai}
+- Colocar imagens comparando, mostrar os pontos de maior diferença para BPCA e Max Pooling.
+
+\subsubsection{Trabalhos Futuros}
+\label{results:semantic:future}
+- Propor o uso de outro framework como pytorch e falar dos problemas tecnicamente enfrentados.
+- Valeria um teste com outros datasets contendo objetos de diversos tamanhos, como lost and found, cityscape ou celulas. Mas a adaptação de código com o framework tensforflow se torna custosa, valeria a migração para o pytorch tentando minimizar essa barreira tecnológica.
+- Valeria a implementação de um método de unpooling com o processo reverso de bpca (colocar a fórmula e imagens (repo compartilhado com uemerson)), a diferença é que esse método contaria com parâmetros, sendo necessário usar uma camada densa por baixo dos panos.
+
 
 \subsection{Considerações Finais do Capítulo}
 \label{result:final}
