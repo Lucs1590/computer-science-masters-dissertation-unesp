@@ -662,26 +662,27 @@ As descobertas e desafios enfrentados durante a utilização dessas técnicas se
 
 \subsection{Revisão de Literatura}
 \label{project:revision}
-Em meio a vários estilos de revisão, vale dizer que a revisão sistemática é amplamente difundida em meio cientifico, destacando-se em pesquisas de âmbito clínico e médico e garantindo menos viés, maior confiabilidade e um resumo de forma crítica dos trabalhos científicos \cite{barbosa2019}. Sendo assim, no presente trabalho, foi realizada uma revisão, bem como buscas baseadas nos artigos \cite{barbosa2019} e \cite{liberati2009}, de modo que se inspirou nas recomendações dos mesmos, salvo os casos relacionados a questões de aplicações clínicas.
+A revisão sistemática é uma metodologia robusta amplamente aplicada em diferentes campos científicos, particularmente em pesquisa clínica e médica. Com suas características de redução de viés e fornecimento de uma crítica abrangente da literatura existente, ela oferece um grau elevado de confiabilidade \citep{barbosa2019}. No contexto do presente estudo, realizou-se uma revisão inspirada nessa metodologia, adaptando as recomendações dos artigos de \cite{barbosa2019} e \cite{liberati2009} para a área de foco, que exclui a aplicação clínica.
 
-Em relação às revisões, foram realizadas duas, de modo a abranger tanto os artigos técnicos em relação à segmentação panóptica, quanto artigos que servissem de base para a segmentação na área odontológica. A questão a ser tomada como base para esse estudo é: Como projetar um arcabouço para segmentar imagens de componentes visuais hierarquicamente?
+A revisão foi conduzida com o objetivo de abranger uma gama de estudos que apresentam o desenvolvimento de uma técnica de \textit{pooling} que preserva a espacialidade das entradas e que é aplicável na área de segmentação semântica. Assim, essa revisão se alinha com a intenção de responder algumas das questões estabelecidas na Seção de Objetivos (Seção \ref{intro:objectives}) deste trabalho.
 
-Para a primeira revisão citada, foram procurados todo tipo de estudo publicados a partir do ano de 2019 até o ano presente (2022) com o assunto relacionado a \textit{panoptic segmentation}, de modo a se basear no ano de publicação do artigo pioneiro \cite{Kirillov2019a} no assunto. Foram usados os termos a seguir em diferentes combinações: ``\textit{panoptic segmentation}'', ``\textit{part}'' e ``\textit{part-aware}''. Os idiomas foram restritos à português e inglês.
+Neste sentido, nossa busca de literatura focou em estudos publicados entre 2015 e 2023 que apresentavam relevância para a \textit{segmentação semântica}. O período escolhido deu relevância à importância histórica do lançamento das arquiteturas FCN \citep{Shelhamer2016} e U-Net \citep{Ronneberger2015U-net:Segmentation}. Os termos de pesquisa utilizados em várias combinações incluíam \quotes{\textit{semantic segmentation}}, \quotes{\textit{pooling}} e \quotes{\textit{spatiality}} sendo que as pesquisas eram restritas aos idiomas português e inglês.
 
-O critério de inclusão baseou-se em artigos que possuíssem a citação da técnica de segmentação \textit{part-aware}, de modo a contribuir com uma segmentação hierárquica dos componentes que compunham a cena. Já em relação aos critérios de exclusão destaca-se artigos com descrição inadequada em relação ao interesse dessa revisão. Quando o artigo era específico para uma determinada aplicação que não condizia com o tema (como carros autônomos) e quando o estudo estava duplicado entre as ferramentas de busca.
+Estabeleceu-se os critérios de inclusão para que abrangessem artigos que mencionassem a técnica de segmentação semântica, uma vez que esses poderiam contribuir substancialmente para a proposição de modelo de segmentação do atual trabalho. O critério de exclusão destacou-se em artigos com descrição inadequada em termos do interesse desta revisão, aqueles que são específicos para uma aplicação particular não relacionada ao nosso tema de interesse e os estudos duplicados entre as ferramentas de busca.
 
-Sendo assim, os indicadores referentes às pesquisas realizadas sobre esse assunto podem ser visualizadas no diagrama abaixo (Figura \ref{project:revision:fig:1}).
+Os resultados da nossa pesquisa de literatura são resumidos e visualizados na Figura \ref{project:revision:fig:1}. Essa síntese tomou a forma de um diagrama, a ferramenta visual comumente empregada para ilustrar o processo de revisão sistemática e os resultados correspondentes.
 
 \begin{figure}[H]
     \centering
-    \caption{Diagrama de revisão de estudos em segmentação panóptica.}
+    \caption{Diagrama de revisão de estudos relacionados.}
     \includegraphics[height=4.5in]{recursos/imagens/project/revisao_panoptica.png}
     \label{project:revision:fig:1}
 
     Fonte: do próprio autor.
 \end{figure}
 
-Sendo assim, por meio do estudo realizado em relação às referências de segmentação panóptica apenas nove foram escolhidos, para complementar o presente estudo, como demonstrado na Figura \ref{project:revision:fig:1}, os quais são listados na Tabela \ref{project:revision:tab:1}.
+Desse modo, com base na revisão bibliográfica conduzida, apenas um conjunto seleto de X itens foram escolhidos para a complementação do estudo em questão. Esses itens são destacados na Figura \ref{project:revision:fig:1} e listados em detalhes na Tabela \ref{project:revision:tab:1}.
+
 
 \begin{table}[H]
     \centering
@@ -705,48 +706,7 @@ Sendo assim, por meio do estudo realizado em relação às referências de segme
     Fonte: do próprio autor.
 \end{table}
 
-Quando se trata da segunda revisão em pauta, a que contempla as segmentações na área odontológica, destaca-se que os estudos procurados também não se limitaram ao tipo, incluindo congressos, artigos de revista, entre outros, além de utilizarem o intervalo dos anos de 2019 a 2022 como métrica, de modo a encontrar segmentações odontológicas que acompanhassem a técnica de segmentação panóptica. Os termos utilizados estão listados a seguir, de modo que foram buscados em diferentes combinações: ``odonto'', ``\textit{dentistry}'', ``\textit{deep learning}'', ``\textit{semantic segmentation}'', ``\textit{instance segmentation}'', ``\textit{panoptic segmentation}'' e ``CNN''. Os idiomas foram restritos à português e inglês.
-
-Quanto aos critérios de inclusão, destaca-se os artigos que abordaram ao menos uma das segmentações modernas, de feitio a estarem alinhados com a proposta do projeto. Quanto aos critérios de exclusão, pode-se dizer que são similares aos da primeira revisão, relatando artigos com descrição inadequada acerca da revisão em questão, estudos duplicados entre as ferramentas de busca e quando o estudo não estava diretamente relacionado aos temas ``segmentação'' e ``odontologia''. Dessa forma, por meio da Figura \ref{project:revision:fig:2} é possível visualizar a representação da revisão realizada.
-
-\begin{figure}[H]
-    \centering
-    \caption{Diagrama de revisão de estudos em segmentação odontológica.}
-    \includegraphics[height=4.5in]{recursos/imagens/project/revisao_odonto.png}
-    \label{project:revision:fig:2}
-
-
-    Fonte: do próprio autor.
-\end{figure}
-
-Tendo em vista os estudos que estão relacionados à segmentação na área odontológica, destacando aqueles que fazem uso das segmentações modernas (semântica, de instâncias ou panóptica), por meio da Figura \ref{project:revision:fig:2} cita-se que apenas 14 foram determinados como relevantes, os quais são listados na Tabela \ref{project:revision:tab:2}.
-
-\begin{table}[H]
-    \centering
-    \caption{Trabalhos selecionados a partir da revisão sobre segmentação odontológica.}
-    \label{project:revision:tab:2}
-    \resizebox{\textwidth}{!}{
-    \begin{tabular}{l|l}
-        \textbf{Título}                                                                                                              &  \textbf{Referência}  \\ \hline
-        A study on tooth segmentation and numbering using end-to-end deep neural networks                                            &  \cite{Silva2020}       \\
-        Accurate Segmentation of Dental Panoramic Radiographs with U-NETS                                                            &  \cite{Koch2019}        \\
-        ToothNet: Automatic Tooth Instance Segmentation and Identification From Cone Beam CT Images                                  &  \cite{Cui2019}         \\
-        Toothpix: Pixel-Level Tooth Segmentation in Panoramic X-Ray Images based on Generative Adversarial Networks                  &  \cite{Cui2021}         \\
-        Simultaneous Nuclear Instance and Layer Segmentation in Oral Epithelial Dysplasia                                            &  \cite{Shephard2021}    \\
-        Automated detection and classification of oral lesions using deep learning to detect oral potentially malignant disorders    &  \cite{Tanriver2021}    \\
-        Pose-aware instance segmentation framework from cone beam CT images for tooth segmentation                                   &  \cite{Minyoung2020}    \\
-        Mask-MCNet: Instance Segmentation in 3D Point Cloud of Intra-oral Scans                                                      &  \cite{Ghazvinian2021}  \\
-        Artificial Intelligence for Fast and Accurate 3-Dimensional Tooth Segmentation on Cone-beam Computed Tomography              &  \cite{Lahoud2021}      \\
-        Clinically Applicable System For 3D Teeth Segmentation in Intraoral Scans using Deep Learning                                &  \cite{Hao2020}         \\
-        Machine learning in orthodontics: Challenges and perspectives                                                                &  \cite{Liu2021}         \\
-        Automatic 3D tooth segmentation using convolutional neural networks in harmonic parameter space                              &  \cite{Zhang2020}       \\
-        Automatic Dental Plaque Segmentation based on Local-to-global Features Fused Self-attention Network                          &  \cite{Li2022}          \\
-        Interpretable and Interactive Deep Multiple Instance Learning for Dental Caries Classification in Bitewing X-rays            &  \cite{Bergner2021}  
-    \end{tabular}}
-
-    \vspace*{1cm}
-    Fonte: do próprio autor.
-\end{table}
+xpto
 
 \subsection{Considerações Finais do Capítulo}
 \label{project:final}
