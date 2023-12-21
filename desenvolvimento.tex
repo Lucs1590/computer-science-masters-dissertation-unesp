@@ -579,11 +579,20 @@ e
     \label{params:eq2:unetlikepets}
     \text{Passos de Validação} = \frac{\text{tamanho do conjunto de teste}}{\text{tamanho do lote}} \cdot \frac{1}{\text{divisões de validação}},
 \end{equation}
-onde que as divisões de validação foram definidas manualmente, sendo que essas divisões de validação foram definidas manualmente com o valor de $5$, representando a quantidade de partes em que o conjunto de validação foi dividido para avaliações separadas durante o treinamento. Esse método permite uma validação cruzada interna durante o processo de treinamento, o que contribui para uma avaliação mais robusta do modelo ao longo das épocas. Essa abordagem de validação cruzada ajuda a monitorar a performance e o ajuste do modelo, oferecendo insights valiosos sobre o seu desempenho geral.
+onde que as divisões de validação foram definidas manualmente, sendo que essas divisões de validação foram definidas manualmente com o valor de $5$, representando a quantidade de partes em que o conjunto de validação foi dividido para avaliações separadas durante o treinamento. Esse método permite uma validação cruzada interna durante o processo de treinamento, o que contribui para uma avaliação mais robusta do modelo ao longo das épocas. Essa abordagem de validação cruzada ajuda a monitorar a performance e o ajuste do modelo, oferecendo insights valiosos sobre o seu desempenho geral. Os valores obtidos foram de $57$ passos por época e $9$ passos de validação.
+
+Por fim, é importante ressaltar que o otimizador Adam foi utilizado de forma unânime em todos os testes realizados. Essa escolha se justifica pelo fato de que, sem a aplicação do processo de \textit{fine-tuning}, a variação da função de otimização não é habitualmente realizada. Dessa maneira, optou-se por manter o otimizador Adam constante em todos os experimentos, visando uma maior consistência nos resultados obtidos.
 
 
 \paragraph{U-Net + \textit{Oxford-IIIT Pets}}
 \label{params:unetpets}
+No último experimento realizado, a arquitetura da U-Net foi combinada com os métodos de \textit{pooling} BPCAPooling e \textit{Max Pooling} em um treinamento de $500$ épocas. É importante mencionar que a U-Net é considerada uma rede mais robusta, possuindo um número significativo de parâmetros (vide Seção \ref{project:change_pooling}), o que impacta diretamente no tempo e nos recursos computacionais necessários para o treinamento e teste.
+
+Assim como nos experimentos anteriores com a arquitetura U-Net-\textit{Like}, o otimizador Adam foi utilizado de forma constante. A taxa de aprendizado mínima foi mantida em $1 \times 10^{-5}$, enquanto a taxa de aprendizado máxima foi definida como $1 \times 10^{-4}$. A estratégia de redução da taxa de aprendizado foi aplicada após $25$ épocas sem melhora na métrica principal.
+
+O critério de parada antecipada foi mantido constante em todos os experimentos realizados. A utilização das Equações \ref{params:eq1:unetlikepets} e \ref{params:eq2:unetlikepets} também foi aplicada nos experimentos da U-Net, resultando em $18$ passos de validação e $115$ passos por época, visto que as divisões de validação mantiveram-se no valor de $5$.
+
+Por fim, é relevante destacar que o valor da semente permaneceu em $77$ para garantir a reprodutibilidade dos resultados. No entanto, o tamanho do lote teve que ser reduzido para $32$, uma vez que o \textit{hardware}, apesar de possuir $24.564$ MiB, não suportava o uso do parâmetro igual a $64$, como feito nos demais testes.
 
 
 \subsubsection{Explicação de Modelos}
