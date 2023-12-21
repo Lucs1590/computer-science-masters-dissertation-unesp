@@ -18,6 +18,8 @@ Por fim, na Seção \ref{result:final} proporcionaremos as considerações finai
 
 \subsubsection{Diferença de conjuntos de dados}
 \label{results:class:datasets}
+O uso de mais de um conjunto de dados foi de extrema importância para o atual estudo, visto que a quantidade de informação impactou na quantidade de detalhes e características que a rede VGG-16 pôde captar, comportamento que vai diretamente em relação à motivação das CNNs, como citado na Seção \ref{cnn}. Além 
+
 - A imagens menores (CIFAR 100) possuem muito menos informações em relação às de maior resolução (Food 101), então quando a aplicação do pooling ocorre, as imagens perdem todo o significado semântico.
 - As camadas mais profundas, responsáveis pelas informações de mais baixo nível, incluindo linhas e bordas que dão senso de espacialidade, sofrem maior impacto de acurácia do que camadas mais superficiais.
 
@@ -36,11 +38,11 @@ Por fim, na Seção \ref{result:final} proporcionaremos as considerações finai
 - Não há uma discrepância significativa em relação às métricas quando comparado com max pooling, mas se apresenta mais lento e ainda tem menores métricas.
 - Na prática em relação não tem muita mudança no resultado final exceto pelo tempo, complexidade e baixa acurácia
 
-\subsubsection{Diferença de arquiteturas}
+\subsubsection{Diferença das arquiteturas}
 \label{results:semantic:arch}
 - O treinamento com U-Net-Like realmente ocorrem mais rápido do que as U-Nets convencionais, visto que a quantidade de parâmetros é menor e as normalizações de batch normalization e convolução separáveis trazem o beneficio das otimizações.
 
-\subsection{Explicação de modelos}
+\subsubsection{Explicação de modelos}
 \label{results:semantic:xai}
 - Colocar imagens comparando, mostrar os pontos de maior diferença para BPCA e Max Pooling.
 
