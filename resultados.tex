@@ -13,99 +13,258 @@ Por fim, na Seção \ref{result:final} proporcionaremos as considerações finai
 
 \subsection{Resultados da Classificação de Imagens}
 \label{results:class}
-Os experimentos e resultados desta seção oferecem percepções valiosas sobre o desempenho do método BPCAPooling em comparação com as estratégias de pooling convencionais (\textit{Avg Pooling} e \textit{Max Pooling}) \citep{Ozdemir2023Avg-topk:Networks}. Adicionalmente, esta seção apresentará informações sobre a influência da aplicação dessas estratégias em diferentes conjuntos de dados (Seção \ref{results:class:datasets}), a exploração da interpretabilidade das classificações utilizando a abordagem LIME (Seção \ref{results:class:lime}), e sugestões para possíveis melhorias no desempenho do modelo atual (Seção \ref{results:class:future}).
+Os experimentos e resultados desta seção fornecem valiosas percepções sobre o desempenho do método BPCAPooling em comparação com as estratégias de \textit{pooling} convencionais (\textit{Avg Pooling} e \textit{Max Pooling}) \citep{Ozdemir2023Avg-topk:Networks} quando aplicados na arquitetura VGG-16 para a tarefa de classificação.
 
-O desempenho do modelo treinado no conjunto de dados CIFAR-100 utilizando o método proposto apresentou a maior perda e o menor valor de precisão, o que não é desejado, e o modelo utilizando \textit{Max Pooling} obteve os melhores resultados, como pode ser observado na Tabela \ref{tab:cifar_values}.
+Ao analisar o desempenho do modelo treinado no conjunto de dados CIFAR 100 utilizando o método proposto, observamos uma tendência indesejada. Este modelo apresentou a maior perda e a menor precisão quando comparado aos modelos utilizando os métodos \textit{Avg Pooling} e \textit{Max Pooling} no processo de descongelamento do terceiro bloco convolucional. Os resultados são evidenciados na Tabela \ref{results:class:tab:1}, que ilustra os desempenhos durante a fase de aquecimento do processo de \textit{fine-tuning}.
 
 \begin{table}[H]
-    \caption{Results based on a CIFAR-100 warm-up}
-    \label{tab:cifar_values}
     \centering
-    \begin{tabular}{lcc}
-        \firsthline
-        \textbf{Pooling Methods} & \textbf{Accuracy (\%)} & \textbf{Loss}   \\
+    \caption{Resultados da fase de aquecimento de VGG-16 aplicada no conjunto de dados CIFAR 100.}
+    \label{results:class:tab:1}
+    \resizebox{0.6\textwidth}{!}{
+    \begin{tabular}{l|c|c}
+        \textbf{Método de \textit{Pooling}} & \textbf{Acurácia (\%)} & \textbf{\textit{Loss}}   \\
         \hline
-        AvgPooling               & 36.300                 & 2.7309          \\
-        BPCAPooling              & 14.471                 & 3.7645          \\
-        MaxPooling               & \textbf{39.857}        & \textbf{2.0481} \\
-        \lasthline
-    \end{tabular}
+        \textit{Avg Pooling}               & 36.300                 & 2.7309          \\
+        BPCAPooling                        & 14.471                 & 3.7645          \\
+        \textit{Max Pooling}               & \textbf{39.857}        & \textbf{2.0481}
+    \end{tabular}}
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
 \end{table}
 
-Mesmo no processo de \textit{fine-tuning} o modelo treinado no conjunto de dados CIFAR 100 apresenta resultados inferiores, como demonstrado na Tabela \ref{tab:cifar_finetuning}, em que os métodos \textit{Max Pooling} e \textit{Avg Pooling} continuam se demonstrando significativamente superiores em relação ao método BPCAPooling, mas um dos grandes motivos dessa situação serão discorridos na Seção \ref{results:class:datasets}.
+Mesmo após a conclusão do processo de \textit{fine-tuning} completo, o modelo treinado com a técnica BPCAPooling apresenta resultados inferiores, conforme evidenciado na Tabela \ref{results:class:tab:2}. Os métodos Max Pooling e Avg Pooling continuam a demonstrar uma superioridade significativa em relação ao método BPCAPooling. Os resultados mais promissores foram obtidos pela arquitetura VGG-16 com o método Max Pooling. A análise detalhada dos motivos subjacentes a essa discrepância será discutida na Seção \ref{results:class:datasets}.
 
-\begin{table*}[htbp]
-    \caption{Fine-tuning results of various pooling methods on the CIFAR-100 dataset, categorized by blocks.}
-    \label{tab:cifar_finetuning}
+\begin{table}[H]
     \centering
-    \begin{tabular}{lllllllll}
-    \firsthline
-    \multicolumn{1}{c}{\textbf{Pooling Methods}} & \multicolumn{2}{c}{\textbf{Warm-up}}                                          & \multicolumn{2}{c}{\textbf{Block 5}}                                          & \multicolumn{2}{c}{\textbf{Block 4}}                                          & \multicolumn{2}{c}{\textbf{Block 3}}                                          \\
+    \caption{Resultados por fase de \textit{fine-tuning} de VGG-16 aplicada no conjunto de dados CIFAR 100.}
+    \label{results:class:tab:2}
+    \resizebox{1\textwidth}{!}{
+    \begin{tabular}{l|l|l|l|l|l|l|l|l}
+    \multicolumn{1}{c|}{\textbf{Método de \textit{Pooling}}} & \multicolumn{2}{c|}{\textbf{Aquecimento}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}                                          \\
     \cline{2-9}
-    \multicolumn{1}{c}{\textbf{}}                & \multicolumn{1}{c}{\textbf{Accuracy(\%)}} & \multicolumn{1}{c}{\textbf{Loss}} & \multicolumn{1}{c}{\textbf{Accuracy(\%)}} & \multicolumn{1}{c}{\textbf{Loss}} & \multicolumn{1}{c}{\textbf{Accuracy(\%)}} & \multicolumn{1}{c}{\textbf{Loss}} & \multicolumn{1}{c}{\textbf{Accuracy(\%)}} & \multicolumn{1}{c}{\textbf{Loss}} \\
+    \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Acurácia(\%)}} & \multicolumn{1}{c|}{\textbf{\textit{Loss}}} & \multicolumn{1}{c|}{\textbf{Acurácia(\%)}} & \multicolumn{1}{c|}{\textbf{\textit{Loss}}} & \multicolumn{1}{c|}{\textbf{Acurácia(\%)}} & \multicolumn{1}{c|}{\textbf{\textit{Loss}}} & \multicolumn{1}{c|}{\textbf{Acurácia(\%)}} & \multicolumn{1}{c}{\textbf{\textit{Loss}}} \\
     \hline
-    AvgPooling                                   &                                    36.300 &                            2.7309 &                                    39.340 &                            2.4971 &                                    41.371 &                            2.2958 &                                    42.371 &                            2.2364 \\
-    BPCAPooling                                  &                                    14.471 &                            3.7645 &                                    15.185 &                            3.6677 &                                    16.229 &                            3.6020 &                                    17.543 &                            3.5121 \\
-    MaxPooling                                   &                                    39.857 &                            2.0481 &                                    43.671 &                            1.7166 &                                    45.100 &                            1.5448 &                                    \textbf{46.071} &                            \textbf{1.4862} 
-    \end{tabular}
-\end{table*}
+    \textit{Avg Pooling}                                   &                                    36.300 &                            2.7309 &                                    39.340 &                            2.4971 &                                    41.371 &                            2.2958 &                                    42.371 &                            2.2364 \\
+    BPCAPooling                                            &                                    14.471 &                            3.7645 &                                    15.185 &                            3.6677 &                                    16.229 &                            3.6020 &                                    17.543 &                            3.5121 \\
+    \textit{Max Pooling}                                   &                                    39.857 &                            2.0481 &                                    43.671 &                            1.7166 &                                    45.100 &                            1.5448 &                                    \textbf{46.071} &                            \textbf{1.4862} 
+    \end{tabular}}
 
-Para o conjunto de dados \textit{Food}-101, os resultados também não foram discrepantes quando comparado ao primeiro conjunto de dados, haja vista que logo na fase de aquecimento os resultados já se paresentam muito inferiores quando comparado aos demais métods, o que pode ser visualizado pela representação da Tabela \ref{}.
-
-\begin{table}[htbp]
-    \caption{Results based on a Food-101 warm-up}
-    \label{tab:food_values}
-    \centering
-    \begin{tabular}{lcc}
-        \firsthline
-        \textbf{Pooling Methods} & \textbf{Accuracy (\%)} & \textbf{Loss}   \\
-        \hline
-        AvgPooling               & 41.290                 & 2.4042          \\
-        BPCAPooling              & 41.426                 & 2.3863          \\
-        MaxPooling               & \textbf{41.623}        & \textbf{2.3718} \\
-        \lasthline
-    \end{tabular}
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
 \end{table}
 
-Quanto a aplicação do processo de \textit{fine-tuning}, pode se perceber que em todas as fases o modelo de \textit{pooling} proposto se apresentou inferior, tendo a evolução do processo de \textit{fine-tuning} representada na Tabela \ref{tab:food_finetuning}, todavia mesmo com os resultados inesperados alguns insights poderam se obtidos por meio das fases de treinamento e validação, os quais serão comentados nas próximas seções.
+Para o conjunto de dados \textit{Food}-101, os resultados não divergiram muito dos obtidos no primeiro conjunto de dados. Durante a fase inicial do treinamento, os resultados do método proposto já se mostraram desafiadores em comparação aos outros métodos, como pode ser observado na Tabela \ref{results:class:tab:3}.
 
-\begin{table*}[htbp]
-    \caption{Fine-tuning results of various pooling methods on the Food-101 dataset, categorized by blocks.}
-    \label{tab:food_finetuning}
+\begin{table}[H]
     \centering
-    \begin{tabular}{lllllllll}
-    \firsthline
-    \multicolumn{1}{c}{\textbf{Pooling Methods}} & \multicolumn{2}{c}{\textbf{Warm-up}}                                          & \multicolumn{2}{c}{\textbf{Block 5}}                                          & \multicolumn{2}{c}{\textbf{Block 4}}                                          & \multicolumn{2}{c}{\textbf{Block 3}}                                          \\
+    \caption{Resultados da fase de aquecimento de VGG-16 aplicada no conjunto de dados \textit{Food}-101.}
+    \label{results:class:tab:3}
+    \resizebox{0.6\textwidth}{!}{
+    \begin{tabular}{l|c|c}
+        \textbf{Método de \textit{Pooling}} & \textbf{Acurácia (\%)} & \textbf{\textit{Loss}}   \\
+        \hline
+        \textit{Avg Pooling}               & 41.290                 & 2.4042          \\
+        BPCAPooling                        & 3.858                  & 4.7057          \\
+        \textit{Max Pooling}               & \textbf{41.623}        & \textbf{2.3718}
+    \end{tabular}}
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+\end{table}
+
+No contexto da aplicação do processo de \textit{fine-tuning}, observa-se consistentemente que o modelo de \textit{pooling} proposto demonstrou desempenho inferior em todas as fases quando comparado ao melhor método, que continuou sendo a junção de VGG-16 com \textit{Max Pooling}, conforme ilustrado na Tabela \ref{results:class:tab:4}.
+
+\begin{table}[H]
+    \centering
+    \caption{Resultados por fase de \textit{fine-tuning} de VGG-16 aplicada no conjunto de dados \textit{Food}-101.}
+    \label{results:class:tab:4}
+    \resizebox{1\textwidth}{!}{
+    \begin{tabular}{l|l|l|l|l|l|l|l|l}
+    \multicolumn{1}{c|}{\textbf{Método de \textit{Pooling}}} & \multicolumn{2}{c|}{\textbf{Aquecimento}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}                                          \\
     \cline{2-9}
-    \multicolumn{1}{c}{\textbf{}}                & \multicolumn{1}{c}{\textbf{Accuracy(\%)}} & \multicolumn{1}{c}{\textbf{Loss}} & \multicolumn{1}{c}{\textbf{Accuracy(\%)}} & \multicolumn{1}{c}{\textbf{Loss}} & \multicolumn{1}{c}{\textbf{Accuracy(\%)}} & \multicolumn{1}{c}{\textbf{Loss}} & \multicolumn{1}{c}{\textbf{Accuracy(\%)}} & \multicolumn{1}{c}{\textbf{Loss}} \\
+    \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Acurácia(\%)}} & \multicolumn{1}{c|}{\textbf{\textit{Loss}}} & \multicolumn{1}{c|}{\textbf{Acurácia(\%)}} & \multicolumn{1}{c|}{\textbf{\textit{Loss}}} & \multicolumn{1}{c|}{\textbf{Acurácia(\%)}} & \multicolumn{1}{c|}{\textbf{\textit{Loss}}} & \multicolumn{1}{c|}{\textbf{Acurácia(\%)}} & \multicolumn{1}{c}{\textbf{\textit{Loss}}} \\
     \hline
-    MaxPooling                                  &                                    41.623 &                            2.3718 &                                    49.471 &                            2.2033 &                                    50.080 &                            2.3745 &                                    50.031 &                            2.4335 \\
-    BPCAPooling                                   &                                    41.426 &                            2.3863 &                                    49.556 &                            2.1862 &                                    \textbf{50.234} &                            \textbf{2.3820} &                                    50.139 &                            2.4474 
-    \end{tabular}
-\end{table*}
+    BPCAPooling                                   &                                    3.8586 &                            4.7057 &                                    4.3395 &                            4.6632 &                                    4.4130 &	                           4.4404 &                                    3.423  &	                           4.5187 \\
+    Max Pooling                                   &                                    41.623 &                            2.3718 &                                    49.471 &                            \textbf{2.2033} &                                    \textbf{50.080} &                            2.3745 &                                    50.031 &                            2.4335 
+    \end{tabular}}
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+\end{table}
+
+Na Tabela \ref{results:class:tab:4}, observa-se um comportamento distinto em comparação ao primeiro conjunto de dados. Os resultados de maior acurácia estão representados no quarto bloco, não no último bloco adicionado, o que levanta questionamentos sobre a influência desse bloco, assunto que será discutido na Seção \ref{results:class:datasets}.
+
+Apesar dos resultados inesperados em relação ao método BPCAPooling, alguns \textit{insights} puderam ser extraídos das fases de treinamento e validação. Esses pontos de introspecção serão abordados a seguir nesta seção, juntamente com informações sobre a influência da aplicação desse método nas características específicas dos diferentes conjuntos de dados (Seção \ref{results:class:datasets}), a exploração da interpretabilidade das classificações utilizando a abordagem LIME e conceitos de preservação de espacialidade (Seção \ref{results:class:lime}), e sugestões para possíveis melhorias no desempenho do modelo atual (Seção \ref{results:class:future}).
+
 
 \subsubsection{Diferença de conjuntos de dados}
 \label{results:class:datasets}
-O uso de mais de um conjunto de dados foi de extrema importância para o atual estudo, visto que a quantidade de informação teve um grande impacto na quantidade de detalhes e características que a rede VGG-16 pôde captar, comportamento que vai diretamente em relação à motivação de uso das CNNs, como citado na Seção \ref{cnn}. Sendo assim, a partir da Figura \ref{results:fig:datasets:1} é possível visualizar a diferença de resolução de uma amostra do conjunto de dados CIFAR 100 e \textit{Food}-101 nas escalas utilizadas para os experimentos, de modo a elucidar melhor noção das diferenças.
+A utilização de múltiplos conjuntos de dados foi fundamental para o presente estudo, uma vez que a diversidade de informações teve um impacto significativo na capacidade da rede VGG-16 em capturar detalhes e características. Esse comportamento está diretamente alinhado com a motivação subjacente ao uso das Redes Neurais Convolucionais (CNNs), como discutido na Seção \ref{cnn}. A Figura \ref{results:fig:datasets:1} ilustra a diferença de resolução entre amostras dos conjuntos de dados CIFAR 100 e \textit{Food}-101, proporcionando uma melhor compreensão das disparidades entre eles.
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplo do conjunto de dados CIFAR 100 à esquerda e \textit{Food}-101 à direita em escala real.}
+    \caption{Exemplo do conjunto de dados CIFAR 100 à esquerda e \textit{Food}-101 à direita, em escala real.}
     \label{results:fig:datasets:1}
-    \includegraphics[width=1\textwidth]{recursos/imagens/project/dataset_diff.png}
+    \includegraphics[width=1\textwidth]{recursos/imagens/results/dataset_diff.png}
 
     Fonte: do próprio autor.
 \end{figure}
 
-Além disso, vale citar que a quantidade de informação a ser preservada em pequenos exemplo torna-se mínima, como foi o caso de uso com o conjunto de dados CIFAR 100, contribuindo para o fraco desempenho do método BPCAPooling, mas não sendo uma barreira significativa para os outros métodos de \textit{pooling} tradicionais testados, uma vez que a preservação da espacialidade da amostra de entrada não é a principal preocupação dos métodos \textit{Max Pooling} e \textit{Avg Pooling}.
+Adicionalmente, é relevante mencionar que, em amostras pequenas como as do conjunto de dados CIFAR 100, a quantidade de informação a ser preservada é mínima. Isso pode explicar o desempenho inferior do método BPCAPooling, embora não tenha representado uma barreira significativa para os métodos de \textit{pooling} tradicionais, tais como \textit{Max Pooling} e \textit{Avg Pooling}, uma vez que a preservação da espacialidade das amostras de entrada não é a principal preocupação desses métodos.
 
-No processo de \textit{fine-tuning} é possível observar que os conjuntos de treinamento e validação do BPCAPooling mostram uma tendência ascendente, indicando que melhorias adicionais poderiam ser alcançadas com mais épocas no quarto bloco, como demonstra a Figura X.
+Além disso, conforme discutido na Seção \ref{results:class}, ao analisar o processo de \textit{fine-tuning} utilizando o método BPCAPooling, destaca-se um comportamento notável no quarto bloco convolucional, onde ocorre uma tendência ascendente na acurácia e uma tendência de redução no \textit{loss} ao longo das épocas de treinamento e validação. Essa tendência sugere que características espaciais importantes provavelmente estão sendo capturadas e retidas no quarto bloco convolucional. É notável que o modelo não apresenta sinais de \textit{overfitting} nesse bloco, indicando que mais épocas poderiam ser empregadas nessa etapa do processo para explorar melhor essa tendência ascendente. Contudo, é crucial considerar que a condução de épocas adicionais demandaria recursos computacionais significativos, devido à complexidade do método e ao custo computacional associado.
 
-Figura X
+A representação da acurácia e \textit{loss} para o conjunto de dados CIFAR 100 está ilustrada nas Figuras \ref{results:fig:datasets:1} e \ref{results:fig:datasets:2}, respectivamente, enquanto as Figuras \ref{results:fig:datasets:3} e \ref{results:fig:datasets:4} mostram a evolução da acurácia e \textit{loss} para o conjunto de dados \textit{Food}-101, todas referentes ao uso do método BPCAPooling.
 
-Essa ascensão nos leva a entender que as características espaciais provavelmente sejam captadas no quarto bloco de modo que mais épocas poderiam ser empregadas nessa camada, já que o modelo não apresenta caracteristicas de \textit{overffitting}, todavia a condução de épocas adicionais consumiria muitos recursos devido ao custo computacional associado à complexidade do método.
 
-Fazer parâgrafo de conclusão.
+\begin{figure}[H]
+    \centering
+    \caption{Evolução de Acurácia no conjunto de dados CIFAR 100.}
+    \label{results:fig:datasets:1}
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/cifar_wp_accuracy.png}
+         \caption{Aquecimento.}
+         \label{results:fig:datasets:1.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/cifar_accuracy1.png}
+         \caption{Bloco 5.}
+         \label{results:fig:datasets:1.2}
+     \end{subfigure}%
+     ~ 
+     
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/cifar_accuracy2.png}
+         \caption{Bloco 4.}
+         \label{results:fig:datasets:1.3}
+     \end{subfigure}
+     ~
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/cifar_accuracy3.png}
+         \caption{Bloco 3.}
+         \label{results:fig:datasets:1.4}
+     \end{subfigure}
+     
+     Fonte: do próprio autor.
+ \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Evolução de \textit{Loss} no conjunto de dados CIFAR 100.}
+    \label{results:fig:datasets:2}
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/cifar_wp_loss.png}
+         \caption{Aquecimento.}
+         \label{results:fig:datasets:2.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/cifar_loss1.png}
+         \caption{Bloco 5.}
+         \label{results:fig:datasets:2.2}
+     \end{subfigure}%
+     ~ 
+     
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/cifar_loss2.png}
+         \caption{Bloco 4.}
+         \label{results:fig:datasets:2.3}
+     \end{subfigure}
+     ~
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/cifar_loss3.png}
+         \caption{Bloco 3.}
+         \label{results:fig:datasets:2.4}
+     \end{subfigure}
+     
+     Fonte: do próprio autor.
+ \end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \caption{Evolução de Acurácia no conjunto de dados \textit{Food}-101.}
+    \label{results:fig:datasets:3}
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/food_wp_accuracy.png}
+         \caption{Aquecimento.}
+         \label{results:fig:datasets:3.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/food_accuracy1.png}
+         \caption{Bloco 5.}
+         \label{results:fig:datasets:3.2}
+     \end{subfigure}%
+     ~ 
+     
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/food_accuracy2.png}
+         \caption{Bloco 4.}
+         \label{results:fig:datasets:3.3}
+     \end{subfigure}
+     ~
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/food_accuracy3.png}
+         \caption{Bloco 3.}
+         \label{results:fig:datasets:3.4}
+     \end{subfigure}
+     
+     Fonte: do próprio autor.
+ \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Evolução da \textit{Loss} no conjunto de dados \textit{Food}-101.}
+    \label{results:fig:datasets:4}
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/food_wp_loss.png}
+         \caption{Aquecimento.}
+         \label{results:fig:datasets:4.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/food_loss1.png}
+         \caption{Bloco 5.}
+         \label{results:fig:datasets:4.2}
+     \end{subfigure}%
+     ~ 
+     
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/food_loss2.png}
+         \caption{Bloco 4.}
+         \label{results:fig:datasets:4.3}
+     \end{subfigure}
+     ~
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/food_loss3.png}
+         \caption{Bloco 3.}
+         \label{results:fig:datasets:4.4}
+     \end{subfigure}
+     
+     Fonte: do próprio autor.
+ \end{figure}
+
+Em suma, a diversidade dos conjuntos de dados utilizados neste estudo forneceu uma avaliação robusta do método BPCAPooling, destacando tanto o seus pontos potenciais quanto a necessidade de otimizações específicas para diferentes cenários. As diferenças nos resultados reforçam a importância da seleção apropriada do conjunto de dados considerando suas características particulares.
 
 \subsubsection{LIME e Preservação de Espacialidade}
 \label{results:class:lime}
