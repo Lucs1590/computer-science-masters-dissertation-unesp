@@ -105,12 +105,12 @@ Apesar dos resultados inesperados em relação ao método BPCAPooling, alguns \t
 
 \subsubsection{Diferença de conjuntos de dados}
 \label{results:class:datasets}
-A utilização de múltiplos conjuntos de dados foi fundamental para o presente estudo, uma vez que a diversidade de informações teve um impacto significativo na capacidade da rede VGG-16 em capturar detalhes e características. Esse comportamento está diretamente alinhado com a motivação subjacente ao uso das Redes Neurais Convolucionais (CNNs), como discutido na Seção \ref{cnn}. A Figura \ref{results:fig:datasets:1} ilustra a diferença de resolução entre amostras dos conjuntos de dados CIFAR 100 e \textit{Food}-101, proporcionando uma melhor compreensão das disparidades entre eles.
+A utilização de múltiplos conjuntos de dados foi fundamental para o presente estudo, uma vez que a diversidade de informações teve um impacto significativo na capacidade da rede VGG-16 em capturar detalhes e características. Esse comportamento está diretamente alinhado com a motivação subjacente ao uso das Redes Neurais Convolucionais (CNNs), como discutido na Seção \ref{cnn}. A Figura \ref{results:fig:datasets:0} ilustra a diferença de resolução entre amostras dos conjuntos de dados CIFAR 100 e \textit{Food}-101, proporcionando uma melhor compreensão das disparidades entre eles.
 
 \begin{figure}[H]
     \centering
     \caption{Exemplo do conjunto de dados CIFAR 100 à esquerda e \textit{Food}-101 à direita, em escala real.}
-    \label{results:fig:datasets:1}
+    \label{results:fig:datasets:0}
     \includegraphics[width=1\textwidth]{recursos/imagens/results/dataset_diff.png}
 
     Fonte: do próprio autor.
@@ -272,7 +272,88 @@ Em suma, a diversidade dos conjuntos de dados utilizados neste estudo forneceu u
 
 \subsubsection{LIME e Preservação de Espacialidade}
 \label{results:class:lime}
-- Apresentar processo de preservação espacial, lime, fine tunning e custo computacional.
+Em termos de preservação das informações espaciais entre as camadas de \textit{pooling}, o método BPCAPooling se destacou em relação a outros métodos quando analisado em camadas de \textit{pooling} de alto nível em ambos os conjuntos de dados (3ª camada).
+
+No conjunto de dados CIFAR 100, é evidente que as características geométricas das imagens são mantidas ao usar o BPCAPooling. Em contraste com os métodos convencionais, não se observam imagens completamente escurecidas ou com ruído nas camadas de alto nível, como ilustrado na Figura \ref{results:fig:datasets:5} e indicado em destaque em vermelho. Apesar do tamanho menor da imagem no conjunto CIFAR 100, resultando em mapas de características de dimensão $2 \times 2$ nas camadas posteriores, o que torna a preservação espacial um desafio, optou-se por manter a arquitetura VGG-16 original sem alterações estruturais, em vez de remover os blocos convolucionais ulteriores.
+
+\begin{figure}[H]
+    \centering
+    \caption{Representação com primeira e segunda camada de \textit{pooling} aplicada no conjunto de dados CIFAR 100.}
+    \label{results:fig:datasets:5}
+    \includegraphics[width=1\textwidth]{recursos/imagens/results/cifar_blocks.png}
+
+    Fonte: do próprio autor.
+\end{figure}
+
+Ao analisar as camadas de \textit{pooling} aplicadas ao conjunto de dados \textit{Food}-101, representadas na Figura \ref{results:fig:datasets:6}, observa-se diferenças notáveis nas intensidades das saídas dessas camadas. As saídas resultantes do método \textit{Max Pooling} apresentam menor intensidade, enquanto as saídas do método BPCAPooling exibem maior intensidade, resultando em imagens com maior clareza e definição, principalmente de bordas.
+
+\begin{figure}[H]
+   \caption{Resultado visual de camadas de \textit{pooling} do conjunto \textit{Food}-101.}
+   \centering
+   \label{results:fig:datasets:6}
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/results/max_by_layer.png}
+        \caption{Camadas com \textit{Max Pooling}.}
+        \label{results:fig:datasets:6.1}
+    \end{subfigure}%
+    ~ 
+
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_by_layer.png}
+        \caption{Camadas com BPCAPooling.}
+        \label{results:fig:datasets:6.2}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+Outro ponto notável é a discrepância nas últimas camadas de BPCAPooling, como mencionado anteriormente no contexto do conjunto de dados CIFAR 100. As saídas dessas camadas finais de BPCAPooling parecem conter ruídos visuais, enquanto as saídas das últimas camadas com \textit{Max Pooling} aparentam conter mais informações agregadas. Isso é evidenciado na Figura \ref{results:fig:datasets:7}, que mostra resultados com resolução superior a $2 \times 2$, devido à resolução maior das imagens de entrada.
+
+\begin{figure}[H]
+    \centering
+   \caption{Visualização das últimas camadas de \textit{pooling} no conjunto \textit{Food}-101.}
+    \label{results:fig:datasets:7}
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/results/block5_pool_4_max.png}
+        \caption{Camada com \textit{Max Pooling}.}
+        \label{results:fig:datasets:7.1}
+    \end{subfigure}%
+    ~
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/results/block5_pool_4_bpca.png}
+        \caption{Camada com BPCAPooling.}
+        \label{results:fig:datasets:7.2}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+No contexto das análises realizadas com LIME, é importante ressaltar um fator crucial para o desempenho dessa técnica: o tamanho da amostra de imagem. Ao considerar as imagens do conjunto de dados CIFAR 100, obter resultados satisfatórios foi desafiador devido ao pequeno tamanho de $32 \times 32$ pixels de cada exemplo do conjunto de dados. Nessa escala, cada pixel possui um peso significativo em comparação com a área total da imagem. Na Figura \ref{results:fig:datasets:8}, as contribuições positivas são representadas por pixels verdes e as contribuições negativas por pixels vermelhos para uma inferência de classe específica. Entretanto, como evidenciado na Figura, todos os pixels influenciam positiva ou negativamente a classificação devido ao pequeno tamanho da imagem, não havendo distinções por região.
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplo de imagens explicadas por LIME no conjunto de dados CIFAR 100.}
+    \label{results:fig:datasets:8}
+    \includegraphics[width=1\textwidth]{recursos/imagens/results/lime_explanations_cifar.png}
+
+    Fonte: do próprio autor.
+\end{figure}
+
+Por outro lado, ao examinar as imagens relacionadas ao conjunto de dados \textit{Food}-101, é evidente que o LIME oferece mais \textit{insights} sobre as classificações realizadas. Como demonstrado na Figura \ref{results:fig:datasets:9}, apenas as regiões relevantes (positivamente ou negativamente) são destacadas, apresentando um tamanho de imagem apropriado, ao contrário do conjunto de dados CIFAR 100. Além disso, a análise dos resultados revela que, em alguns casos, a rede enfoca mais em embalagens, utensílios e louças, diminuindo a relevância das informações relacionadas à alimentação. Esta questão poderia ser abordada ao melhorar a estratégia de aquisição de dados, como ampliar as imagens ou aplicar técnicas de segmentação (por exemplo, \cite{rother2004grabcut}), garantindo que a comida ocupe a maior parte da área da imagem.
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplo de imagens explicadas por LIME no conjunto de dados \textit{Food}-100.}
+    \label{results:fig:datasets:9}
+    \includegraphics[width=1\textwidth]{recursos/imagens/results/lime_explanations_food.png}
+
+    Fonte: do próprio autor.
+\end{figure}
+
 
 \subsubsection{Trabalhos Futuros}
 \label{results:class:future}
