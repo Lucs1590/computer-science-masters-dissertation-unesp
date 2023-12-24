@@ -410,17 +410,125 @@ Em relação aos resultados da segmentação semântica, é relevante destacar q
     Fonte: do próprio autor.
 \end{table}
 
-- Falar que a loss se apresentou melhor para BPCA em todos os modelos de U-Net antes dessa parte.
+Analisando as tabelas anteriores, observa-se que, embora as métricas adotadas para conduzir os experimentos sejam acurácia e mIoU, a \textit{loss} associada ao BPCAPooling foi menor nas etapas de validação, conforme evidenciado na Figuras \ref{results:fig:semantic:metrics1.2} e \ref{results:fig:semantic:metrics1.4}. Além disso, a métrica Dice demonstrou ser igual ou superior aos resultados obtidos com o uso do BPCAPooling. Entretanto, é importante ressaltar que, quantitativamente, a métrica mIoU tende a penalizar mais instâncias únicas com classificações ruins do que a métrica Dice, mesmo quando ambas concordam que essa instância é ruim. Ademais, a métrica mIoU tende a agravar os erros, resultando em um efeito de \quotes{quadratura} em relação ao Dice. Como resultado, a métrica Dice parece medir algo mais próximo do desempenho médio, como evidenciado nas Figuras \ref{results:fig:semantic:metrics2.3} e \ref{results:fig:semantic:metrics3.3}, enquanto a mIoU mede algo mais próximo do pior caso de desempenho.
 
-- Comentar sobre a questão do tempo de treinamento em relação ao max pooling para u-net, em que bpca pooling se apresenta mais lento.
+\begin{figure}[H]
+    \centering
+    \caption{Métricas de U-Nets com 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
+    \label{results:fig:semantic:metrics1}
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max500_acc_accuracy.png}
+         \caption{Acurácia do \textit{Max Pooling}.}
+         \label{results:fig:semantic:metrics1.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max500_acc_loss.png}
+         \caption{\textit{Loss} do \textit{Max Pooling}.}
+         \label{results:fig:semantic:metrics1.2}
+     \end{subfigure}%
+     ~ 
+     
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca500_acc_accuracy.png}
+         \caption{Acurácia do BPCAPooling.}
+         \label{results:fig:semantic:metrics1.3}
+     \end{subfigure}
+     ~
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca500_acc_loss.png}
+         \caption{\textit{Loss} do BPCAPooling.}
+         \label{results:fig:semantic:metrics1.4}
+     \end{subfigure}
+     
+     Fonte: do próprio autor.
+\end{figure}
 
-Em relação aos valores obtidos, ao considerar um nível de significância de $5\%$ para os modelos U-Nets treinados durante $500$ épocas, observa-se que não há diferença significativa nos campos de acurácia, tanto nos conjuntos de teste quanto nos de validação, apresentando p-valores de $0.1479$ e $0.2192$, respectivamente. No entanto, ao analisar os valores de mIoU, embora os p-valores sejam de $0.0678$ e $0.0110$ para teste e validação, respectivamente, indicando ausência de diferença significativa no primeiro caso e uma diferença no segundo caso (considerando um nível de significância de $5\%$), é importante ressaltar que visualmente é desafiador discernir tais diferenças, uma vez que a segmentação apresenta uma semelhança notável, sendo assim maiores detalhes sobre as diferenças serão relatados na Seção \ref{results:semantic:xai}. Os resultados visuais podem ser observados nas Figuras \ref{results:fig:semantic:0} e \ref{results:fig:semantic:1}, correspondendo ao primeiro e segundo caso mencionados, respectivamente.
+\begin{figure}[H]
+    \centering
+    \caption{Métricas de U-Net com BPCAPooling e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \label{results:fig:semantic:metrics2}
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_unet500_miou_accuracy.png}
+         \caption{Acurácia.}
+         \label{results:fig:semantic:metrics2.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_unet500_miou_loss.png}
+         \caption{\textit{Loss}.}
+         \label{results:fig:semantic:metrics2.2}
+     \end{subfigure}%
+     ~ 
+     
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_unet500_miou_dice_coefficient.png}
+         \caption{Dice.}
+         \label{results:fig:semantic:metrics2.3}
+     \end{subfigure}
+     ~
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_unet500_miou_mean_iou.png}
+         \caption{mIoU.}
+         \label{results:fig:semantic:metrics2.4}
+     \end{subfigure}
+     
+     Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Métricas de U-Net com \textit{Max Pooling} e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \label{results:fig:semantic:metrics3}
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_unet500_miou_accuracy.png}
+         \caption{Acurácia.}
+         \label{results:fig:semantic:metrics3.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_unet500_miou_loss.png}
+         \caption{\textit{Loss}.}
+         \label{results:fig:semantic:metrics3.2}
+     \end{subfigure}%
+     ~ 
+     
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_unet500_miou_dice_coefficient.png}
+         \caption{Dice.}
+         \label{results:fig:semantic:metrics3.3}
+     \end{subfigure}
+     ~
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_unet500_miou_mean_iou.png}
+         \caption{mIoU.}
+         \label{results:fig:semantic:metrics3.4}
+     \end{subfigure}
+     
+     Fonte: do próprio autor.
+\end{figure}
+
+Outro aspecto a se considerar ao analisar as Tabelas \ref{results:semantic:tab:1} e \ref{results:semantic:tab:2} é o tempo de execução durante os processos de treinamento e validação. Notavelmente, os tempos para o método \textit{Max Pooling} são significativamente mais rápidos quando comparado ao BPCAPooling, atribuídos à complexidade do método proposto discutida na Seção \ref{results:class:future}. No entanto, é importante destacar que os modelos atingiram a convergência em um número próximo de épocas, os modelos baseados na métrica de acurácia convergiram em $168$ épocas para BPCAPooling e $172$ épocas para \textit{Max Pooling}. Enquanto, os modelos baseados na métrica mIoU convergiram em $102$ épocas para BPCAPooling e $101$ para \textit{Max Pooling}.
+
+Por fim, ao considerar um nível de significância de $5\%$ para os modelos U-Nets treinados durante $500$ épocas, observa-se que não há diferença significativa nos campos de acurácia, tanto nos conjuntos de teste quanto nos de validação, apresentando p-valores de $0.1479$ e $0.2192$, respectivamente. No entanto, ao analisar os valores de mIoU, embora os p-valores sejam de $0.0678$ e $0.0110$ para teste e validação, respectivamente, indicando ausência de diferença significativa no primeiro caso e uma diferença no segundo caso (considerando um nível de significância de $5\%$), é importante ressaltar que visualmente é desafiador discernir tais diferenças, uma vez que a segmentação apresenta uma semelhança notável, sendo assim maiores detalhes sobre as diferenças serão relatados na Seção \ref{results:semantic:xai}. Os resultados visuais podem ser observados nas Figuras \ref{results:fig:semantic:0} e \ref{results:fig:semantic:1}, correspondendo ao primeiro e segundo caso mencionados, respectivamente.
 
 \begin{figure}[H]
     \centering
    \caption{Imagem de entrada, máscara e saída do modelo U-Net baseado em acurácia, respectivamente.}
     \label{results:fig:semantic:0}
-    \begin{subfigure}[t]{1\textwidth}
+    \begin{subfigure}[t]{0.9\textwidth}
         \centering
         \includegraphics[width=1\linewidth]{recursos/imagens/results/image_0_max_unet_500.png}
         \caption{Modelo com \textit{Max Pooling}.}
@@ -428,7 +536,7 @@ Em relação aos valores obtidos, ao considerar um nível de significância de $
     \end{subfigure}%
     ~
     
-    \begin{subfigure}[t]{1\textwidth}
+    \begin{subfigure}[t]{0.9\textwidth}
         \centering
         \includegraphics[width=1\linewidth]{recursos/imagens/results/image_0_bpca_unet_500.png}
         \caption{Modelo com BPCAPooling.}
@@ -443,7 +551,7 @@ Em relação aos valores obtidos, ao considerar um nível de significância de $
     \centering
    \caption{Imagem de entrada, máscara e saída do modelo U-Net baseado em mIoU, respectivamente.}
     \label{results:fig:semantic:1}
-    \begin{subfigure}[t]{1\textwidth}
+    \begin{subfigure}[t]{0.9\textwidth}
         \centering
         \includegraphics[width=1\linewidth]{recursos/imagens/results/image_0_max_unet_miou.png}
         \caption{Modelo com \textit{Max Pooling}.}
@@ -453,7 +561,7 @@ Em relação aos valores obtidos, ao considerar um nível de significância de $
     
     \begin{subfigure}[t]{1\textwidth}
         \centering
-        \includegraphics[width=1\linewidth]{recursos/imagens/results/image_0_bpca_unet_miou.png}
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/image_0_bpca_unet_miou.png}
         \caption{Modelo com BPCAPooling.}
         \label{results:fig:semantic:1.2}
     \end{subfigure}%
@@ -461,9 +569,109 @@ Em relação aos valores obtidos, ao considerar um nível de significância de $
     Fonte: do próprio autor.
 \end{figure}
 
-- Colocar imagem com overlay de todos os modelos de U-net
+Três representações das máscaras previstas sobrepondo a imagem de entrada são exibidas para cada um dos modelos nas Figuras \ref{results:fig:semantic:2}, \ref{results:fig:semantic:3}, \ref{results:fig:semantic:4} e \ref{results:fig:semantic:5}. Observa-se que a aplicação da métrica mIoU se mostra mais eficaz quando comparada à acurácia. Além disso, o método BPCAPooling enfatiza mais os contornos em comparação com o método \textit{Max Pooling}, que aparentemente enfatiza mais os \textit{pets}, tendo que para ambos os métodos o fundo possui a mesma eficacia de segmentação.
 
-Os resultados obtidos com a arquitetura U-Net-\textit{Like} não apresentaram grandes diferenças quando comparados com os casos anteriores ou com a utilização do método \textit{Max Pooling}. No entanto, é importante ressaltar que, ao empregar a U-Net-\textit{Like}, os resultados do BPCAPooling mostraram-se inferiores em todos os aspectos, exceto nos valores de \textit{Dice Score} na etapa de validação. Essa comparação é ilustrada nas Tabelas \ref{results:semantic:tab:3} e \ref{results:semantic:tab:4}.
+\begin{figure}[H]
+    \centering
+    \caption{Exemplos segmentados a partir de U-Net com \textit{Max Pooling} e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \label{results:fig:semantic:2}
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_miou_unet500_image_0_overlayed_segmentation.png}
+         \label{results:fig:semantic:2.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_miou_unet500_image_1_overlayed_segmentation.png}
+         \label{results:fig:semantic:2.2}
+     \end{subfigure}%
+     ~ 
+    \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_miou_unet500_image_2_overlayed_segmentation.png}
+         \label{results:fig:semantic:2.2}
+     \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplos segmentados a partir de U-Net com BPCAPooling e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \label{results:fig:semantic:3}
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_miou_unet500_image_0_overlayed_segmentation.png}
+         \label{results:fig:semantic:3.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_miou_unet500_image_1_overlayed_segmentation.png}
+         \label{results:fig:semantic:3.2}
+     \end{subfigure}%
+     ~ 
+    \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_miou_unet500_image_2_overlayed_segmentation.png}
+         \label{results:fig:semantic:3.2}
+     \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplos segmentados a partir de U-Net com \textit{Max Pooling} e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
+    \label{results:fig:semantic:4}
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_acc_unet500_image_0_overlayed_segmentation.png}
+         \label{results:fig:semantic:4.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_acc_unet500_image_1_overlayed_segmentation.png}
+         \label{results:fig:semantic:4.2}
+     \end{subfigure}%
+     ~ 
+    \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_acc_unet500_image_2_overlayed_segmentation.png}
+         \label{results:fig:semantic:4.2}
+     \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplos segmentados a partir de U-Net com BPCAPooling e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
+    \label{results:fig:semantic:5}
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_acc_unet500_image_0_overlayed_segmentation.png}
+         \label{results:fig:semantic:5.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_acc_unet500_image_1_overlayed_segmentation.png}
+         \label{results:fig:semantic:5.2}
+     \end{subfigure}%
+     ~ 
+    \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_acc_unet500_image_2_overlayed_segmentation.png}
+         \label{results:fig:semantic:5.2}
+     \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+Os resultados obtidos com a arquitetura U-Net-\textit{Like} não apresentaram grandes diferenças quando comparados com os casos anteriores ou com a utilização do método \textit{Max Pooling}. No entanto, é importante ressaltar que, ao empregar a U-Net-\textit{Like}, os resultados do BPCAPooling mostraram-se inferiores em todos os aspectos, exceto nos valores de Dice na etapa de validação, como também ocorreu na arquitetura U-Net. Essa comparação é ilustrada nas Tabelas \ref{results:semantic:tab:3} e \ref{results:semantic:tab:4}.
 
 \begin{table}[H]
     \centering
