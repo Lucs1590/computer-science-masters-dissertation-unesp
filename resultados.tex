@@ -365,15 +365,157 @@ Por fim, a complexidade do método proposto é uma limitação. Um teste realiza
 
 Para futuros trabalhos que visam aplicar o método BPCAPooling como camada de \textit{pooling} para arquiteturas de classificação, sugere-se a não utilização de transferência de aprendizado para o método, mas sim a realização de fases de treinamento e validação mais extensas, além do uso de conjuntos de dados equivalentes ao ImageNet, o que é um desafio devido às necessidades de \textit{hardware} que surgiriam. Uma sugestão adicional seria propor alternativas para otimizar a complexidade do código associado ao método BPCAPooling. Por fim, uma terceira ideia para trabalhos futuros, que também exigiria considerações sobre o \textit{hardware} necessário para os experimentos, seria a aplicação de mais épocas no descongelamento de determinados blocos convolucionais durante o processo de \textit{fine-tuning}, visando permitir a exploração mais profunda dos mapas de características e potencializar os aspectos de preservação espacial.
 
+
 \subsection{Resultados da Segmentação Semântica}
 \label{results:semantic}
-- Colocar imagem para cada um dos resultados dos modelos e falar sobre a baixa diferença visualmente falando (falar que a diferença será relatada na seção \ref{results:semantic:xai})
-- Não há uma discrepância significativa em relação às métricas quando comparado com max pooling, mas se apresenta mais lento e ainda tem menores métricas.
+Em relação aos resultados da segmentação semântica, é relevante destacar que as discussões e descobertas abordadas na tarefa de classificação (Seção \ref{results:class}) foram consideradas como um primeiro passo rumo à implementação do método BPCA como camada de \textit{pooling} (BPCAPooling) na tarefa subsequente de segmentação semântica. Esta transição para uma nova tarefa demandaria validações finais para aprimorar o processo experimental específico para esse contexto.
+
+É importante observar que, ao considerar as segmentações realizadas, os resultados obtidos com a aplicação do método BPCAPooling apresentaram similaridades em termos de valores quando comparados ao método tradicional \textit{Max Pooling} na arquitetura da U-Net. Essa comparação pode ser visualizada nas Tabelas \ref{results:semantic:tab:1} e \ref{results:semantic:tab:2}.
+
+\begin{table}[H]
+    \centering
+    \caption{Resultados de U-Nets treinadas por 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} com base em acurácia.}
+    \label{results:semantic:tab:1}
+    \resizebox{1\textwidth}{!}{
+        \begin{tabular}{l|l|l|l|l|l}
+            \multicolumn{1}{c|}{\textbf{Método de \textit{Pooling}}} & \multicolumn{1}{c|}{\textbf{Tempo de Execução}}  & \multicolumn{2}{c|}{\textbf{Acurácia (\%)}}                                    & \multicolumn{2}{c}{\textbf{\textit{Loss}}}                                    \\
+            \cline{3-6}
+            \multicolumn{1}{c|}{}                                    & \multicolumn{1}{c|}{\textbf{(minutos)}}          & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c|}{\textbf{Validação}} & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c}{\textbf{Validação}} \\
+            \hline
+            BPCAPooling                                              &  252:82                                         &  87,982                               &  87,50                                  &  \textbf{0,5160}                     &  \textbf{0,7284}                        \\
+            \textit{Max Pooling}                                     &  \textbf{96:98}                                 &  \textbf{89,381}                      &  \textbf{88,64}                         &  0,5484                              &  0,8109                                 \\
+        \end{tabular}
+    }
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Resultados de U-Nets treinadas por 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} com base em mIoU.}
+    \label{results:semantic:tab:2}
+    \resizebox{1\textwidth}{!}{
+        \begin{tabular}{l|l|l|l|l|l|l|l|l|l}
+            \multicolumn{1}{c|}{\textbf{Método de \textit{Pooling}}} & \multicolumn{1}{c|}{\textbf{Tempo de Execução}}  & \multicolumn{2}{c|}{\textbf{Acurácia (\%)}}                                    & \multicolumn{2}{c|}{\textbf{\textit{Loss}}}                                    & \multicolumn{2}{c|}{\textbf{mIoU}}                                             & \multicolumn{2}{c}{\textbf{Dice}}                                              \\
+            \cline{3-10}
+            \multicolumn{1}{c|}{}                                    & \multicolumn{1}{c|}{\textbf{(minutos)}}          & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c|}{\textbf{Validação}} & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c|}{\textbf{Validação}}  & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c|}{\textbf{Validação}} & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c}{\textbf{Validação}}  \\
+            \hline
+            BPCAPooling                                              &  154:09                                          &  86,30                               &  86,77                                  &  0,5756                              &  \textbf{0,6659}                        & 0,3344                               & 0,3333                                  & \textbf{0,8892}                       & 0,8953                                  \\
+            \textit{Max Pooling}                                     &  \textbf{57:23}                                  &  \textbf{88,750}                     &  \textbf{88,61}                         &  \textbf{0,4683}                     &  0,6668                                 & \textbf{0,3367}                      & \textbf{0,3367}                         & 0,8887                               & 0,8953                                   \\
+        \end{tabular}
+    }
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+\end{table}
+
+- Falar que a loss se apresentou melhor para BPCA em todos os modelos de U-Net antes dessa parte.
+
+- Comentar sobre a questão do tempo de treinamento em relação ao max pooling para u-net, em que bpca pooling se apresenta mais lento.
+
+Em relação aos valores obtidos, ao considerar um nível de significância de $5\%$ para os modelos U-Nets treinados durante $500$ épocas, observa-se que não há diferença significativa nos campos de acurácia, tanto nos conjuntos de teste quanto nos de validação, apresentando p-valores de $0.1479$ e $0.2192$, respectivamente. No entanto, ao analisar os valores de mIoU, embora os p-valores sejam de $0.0678$ e $0.0110$ para teste e validação, respectivamente, indicando ausência de diferença significativa no primeiro caso e uma diferença no segundo caso (considerando um nível de significância de $5\%$), é importante ressaltar que visualmente é desafiador discernir tais diferenças, uma vez que a segmentação apresenta uma semelhança notável, sendo assim maiores detalhes sobre as diferenças serão relatados na Seção \ref{results:semantic:xai}. Os resultados visuais podem ser observados nas Figuras \ref{results:fig:semantic:0} e \ref{results:fig:semantic:1}, correspondendo ao primeiro e segundo caso mencionados, respectivamente.
+
+\begin{figure}[H]
+    \centering
+   \caption{Imagem de entrada, máscara e saída do modelo U-Net baseado em acurácia, respectivamente.}
+    \label{results:fig:semantic:0}
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/results/image_0_max_unet_500.png}
+        \caption{Modelo com \textit{Max Pooling}.}
+        \label{results:fig:semantic:0.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/results/image_0_bpca_unet_500.png}
+        \caption{Modelo com BPCAPooling.}
+        \label{results:fig:semantic:0.2}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+   \caption{Imagem de entrada, máscara e saída do modelo U-Net baseado em mIoU, respectivamente.}
+    \label{results:fig:semantic:1}
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/results/image_0_max_unet_miou.png}
+        \caption{Modelo com \textit{Max Pooling}.}
+        \label{results:fig:semantic:1.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/results/image_0_bpca_unet_miou.png}
+        \caption{Modelo com BPCAPooling.}
+        \label{results:fig:semantic:1.2}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+- Colocar imagem com overlay de todos os modelos de U-net
+
+Os resultados obtidos com a arquitetura U-Net-\textit{Like} não apresentaram grandes diferenças quando comparados com os casos anteriores ou com a utilização do método \textit{Max Pooling}. No entanto, é importante ressaltar que, ao empregar a U-Net-\textit{Like}, os resultados do BPCAPooling mostraram-se inferiores em todos os aspectos, exceto nos valores de \textit{Dice Score} na etapa de validação. Essa comparação é ilustrada nas Tabelas \ref{results:semantic:tab:3} e \ref{results:semantic:tab:4}.
+
+\begin{table}[H]
+    \centering
+    \caption{Resultados de U-Net-\textit{Likes} treinadas por 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} com base em acurácia.}
+    \label{results:semantic:tab:3}
+    \resizebox{1\textwidth}{!}{
+        \begin{tabular}{l|l|l|l|l|l}
+            \multicolumn{1}{c|}{\textbf{Método de \textit{Pooling}}} & \multicolumn{1}{c|}{\textbf{Tempo de Execução}}  & \multicolumn{2}{c|}{\textbf{Acurácia (\%)}}                                    & \multicolumn{2}{c}{\textbf{\textit{Loss}}}                                    \\
+            \cline{3-6}
+            \multicolumn{1}{c|}{}                                    & \multicolumn{1}{c|}{\textbf{(minutos)}}          & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c|}{\textbf{Validação}} & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c}{\textbf{Validação}} \\
+            \hline
+            BPCAPooling                                              &  116:99                                         &  79,312                               &  78,61                                  &  0,7032                              &  0,8109                                \\
+            \textit{Max Pooling}                                     &  \textbf{24:81}                                 &  \textbf{82,472}                      &  \textbf{81,84}                         &  \textbf{0.6144}                     &  \textbf{0,7936}                       \\
+        \end{tabular}
+    }
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Resultados de U-Net-\textit{Likes} treinadas por 20 épocas no conjunto de dados \textit{Oxford-IIIT Pets} com base em mIoU.}
+    \label{results:semantic:tab:4}
+    \resizebox{1\textwidth}{!}{
+        \begin{tabular}{l|l|l|l|l|l|l|l|l|l}
+            \multicolumn{1}{c|}{\textbf{Método de \textit{Pooling}}} & \multicolumn{1}{c|}{\textbf{Tempo de Execução}}  & \multicolumn{2}{c|}{\textbf{Acurácia (\%)}}                                    & \multicolumn{2}{c|}{\textbf{\textit{Loss}}}                                    & \multicolumn{2}{c|}{\textbf{mIoU}}                                             & \multicolumn{2}{c}{\textbf{Dice}}                                               \\
+            \cline{3-10}
+            \multicolumn{1}{c|}{}                                    & \multicolumn{1}{c|}{\textbf{(minutos)}}          & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c|}{\textbf{Validação}} & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c|}{\textbf{Validação}}  & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c|}{\textbf{Validação}} & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c}{\textbf{Validação}}  \\
+            \hline
+            BPCAPooling                                              &  10.99                                           &  70,95                               &  71,55                                  &  0,7133                              &  0,6935                                 & 0,3086                               & 0,3102                                  & \textbf{0,8889}                               & 0,8970                                   \\
+            \textit{Max Pooling}                                     &  \textbf{3:19}                                   &  \textbf{77,97}                      &  \textbf{78,19}                         &  \textbf{0,5571}                     &  0.5508                                 & \textbf{0,3164}                      & \textbf{0,3177}                         & 0,8892                                        & 0,8970                                   \\
+        \end{tabular}
+    }
+
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+\end{table}
+
+- Fazer testes de p-valor
+
+- Comentar sobre a questão do tempo de treinamento em relação ao max pooling para u-net-like, em que bpca pooling se apresenta mais lento.
+
+- O treinamento com U-Net-Like realmente ocorrem mais rápido do que as U-Nets convencionais, visto que a quantidade de parâmetros é menor e as normalizações de batch normalization e convolução separáveis trazem o beneficio das otimizações.
+
+- mostrar imagens como fiz na parte da U-net (entrada, mascara e predito) + overlay
+
 - Na prática em relação não tem muita mudança no resultado final exceto pelo tempo, complexidade e baixa acurácia
 
-\subsubsection{Diferença das arquiteturas}
-\label{results:semantic:arch}
-- O treinamento com U-Net-Like realmente ocorrem mais rápido do que as U-Nets convencionais, visto que a quantidade de parâmetros é menor e as normalizações de batch normalization e convolução separáveis trazem o beneficio das otimizações.
+
+% \subsubsection{Diferença das arquiteturas}
+% \label{results:semantic:arch}
 
 \subsubsection{Explicação de modelos}
 \label{results:semantic:xai}

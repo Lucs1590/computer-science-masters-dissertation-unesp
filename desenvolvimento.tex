@@ -10,7 +10,8 @@ Entretanto, ainda existem questões não resolvidas relacionadas às potenciais 
 
 Neste contexto, o objetivo primordial deste trabalho é propor uma nova técnica de \textit{pooling} para CNNs, aplicando testes em CNNs convencionais, mas com ênfase na segmentação semântica com o modelo U-Net. A abordagem proposta visa manter as informações espaciais dos dados de entrada enquanto realiza a necessária redução de dimensionalidade algo que não ocorre com os métodos tradicionais de \textit{pooling}. Os resultados obtidos serão posteriormente comparados com aqueles produzidos pelos métodos de \textit{pooling} comumente utilizados.
 
-Este capítulo trata detalhadamente dos materiais e métodos utilizados para a condução e avaliação da pesquisa, discutidos em profundidade na Seção \ref{project:matmet}. Enquanto a aplicação de métricas específicas para a avaliação dos resultados será discutida na Seção \ref{project:exp_result} e uma breve revisão quanto aos trabalhos relacionados à pesquisa proposta será discorrida na Seção \ref{project:revision}.
+Este capítulo trata detalhadamente dos materiais e métodos utilizados para a condução e avaliação da pesquisa, discutidos em profundidade na Seção \ref{project:matmet}. Enquanto a aplicação de métricas específicas para a avaliação dos resultados será discutida na Seção \ref{project:exp_result}.
+% e uma breve revisão quanto aos trabalhos relacionados à pesquisa proposta será discorrida na Seção \ref{project:revision}.
 
 Finalmente, vale citar que nesse capítulo será possível encontrar uma apresentação detalhada do novo método de \textit{pooling} proposto e seu impacto na performance das redes de aprendizado profundo.
 
@@ -564,7 +565,7 @@ A abordagem aplicada na combinação da VGG-16 com o conjunto de dados CIFAR-100
 \label{params:unetlikepets}
 Na configuração dos parâmetros para a arquitetura U-Net-\textit{Like} aplicada ao conjunto de dados \textit{Oxford-IIIT Pets}, é importante observar que não foi realizado um processo de \textit{fine-tuning}, diferentemente das arquiteturas utilizadas para classificação que foram mencionadas anteriormente. No entanto, muitos dos parâmetros se mantiveram consistentes. Neste contexto, foram adotadas sementes para as bibliotecas TensorFlow e Numpy, com um valor de $77$, garantindo a reprodutibilidade dos testes.
 
-Para a U-Net-\textit{Like}, foram realizados treinamentos e testes ao longo de $20$ e $500$ épocas, respectivamente, antecedendo os experimentos relacionados à arquitetura U-Net, a qual será discutida na Seção \ref{params:unetpets}. Em relação à taxa de aprendizado máxima, vale ressaltar que seu valor foi mantido constante em $1 \times 10^{-4}$ para todos os experimentos realizados. Apesar de parecer uma taxa mais elevada em comparação com as anteriores, está dentro do limite recomendado quando comparado com outras pesquisas \citep{Fajar2023CyclicalSegmentation}. Além disso, a taxa de aprendizado mínima foi definida como $1 \times 10^{-5}$, sendo reduzida quando o modelo não apresentou evolução na métrica de avaliação principal após $25$ épocas. Em relação ao valor do \textit{batch size}, esse se manteve constante em $64$, seguindo o padrão dos experimentos anteriores com a rede VGG-16.
+Para a U-Net-\textit{Like}, foram realizados treinamentos e testes ao longo de $20$ e $500$ épocas, respectivamente, antecedendo os experimentos relacionados à arquitetura U-Net, a qual será discutida na Seção \ref{params:unetpets}. Em relação à taxa de aprendizado máxima, vale ressaltar que seu valor foi mantido constante em $1 \times 10^{-4}$ para todos os experimentos realizados. Apesar de parecer uma taxa mais elevada em comparação com as anteriores, está dentro do limite recomendado quando comparado com outras pesquisas \citep{Fajar2023CyclicalSegmentation}. Além disso, a taxa de aprendizado mínima foi definida como $1 \times 10^{-5}$, sendo reduzida quando o modelo não apresentou evolução na métrica de avaliação principal após $25$ épocas para os testes com $500$ épocas, pois para os de $20$ épocas a redução não foi utilizada. Em relação ao valor do \textit{batch size}, esse se manteve constante em $64$, seguindo o padrão dos experimentos anteriores com a rede VGG-16.
 
 Em contraste com os experimentos anteriores, foram utilizadas fórmulas para calcular a quantidade de iterações por época, conforme representado pela Equação \ref{params:eq1:unetlikepets}, e para calcular a quantidade das iterações de validação, representadas pela Equação \ref{params:eq2:unetlikepets}.
 
@@ -660,51 +661,51 @@ Por fim, é evidente que a incorporação de ferramentas de Inteligência Artifi
 
 As descobertas e desafios enfrentados durante a utilização dessas técnicas serão minuciosamente explorados no Capítulo \ref{results}, o qual se dedica a apresentar os resultados dos experimentos em profundidade.
 
-\subsection{Revisão de Literatura}
-\label{project:revision}
-A revisão sistemática é uma metodologia robusta amplamente aplicada em diferentes campos científicos, particularmente em pesquisa clínica e médica. Com suas características de redução de viés e fornecimento de uma crítica abrangente da literatura existente, ela oferece um grau elevado de confiabilidade \citep{barbosa2019}. No contexto do presente estudo, realizou-se uma revisão inspirada nessa metodologia, adaptando as recomendações dos artigos de \cite{barbosa2019} e \cite{liberati2009} para a área de foco, que exclui a aplicação clínica.
+% \subsection{Revisão de Literatura}
+% \label{project:revision}
+% A revisão sistemática é uma metodologia robusta amplamente aplicada em diferentes campos científicos, particularmente em pesquisa clínica e médica. Com suas características de redução de viés e fornecimento de uma crítica abrangente da literatura existente, ela oferece um grau elevado de confiabilidade \citep{barbosa2019}. No contexto do presente estudo, realizou-se uma revisão inspirada nessa metodologia, adaptando as recomendações dos artigos de \cite{barbosa2019} e \cite{liberati2009} para a área de foco, que exclui a aplicação clínica.
 
-A revisão foi conduzida com o objetivo de abranger uma gama de estudos que apresentam o desenvolvimento de uma técnica de \textit{pooling} que preserva a espacialidade das entradas e que é aplicável na área de segmentação semântica. Assim, essa revisão se alinha com a intenção de responder algumas das questões estabelecidas na Seção de Objetivos (Seção \ref{intro:objectives}) deste trabalho.
+% A revisão foi conduzida com o objetivo de abranger uma gama de estudos que apresentam o desenvolvimento de uma técnica de \textit{pooling} que preserva a espacialidade das entradas e que é aplicável na área de segmentação semântica. Assim, essa revisão se alinha com a intenção de responder algumas das questões estabelecidas na Seção de Objetivos (Seção \ref{intro:objectives}) deste trabalho.
 
-Neste sentido, nossa busca de literatura focou em estudos publicados entre 2015 e 2023 que apresentavam relevância para a \textit{segmentação semântica}. O período escolhido deu relevância à importância histórica do lançamento das arquiteturas FCN \citep{Shelhamer2016} e U-Net \citep{Ronneberger2015U-net:Segmentation}. Os termos de pesquisa utilizados em várias combinações incluíam \quotes{\textit{semantic segmentation}}, \quotes{\textit{pooling}} e \quotes{\textit{spatiality}} sendo que as pesquisas eram restritas aos idiomas português e inglês.
+% Neste sentido, nossa busca de literatura focou em estudos publicados entre 2015 e 2023 que apresentavam relevância para a \textit{segmentação semântica}. O período escolhido deu relevância à importância histórica do lançamento das arquiteturas FCN \citep{Shelhamer2016} e U-Net \citep{Ronneberger2015U-net:Segmentation}. Os termos de pesquisa utilizados em várias combinações incluíam \quotes{\textit{semantic segmentation}}, \quotes{\textit{pooling}} e \quotes{\textit{spatiality}} sendo que as pesquisas eram restritas aos idiomas português e inglês.
 
-Estabeleceu-se os critérios de inclusão para que abrangessem artigos que mencionassem a técnica de segmentação semântica, uma vez que esses poderiam contribuir substancialmente para a proposição de modelo de segmentação do atual trabalho. O critério de exclusão destacou-se em artigos com descrição inadequada em termos do interesse desta revisão, aqueles que são específicos para uma aplicação particular não relacionada ao nosso tema de interesse e os estudos duplicados entre as ferramentas de busca.
+% Estabeleceu-se os critérios de inclusão para que abrangessem artigos que mencionassem a técnica de segmentação semântica, uma vez que esses poderiam contribuir substancialmente para a proposição de modelo de segmentação do atual trabalho. O critério de exclusão destacou-se em artigos com descrição inadequada em termos do interesse desta revisão, aqueles que são específicos para uma aplicação particular não relacionada ao nosso tema de interesse e os estudos duplicados entre as ferramentas de busca.
 
-Os resultados da nossa pesquisa de literatura são resumidos e visualizados na Figura \ref{project:revision:fig:1}. Essa síntese tomou a forma de um diagrama, a ferramenta visual comumente empregada para ilustrar o processo de revisão sistemática e os resultados correspondentes.
+% Os resultados da nossa pesquisa de literatura são resumidos e visualizados na Figura \ref{project:revision:fig:1}. Essa síntese tomou a forma de um diagrama, a ferramenta visual comumente empregada para ilustrar o processo de revisão sistemática e os resultados correspondentes.
 
-\begin{figure}[H]
-    \centering
-    \caption{Diagrama de revisão de estudos relacionados.}
-    \includegraphics[height=4.5in]{recursos/imagens/project/revisao_panoptica.png}
-    \label{project:revision:fig:1}
+% \begin{figure}[H]
+%     \centering
+%     \caption{Diagrama de revisão de estudos relacionados.}
+%     \includegraphics[height=4.5in]{recursos/imagens/project/revisao_panoptica.png}
+%     \label{project:revision:fig:1}
 
-    Fonte: do próprio autor.
-\end{figure}
+%     Fonte: do próprio autor.
+% \end{figure}
 
-Desse modo, com base na revisão bibliográfica conduzida, apenas um conjunto seleto de X itens foram escolhidos para a complementação do estudo em questão. Esses itens são destacados na Figura \ref{project:revision:fig:1} e listados em detalhes na Tabela \ref{project:revision:tab:1}.
+% Desse modo, com base na revisão bibliográfica conduzida, apenas um conjunto seleto de X itens foram escolhidos para a complementação do estudo em questão. Esses itens são destacados na Figura \ref{project:revision:fig:1} e listados em detalhes na Tabela \ref{project:revision:tab:1}.
 
 
-\begin{table}[H]
-    \centering
-    \caption{Trabalhos selecionados a partir da revisão sobre segmentação panóptica.}
-    \label{project:revision:tab:1}
-    \resizebox{\textwidth}{!}{
-    \begin{tabular}{l|l}
-        \textbf{Título}                                                &  \textbf{Referência}    \\ \hline
-        Part-Aware Panoptic Segmentation                               &  \cite{DeGeus2021}      \\
-        Improving Panoptic Segmentation at All Scales                  &  \cite{Porzi2021}       \\
-        SpatialFlow: Bridging All Tasks for Panoptic Segmentation      &  \cite{Chen2019a}       \\
-        Visual relation of interest detection based on part detection  &  \cite{YouZhou2021}     \\
-        Panoptic Image Annotation with a Collaborative Assistant       &  \cite{Jasper2020}      \\
-        Panoptic Segmentation-Based Attention for Image Captioning     &  \cite{Cai2020}         \\
-        Supplementary Material: Part-aware Panoptic Segmentation       &  \cite{DeGeus2021a}     \\
-        Panoptic Segmentation: A Review                                &  \cite{Elharrouss2021}  \\
-        PartImageNet: A Large, High-Quality Dataset of Parts           &  \cite{He2021}   
-    \end{tabular}}
+% \begin{table}[H]
+%     \centering
+%     \caption{Trabalhos selecionados a partir da revisão sobre segmentação panóptica.}
+%     \label{project:revision:tab:1}
+%     \resizebox{\textwidth}{!}{
+%     \begin{tabular}{l|l}
+%         \textbf{Título}                                                &  \textbf{Referência}    \\ \hline
+%         Part-Aware Panoptic Segmentation                               &  \cite{DeGeus2021}      \\
+%         Improving Panoptic Segmentation at All Scales                  &  \cite{Porzi2021}       \\
+%         SpatialFlow: Bridging All Tasks for Panoptic Segmentation      &  \cite{Chen2019a}       \\
+%         Visual relation of interest detection based on part detection  &  \cite{YouZhou2021}     \\
+%         Panoptic Image Annotation with a Collaborative Assistant       &  \cite{Jasper2020}      \\
+%         Panoptic Segmentation-Based Attention for Image Captioning     &  \cite{Cai2020}         \\
+%         Supplementary Material: Part-aware Panoptic Segmentation       &  \cite{DeGeus2021a}     \\
+%         Panoptic Segmentation: A Review                                &  \cite{Elharrouss2021}  \\
+%         PartImageNet: A Large, High-Quality Dataset of Parts           &  \cite{He2021}   
+%     \end{tabular}}
 
-    \vspace*{1 cm}
-    Fonte: do próprio autor.
-\end{table}
+%     \vspace*{1 cm}
+%     Fonte: do próprio autor.
+% \end{table}
 
 
 \subsection{Considerações Finais do Capítulo}
