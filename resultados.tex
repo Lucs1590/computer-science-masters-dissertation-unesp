@@ -703,7 +703,7 @@ Os resultados obtidos com a arquitetura U-Net-\textit{Like} não apresentaram gr
             \multicolumn{1}{c|}{}                                    & \multicolumn{1}{c|}{\textbf{(minutos)}}          & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c|}{\textbf{Validação}} & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c|}{\textbf{Validação}}  & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c|}{\textbf{Validação}} & \multicolumn{1}{c|}{\textbf{Treino}} & \multicolumn{1}{c}{\textbf{Validação}}  \\
             \hline
             BPCAPooling                                              &  10.99                                           &  70,95                               &  71,55                                  &  0,7133                              &  0,6935                                 & 0,3086                               & 0,3102                                  & \textbf{0,8889}                               & 0,8970                                   \\
-            \textit{Max Pooling}                                     &  \textbf{3:19}                                   &  \textbf{77,97}                      &  \textbf{78,19}                         &  \textbf{0,5571}                     &  0.5508                                 & \textbf{0,3164}                      & \textbf{0,3177}                         & 0,8892                                        & 0,8970                                   \\
+            \textit{Max Pooling}                                     &  \textbf{3:19}                                   &  \textbf{77,97}                      &  \textbf{78,19}                         &  \textbf{0,5571}                     &  \textbf{0,5508}                                 & \textbf{0,3164}                      & \textbf{0,3177}                         & 0,8892                                        & 0,8970                                   \\
         \end{tabular}
     }
 
@@ -711,19 +711,269 @@ Os resultados obtidos com a arquitetura U-Net-\textit{Like} não apresentaram gr
     Fonte: do próprio autor.
 \end{table}
 
-- Fazer testes de p-valor
+Além da métrica Dice, vale ressaltar que o comportamento do tempo de execução é muito semelhante ao observado nos casos de uso das U-Nets, em que as abordagens com \textit{Max Pooling} demonstram um melhor desempenho. Contudo, ao comparar os tempos de execução da Tabela \ref{results:semantic:tab:3} com as Tabelas \ref{results:semantic:tab:1} e \ref{results:semantic:tab:2}, nota-se que o desempenho das U-Net-\textit{Like} é superior. Isso se deve à influência das estratégias de otimização, como normalização de \textit{batch}, convolução separável e \textit{upsampling}, que reduzem a quantidade de parâmetros em comparação com as U-Nets convencionais. No entanto, as comparações em relação aos valores de avaliação ainda se mostram superiores nas U-Nets convencionais, demonstrando que a robustez da arquitetura original tem seus benefícios.
 
-- Comentar sobre a questão do tempo de treinamento em relação ao max pooling para u-net-like, em que bpca pooling se apresenta mais lento.
+A Figura \ref{results:fig:semantic:6} ilustra o progresso das métricas durante o processo de treinamento e validação dos modelos de U-Net-\textit{Like}, guiados pela métrica de acurácia. Já as Figuras \ref{results:fig:semantic:7} e \ref{results:fig:semantic:8} mostram os resultados dos modelos U-Net-\textit{Like} treinados por menos épocas, mas que apresentam métricas mais apropriadas para o contexto de segmentação semântica.
 
-- O treinamento com U-Net-Like realmente ocorrem mais rápido do que as U-Nets convencionais, visto que a quantidade de parâmetros é menor e as normalizações de batch normalization e convolução separáveis trazem o beneficio das otimizações.
+\begin{figure}[H]
+    \centering
+    \caption{Métricas de U-Net-\textit{Likes} com 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
+    \label{results:fig:semantic:6}
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max500_ulike_acc_accuracy.png}
+         \caption{Acurácia do \textit{Max Pooling}.}
+         \label{results:fig:semantic:6.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max500_ulike_acc_loss.png}
+         \caption{\textit{Loss} do \textit{Max Pooling}.}
+         \label{results:fig:semantic:6.2}
+     \end{subfigure}%
+     ~ 
+     
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca500_ulike_acc_accuracy.png}
+         \caption{Acurácia do BPCAPooling.}
+         \label{results:fig:semantic:6.3}
+     \end{subfigure}
+     ~
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca500_ulike_acc_loss.png}
+         \caption{\textit{Loss} do BPCAPooling.}
+         \label{results:fig:semantic:6.4}
+     \end{subfigure}
+     
+     Fonte: do próprio autor.
+\end{figure}
 
-- mostrar imagens como fiz na parte da U-net (entrada, mascara e predito) + overlay
+\begin{figure}[H]
+    \centering
+    \caption{Métricas de U-Net-\textit{Likes} com BPCAPooling e 20 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \label{results:fig:semantic:7}
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_unetlike20_miou_accuracy.png}
+         \caption{Acurácia.}
+         \label{results:fig:semantic:7.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_unetlike20_miou_loss.png}
+         \caption{\textit{Loss}.}
+         \label{results:fig:semantic:7.2}
+     \end{subfigure}%
+     ~ 
+     
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_unetlike20_miou_dice_coefficient.png}
+         \caption{Dice.}
+         \label{results:fig:semantic:7.3}
+     \end{subfigure}
+     ~
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_unetlike20_miou_mean_iou.png}
+         \caption{mIoU.}
+         \label{results:fig:semantic:7.4}
+     \end{subfigure}
+     
+     Fonte: do próprio autor.
+\end{figure}
 
-- Na prática em relação não tem muita mudança no resultado final exceto pelo tempo, complexidade e baixa acurácia
+\begin{figure}[H]
+    \centering
+    \caption{Métricas de U-Net-\textit{Likes} com \textit{Max Pooling} e 20 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \label{results:fig:semantic:8}
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_unetlike20_miou_accuracy.png}
+         \caption{Acurácia.}
+         \label{results:fig:semantic:8.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_unetlike20_miou_loss.png}
+         \caption{\textit{Loss}.}
+         \label{results:fig:semantic:8.2}
+     \end{subfigure}%
+     ~ 
+     
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_unetlike20_miou_dice_coefficient.png}
+         \caption{Dice.}
+         \label{results:fig:semantic:8.3}
+     \end{subfigure}
+     ~
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_unetlike20_miou_mean_iou.png}
+         \caption{mIoU.}
+         \label{results:fig:semantic:8.4}
+     \end{subfigure}
+     
+     Fonte: do próprio autor.
+\end{figure}
+
+Analisando essas tabelas por meio de testes estatísticos, observa-se uma diferença estatisticamente significativa para as métricas de acurácia e \textit{loss} nas fases de treinamento e validação das U-Net-\textit{Like} baseadas na acurácia, considerando um nível de significância de $5\%$. No entanto, essa diferença não é observada para as demais métricas, como Dice, acurácia de validação, Dice de validação, \textit{loss} de validação e mIoU de validação, apresentando os respectivos valores de p-valor de $0.7962$, $0.6730$, $0.2130$, $0.1175$ e $0.2198$, ainda mantendo o limiar de significância de $5\%$.
+
+Em termos visuais, assim como constatado anteriormente com as U-Nets, além da análise das métricas, as imagens também indicam uma qualidade inferior na segmentação em comparação com os modelos U-Net. As Figuras \ref{results:fig:semantic:9} e \ref{results:fig:semantic:10} exibem as imagens de entrada, as máscaras e as máscaras geradas pelo modelo para um melhor entendimento visual.
+
+\begin{figure}[H]
+    \centering
+   \caption{Imagem de entrada, máscara e saída do modelo U-Net-\textit{Like} baseado em acurácia, respectivamente.}
+    \label{results:fig:semantic:9}
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/results/image_0_max_unetlike_500.png}
+        \caption{Modelo com \textit{Max Pooling}.}
+        \label{results:fig:semantic:9.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/results/image_0_bpca_unetlike_500.png}
+        \caption{Modelo com BPCAPooling.}
+        \label{results:fig:semantic:9.2}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+   \caption{Imagem de entrada, máscara e saída do modelo U-Net-\textit{Like} baseado em mIoU, respectivamente.}
+    \label{results:fig:semantic:10}
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/results/image_0_max_unetlike_miou.png}
+        \caption{Modelo com \textit{Max Pooling}.}
+        \label{results:fig:semantic:10.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/image_0_bpca_unetlike_miou.png}
+        \caption{Modelo com BPCAPooling.}
+        \label{results:fig:semantic:10.2}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+Por fim, ao analisar as Figuras \ref{results:fig:semantic:11}, \ref{results:fig:semantic:12}, \ref{results:fig:semantic:13} e \ref{results:fig:semantic:14}, evidencia-se a sobreposição dos resultados do modelo nas imagens de entrada. Esta visualização sinaliza a necessidade de estender o número de épocas para os modelos de segmentação U-Net-\textit{Like} treinados por apenas 20 épocas. Apesar da diferença nas acurácias não exceder $8\%$, a análise visual sugere um potencial de melhoria substancial, indicando que o modelo possivelmente pode obter resultados mais robustos com um treinamento prolongado.
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplos segmentados a partir de U-Net-\textit{Like} com \textit{Max Pooling} e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
+    \label{results:fig:semantic:11}
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_acc_unetlike500_image_0_overlayed_segmentation.png}
+         \label{results:fig:semantic:11.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_acc_unetlike500_image_1_overlayed_segmentation.png}
+         \label{results:fig:semantic:11.2}
+     \end{subfigure}%
+     ~ 
+    \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_acc_unetlike500_image_2_overlayed_segmentation.png}
+         \label{results:fig:semantic:11.2}
+     \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplos segmentados a partir de U-Net-\textit{Like} com BPCAPooling e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
+    \label{results:fig:semantic:12}
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_acc_unetlike500_image_0_overlayed_segmentation.png}
+         \label{results:fig:semantic:12.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_acc_unetlike500_image_1_overlayed_segmentation.png}
+         \label{results:fig:semantic:12.2}
+     \end{subfigure}%
+     ~ 
+    \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_acc_unetlike500_image_2_overlayed_segmentation.png}
+         \label{results:fig:semantic:12.2}
+     \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplos segmentados a partir de U-Net-\textit{Like} com \textit{Max Pooling} e 20 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \label{results:fig:semantic:13}
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_miou_unetlike500_image_0_overlayed_segmentation.png}
+         \label{results:fig:semantic:13.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_miou_unetlike500_image_1_overlayed_segmentation.png}
+         \label{results:fig:semantic:13.2}
+     \end{subfigure}%
+     ~ 
+    \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max_miou_unetlike500_image_2_overlayed_segmentation.png}
+         \label{results:fig:semantic:13.2}
+     \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplos segmentados a partir de U-Net-\textit{Like} com BPCAPooling e 20 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \label{results:fig:semantic:14}
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_miou_unetlie500_image_0_overlayed_segmentation.png}
+         \label{results:fig:semantic:14.1}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_miou_unetlie500_image_1_overlayed_segmentation.png}
+         \label{results:fig:semantic:14.2}
+     \end{subfigure}%
+     ~ 
+    \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca_miou_unetlie500_image_2_overlayed_segmentation.png}
+         \label{results:fig:semantic:14.2}
+     \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
 
 
-% \subsubsection{Diferença das arquiteturas}
-% \label{results:semantic:arch}
 
 \subsubsection{Explicação de modelos}
 \label{results:semantic:xai}
@@ -731,10 +981,37 @@ Os resultados obtidos com a arquitetura U-Net-\textit{Like} não apresentaram gr
 
 \subsubsection{Trabalhos Futuros}
 \label{results:semantic:future}
-- Propor o uso de outro framework como pytorch e falar dos problemas tecnicamente enfrentados.
-- Valeria um teste com outros datasets contendo objetos de diversos tamanhos, como lost and found, cityscape ou celulas. Mas a adaptação de código com o framework tensforflow se torna custosa, valeria a migração para o pytorch tentando minimizar essa barreira tecnológica.
-- Valeria a implementação de um método de unpooling com o processo reverso de bpca (colocar a fórmula e imagens (repo compartilhado com uemerson)), a diferença é que esse método contaria com parâmetros, sendo necessário usar uma camada densa por baixo dos panos.
+Para contribuir com o avanço deste projeto, esta seção propõe identificar pontos de melhoria e desafios encontrados para a aplicação mais ampla e aprimoramento do BPCAPooling. O objetivo é potencializar seu desempenho em relação aos métodos tradicionais, não apenas reduzindo a dimensionalidade de entradas em arquiteturas de segmentação semântica, mas também preservando a espacialidade dessas informações.
 
+Um dos grandes desafios encontrados residia na combinação dos \textit{frameworks} Tensorflow e Keras. Dado que a abordagem proposta consistia no desenvolvimento de uma camada personalizada de \textit{pooling}, erros de desenvolvimento eram comuns, afetando significativamente o tempo de implementação e outros aspectos mencionados nesta seção. Portanto, uma proposta para futuros trabalhos seria a exploração de diferentes \textit{frameworks}, como PyTorch \citep{Paszke2017AutomaticPyTorch}. Além de potencialmente melhorar o desempenho do método, conforme discutido na Seção \ref{results:class:future}.
+
+A dificuldade enfrentada com o \textit{framework} também prejudicou a aplicação do método em mais de um conjunto de dados para a tarefa de segmentação semântica. Uma excelente proposta futura seria estender os testes para um segundo conjunto de dados, preferencialmente com múltiplos objetos de interesse em cada exemplo. Conjuntos como \textit{Cityscape} \citep{Cordts2016} e \textit{Lost and Found} \citep{Pinggera2016LostVehicles} oferecem condições ideais para avaliar as capacidades de preservação de espacialidade do BPCAPooling em cenários mais complexos.
+
+Além disso, iniciou-se o desenvolvimento do método BPCAUnpooling, disponível no repositório do projeto \footnote{Repositório Github do projeto - \url{https://github.com/Lucs1590/USeS-BPCA}}, mas a implementação com o \textit{framework} atual representou uma barreira. Esse método seria uma abordagem de \textit{unpooling}, contrapartida ao BPCAPooling, revertendo o processo proposto por este último, preservando também a espacialidade no processo de reconstrução realizado pelas U-Nets e similares, como ilustrado na Figura \ref{results:fig:future:0}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Processo de redução e reconstrução de dimensionalidade com BPCAPooling e BPCAUnpooling, respectivamente.}
+    \label{results:fig:future:0}
+    \includegraphics[width=1\textwidth]{recursos/imagens/results/bpca_unpooling.png}
+
+    Fonte: do próprio autor.
+\end{figure}
+
+Ao contrário do BPCAPooling, a aplicação do método BPCAUnpooling requer camadas densas para alcançar um comportamento equivalente ao das camadas transpostas. A Equação \ref{results:eq:bpca_unpooling} ilustra esse método, onde $X'_{i,j,k}$ representa o mapa de características de saída com dimensões correspondentes à altura ($i$), largura ($j$) e canais ($k$). Essa equação descreve o processo de reconstrução da dimensionalidade usando o método BPCAUnpooling, que envolve operações de preenchimento, remodelagem e reconstrução dos dados não agrupados por meio da decomposição PCA.
+
+\begin{equation}
+    \label{results:eq:bpca_unpooling}
+    \begin{split}
+        X'_{i,j,k} &= \text{BPCAUnpooling}(Y_{i',j',k'}) \\
+                  &= \text{reshape}\left(U \cdot \left(\text{reshape}(S) \cdot \text{Dense}\left(\text{pad}(Y)\right)\right)\right) \cdot {\sigma} + {\mu}.
+    \end{split}
+\end{equation}
+
+Nesta equação, o parâmetro $\text{BPCAUnpooling}(Y_{i',j',k'})$ representa a aplicação do método BPCAUnpooling ao mapa de características de entrada $Y$. A função $pad(Y)$ preenche o mapa de características de entrada $Y$ com zeros para ajustar o tamanho necessário para a operação de \textit{unpooling}, enquanto $Dense(pad(Y))$ é utilizado para aprender os componentes do PCA, empregando uma camada densa com ativação. A função $\text{reshape}$, como no processo da equação \ref{project:eq:bpca}, remodela os argumentos para o tamanho correto, onde $S$ representa os valores singulares da decomposição PCA alinhados com os componentes PCA. A expressão $U \cdot (reshape(S) \cdot Dense(pad(Y)))$ reconstrói os dados não agrupados utilizando os componentes e valores singulares do PCA. Por fim, a multiplicação pelo desvio padrão ($\sigma$) e a adição da média ($\mu$) revertem a transformação PCA.
 
 \subsection{Considerações Finais do Capítulo}
 \label{result:final}
+Neste capítulo, foram apresentados os resultados dos experimentos realizados, abordando tanto o processo de classificação (Seção \ref{results:class}) quanto os primeiros passos em direção ao objetivo final de empregar o BPCAPooling como uma proposta de camada de \textit{pooling} para segmentações semânticas, como explorado e detalhado na Seção \ref{results:semantic}. Além disso, foram delineadas ideias para melhorias e desenvolvimento futuro nestas áreas, destacadas nas Seções \ref{results:class:future} e \ref{results:semantic:future}.
+
+No próximo capítulo, as conclusões derivadas deste trabalho serão discutidas, demonstrando a efetividade do método proposto em relação à sua aplicabilidade e ao alcance dos objetivos estabelecidos no início deste estudo (Seção \ref{intro:objectives}).
