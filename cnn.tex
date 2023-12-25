@@ -194,7 +194,6 @@ A técnica de \textit{dropout} é uma estratégia eficaz para regularização em
 
 \subsection{Camada de Saída}
 \label{cnn:output}
-
 Após a composição de várias camadas de convolução, utilizando filtros, e a aplicação de camadas de \textit{pooling}, os modelos de CNN geralmente incluem uma camada de saída, também conhecida como camada densa. Esta camada é fundamental para a determinação das classes identificadas na imagem. Vale destacar que essa camada não tem um impacto significativo no desempenho em relação ao tempo de convergência do modelo, nem interfere no progresso e evolução do processo de treinamento, sendo que o processo de inferência é muito similar ao usado pelas CNNs na Seção \ref{cnn}.
 
 Por fim, para gerar a saída final, é comum utilizar funções de ativação como a Softmax (abordada na Seção \ref{deep:soft}). A aplicação da Softmax permite a identificação da classe de um objeto específico em uma imagem, por exemplo. Essa função de ativação é utilizada para a tarefa de classificação, fornecendo as probabilidades de pertencimento a cada classe no conjunto de dados.
