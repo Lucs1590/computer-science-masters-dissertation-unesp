@@ -977,11 +977,356 @@ Por fim, ao analisar as Figuras \ref{results:fig:semantic:11}, \ref{results:fig:
 
 \subsubsection{Explicação de modelos}
 \label{results:semantic:xai}
-- Colocar o grafo para cada um dos modelos e mostra apenas as imagens de destaque
-    - UNet 500 + BPCA (3 imagens + 1 grafo)
-    - UNet 500 + MaxPooling (3 imagens + 1 grafo)
-    - UNet Like 20 + BPCA (3 imagens + 1 grafo)
-    - UNet Like 20 + MaxPooling (3 imagens + 1 grafo)
+Como discutido na Seção \ref{project:explain}, para realizar as análises de interpretabilidade nas segmentações semânticas, a ferramenta LIME não se mostrou adequada. Portanto, optou-se pelo uso da ferramenta Xplique, a qual oferece métodos de atribuição que permitem a visualização de pontos de destaque para a compreensão das segmentações, mapeamento das bordas das áreas de interesse ou bordas entre duas áreas distintas de interesse.
+
+Neste estudo, as principais classes de interesse consistem nos animais de estimação, conforme proposto pelo conjunto de dados \textit{Oxford-IIIT Pets}. Para cada um dos modelos, foram aplicados dez métodos de atribuição destinados à tarefa de segmentação semântica. Isso visava identificar os pontos mais relevantes para a compreensão da qualidade da segmentação, por meio do mapa de calor gerado por cada um dos métodos, como representado na Figura \ref{project:fig:explain:xplique}. Os métodos específicos utilizados foram: \textit{Gradient Input}, \textit{Integrated Gradients}, \textit{Smooth Grad}, \textit{Var Grad}, \textit{Square Grad}, \textit{Occlusion}, \textit{Rise}, \textit{Sobol}, \textit{HSIC} e \textit{Saliency}.
+
+Ao término da execução de cada um desses métodos nos modelos, foram gerados escores para avaliar a qualidade de cada método com base em três métricas de fidelidade. Estas incluem: \textit{Deletion}, que mede o quão bem uma explicação baseada no mapa de saliência localiza as características importantes; \textit{Insertion}, que avalia a capacidade de uma explicação baseada no mapa de saliência em identificar elementos mínimos necessários para as classificações da classe de saída do modelo; e \textit{MuFidelity}, que quantifica a correlação entre variáveis importantes definidas pelo método de explicação e a queda na pontuação do modelo quando essas variáveis são redefinidas para um estado inicial. É importante citar que quanto menor o escore na coluna de \textit{Deletion}, melhor se apresenta o método, todavia, quanto maior o escore nas colunas \textit{Insertion} e \textit{MuFidelity}, melhor o desempenho do método.
+
+A seguir, serão apresentados os gráficos comparativos para cada um dos modelos em uma das três imagens testadas, aleatoriamente, juntamente com as saídas dos métodos de atribuição principais para cada uma das métricas de fidelidade.
+
+Nos modelos U-Nets baseados na métrica de acurácia, os gráficos dos escores estão disponíveis na Figura \ref{results:fig:xai:1}. Observa-se, através desta visualização, que os destaques com o uso do método BPCAPooling foram para os métodos \textit{Integrated Gradients}, \textit{Occlusion} e \textit{Sobol}, conforme representado na Figura \ref{results:fig:xai:2}. Estes métodos se referem, respectivamente, às métricas \textit{Deletion}, \textit{MuFidelity} e \textit{Insertion}. Já para o método \textit{Max Pooling}, os resultados mais significativos, seguindo a mesma ordem, foram obtidos pelos métodos \textit{Smooth Grad}, \textit{Sobol} e, novamente, \textit{Sobol}, como evidenciado na Figura \ref{results:fig:xai:3}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Gráfico com os escores dos métodos de atribuição nas U-Nets baseada na acurácia.}
+    \label{results:fig:xai:1}
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{recursos/imagens/results/bpca500_acc_image_0_barplot.png}
+        \caption{Modelo com BPCAPooling.}
+        \label{results:fig:xai:1.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/max_acc_unet500_image_0_barplot.png}
+        \caption{Modelo com \textit{Max Pooling}.}
+        \label{results:fig:xai:1.2}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+   \caption{Métodos de atribuição destaque na U-Net com BPCAPooling baseada em acurácia para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+    \label{results:fig:xai:2}
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{recursos/imagens/results/bpca_acc_unet500_image_0_IntegratedGradients.png}
+        \caption{\textit{Integrated Gradients}.}
+        \label{results:fig:xai:2.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/bpca_acc_unet500_image_0_Occlusion.png}
+        \caption{\textit{Occlusion}.}
+        \label{results:fig:xai:2.2}
+    \end{subfigure}%
+    ~
+
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/bpca_acc_unet500_image_0_SobolAttributionMethod.png}
+        \caption{\textit{Sobol}.}
+        \label{results:fig:xai:2.3}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+   \caption{Métodos de atribuição destaque na U-Net com \textit{Max Pooling} baseada em acurácia para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+    \label{results:fig:xai:3}
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{recursos/imagens/results/max_acc_unet500_image_0_SmoothGrad.png}
+        \caption{\textit{Smooth Grad}.}
+        \label{results:fig:xai:3.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/max_acc_unet500_image_0_SobolAttributionMethod.png}
+        \caption{\textit{Sobol}.}
+        \label{results:fig:xai:3.2}
+    \end{subfigure}%
+    ~
+
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/max_acc_unet500_image_0_SobolAttributionMethod.png}
+        \caption{\textit{Sobol}.}
+        \label{results:fig:xai:3.3}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+É importante ressaltar que, nesse ponto, algumas observações se destacam: nos resultados do método \textit{Sobol} utilizando o BPCAPooling, notam-se pontos fora da região do animal de estimação considerado como mínimos para a classificação. Por outro lado, no método \textit{Sobol} empregado no \textit{Max Pooling}, as características internas do animal, como regiões dos olhos e peito, são apontadas como pontos mínimos de relevância.
+
+
+Para a utilização do modelo U-Net com o BPCAPooling, baseado na métrica de mIoU, o gráfico dos escores está disponível na Figura \ref{results:fig:xai:5}. Nessa combinação, os métodos que se destacaram foram \textit{Gradient Input}, \textit{Sobol} e \textit{Occlusion}, conforme representado na Figura \ref{results:fig:xai:5}. Já para a utilização do \textit{Max Pooling}, os métodos mais relevantes foram \textit{Smooth Grad}, \textit{Sobol} e \textit{Squared Gradients}, representados na Figura \ref{results:fig:xai:6}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Gráfico com os escores dos métodos de atribuição na U-Nets baseadas em mIoU.}
+    \label{results:fig:xai:4}
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{recursos/imagens/results/bpca_miou_unet500_image_1_barplot.png}
+        \caption{Modelo com BPCAPooling.}
+        \label{results:fig:xai:4.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/max_miou_unet500_image_1_barplot.png}
+        \caption{Modelo com \textit{Max Pooling}.}
+        \label{results:fig:xai:4.2}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+   \caption{Métodos de atribuição destaque na U-Net com BPCAPooling baseada em mIoU para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+    \label{results:fig:xai:5}
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{recursos/imagens/results/bpca_miou_unet500_image_1_GradientInput.png}
+        \caption{\textit{Gradient Input}.}
+        \label{results:fig:xai:5.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/bpca_miou_unet500_image_1_SobolAttributionMethod.png}
+        \caption{\textit{Sobol}.}
+        \label{results:fig:xai:5.2}
+    \end{subfigure}%
+    ~
+
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/bpca_miou_unet500_image_1_Occlusion.png}
+        \caption{\textit{Occlusion}.}
+        \label{results:fig:xai:5.3}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+   \caption{Métodos de atribuição destaque na U-Net com \textit{Max Pooling} baseada em mIoU para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+    \label{results:fig:xai:6}
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{recursos/imagens/results/max_miou_unet500_image_image_1_SmoothGrad.png}
+        \caption{\textit{Smooth Grad}.}
+        \label{results:fig:xai:6.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/max_miou_unet500_image_image_1_SobolAttributionMethod.png}
+        \caption{\textit{Sobol}.}
+        \label{results:fig:xai:6.2}
+    \end{subfigure}%
+    ~
+
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/max_miou_unet500_image_image_1_SquareGrad.png}
+        \caption{\textit{Squared Gradients}.}
+        \label{results:fig:xai:6.3}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+Uma observação relevante para essa combinação de modelo é que, diferentemente do modelo anterior, o uso do BPCAPooling, ao empregar o método \textit{Occlusion} como métrica de \textit{Insertion}, selecionou corretamente as partes centrais do animal de estimação como pontos de foco. Por outro lado, a combinação com o \textit{Max Pooling} fez uma seleção adequada das bordas do animal, identificando-as como pontos importantes, particularmente com o método \textit{Smooth Grad} definido como \textit{Deletion}.
+
+Ao analisar o desempenho das U-Net-\textit{Likes}, primeiramente com base na métrica de acurácia, os escores podem ser visualizados na Figura \ref{results:fig:xai:7}. Observa-se um destaque significativo para os métodos \textit{Rise}, \textit{Squared Gradients} e \textit{Integrated Gradients}, conforme representado na Figura \ref{results:fig:xai:8}, quando se utiliza o BPCAPooling. No entanto, ao utilizar o \textit{Max Pooling}, os destaques recaem duas vezes no método \textit{VarGrad} e, por fim, no \textit{Integrated Gradients}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Gráfico com os escores dos métodos de atribuição nas U-Net-\textit{Likes} baseada em acurácia.}
+    \label{results:fig:xai:7}
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{recursos/imagens/results/bpca_acc_unetlike500_image_2_barplot.png}
+        \caption{Modelo com BPCAPooling.}
+        \label{results:fig:xai:7.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/max_acc_unetlike500_image_2_barplot.png}
+        \caption{Modelo com \textit{Max Pooling}.}
+        \label{results:fig:xai:7.2}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+   \caption{Métodos de atribuição destaque na U-Net-\textit{Like} com BPCAPooling baseada em acurácia para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+    \label{results:fig:xai:8}
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{recursos/imagens/results/bpca_acc_unetlike500_image_2_Rise.png}
+        \caption{\textit{Rise}.}
+        \label{results:fig:xai:8.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/bpca_acc_unetlike500_image_2_SquareGrad.png}
+        \caption{\textit{Squared Gradients}.}
+        \label{results:fig:xai:8.2}
+    \end{subfigure}%
+    ~
+
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/bpca_acc_unetlike500_image_2_IntegratedGradients.png}
+        \caption{\textit{Integrated Gradients}.}
+        \label{results:fig:xai:8.3}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+   \caption{Métodos de atribuição destaque na U-Net-\textit{Like} com \textit{Max Pooling} baseada em acurácia para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+    \label{results:fig:xai:9}
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{recursos/imagens/results/max_acc_unetlike500_image_2_VarGrad.png}
+        \caption{\textit{VarGrad}.}
+        \label{results:fig:xai:9.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/max_acc_unetlike500_image_2_VarGrad.png}
+        \caption{\textit{VarGrad}.}
+        \label{results:fig:xai:9.2}
+    \end{subfigure}%
+    ~
+
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/max_acc_unetlike500_image_2_IntegratedGradients.png}
+        \caption{\textit{Integrated Gradients}.}
+        \label{results:fig:xai:9.3}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+Nessa análise das U-Net-\textit{Likes}, os resultados revelaram más adaptações de segmentação para ambas as arquiteturas. Notavelmente, ao utilizar o BPCAPooling, a segmentação não corresponde à forma real do gato na amostra, evidenciando uma correlação inadequada entre um subconjunto aleatório de pixels e a pontuação de atribuição, especialmente com a métrica \textit{Squared Gradients}, que se destacou como a melhor para \textit{Mu Fidelity}. Além disso, ao empregar o \textit{Max Pooling}, o método \textit{VarGrad} não selecionou uma grande parte do animal de interesse, demonstrando falhas na identificação das partes importantes (\textit{Deletion}).
+
+Na análise da arquitetura U-Net-\textit{Like}, quando a métrica principal utilizada é a mIoU, observa-se uma distribuição mais ampla dos mapas de calor ao empregar ambos os métodos de \textit{pooling}, particularmente ao visualizar a métrica \textit{Mu Fidelity} em comparação com os métodos \textit{Rise} e \textit{Occlusion}. O \textit{ranking} das métricas para ambas as estratégias de \textit{pooling} é apresentado na Figura \ref{results:fig:xai:10}. Notavelmente, para o BPCAPooling, os métodos de destaque são \textit{Integrated Gradients}, \textit{Occlusion} e novamente \textit{Integrated Gradients}. Por outro lado, para o método \textit{Max Pooling}, \textit{Integrated Gradients} se destaca duas vezes, juntamente com o método \textit{Rise}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Gráfico com os escores dos métodos de atribuição nas U-Net-\textit{Likes} baseada em mIoU.}
+    \label{results:fig:xai:10}
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{recursos/imagens/results/bpca_miou_unetlie20_image_2_barplot.png}
+        \caption{Modelo com BPCAPooling.}
+        \label{results:fig:xai:10.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/max_unetlike20_miou_image_2_barplot.png}
+        \caption{Modelo com \textit{Max Pooling}.}
+        \label{results:fig:xai:10.2}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+   \caption{Métodos de atribuição destaque na U-Net-\textit{Like} com BPCAPooling baseada em mIoU para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+    \label{results:fig:xai:11}
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{recursos/imagens/results/bpca_miou_unetlie20_image_2_IntegratedGradients.png}
+        \caption{\textit{Integrated Gradients}.}
+        \label{results:fig:xai:11.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/bpca_miou_unetlie20_image_2_Occlusion.png}
+        \caption{\textit{Occlusion}.}
+        \label{results:fig:xai:11.2}
+    \end{subfigure}%
+    ~
+
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/bpca_miou_unetlie20_image_2_IntegratedGradients.png}
+        \caption{\textit{Integrated Gradients}.}
+        \label{results:fig:xai:11.3}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+   \caption{Métodos de atribuição destaque na U-Net-\textit{Like} com \textit{Max Pooling} baseada em mIoU para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+    \label{results:fig:xai:12}
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{recursos/imagens/results/max_unetlike20_image_2_IntegratedGradients.png}
+        \caption{\textit{Integrated Gradients}.}
+        \label{results:fig:xai:12.1}
+    \end{subfigure}%
+    ~
+    
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/max_unetlike20_image_2_Rise.png}
+        \caption{\textit{Rise}.}
+        \label{results:fig:xai:12.2}
+    \end{subfigure}%
+    ~
+
+    \begin{subfigure}[t]{1\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{recursos/imagens/results/max_unetlike20_image_2_IntegratedGradients.png}
+        \caption{\textit{Integrated Gradients}.}
+        \label{results:fig:xai:12.3}
+    \end{subfigure}%
+
+    Fonte: do próprio autor.
+\end{figure}
 
 \subsubsection{Trabalhos Futuros}
 \label{results:semantic:future}
