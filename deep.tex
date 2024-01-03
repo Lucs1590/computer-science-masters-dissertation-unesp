@@ -1,7 +1,7 @@
 \newpage
 \clearpage
 
-\section{Redes Neurais Profundas}
+\section{O Básico de Redes Neurais Artificiais}
 \label{deep}
 Inspiradas no modelo de sistema nervoso de seres inteligentes, as redes neurais são compostas por um conjunto interconectado de neurônios de modo que, assim como o sistema humano, um neurônio, quando conectado com outros neurônios, pode comunicar impulsos nervosos por meio de sinapses. A representação do modelo humano pode ser observado na Figura \ref{deep:fig:1}.
 
@@ -21,18 +21,18 @@ Dentre as representações matemáticas, destaca-se o modelo pioneiro desenvolvi
     J = \sum_{i = 1}^{n} x_i.
 \end{equation}
 
-Para a Equação \ref{deep:eq:1} e para a Figura \ref{deep:fig:2}, é importante dizer que $J$ representa a saída do neurônio, enquanto $x_i$ é a entrada a partir de $i$. Logo, é possível observar que por meio dos dendritos ocorre a entrada dos dados que é somada (ponderadamente) no núcleo $\sum_{i = 1}^{n} x_i$. Por fim, vale citar que $(x_1, ..., x_n)$ é assimilado aos dendritos e, além disso, é comum ver a representação do modelo supracitado através da seguinte imagem (Figura \ref{deep:fig:2}):
+Para a Equação \ref{deep:eq:1} e para a Figura \ref{deep:fig:2}, é importante dizer que $J$ representa a saída do neurônio, enquanto $x_i$ é a entrada a partir de $i$. Logo, é possível observar que por meio dos dendritos ocorre a entrada dos dados que é somada (ponderadamente) no núcleo $\sum_{i = 1}^{n} x_i$. Por fim, vale citar que $(x_1, ..., x_n)$ é assimilado aos dendritos e, além disso, é comum ver a representação do modelo supracitado através da (Figura \ref{deep:fig:2}).
 
 \begin{figure}[H]
     \centering
-    \caption{Representação matemática de neurônio \cite{mcculloch1943logical}.}
+    \caption{Representação gráfica de neurônio \cite{mcculloch1943logical}.}
     \includegraphics[width=1\linewidth]{recursos/imagens/deep/neuronio_mc.png}
     \label{deep:fig:2}
 
     Fonte: do próprio autor. Inspirado em \cite{mcculloch1943logical}.
 \end{figure}
 
-A partir do modelo de neurônio desenvolvido por \cite{mcculloch1943logical},  outros trabalhos foram desenvolvidos, no qual vale ressaltar o trabalho de \cite{Rosenblatt1958}, que propôs um modelo de neurônio e o nomeou de Perceptron, o qual tem como princípio o uso de uma saída binária. Logo, destaca-se que a sua função de ativação é dada de forma condicional e pode ser representada pela Equação \ref{deep:eq:2} \citep{Rosenblatt1958}.
+A partir do modelo de neurônio desenvolvido por \cite{mcculloch1943logical},  outros trabalhos foram desenvolvidos, no qual vale ressaltar o trabalho de \cite{Rosenblatt1958}, que propôs um modelo de neurônio e o nomeou de Perceptron, o qual tem como princípio o uso de uma saída binária. Logo, destaca-se que a sua função de ativação é dada de forma condicional e pode ser representada pela Equação \ref{deep:eq:2} \citep{Rosenblatt1958}:
 
 \begin{equation}
     \label{deep:eq:2}
@@ -42,9 +42,9 @@ A partir do modelo de neurônio desenvolvido por \cite{mcculloch1943logical},  o
     \end{matrix}\right.
 \end{equation}
 
-Dessa forma, entende-se que $b$ representa o viés que determina um limiar para a ativação do neurônio. O vetor $\textbf{x}$, corresponde à entrada da rede, enquanto $\textbf{W}$ é a matriz de pesos que deve ser inicializada aleatoriamente e é ajustada no decorrer do treinamento.
+Dessa forma, entende-se que $b$ representa o viés que determina um limiar para a ativação do neurônio. O vetor $\textbf{x}$ corresponde à entrada da rede, enquanto $\textbf{W}$ é a matriz de pesos que deve ser inicializada aleatoriamente e é ajustada no decorrer do treinamento.
 
-Dentre as vantagens para o modelo Perceptron, pode-se salientar a sua aptidão para resolução de problemas lógicos, como também para problemas linearmente separáveis, todavia, em meio às suas limitações, reforça-se sua imperícia em relação a problemas não linearmente separáveis como os do exemplo na Figura \ref{deep:fig:3.2}.
+Dentre as vantagens para o modelo Perceptron, pode-se salientar a sua aptidão para resolução de alguns problemas lógicos, basicamente problemas linearmente separáveis, todavia, em meio às suas limitações, reforça-se sua imperícia em relação a problemas não linearmente separáveis como os do exemplo na Figura \ref{deep:fig:3.2}.
 
 \begin{figure}[H]
    \caption{Representação de problemas linearmente e não linearmente separáveis.}
@@ -67,7 +67,7 @@ Dentre as vantagens para o modelo Perceptron, pode-se salientar a sua aptidão p
     Fonte: do próprio autor.
 \end{figure}
 
-Para suprir essa necessidade de trabalhar com problemas não lineares, \cite{Werbos:74} realizou uma proposta de utilizar várias camadas de neurônios Perceptron juntos, de modo que obrigatoriamente possuísse uma camada de entrada, oculta e de saída. Assim, esse modelo - nomeado de \textit{Multi Layer Perceptron} (MLP) \citep{Werbos:74} e representado na Figura \ref{deep:fig:4} - possibilitou o trabalho com funções de ativação não lineares e o desenvolvimento de técnicas de aprendizado, como a \textit{backpropagation}, desenvolvida por \cite{rumelhart1986learning}, a qual será detalhada na Seção \ref{deep:backprop}.
+Para suprir essa necessidade de trabalhar com problemas não lineares, \cite{Werbos:74} realizou uma proposta de utilizar várias camadas de neurônios Perceptron juntos, de modo que obrigatoriamente possuísse camadas de entrada, ocultas e de saída. Assim, esse modelo - nomeado de \textit{Multi Layer Perceptron} (MLP) \citep{Werbos:74} e representado na Figura \ref{deep:fig:4} - possibilitou o trabalho com funções de ativação não lineares e o desenvolvimento de técnicas de aprendizado, como a \textit{backpropagation}, desenvolvida por \cite{rumelhart1986learning}, a qual será detalhada na Seção \ref{deep:backprop}.
 
 \begin{figure}[H]
     \centering
@@ -78,11 +78,11 @@ Para suprir essa necessidade de trabalhar com problemas não lineares, \cite{Wer
     Fonte: do próprio autor.
 \end{figure}
 
-Entretanto, com o uso dos modelos citados, a tentativa de resolver problemas de nível de complexidade maior e o desenvolvimento de trabalhos que contribuíssem para o estado-da-arte, percebeu-se que ao adicionar mais camadas era possível trabalhar com uma base de dados maior e mais complexa, além de obter melhores resultados e uma etapa maior de treinamento, o que deu origem às intituladas redes neurais de aprendizado profundo, ou em inglês, \textit{deep learning} \citep{Goodfellow2016}. No que lhe concerne, essas possuem o princípio de aprender os parâmetros e representações dos dados de acordo com as suas interações \citep{ponti2018funciona}, assim, possibilitando o algoritmo combinar parâmetros e simplificá-los antes de propagar a representações que consideram as demais camadas \citep{Goodfellow2016}.
+Entretanto, com o uso dos modelos citados, na tentativa de resolver problemas de nível de complexidade maior e do desenvolvimento de trabalhos que contribuíssem para o estado-da-arte, percebeu-se que ao adicionar mais camadas era possível trabalhar com uma base de dados maior e mais complexa, além de obter melhores resultados e uma etapa maior de treinamento, o que deu origem às intituladas redes neurais de aprendizado profundo, ou em inglês, \textit{deep learning} \citep{Goodfellow2016}. No que lhe concerne, essas possuem o princípio de aprender os parâmetros e representações dos dados de acordo com as suas interações \citep{ponti2018funciona}. Assim, possibilitando o algoritmo combinar parâmetros e simplificá-los antes de propagar a representações que consideram as demais camadas \citep{Goodfellow2016}.
 
-Além disso, vale citar que um diferencial dos modelos de \textit{deep learning} se materializa no fato de que seus neurônios tornam-se especialistas em determinados objetivos e tornam-se diferentes um dos outros, como o que ocorre com as CNNs que têm neurônios responsáveis por extrair características, enquanto os neurônios da camada final fazem classificação (ou regressão), simulando o tráfego da informação no córtex visual humano.
+Além disso, vale citar que um diferencial dos modelos de \textit{deep learning} se materializa no fato de que seus neurônios se tornam especialistas em determinados objetivos e se tornam diferentes um dos outros, como o que ocorre com as CNNs que têm neurônios responsáveis por extrair características, enquanto os neurônios da camada final fazem classificação (ou regressão), simulando o tráfego da informação no córtex visual humano.
 
-Destarte, o uso e desenvolvimento de \textit{deep learning} tem se popularizado e sido considerado a resposta para problemas de diversas áreas, como segmentações em vários contextos, desenvolvimentos de carros autônomos, segurança, otimização de modelos de busca e afins \citep{Ghosh2019}, sendo que essa popularização é propicia devido: 1) ao desenvolvimento acelerado de \textit{hardwares} que acrescentam velocidade no treinamento dessas redes e 2) ao grande aumento de dados variados (com adventos como o \textit{big data}) \citep{Szegedy2015, ponti2018funciona}.
+Destarte, o uso e desenvolvimento de \textit{deep learning} tem se popularizado e sido considerado a resposta para problemas de diversas áreas, como segmentações em vários contextos, desenvolvimentos de carros autônomos, segurança, otimização de modelos de busca e afins \citep{Ghosh2019}, sendo que essa popularização é propícia devido: 1) ao desenvolvimento acelerado de \textit{hardwares} que acrescentam velocidade no treinamento dessas redes e 2) ao grande aumento de dados variados (com adventos como o \textit{big data}) \citep{Szegedy2015, ponti2018funciona}.
 
 Por conseguinte, nas demais seções deste capítulo serão apresentadas algumas variações de funções de ativação (Seção \ref{deep:activation}), sobre o processo de treinamento (Seção \ref{deep:train}) e de testes (Seção \ref{deep:test}), bem como algumas peculiaridades que são utilizadas para facilitar o trabalho com dados de grande dimensionalidades com a extração de características (Seção \ref{deep:feature_extraction}).
 
@@ -92,7 +92,7 @@ Por conseguinte, nas demais seções deste capítulo serão apresentadas algumas
 
 Quanto às funções de ativação, destaca-se que na seção anterior foi apresentada uma função de ativação binária, todavia, existem outras funções de ativação que foram estudadas e são utilizadas para uma melhor adequação em contextos específicos.
 
-A função de ativação, como citado brevemente a priori, é calculada pelo neurônio e disseminada para os próximos neurônios.  Para essa Seção o valor calculado $\sum_{i = 1}^{N} w_ix_i +b$ (entrada da função de ativação) será representado por $Y'$, de modo que poderemos ver sua atuação, a seguir, nas funções de ativação Limiar, Linear, Sigmóide, ReLU e Sofmax.
+A função de ativação, como citado brevemente, é calculada pelo neurônio e disseminada para os próximos neurônios.  Para essa Seção, o valor calculado $\sum_{i = 1}^{N} w_ix_i +b$ (entrada da função de ativação) será representado por $Y'$, de modo que poderemos ver sua atuação, a seguir, nas funções de ativação Limiar, Linear, Sigmóide, ReLU e Sofmax.
 
 
 \subsubsection{Função Limiar}
@@ -101,7 +101,7 @@ A função limiar define um limite (\textit{threshold}) $\gamma$, em que valores
 
 Essa função se faz eficiente quando trabalhando com 2 classes, todavia passa a ter dificuldades quando atuando em problemas multi-classes, visto que não garante a excitação de um único neurônio da camada de saída.
 
-Em relação à função de ativação ($f(Y')$) desenvolvida e utilizada no Perceptron, pode-se dizer que o valor de $\gamma = 0$, é definida matematicamente por \cite{mcculloch1943logical} segundo a Equação \ref{deep:eq:3}:
+Em relação à função de ativação ($f(Y')$) desenvolvida e utilizada no Perceptron, pode-se dizer que o valor de $\gamma = 0$. A função limiar é definida matematicamente por \cite{mcculloch1943logical}, segundo a Equação \ref{deep:eq:3}:
 
 \begin{equation}
     \label{deep:eq:3}
@@ -114,7 +114,7 @@ Em relação à função de ativação ($f(Y')$) desenvolvida e utilizada no Per
 
 \subsubsection{Função Linear}
 \label{deep:linear}
-Para suprir a problemática de trabalhar com contextos de multi-classe, saídas contínuas podem ajudar quanto à interpretação e subjugar o problema da função limiar, sendo que para essa atividade é adequado o uso da função linear. Porém, é importante ter conhecimento que os resultados expressos por funções lineares também são lineares, não sendo recomendado o seu uso para atividades que não pertencem a problemas lineares. A função linear pode ser expressa pela Equação \ref{deep:eq:5}, segundo \cite{Rosenblatt1958}:
+Para suprir a problemática de trabalhar com contextos de multiclasse, saídas contínuas podem ajudar quanto à interpretação e subjugar o problema da função limiar, sendo que para essa atividade é adequado o uso da função linear. Porém, é importante ter conhecimento que os resultados expressos por funções lineares também são lineares, não sendo recomendado o seu uso para atividades que não pertencem a problemas lineares. A função linear pode ser expressa pela Equação \ref{deep:eq:5}, segundo \cite{Rosenblatt1958}:
 
 \begin{equation}
     \label{deep:eq:5}
@@ -146,9 +146,9 @@ A função desenvolvida por \cite{Hahnioser2000} e popularmente conhecida como R
 
 \subsubsection{Função Softmax}
 \label{deep:soft}
-Por fim, quando se trata da função Softmax, dois processos são essenciais para a convergência do modelo em questão, sendo ele: 1) realizar a exponenciação dos valores de cada neurônio e 2) realizar a normalização de cada valor pela soma de todos os valores exponenciado no passo anterior, assim, definido uma saída no domínio $[0,1]$, fazendo com que a soma total seja sempre 1 \citep{kotu2018data} e que a saída da função seja a distribuição de probabilidade da classe. Esse comportamento garante que a função Softmax seja recomendada para problemas de multi-classe, além de determinar as probabilidades de cada uma das classes.
+Por fim, quando se trata da função Softmax, dois processos são essenciais para a convergência do modelo em questão, sendo ele: 1) realizar a exponenciação dos valores de cada neurônio e 2) realizar a normalização de cada valor pela soma de todos os valores exponenciado no passo anterior, assim, definido uma saída no domínio $[0,1]$, fazendo com que a soma total seja sempre 1 \citep{kotu2018data} e que a saída da função seja a distribuição de probabilidade da classe. Esse comportamento garante que a função Softmax seja recomendada para problemas de multiclasses, além de determinar as probabilidades de cada uma das classes.
 
-Entretanto, em um problema de k-classes, a função Softmax pode ser expressa pela Equação \ref{deep:eq:8} \citep{kotu2018data}:
+Em um problema de k-classes, a função Softmax pode ser expressa pela Equação \ref{deep:eq:8} \citep{kotu2018data}:
 
 \begin{equation}
     \label{deep:eq:8}
@@ -162,7 +162,7 @@ tendo $z_k$ como cada entrada do vetor $\boldsymbol{k}$.
 
 Definida como uma fase crucial por \cite{ponti2018funciona}, a fase de treinamento está relacionada com a minimização da função de custo (que será abordada na Seção \ref{deep:cust}), de modo que a rede ajuste os seus parâmetros iterativamente. Essas interações são explicadas por cada laço de repetição que ocorre com cada exemplo, sendo esperado que o erro propagado na rede seja minimizado. Assim, quando as interações ocorrem por todo o conjunto de dados de treinamento, é dito que aconteceu a ocorrência de uma época.
 
-Normalmente, os passos realizados em uma época são os seguintes: 1) iniciação; 2) escolha de uma amostra (normalmente de modo aleatório); 3) cálculo de saída através de função de ativação, além do, 4) erro através de função de custo e \textit{backpropagation}; 5) modificação dos pesos de cada camada da rede e; 6) uma nova interação, até que tenha se passado por todas as instâncias do conjunto de treinamento.
+Normalmente, os passos realizados em uma época são os seguintes: 1) inicialização; 2) escolha de uma amostra (normalmente de modo aleatório); 3) cálculo de saída através de função de ativação, além do, 4) cálculo do erro através de função de custo e \textit{backpropagation}; 5) modificação dos pesos de cada camada da rede e; 6) uma nova interação, até que tenha se passado por todas as instâncias do conjunto de treinamento.
 
 Além da seleção aleatória, vale citar que normalmente os pesos são iniciados de modo aleatório nas camadas, assim como os hiperparâmetros, que são definidos pelo usuário na etapa de inicialização, por exemplo, o valor da taxa de aprendizado.
 
@@ -172,16 +172,16 @@ Nesta seção, será brevemente discorrido sobre as funções de custo (Seção 
 \subsubsection{Função de Custo}
 \label{deep:cust}
 
-As funções de custo, (do inglês, \textit{loss functions}) são responsáveis por realizar a avaliação do modelo durante a fase de treinamento, de certa maneira, avaliando quão perto o aprendizado do modelo está da resposta correta.
+As funções de custo (do inglês, \textit{loss functions}) são responsáveis por realizar a avaliação do modelo durante a fase de treinamento, de certa maneira, avaliando quão perto o aprendizado do modelo está da resposta correta.
 
-Em meio às avaliações utilizadas como métrica para o cálculo da função de custo em relação a problemas como o de regressão, destaca-se o erro quadrático médio (ou \textit{Mean Squared Error}, MSE)\citep{Wang2004}, em que para o âmbito de visão computacional e trabalho com imagens, comumente ocorre da saída da rede neural ser uma imagem, a partir de onde calcula-se o MSE dos pixeis existentes entre a imagem predita $\boldsymbol{y'}$ e a imagem original $\boldsymbol{y}$. Assim, supondo que M e N sejam as dimensões da imagem, o MSE é calculado pela equação:
+Em meio às avaliações utilizadas como métrica para o cálculo da função de custo em relação a problemas como o de regressão, destaca-se o erro quadrático médio (ou \textit{Mean Squared Error}, MSE)\citep{Wang2004}, em que para o âmbito de visão computacional e trabalho com imagens, comumente ocorre da saída da rede neural ser uma imagem, a partir de onde calcula-se o MSE dos \textit{pixels} existentes entre a imagem predita $\boldsymbol{y'}$ e a imagem original $\boldsymbol{y}$. Assim, supondo que M e N sejam as dimensões da imagem, o MSE é calculado pela equação:
 
 \begin{equation}
     \label{deep:eq:9}
     MSE(\boldsymbol{y}, \boldsymbol{y'}) = \frac{1}{MN} \sum_{i=1}^{M} \sum_{j=1}^{N} (\boldsymbol{y}_{i,j} - \boldsymbol{y'}_{i,j})^2.
 \end{equation}
 
-Ainda quanto as métricas para a realização de avaliação em relação a imagens, existem várias delas descritas na literatura, todavia,  cada uma delas possui seu uso especificado para o problema que deseja resolver, por exemplo o caso das métricas para segmentações panópticas na Seção \ref{semantic:metrics}.
+Ainda quanto às métricas para a realização de avaliação em relação a imagens, existem várias delas descritas na literatura, todavia,  cada uma delas possui seu uso especificado para o problema que deseja resolver, por exemplo o caso das métricas para segmentações panópticas na Seção \ref{semantic:metrics}.
 
 
 \subsubsection{Função de Otimização}

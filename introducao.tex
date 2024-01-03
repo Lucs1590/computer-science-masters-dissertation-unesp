@@ -6,7 +6,7 @@
 \section{Introdução}
 \label{intro}
 
-A segmentação de imagens assume um papel fundamental no campo de visão computacional e análise de cenas, desempenhando uma função instrumental no auxílio de atividades humanas complexas. Embora a segmentação em si não desencadeie uma ação, a sua aplicação está profundamente enraizada em diversas áreas que dependem de análise visual, particularmente nas ciências da saúde.
+A segmentação de imagens assume um papel fundamental no campo de visão computacional e análise de cenas, desempenhando uma função instrumental no auxílio de atividades humanas complexas. Embora a segmentação em si não desencadeie uma ação, a sua aplicação está profundamente enraizada em diversas áreas que dependem de análise visual.
 
 Em particular, na medicina, a segmentação de imagens tem sido uma ferramenta valiosa, possibilitando avaliações analíticas mais precisas e detalhadas \citep{Lai2015, Withey2008}. É visível, por exemplo, na radiologia, onde a segmentação é aplicada para delimitar com precisão tumores \citep{Malkanthi2017}, proporcionando informações vitais para a programação de intervenções cirúrgicas e tratamentos oncológicos. O mesmo se aplica à quantificação de volumes teciduais e ao mapeamento preciso de órgãos específicos a partir de exames de imagem \citep{Gibson2018, Schoppe2020}. Estas aplicações culminam em uma melhor compreensão da anatomia do paciente e possíveis patologias, levando a decisões de tratamento mais bem fundamentadas e precisas. A Figura \ref{intro:fig:1} demonstra situações em que a segmentação de imagens desempenha um papel imprescindível no cenário médico.
 
@@ -73,28 +73,28 @@ Impulsionados por melhorias contínuas em capacidades de \textit{hardware} e dis
 
 Enfatiza-se que os modelos de ponta que empregam aprendizado profundo demonstram notável capacidade de realizar combinações matriciais que destacam características específicas e podem até realizar segmentação precisa, atribuindo categorias a todos os pixels de uma imagem \citep{Minaee2021}. Isto é evidente nas redes neurais convolucionais (Capítulo \ref{cnn}) e nas técnicas de segmentação semântica (Capítulo \ref{semantic}), respectivamente.
 
-Com as técnicas contemporâneas de segmentação, é possível lidar com dados massivos contidos nas imagens, explorando aspectos intrincados, como a escala dos objetos na cena e a dimensionalidade preservada pelos modelos. Contudo, mesmo com os avanços das técnicas de segmentação, a identificação de objetos pequenos na imagem continua a ser um desafio significativo \citep{Sang2023Small-ObjectAttention, Su2021Small-scaleFusion}. Além disso, tanto nos modelos que se utilizam de técnicas para reduzir a dimensionalidade das imagens quanto em abordagens mais recentes focadas na segmentação detalhada de imagens, um tema que se encontra pendente é em relação a avaliação crítica da adequação dos métodos comumente usados para a redução de dimensionalidade em relação à preservação espacial.
+Com as técnicas contemporâneas de segmentação, é possível lidar com dados massivos contidos nas imagens, explorando aspectos intrincados, como a escala dos objetos na cena e a dimensionalidade preservada pelos modelos. Contudo, mesmo com os avanços das técnicas de segmentação, a identificação de objetos pequenos na imagem continua a ser um desafio significativo \citep{Sang2023Small-ObjectAttention, Su2021Small-scaleFusion}. Além disso, tanto nos modelos que se utilizam de técnicas para reduzir a dimensionalidade das imagens quanto em abordagens mais recentes focadas na segmentação detalhada de imagens, um tema que se encontra pendente é em relação a avaliação crítica da adequação dos métodos comumente usados para a redução de dimensionalidade em relação à preservação espacial e consideração de visão global dos atributos.
 
 Portanto, dentre os temas tratados, o presente projeto visa descrever uma gama de algoritmos e \textit{frameworks} reconhecidos, incluindo abordagens marcantes como a U-Net, com foco particular naqueles relevantes para a segmentação de imagens, avaliar suas vantagens, limitações e potenciais áreas de investigação futura que poderiam informar novos experimentos e contribuir para o progresso científico no campo da segmentação de imagens, especialmente aqueles que empregam aprendizado profundo.
 
 \subsection{Objetivos}
 \label{intro:objectives}
-O objetivo geral deste trabalho consiste em propor um novo método de \textit{pooling} que, além de reduzir a dimensionalidade, preserva as informações espaciais, visando aprimorar o detalhamento das segmentações. Tal proposta se diferencia dos métodos convencionais de \textit{pooling}, os quais não atendem a esse requisito \citep{Liu2019Multi-LevelNetworks}. Para validar essa abordagem, foram conduzidos experimentos considerando diferentes arquiteturas, desde redes convolucionais convencionais até modelos mais avançados para a segmentação semântica, buscando observar o impacto em diferentes contextos. As principais questões de pesquisa deste trabalho são:
+O objetivo geral deste trabalho consiste em propor um novo método de \textit{pooling} que, além de reduzir a dimensionalidade, preserva as informações espaciais e consideração de visão global dos atributos iniciais, visando aprimorar o detalhamento das segmentações. Tal proposta se diferencia dos métodos convencionais de \textit{pooling}, os quais não atendem a esse requisito \citep{Liu2019Multi-LevelNetworks}. Para validar essa abordagem, foram conduzidos experimentos considerando diferentes arquiteturas, desde redes convolucionais convencionais até modelos mais avançados para a segmentação semântica, buscando observar o impacto em diferentes contextos. As principais questões de pesquisa deste trabalho são:
 
 \begin{enumerate}
-    \item É possível conceber um método de \textit{pooling} que reduza a dimensionalidade e preserve a espacialidade?
+    \item É possível conceber um método de \textit{pooling} que reduza a dimensionalidade, tenha uma visão global dos atributos e preserve a espacialidade?
     \item O método de \textit{pooling} proposto é capaz de substituir os métodos convencionais?
     \item Existem diferenças significativas na aplicação do método proposto entre redes convolucionais convencionais e modelos de segmentação semântica?
 \end{enumerate}
 
 A primeira questão foi explorada por meio do desenvolvimento de uma proposta de \textit{pooling} denominada \textit{Block-based Principal Component Analysis} (BPCAPooling), a qual será detalhada na Seção \ref{project:bpca}, visando abordar os desafios mencionados nessa questão específica.
 
-O segundo item de pesquisa busca testar o método proposto em comparação com os métodos convencionalmente utilizados para a tarefa de \textit{pooling}. Esta etapa está diretamente relacionada ao terceiro ponto mencionado, o qual visa realizar esses testes em diferentes arquiteturas, desde aquelas mais antigas que introduzem conceitos de \textit{pooling} até arquiteturas mais modernas dedicadas à segmentação detalhada de imagens. Dessa forma, as contribuições pretendidas por esta pesquisa são:
+O segundo item de pesquisa busca testar o método proposto em comparação com os métodos convencionalmente utilizados para a tarefa de \textit{pooling}. Esta etapa está diretamente relacionada ao terceiro ponto mencionado, o qual visa realizar esses testes em diferentes arquiteturas, desde aquelas mais antigas que introduzem conceitos de \textit{pooling} até arquiteturas mais modernas dedicadas à segmentação detalhada de imagens. Dessa forma, as contribuições desta pesquisa são:
 
 \begin{enumerate}
-    \item Desenvolver um novo método de \textit{pooling}.
-    \item Avaliar a aplicabilidade do novo método de \textit{pooling} substituindo os métodos convencionais em redes convolucionais tradicionais.
-    \item Analisar a eficácia do novo método de \textit{pooling} em substituir os métodos convencionais em modelos de segmentação semântica.
+    \item O desenvolvimento de um novo método de \textit{pooling}.
+    \item A avaliação da aplicabilidade do novo método de \textit{pooling} substituindo os métodos convencionais em redes convolucionais tradicionais.
+    \item A análise da eficácia do novo método de \textit{pooling} em substituir os métodos convencionais em modelos de segmentação semântica.
 \end{enumerate}
 
 
