@@ -67,7 +67,7 @@ Dentre as vantagens para o modelo Perceptron, pode-se salientar a sua aptidão p
     Fonte: do próprio autor.
 \end{figure}
 
-Para suprir essa necessidade de trabalhar com problemas não lineares, \cite{Werbos:74} realizou uma proposta de utilizar várias camadas de neurônios Perceptron juntos, de modo que obrigatoriamente possuísse camadas de entrada, ocultas e de saída. Assim, esse modelo - nomeado de \textit{Multi Layer Perceptron} (MLP) \citep{Werbos:74} e representado na Figura \ref{deep:fig:4} - possibilitou o trabalho com funções de ativação não lineares e o desenvolvimento de técnicas de aprendizado, como a \textit{backpropagation}, desenvolvida por \cite{rumelhart1986learning}, a qual será detalhada na Seção \ref{deep:backprop}.
+Para suprir essa necessidade de trabalhar com problemas não lineares, \cite{Werbos:74} realizou uma proposta de utilizar várias camadas de neurônios Perceptron juntos, de modo que obrigatoriamente possuísse camadas de entrada, ocultas e de saída. Assim, esse modelo - nomeado de \textit{Multi Layer Perceptron} (MLP) \citep{Werbos:74} e representado na Figura \ref{deep:fig:4} - ensejou o trabalho com funções de ativação não lineares e o desenvolvimento de técnicas de aprendizado, como a \textit{backpropagation}, desenvolvida por \cite{rumelhart1986learning}, a qual será detalhada na Seção \ref{deep:backprop}.
 
 \begin{figure}[H]
     \centering
@@ -78,7 +78,7 @@ Para suprir essa necessidade de trabalhar com problemas não lineares, \cite{Wer
     Fonte: do próprio autor.
 \end{figure}
 
-Entretanto, com o uso dos modelos citados, na tentativa de resolver problemas de nível de complexidade maior e do desenvolvimento de trabalhos que contribuíssem para o estado-da-arte, percebeu-se que ao adicionar mais camadas era possível trabalhar com uma base de dados maior e mais complexa, além de obter melhores resultados e uma etapa maior de treinamento, o que deu origem às intituladas redes neurais de aprendizado profundo, ou em inglês, \textit{deep learning} \citep{Goodfellow2016}. No que lhe concerne, essas possuem o princípio de aprender os parâmetros e representações dos dados de acordo com as suas interações \citep{ponti2018funciona}. Assim, possibilitando o algoritmo combinar parâmetros e simplificá-los antes de propagar a representações que consideram as demais camadas \citep{Goodfellow2016}.
+Entretanto, com o uso dos modelos citados, na tentativa de resolver problemas de nível de complexidade maior e do desenvolvimento de trabalhos que contribuíssem para o estado-da-arte, percebeu-se que ao adicionar mais camadas era possível trabalhar com uma base de dados maior e mais complexa, além de obter melhores resultados e uma etapa maior de treinamento, o que deu origem às intituladas redes neurais de aprendizado profundo, ou em inglês, \textit{deep learning} \citep{Goodfellow2016}. No que lhe concerne, essas possuem o princípio de aprender os parâmetros e representações dos dados de acordo com as suas interações \citep{ponti2018funciona}. Assim, possibilitando o algoritmo combinar parâmetros e simplificá-los antes de propagar as representações que consideram as demais camadas \citep{Goodfellow2016}.
 
 Além disso, vale citar que um diferencial dos modelos de \textit{deep learning} se materializa no fato de que seus neurônios se tornam especialistas em determinados objetivos e se tornam diferentes um dos outros, como o que ocorre com as CNNs que têm neurônios responsáveis por extrair características, enquanto os neurônios da camada final fazem classificação (ou regressão), simulando o tráfego da informação no córtex visual humano.
 
@@ -133,7 +133,7 @@ Essa função de ativação também é cognominada e expressa por \cite{glorot20
     f(Y') = \frac{1}{1 + e^{Y'}}.
 \end{equation}
 
-A desvantagem dessa função encontra-se em situações de variação do eixo x, em que há uma  dissipação do seu gradiente, implicando em um aprendizado mais lento nos neurônios das primeiras camadas em relação aos das últimas, tendo em vista os valores muito pequenos no início.
+A desvantagem dessa função encontra-se em situações de variação do eixo x, em que há uma dissipação do seu gradiente, implicando em um aprendizado mais lento nos neurônios das primeiras camadas em relação aos das últimas, tendo em vista os valores muito pequenos no início \citep{Goodfellow2016}.
 
 \subsubsection{Função ReLU}
 \label{deep:relu}
@@ -162,7 +162,7 @@ tendo $z_k$ como cada entrada do vetor $\boldsymbol{k}$.
 
 Definida como uma fase crucial por \cite{ponti2018funciona}, a fase de treinamento está relacionada com a minimização da função de custo (que será abordada na Seção \ref{deep:cust}), de modo que a rede ajuste os seus parâmetros iterativamente. Essas interações são explicadas por cada laço de repetição que ocorre com cada exemplo, sendo esperado que o erro propagado na rede seja minimizado. Assim, quando as interações ocorrem por todo o conjunto de dados de treinamento, é dito que aconteceu a ocorrência de uma época.
 
-Normalmente, os passos realizados em uma época são os seguintes: 1) inicialização; 2) escolha de uma amostra (normalmente de modo aleatório); 3) cálculo de saída através de função de ativação, além do, 4) cálculo do erro através de função de custo e \textit{backpropagation}; 5) modificação dos pesos de cada camada da rede e; 6) uma nova interação, até que tenha se passado por todas as instâncias do conjunto de treinamento.
+Normalmente, os passos realizados em uma época são os seguintes: 1) inicialização; 2) escolha de uma amostra (normalmente de modo aleatório); 3) cálculo de saída através de função de ativação; 4) cálculo do erro através de função de custo e \textit{backpropagation}; 5) modificação dos pesos de cada camada da rede e; 6) uma nova interação, até que tenha se passado por todas as instâncias do conjunto de treinamento.
 
 Além da seleção aleatória, vale citar que normalmente os pesos são iniciados de modo aleatório nas camadas, assim como os hiperparâmetros, que são definidos pelo usuário na etapa de inicialização, por exemplo, o valor da taxa de aprendizado.
 
@@ -181,13 +181,13 @@ Em meio às avaliações utilizadas como métrica para o cálculo da função de
     MSE(\boldsymbol{y}, \boldsymbol{y'}) = \frac{1}{MN} \sum_{i=1}^{M} \sum_{j=1}^{N} (\boldsymbol{y}_{i,j} - \boldsymbol{y'}_{i,j})^2.
 \end{equation}
 
-Ainda quanto às métricas para a realização de avaliação em relação a imagens, existem várias delas descritas na literatura, todavia,  cada uma delas possui seu uso especificado para o problema que deseja resolver, por exemplo o caso das métricas para segmentações panópticas na Seção \ref{semantic:metrics}.
+Ainda quanto às métricas para a realização de avaliação em relação a imagens, existem várias delas descritas na literatura, todavia,  cada uma delas possui seu uso especificado para o problema que deseja resolver, por exemplo o caso das métricas para segmentações semânticas na Seção \ref{semantic:metrics}, que também poderia ser empregadas como função de custo para o treinamento.
 
 
 \subsubsection{Função de Otimização}
 \label{deep:optimization}
 
-O grande objetivo das funções de otimização no contexto de \textit{deep learning}, de certa forma, podem ser resumidos pela Equação \ref{deep:eq:10} e visualizada na Figura \ref{deep:fig:otimizacao}, em que almeja-se uma minimização global da função de custo $f(\boldsymbol{x})$ através de pesos $\boldsymbol{\theta}$ e de entradas $\boldsymbol{x}$:
+O grande objetivo das funções de otimização no contexto de aprendizado profundo, de certa forma, podem ser resumidos pela Equação \ref{deep:eq:10} e visualizada na Figura \ref{deep:fig:otimizacao}, em que almeja-se uma minimização global da função de custo $f(\boldsymbol{x})$ através de pesos $\boldsymbol{\theta}$ e de entradas $\boldsymbol{x}$:
 
 \begin{equation}
     \label{deep:eq:10}
@@ -203,48 +203,48 @@ O grande objetivo das funções de otimização no contexto de \textit{deep lear
     Fonte: do próprio autor. Inspirado em \cite{MontesinosLopez2022ArtificialOutcomes} e \cite{Geron2017Hands-onSystems}.
 \end{figure}
 
-A Figura \ref{deep:fig:otimizacao} proporciona uma visualização de alguns desafios para as funções de otimização, sendo 1) mínimos locais e 2) platô (\textit{plateau}, em inglês). Um mínimo local representa um ponto que é o menor em comparação com outros pontos em sua vizinhança próxima. Entretanto, é importante notar que um mínimo local nem sempre corresponde ao menor valor em todo o espaço de características. Dessa forma, a função de custo pode apresentar vários mínimos locais, o que frequentemente dificulta a busca pelo mínimo global desejado na otimização\citep{Goodfellow2016}. Já os pontos de platô indicam áreas onde o valor da função de custo permanece estagnado. Nestes locais, os gradientes são muito semelhantes, o que torna desafiadora a otimização do modelo \cite{Goodfellow2016}.
+A Figura \ref{deep:fig:otimizacao} proporciona uma visualização de alguns desafios para as funções de otimização, sendo 1) mínimos locais e 2) platô (\textit{plateau}, em inglês). Um mínimo local representa um ponto que é o menor em comparação com outros pontos em sua vizinhança próxima. Entretanto, é importante notar que um mínimo local nem sempre corresponde ao menor valor em todo o espaço de características. Dessa forma, a função de custo pode apresentar vários mínimos locais, o que frequentemente dificulta a busca pelo mínimo global desejado na otimização\citep{Goodfellow2016}. Já os pontos de platô indicam áreas onde o valor da função de custo permanece estagnado. Nestes locais, os gradientes são muito semelhantes, o que torna desafiadora a otimização do modelo \citep{Goodfellow2016}.
 
-Em meio às diversas funções disponíveis, considera-se que o método mais utilizado é o de gradiente descendente estocástico, ou em inglês, \textit{stochastic gradient descendent} (SGD) desenvolvido inicialmente por \cite{cauchy1847methode}, assim como suas variações \citep{Goodfellow2016}, sendo que o gradiente descendente estocástico é considerado como uma adaptação do gradiente descendente e que causa a aceleração do treinamento na maioria das vezes por selecionar aleatoriamente apenas uma parcela do conjunto de treinamento. Todavia, segundo \cite{Goodfellow2016}, há casos em que o SGD não tem bom desempenho para convergir e por conta disso são estudadas suas variações.
+Em meio às diversas funções disponíveis, considera-se que o método mais utilizado é o de gradiente descendente estocástico, ou em inglês, \textit{stochastic gradient descendent} (SGD), desenvolvido inicialmente por \cite{cauchy1847methode}, assim como suas variações \citep{Goodfellow2016}, sendo que o gradiente descendente estocástico é considerado como uma adaptação do gradiente descendente e que causa a aceleração do treinamento na maioria das vezes por selecionar aleatoriamente apenas uma parcela do conjunto de treinamento. Todavia, segundo \cite{Goodfellow2016}, há casos em que o SGD não tem bom desempenho para convergir e por conta disso são estudadas suas variações.
 
 De qualquer modo é interessante ter consciência que até então não há um consenso na escolha do melhor método de otimização para problemas em gerais, segundo aborda \cite{Goodfellow2016}.
 
 
 \paragraph{Gradiente Descendente}
 \label{deep:optimization:graddesc}
-O método do gradiente descendente representa uma técnica de otimização com a capacidade de encontrar soluções ideais em uma variedade de contextos, operando de maneira iterativa \citep{Geron2017Hands-onSystems}. Seu processo, por sua vez inicia-se com o calculo dos gradientes locais resultados da função de custo $f(\boldsymbol{\theta})$ bem como com a atualização do o valor dos pesos $\boldsymbol{\theta}$ com base na magnitude do gradiente e na direção indicada pelo calculo das derivadas. A derivada da função $f'(\boldsymbol{\theta})$, determina a inclinação da função $f(\boldsymbol{\theta})$ no ponto $\boldsymbol{\theta}$, permitindo a analise de como a variação nos valores de entrada $\boldsymbol{x}$ da função se reflete em mudanças correspondentes nos valores de saída \citep{Goodfellow2016}, sendo possível minimizar a função movendo os valores de $\boldsymbol{\theta}$ em pequenos incrementos no sentido oposto ao da derivada.
+O método do gradiente descendente representa uma técnica de otimização com a capacidade de encontrar soluções ideais em uma variedade de contextos, operando de maneira iterativa \citep{Geron2017Hands-onSystems}. Seu processo, por sua vez, inicia-se com o cálculo dos gradientes locais resultados da função de custo $f(\boldsymbol{\theta})$, bem como com a atualização do valor dos pesos $\boldsymbol{\theta}$ com base na magnitude do gradiente e na direção indicada pelo cálculo das derivadas. A derivada da função $f'(\boldsymbol{\theta})$, determina a inclinação da função $f(\boldsymbol{\theta})$ no ponto $\boldsymbol{\theta}$, permitindo a análise de como a variação nos valores de entrada $\boldsymbol{x}$ da função se reflete em mudanças correspondentes nos valores de saída \citep{Goodfellow2016}, sendo possível minimizar a função movendo os valores de $\boldsymbol{\theta}$ em pequenos incrementos no sentido oposto ao da derivada.
 
-Em situações envolvendo funções com múltiplas variáveis de entrada, as derivadas parciais $\frac{\partial}{\partial_{\theta_{i}}}f(\boldsymbol{\theta})$ são levadas em consideração para mensurar o quanto a função $f$ varia quando a entrada $x_i$ é alterada no ponto $\boldsymbol{\theta}$, assim o gradiente passa a ser representado por um vetor que encapsula os valores de todas as derivadas parciais \citep{Goodfellow2016}, sendo expresso por: $\nabla_{\boldsymbol{\theta}} f(\boldsymbol{\theta})$.  Por fim, a atualização dos parâmetros ocorre conforme a Equação \ref{deep:eq:graddesc} descrita por \cite{Goodfellow2016}:
+Em situações envolvendo funções com múltiplas variáveis de entrada, as derivadas parciais $\frac{\partial}{\partial_{\theta_{i}}}f(\boldsymbol{\theta})$ são levadas em consideração para mensurar o quanto a função $f$ varia quando a entrada $\theta_i$ é alterada no ponto, $\boldsymbol{\theta}$ Assim, o gradiente passa a ser representado por um vetor que encapsula os valores de todas as derivadas parciais \citep{Goodfellow2016}, sendo expresso por: $\nabla_{\boldsymbol{\theta}} f(\boldsymbol{\theta})$.  Por fim, a atualização dos parâmetros ocorre conforme a Equação \ref{deep:eq:graddesc} descrita por \cite{Goodfellow2016}:
 
 \begin{equation}
     \label{deep:eq:graddesc}
-    \boldsymbol{\theta}' = \boldsymbol{\theta} - \epsilon \nabla_{\boldsymbol{}{\theta}} j(\boldsymbol{}{\theta}).
+    \boldsymbol{\theta}' = \boldsymbol{\theta} - \epsilon \nabla_{\boldsymbol{}{\theta}} j(\boldsymbol{\theta}).
 \end{equation}
 
-Dessa forma, o valor de entrada $\boldsymbol{x}$ é ajustado por meio da multiplicação das derivadas parciais pela taxa de aprendizado $\epsilon$ que pode ser vista na Figura \ref{deep:fig:otimizacao} com os círculos vermelhos.
+Dessa forma, o valor de entrada $\boldsymbol{\theta}$ é ajustado por meio da multiplicação das derivadas parciais pela taxa de aprendizado $\epsilon$, ilustrado na Figura \ref{deep:fig:otimizacao} com os círculos vermelhos.
 
 \paragraph{Gradiente Descendente Estocástico}
 \label{deep:optimization:sgd}
-O SGD é amplamente adotado devido à sua eficiência em modelos de aprendizado profundo e conjuntos de dados em larga escala \citep{Goodfellow2016}. No entanto, é importante mencionar suas limitações. O SGD não assegura a convergência e é sensível aos valores iniciais do modelo. No entanto, essas desvantagens não excluem sua utilidade, especialmente quando combinado com técnicas como normalização e o uso de \textit{momentum} \cite{Goodfellow2016}.
+O SGD é amplamente adotado devido à sua eficiência em modelos de aprendizado profundo e conjuntos de dados em larga escala \citep{Goodfellow2016}. No entanto, é importante mencionar suas limitações. O SGD não assegura a convergência e é sensível aos valores iniciais do modelo. No entanto, essas desvantagens não excluem sua utilidade, especialmente quando combinado com técnicas como normalização e o uso de \textit{momentum} \citep{Goodfellow2016}.
 
-A fórmula do SGD emprega a derivada da função $f(\boldsymbol{x})$ em relação a $\boldsymbol{y} = f(\boldsymbol{x})$. Essa modificação de $\boldsymbol{x}$, impulsionada pela derivada, resulta em melhorias em $\boldsymbol{y}$. A representação do SGD é apresentada na Equação \ref{deep:eq:sgd}, proposta por \cite{Goodfellow2016}:
+A fórmula do SGD emprega a derivada da função $f(\boldsymbol{x}; \boldsymbol{\theta})$ em relação aos parâmetros $\boldsymbol{\theta}$ para otimizar a saída $\boldsymbol{y'} = f(\boldsymbol{x})$. Esta atualização dos parâmetros, impulsionada pela derivada, visa melhorar a saída prevista $\boldsymbol{y'}$. A representação matemática do SGD é demonstrada na Equação \ref{deep:eq:sgd}, conforme proposto por \cite{Goodfellow2016}:
 
 \begin{equation}
 \label{deep:eq:sgd}
 g = \nabla_{\boldsymbol{\theta}} \left(\frac{1}{m} \sum\limits_{i=1}^{m}L(f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}), \mathbf{y}^{(i)})\right),
 \end{equation}
-onde $L(x,y)$ é a função de custo, $\boldsymbol{x}$ representa a entrada, $\boldsymbol{y}$ indica a saída esperada, $m$ é o número de exemplos no conjunto de dados, e $f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta})$ é a saída da rede para o enésimo exemplo $\boldsymbol{x}^{(i)}$ com o conjunto de pesos $\boldsymbol{\theta}$.
+onde $L(x,y)$ é a função de custo, $\boldsymbol{x^{(i)}}$ representa a entrada, $\boldsymbol{y^{(i)}}$ indica a saída esperada, $m$ é o número de exemplos no conjunto de dados, e $f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta})$ é a saída da rede para o enésimo exemplo $\boldsymbol{x}^{(i)}$ com o conjunto de pesos $\boldsymbol{\theta}$.
 
 \paragraph{Parada antecipada}
 \label{deep:optimization:early_stoping}
 
 Ao configurar os hiperparâmetros de um modelo, é crucial considerar a quantidade de épocas pelas quais o conjunto de dados deve passar durante o treinamento. Essa escolha tem um impacto significativo nos fenômenos discutidos na Seção \ref{deep:overunder}. Optar por um número insuficiente de épocas frequentemente resulta em \textit{underfitting}, enquanto um número excessivo pode levar ao \textit{overfitting}. Surge, então, a pergunta fundamental: \quotes{Qual é o número ideal de épocas para cada problema?}
 
-Para abordar essa questão, diversos estudos têm sido realizados com o intuito de encontrar critérios de parada no treinamento que minimizem ou previnam esses problemas \citep{Prechelt1998AutomaticCriteria}. Além disso, pesquisas recentes tentam antecipar situações de \textit{overfitting} e \textit{underfitting}, interrompendo o treinamento antes que afete o desempenho do modelo \citep{VilaresFerro2023EarlyNetworks}. Existem múltiplos métodos disponíveis para essa tarefa, sendo a parada antecipada (do inglês, \textit{early stopping}) um dos mais populares, podendo ser considerado uma forma de regularização, tal como o decaimento de pesos \cite{VilaresFerro2023EarlyNetworks}.
+Para abordar essa questão, diversos estudos têm sido realizados com o intuito de encontrar critérios de parada no treinamento que minimizem ou previnam esses problemas \citep{Prechelt1998AutomaticCriteria}. Além disso, pesquisas recentes tentam antecipar situações de \textit{overfitting} e \textit{underfitting}, interrompendo o treinamento antes que afete o desempenho do modelo \citep{VilaresFerro2023EarlyNetworks}. Existem múltiplos métodos disponíveis para essa tarefa, sendo a parada antecipada (do inglês, \textit{early stopping}) um dos mais populares, podendo ser considerado uma forma de regularização, tal como o decaimento de pesos \citep{VilaresFerro2023EarlyNetworks}.
 
 A aplicação da Parada Antecipada implica calcular a precisão da classificação nos dados de validação ao final de cada época \citep{Prechelt1998AutomaticCriteria}. Quando a precisão para de melhorar, encerramos o treinamento. Isso simplifica a definição do número de épocas, pois não é necessário explicitamente determinar como ele depende de outros hiperparâmetros - essa adaptação é feita automaticamente. Ademais, a Parada Antecipada atua como um mecanismo automático de prevenção ao \textit{overfitting}. Embora, em estágios iniciais de experimentação, possa ser útil desativar temporariamente a Parada Antecipada para identificar sinais de \textit{overfitting} e, assim, ajustar a abordagem de regularização.
 
-A implementação efetiva da parada antecipada exige uma definição mais precisa do que significa "parar de melhorar" em termos de precisão da classificação. Como observado anteriormente, a precisão pode oscilar mesmo durante uma tendência geral de melhora. Parar imediatamente quando há uma diminuição na precisão pode interromper o processo quando melhorias adicionais ainda são possíveis \citep{Prechelt1998EarlyWhen}. Uma regra mais sensata para a parada antecipada $n(i)$ no treinamento é se a melhor precisão de classificação não melhorar por um determinado número de épocas consecutivas $j$ a partir da época de melhor acurácia $n_{Acc}$, como representado pela Equação \ref{deep:eq:early_stopping} e também pela Figura \ref{deep:fig:earlystopping}.
+A implementação efetiva da parada antecipada exige uma definição mais precisa do que significa "parar de melhorar" em termos de precisão da classificação. Como observado anteriormente, a precisão pode oscilar mesmo durante uma tendência geral de melhora. Parar imediatamente quando há uma diminuição na precisão pode interromper o processo quando melhorias adicionais ainda são possíveis \citep{Prechelt1998EarlyWhen}. Uma regra mais sensata para a parada antecipada $n(i)$ no treinamento é se a melhor precisão de classificação não melhorar por um determinado número de épocas consecutivas $j$ a partir da época de melhor acurácia $n_{Acc}$, como representado pela Equação \ref{deep:eq:early_stopping} e também pela Figura \ref{deep:fig:earlystopping}:
 
 \begin{equation}
     \label{deep:eq:early_stopping}
@@ -268,7 +268,7 @@ A implementação efetiva da parada antecipada exige uma definição mais precis
 \paragraph{Taxa de Aprendizado Dinâmica}
 \label{deep:optimization:dynamic_lr}
 
-A taxa de aprendizado (\textit{learning rate} em inglês), como demonstrado anteriormente, é um dos hiperparâmetros fundamentais utilizados na etapa inicial do treinamento de modelos. Sua representação como $\epsilon$ pode ser observada na Equação \ref{deep:eq:graddesc} e desempenha um papel crucial na determinação do tamanho dos passos das iterações para a otimização de gradientes \citep{Smith2017CyclicalNetworks}.
+A taxa de aprendizado (\textit{learning rate}, em inglês), como demonstrado anteriormente, é um dos hiperparâmetros fundamentais utilizados na etapa inicial do treinamento de modelos. Sua representação como $\epsilon$ pode ser observada na Equação \ref{deep:eq:graddesc} e desempenha um papel crucial na determinação do tamanho dos passos das iterações para a otimização de gradientes \citep{Smith2017CyclicalNetworks}.
 
 Definir a taxa de aprendizado, assim como abordado na situação de parada antecipada mencionada na Seção \ref{deep:optimization:early_stoping}, muitas vezes torna-se um desafio sem que tenha um veredito definido como estado da arte \citep{Goodfellow2016}. Isso se deve ao fato de que quanto maior o valor definido, mais acentuada é a atualização dos parâmetros, possibilitando uma exploração mais rápida do espaço de características, como ilustrado na Figura \ref{deep:fig:dynamic_lr.1}. No entanto, essa abordagem frequentemente resulta na perda do valor ótimo \citep{Tang2021AnPump}. Por outro lado, ao diminuir o valor da taxa de aprendizado, a atualização dos parâmetros torna-se mais gradual, o que ajuda a evitar a perda de mínimos globais, como apresentado na Figura \ref{deep:fig:dynamic_lr.2}. Contudo, é importante salientar que essa estratégia consome consideravelmente mais recursos computacionais e, muitas vezes, não atinge o valor mínimo global devido ao grande número de iterações necessárias para a convergência \citep{Tang2021AnPump}.
 
@@ -303,7 +303,7 @@ O aumento no número de estudos, como os de \cite{Tang2021AnPump, Senior2013AnRe
 \end{equation}
 sendo que nesta equação, $\tau$ representa o número de iterações em que $\epsilon$ será reduzido para uma constante, $i$ é a iteração atual, $\epsilon_0$ é a taxa de aprendizado inicial e $\alpha$ é determinado por $\frac{i}{\tau}$. Além disso, é importante destacar que o valor de $\tau$ é definido como o número de iterações necessárias para completar as épocas do conjunto de treinamento, enquanto $\epsilon_\tau$ é aproximadamente 1\% do valor de $\epsilon_0$, conforme indicado por \cite{Goodfellow2016}.
 
-É relevante mencionar que o valor de $\epsilon_0$ pode variar conforme o problema em questão. Em problemas que envolvem um grande número de imagens, como frequentemente ocorre em redes neurais profundas citadas na Seção \ref{deep}, valores típicos de $\epsilon_0$ variam entre $1e^{-5}$ e $1e^{-6}$. Esse ajuste é necessário para garantir a eficiência do treinamento e a convergência do modelo.
+É relevante mencionar que o valor de $\epsilon_0$ pode variar conforme o problema em questão. Em problemas que envolvem um grande número de imagens, como frequentemente ocorre em redes neurais profundas citadas no Capítulo \ref{deep}, valores típicos de $\epsilon_0$ variam entre $1e^{-5}$ e $1e^{-6}$. Esse ajuste é necessário para garantir a eficiência do treinamento e a convergência do modelo.
 
 Por fim, vale mencionar que propostas de decaimento da taxa de aprendizado, como o \textit{Cyclical Learning Rates} (CLR), desenvolvido por \cite{Smith2017CyclicalNetworks}, buscam reduzir o tempo de treinamento e manter a estabilidade dos modelos com a aplicação de variações geométricas. Por exemplo, o modelo triangular busca iniciar o treinamento com baixos valores de taxa de aprendizado e aumentar gradualmente até certo limite, proporcionando uma aceleração de convergência e acompanhado de um processo de diminuição para não perder os mínimos globais em um processo cíclico. Essa proposta sugere uma aceleração da convergência do modelo \citep{Smith2017CyclicalNetworks}, o que pode ser observado através da Figura \ref{deep:optimization:cyclical_lr}.
 
@@ -319,7 +319,7 @@ Por fim, vale mencionar que propostas de decaimento da taxa de aprendizado, como
 \paragraph{Adam}
 \label{deep:optimization:adam}
 
-O algoritmo Adaptive Moment Estimation, conhecido como ADAM, foi proposto por \cite{Kingma2014Adam:Optimizationb} com o objetivo de otimizar adaptativamente a taxa de aprendizado, integrando conceitos dos algoritmos RMSProp \citep{Hinton2012NeuralDescent} e Momentum \citep{Polyak1964SomeMethods}. A atualização dos parâmetros ocorre por meio do controle da média móvel exponencialmente ponderada de cada algoritmo mencionado, utilizando os parâmetros $\rho_{1}$ e $\rho_{2}$ em cada iteração para calcular a estimativa de primeira ordem $\boldsymbol{s}$, conforme a Equação \ref{deep:eq:adam_1} \citep{Goodfellow2016}:
+O algoritmo Adaptive Moment Estimation, conhecido como Adam, foi proposto por \cite{Kingma2014Adam:Optimizationb} com o objetivo de otimizar adaptativamente a taxa de aprendizado, integrando conceitos dos algoritmos RMSProp \citep{Hinton2012NeuralDescent} e Momentum \citep{Polyak1964SomeMethods}. A atualização dos parâmetros ocorre por meio do controle da média móvel exponencialmente ponderada de cada algoritmo mencionado, utilizando os parâmetros $\rho_{1}$ e $\rho_{2}$ em cada iteração para calcular a estimativa de primeira ordem $\boldsymbol{s}$, conforme a Equação \ref{deep:eq:adam_1} \citep{Goodfellow2016}:
 
 \begin{equation}
     \label{deep:eq:adam_1}
@@ -361,7 +361,7 @@ Por meio do desenvolvimento de \cite{rumelhart1986learning}, o algoritmo de retr
 \ref{deep:cust}), o erro é calculado na saída da rede $(y)$ e há a propagação do mesmo, iniciando da camada de saída em direção para a camada de entrada. Isso é realizado através do trabalho conjunto do algoritmo \textit{backpropagation} e de um algoritmo de otimização (Seção \ref{deep:optimization}), em que o \textit{backpropagation} realiza um cálculo rápido de gradientes utilizados pelos algoritmos de otimização.
 \end{sloppypar}
 
-Dessa forma, a explicação dessa Seção se resume em processos em que, dado o erro $E$ que é obtido a partir da saída da rede $(y)$ em relação a um \textit{ground truth} $(g)$, a primeira etapa é realizada com o cálculo da derivada parcial de $E$ em relação a cada neurônio de saída, sendo formada por $\frac{\partial E}{\partial \boldsymbol{y_i}}$ tendo que $i \in \mathbb{K}$ como a representação dos tamanhos de cada saída. Depois, com a aplicação da regra da cadeia de $E$ em relação às entradas $x_j$, é possível obter a seguinte expressão \citep{rumelhart1986learning}:
+Dessa forma, a explicação dessa seção se resume em processos em que, dado o erro $E$ que é obtido a partir da saída da rede $(y)$ em relação a um \textit{ground truth} $(g)$, a primeira etapa é realizada com o cálculo da derivada parcial de $E$ em relação a cada neurônio de saída, sendo formada por $\frac{\partial E}{\partial \boldsymbol{y_i}}$ tendo que $i \in \mathbb{K}$ como a representação do tamanho de cada saída. Depois, com a aplicação da regra da cadeia de $E$ em relação às entradas $x_j$, é possível obter a seguinte expressão \citep{rumelhart1986learning}:
 
 \begin{equation}
     \label{deep:eq:11}
@@ -379,7 +379,7 @@ A partir da expressão $\frac{\partial E}{\partial x_j}$ é possível visualizar
 \subsection{Teste}
 \label{deep:test}
 
-A etapa de teste está relacionada com a avaliação do modelo treinado nas condições descritas na Seção \ref{deep:train}, todavia, para a Seção de teste deve-se considerar que o novo conjunto de dados seja desconhecido pela rede neural, ou seja, que não haja intersecção com o conjunto de treinamento, visto que o objetivo do treino está em validar a capacidade de abstração em relação à generalização do modelo.
+A etapa de teste está relacionada com a avaliação do modelo treinado nas condições descritas na Seção \ref{deep:train}. Todavia, para o teste deve-se considerar que o novo conjunto de dados seja desconhecido pela rede neural, ou seja, que não haja intersecção com o conjunto de treinamento, visto que o objetivo do treino está em validar a capacidade de abstração em relação à generalização do modelo.
 
 Entendido isso, habitualmente, é encontrado um conjunto de dados com menos exemplos quando se trata do conjunto de testes \citep{Goodfellow2016}, sendo necessário que ambos os conjuntos de dados, tanto o de teste quanto o de treinamento, possuam uma mesma distribuição dos dados.
 
@@ -391,16 +391,16 @@ Assim, nesta seção são descritos alguns dos elementos utilizados para auxilia
 \subsubsection{Métricas de Avaliação}
 \label{deep:metrics}
 
-Outro ponto adjutório à avaliação dos modelos, tanto para o conjunto de treinamento quanto para o conjunto de teste são as métricas de avaliação de desempenho, que avaliam o andamento do treinamento do modelo do início ao fim. E referente a classificações, uma métrica que se destaca é a avaliação de acurácia (comumente vista como $Acc$) que pode ser expressa pela Equação \ref{deep:eq:13}:
+Outro ponto adjutório à avaliação dos modelos, tanto para o conjunto de treinamento quanto para o conjunto de teste, são as métricas de avaliação de desempenho, que avaliam o andamento do treinamento do modelo do início ao fim. E referente a classificações, uma métrica que se destaca é a avaliação de acurácia (comumente vista como $Acc$), que pode ser expressa pela Equação \ref{deep:eq:13}:
 
 \begin{equation}
     \label{deep:eq:13}
     Acc = \frac{\text{Quantidade de predições corretas}}{\text{Quantidade de predições realizadas}}.
 \end{equation}
 
-A acurácia, como demonstrado na Equação \ref{deep:eq:13}, basicamente se resume entre a razão de acertos pela quantidade total de exemplos no conjunto e é adequada para situações em que se tem o classes balanceadas, mas quando se trata de classes desbalanceadas,o modelo em questão pode apresentar fenômeno de \textit{underfitting} ou \textit{overfitting}, como será explicado na Seção \ref{deep:overunder}, e que podem ser mapeados ao observar o desempenho da acurácia em bases de treino e teste.
+A acurácia, como demonstrado na Equação \ref{deep:eq:13}, basicamente se resume entre a razão de acertos pela quantidade total de exemplos no conjunto e é adequada para situações em que se tem classes balanceadas. Mas, quando se trata de classes desbalanceadas, o modelo em questão pode apresentar fenômeno de \textit{underfitting} ou \textit{overfitting}, como será explicado na Seção \ref{deep:overunder}, e que podem ser mapeados ao observar o desempenho da acurácia em bases de treino e teste.
 
-Dessa forma, é desejado obter $Acc_{treino} \approx Acc_{teste}$, e com  acurácias altas. Sendo que as situações de \textit{overfitting} possuem a característica de casos em que $Acc_{treino}$ é exacerbadamente mais alto que $Acc_{teste}$. Por outro lado, situações contrárias a essa, tendo $Acc_{treino}$ muito baixos são comuns em casos de \textit{underfitting}.
+Dessa forma, é desejado obter $Acc_{treino} \approx Acc_{teste}$, e com  acurácias altas. Sendo que as situações de \textit{overfitting} possuem a característica de casos em que $Acc_{treino}$ é exacerbadamente mais alta que $Acc_{teste}$. Por outro lado, tendo $Acc_{treino}$ muito baixa, é comum em casos de \textit{underfitting}.
 
 Já em casos de regressão, o mais comum é utilizarem a métrica MSE, conforme visto na Equação \ref{deep:eq:9}.
 
@@ -408,9 +408,9 @@ Já em casos de regressão, o mais comum é utilizarem a métrica MSE, conforme 
 \subsubsection{Validação Cruzada}
 \label{deep:cross}
 
-Quando se trata na divisão entre os \textit{datasets} de treino e teste, habitualmente é comentado sobre a configuração de 20\% para teste e 80\% para treino, todavia o fato de utilizar um conjunto fixo implica em uma incerteza estatística sobre a média estimada de erro do teste, visto que pode ocorrer um desbalanceamento imprevisto \citep{Goodfellow2016}.
+Quando se trata na divisão entre os \textit{datasets} de treino e teste, habitualmente é comentado sobre a configuração de 20\% para teste e 80\% para treino. Todavia, o fato de utilizar um conjunto fixo implica em uma incerteza estatística sobre a média estimada de erro do teste, visto que pode ocorrer um desbalanceamento imprevisto \citep{Goodfellow2016}.
 
-Dessa forma, a validação cruzada (Seção \ref{deep:cross}), do inglês, \textit{cross validation}, trabalha com o principio de divisão entre os \textit{datasets} de treino e teste em subconjuntos que compõem o conjunto de dados original, realizando o cálculos a partir de escolhas de amostras no decorrer das interações. Dentre as técnicas mais conhecidas de \textit{cross validation} para a divisão dos conjuntos de dados, destacam-se os métodos \textit{k-fold} e \textit{leave-one-out}, sendo que preservam o princípio de dividir aleatoriamente o conjunto de dados original em um subconjunto de treinamento e de teste, tendo a premissa de auxiliar a avaliação do algorítimo em relação a sua capacidade de generalização.
+Dessa forma, a validação cruzada (Seção \ref{deep:cross}), do inglês, \textit{cross validation}, trabalha com o principio de divisão entre os \textit{datasets} de treino e teste em subconjuntos que compõem o conjunto de dados original, realizando o cálculos a partir de escolhas de amostras no decorrer das interações. Dentre as técnicas mais conhecidas de \textit{cross validation} para a divisão dos conjuntos de dados, destacam-se os métodos \textit{k-fold} e \textit{leave-one-out}, sendo que preservam o princípio de dividir aleatoriamente o conjunto de dados original em um subconjunto de treinamento e de teste, tendo a premissa de auxiliar a avaliação do algoritimo em relação à sua capacidade de generalização.
 
 Dessa forma, o erro ($\varepsilon$) é computado do teste ($T$) pela média dos erros sobre interações ($\varepsilon_i$) em relação à quantidade de interações($N$), conforme a Equação \ref{deep:eq:15}:
 
@@ -471,12 +471,12 @@ Lidar com grandes conjuntos de dados nas redes neurais profundas é um desafio, 
 
 Portanto, a extração de características surge como uma estratégia crucial para a redução da dimensionalidade, onde um conjunto inicial de dados brutos é transformado em grupos mais gerenciáveis para processamento \citep{Benyahia2022Multi-featuresClassification}. Esse processo frequentemente envolve a combinação ou seleção de variáveis, resultando em uma significativa redução na quantidade de dados a serem processados. Além disso, essas características ainda preservam a representatividade do conjunto original, sendo capazes de reduzir redundâncias para análises específicas.
 
-Um exemplo de algoritmo capaz de agregar essas vantagens ao processo de seleção e extração de características é o \textit{Principal Component Analysis} que será explorado na seguinte Seção (\ref{deep:feature_extraction:pca}). 
+Um exemplo de algoritmo capaz de agregar essas vantagens ao processo extração de características é o \textit{Principal Component Analysis}, que será explorado a seguir (\ref{deep:feature_extraction:pca}). 
 
 
 \subsubsection{\textit{Principal Component Analysis} (PCA)}
 \label{deep:feature_extraction:pca}
-O \textit{Principal Component Analysis} (PCA) foi desenvolvido por \cite{Wold1987PrincipalAnalysis} como uma técnica estatística de transformações ortogonais que almeja transformar um conjunto de variáveis correlacionadas em um conjunto linearmente não correlacionados, extraindo de um conjunto de dados as características essenciais \citep{Wold1987PrincipalAnalysis} e obtendo como resultado, um conjunto de dados menor, mas sem perdas em relação ao conjunto original.
+O \textit{Principal Component Analysis} (PCA) foi desenvolvido por \cite{Wold1987PrincipalAnalysis} como uma técnica estatística de transformações ortogonais que almeja transformar um conjunto de variáveis correlacionadas em um conjunto linearmente de variáveis não correlacionadas, extraindo de um conjunto de dados as características essenciais \citep{Wold1987PrincipalAnalysis} e obtendo como resultado, um conjunto de dados menor, mas sem perdas em relação ao conjunto original.
 
 O funcionamento do algoritmo de PCA para a extração de características pode ser resumido pelo passo-a-passo a seguir \citep{Song2010FeatureAnalysis}:
 
@@ -488,7 +488,7 @@ O funcionamento do algoritmo de PCA para a extração de características pode s
         z = \frac{\boldsymbol{x} - \mu}{\sigma};
     \end{equation}
 
-    \item Calculo da matriz de covariância, com o uso de  $X$ representando a primeira dimensão da entrada e $Y$ a segunda, como descrito na Equação \ref{deep:eq:pca_2}: 
+    \item Cálculo da matriz de covariância, com o uso de  $X$ representando a primeira dimensão da entrada e $Y$ a segunda, como descrito na Equação \ref{deep:eq:pca_2}: 
 
     \begin{equation}
         \label{deep:eq:pca_2}

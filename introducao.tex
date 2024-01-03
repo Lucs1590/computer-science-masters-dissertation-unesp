@@ -75,7 +75,7 @@ Enfatiza-se que os modelos de ponta que empregam aprendizado profundo demonstram
 
 Com as técnicas contemporâneas de segmentação, é possível lidar com dados massivos contidos nas imagens, explorando aspectos intrincados, como a escala dos objetos na cena e a dimensionalidade preservada pelos modelos. Contudo, mesmo com os avanços das técnicas de segmentação, a identificação de objetos pequenos na imagem continua a ser um desafio significativo \citep{Sang2023Small-ObjectAttention, Su2021Small-scaleFusion}. Além disso, tanto nos modelos que se utilizam de técnicas para reduzir a dimensionalidade das imagens quanto em abordagens mais recentes focadas na segmentação detalhada de imagens, um tema que se encontra pendente é em relação a avaliação crítica da adequação dos métodos comumente usados para a redução de dimensionalidade em relação à preservação espacial e consideração de visão global dos atributos.
 
-Portanto, dentre os temas tratados, o presente projeto visa descrever uma gama de algoritmos e \textit{frameworks} reconhecidos, incluindo abordagens marcantes como a U-Net, com foco particular naqueles relevantes para a segmentação de imagens, avaliar suas vantagens, limitações e potenciais áreas de investigação futura que poderiam informar novos experimentos e contribuir para o progresso científico no campo da segmentação de imagens, especialmente aqueles que empregam aprendizado profundo.
+Portanto, dentre os temas tratados, o presente projeto apresenta alguns algoritmos e \textit{frameworks} reconhecidos para segmentação, mas visa, principalmente, estudar o impacto da alteração das camadas de \textit{pooling} convencionais pelo uso do BPCAPooling em arquiteturas marcantes, como as U-Nets, avaliando suas vantagens, limitações e potenciais áreas de investigação futura que poderiam informar novos experimentos e contribuir para o progresso científico no campo da segmentação de imagens, especialmente aqueles que empregam aprendizado profundo.
 
 \subsection{Objetivos}
 \label{intro:objectives}
@@ -92,10 +92,10 @@ A primeira questão foi explorada por meio do desenvolvimento de uma proposta de
 O segundo item de pesquisa busca testar o método proposto em comparação com os métodos convencionalmente utilizados para a tarefa de \textit{pooling}. Esta etapa está diretamente relacionada ao terceiro ponto mencionado, o qual visa realizar esses testes em diferentes arquiteturas, desde aquelas mais antigas que introduzem conceitos de \textit{pooling} até arquiteturas mais modernas dedicadas à segmentação detalhada de imagens. Dessa forma, as contribuições desta pesquisa são:
 
 \begin{enumerate}
-    \item O desenvolvimento de um novo método de \textit{pooling}.
-    \item A avaliação da aplicabilidade do novo método de \textit{pooling} substituindo os métodos convencionais em redes convolucionais tradicionais.
-    \item A análise da eficácia do novo método de \textit{pooling} em substituir os métodos convencionais em modelos de segmentação semântica.
-\end{enumerate}
+    \item O desenvolvimento de um novo método de \textit{pooling};
+    \item A avaliação da aplicabilidade do novo método de \textit{pooling} substituindo os métodos convencionais em redes convolucionais tradicionais;
+    \item A análise da eficácia do novo método de \textit{pooling} em substituir os métodos convencionais em modelos de segmentação semântica
+.ŧ\end{enumerate}
 
 
 \subsection{Considerações Finais do Capítulo}
