@@ -2,7 +2,7 @@
 \newpage
 
 
-\section{Segmentação Semântica}
+\section{Segmentação Semântica Baseada em Aprendizado Profundo}
 \label{semantic}
 No contexto das segmentações baseadas em técnicas de \textit{deep learning} com uma vertente mais específica das CNNs, a segmentação semântica se destaca por atribuir uma classe ou rótulo específico a cada pixel em uma cena \citep{Wang2017, Ghosh2019, Shelhamer2016, Arbelaez2012, Zhang2018}, constituindo, assim, um trabalho em nível de pixel.
 
@@ -41,7 +41,7 @@ Para esmiuçar mais sobre essas arquiteturas, é importante ressaltar a diferen�
 
 \subsubsection{\textit{Fully Convolutional Networks} (FCN)}
 \label{semantic:FCN}
-Quando se trata de segmentações semânticas, várias arquiteturas e \textit{frameworks} são propostos para a resolução de problemas, de modo que garanta evolução quanto ao desempenho e às suas capacidades, contudo, o primeiro \textit{framework} a ser considerado estado-da-arte para esse atividade de segmentação baseia-se na arquitetura de \textit{Fully Convolutional Networks} \citep{Shelhamer2016} ou FCN, que propõem o trabalho apenas com camadas convolucionais - incluindo a última camada \citep{Hesamian2019}, como demonstrado na Figura \ref{semantic:fig:5} - assim, estabelecendo uma subamostragem de pixels (\textit{pixelwise}), seguida pela construção de um mapa de segmentação de mesmo tamanho que a imagem de entrada \citep{Minaee2021, Zhang2018, Hesamian2019}.
+Quando se trata de segmentações semânticas, várias arquiteturas e \textit{frameworks} foram propostos para a resolução deste problema, de modo que garanta evolução quanto ao desempenho e às suas capacidades. Contudo, o primeiro \textit{framework} a ser considerado estado-da-arte para esse atividade de segmentação baseia-se na arquitetura de \textit{Fully Convolutional Networks} \citep{Shelhamer2016} ou FCN, que propõem o trabalho apenas com camadas convolucionais - incluindo a última camada \citep{Hesamian2019}, como demonstrado na Figura \ref{semantic:fig:5} - assim, estabelecendo uma subamostragem de pixels (\textit{pixelwise}), seguida pela construção de um mapa de segmentação de mesmo tamanho que a imagem de entrada \citep{Minaee2021, Zhang2018, Hesamian2019}.
 
 \begin{figure}[H]
     \centering
@@ -52,9 +52,9 @@ Quando se trata de segmentações semânticas, várias arquiteturas e \textit{fr
     Fonte: retirada e adaptado de \cite{Shelhamer2016}.
 \end{figure}
 
-Essa configuração de FCN foi aplicada nos \textit{datasets} PASCAL VOC 2011 \citep{everingham2010pascal}, SIFT Flow \citep{Liu2011} e NYUDv2 \citep{Silberman:ECCV12} chegando a resultados de 90,3\% de PA e 62,7\% de \textit{mean IoU} no primeiro \textit{dataset} citado \citep{Ghosh2019} e estabelecendo referência de estado-da-arte em sua performance \citep{Minaee2021}.
+Essa configuração de FCN foi aplicada nos \textit{datasets} PASCAL VOC 2011 \citep{everingham2010pascal}, SIFT Flow \citep{Liu2011} e NYUDv2 \citep{Silberman:ECCV12}, chegando a resultados de 90,3\% de \textit{Pixel Accuracy} (PA) e 62,7\% de mIoU no primeiro \textit{dataset} citado \citep{Ghosh2019} e estabelecendo referência de estado-da-arte em sua performance \citep{Minaee2021}.
 
-Para sua configuração foram utilizados conceitos e modificações da arquitetura das CNNs VGG16 (explorada na Seção \ref{cnn:vgg}) e GoogLeNet \citep{Szegedy2015}, possibilitando a entrada e saída de tamanhos variados na rede \citep{Minaee2021}, de sorte que a entrada e saída tenham o mesmo tamanho, o que fica visível na Figura \ref{semantic:fig:6}.
+Para sua configuração foram utilizados conceitos e modificações da arquitetura das CNNs VGG16 (explorada na Seção \ref{cnn:vgg}) e GoogLeNet \citep{Szegedy2015}, possibilitando a entrada e saída de tamanhos variados na rede \citep{Minaee2021}, de modo que a entrada e saída tenham o mesmo tamanho, o que fica visível na Figura \ref{semantic:fig:6}.
 
 \begin{figure}[H]
     \centering
@@ -73,7 +73,7 @@ No âmbito das arquiteturas voltadas para segmentação semântica, a evolução
 
 As U-Nets operam com um caminho de contração (também conhecido como \textit{encoder}) que progressivamente reduz a resolução espacial dos dados e captura o contexto dos exemplos, seguido por um caminho de expansão simétrica (também conhecido como \textit{decoder}) que restaura a resolução original por meio de convoluções transpostas e realiza a segmentação. A estrutura se assemelha a um \quotes{U}, como retrata a Figura \ref{semantic:fig:unet}, o que levou à sugestão do nome da arquitetura. A conexão entre as camadas de \textit{encoder} e \textit{decoder}, conhecida como \quotes{\textit{skip connection}}, permite a preservação de informações de baixo nível e ajuda a mitigar problemas de perda de detalhes durante a redução da resolução \citep{Minaee2021, Minaee2021DeepClassification}. Por não conter camadas densas nas U-Nets, elas podem ser consideradas modelos baseados em FCNs \citep{Minaee2021}, sendo que a maior diferença entre essas arquiteturas está no uso de \quotes{\textit{skip connections}} entre as convoluções e \textit{up-samplings}, além da simetria das U-nets \citep{OZTURK2020ComparisonImageries}.
 
-Vale citar que para a implementação de \quotes{up-samplings}, originalmente nas U-nets, foram utilizadas as convoluções transpostas com duas dimensões, que também são conhecidas como deconvoluções ou camada de deconvolução, realizando o processo contrário às camadas de \textit{pooling} \citep{Zeiler2014Visualizing2013}. Quando observa-se a parte técnica, essa camada é denominada \textit{Conv2DTranspose}, sendo que seu maior diferencial é que  ela amplia a resolução espacial dos dados, em oposição à redução feita pelas camadas de pooling. No entanto, ao contrário das camadas de pooling, a \textit{Conv2DTranspose} faz uso de uma janela de convolução para aumentar as dimensões dos dados. Essa camada é crucial para a U-Net, pois desempenha um papel fundamental na reconstrução das características espaciais, restaurando a resolução original e contribuindo para a precisão da segmentação, ao mesmo tempo em que mantém as conexões entre as características de nível mais baixo e mais alto, garantindo a riqueza dos detalhes na segmentação final.
+Vale citar que para a implementação de \quotes{up-samplings}, originalmente nas U-nets, foram utilizadas as convoluções transpostas com duas dimensões, que também são conhecidas como deconvoluções ou camada de deconvolução, realizando o processo contrário às camadas de \textit{pooling} \citep{Zeiler2014Visualizing2013}. Quando observa-se a parte técnica, essa camada é denominada \textit{Conv2DTranspose}, sendo que seu maior diferencial é que  ela amplia a resolução espacial dos dados, em oposição à redução feita pelas camadas de \textit{pooling}. No entanto, ao contrário das camadas de \textit{pooling}, a \textit{Conv2DTranspose} faz uso de uma janela de convolução para aumentar as dimensões dos dados. Essa camada é crucial para a U-Net, pois desempenha um papel fundamental na reconstrução das características espaciais, restaurando a resolução original e contribuindo para a precisão da segmentação, ao mesmo tempo em que mantém as conexões entre as características de nível mais baixo e mais alto, garantindo a riqueza dos detalhes na segmentação final.
 
 \begin{figure}[H]
     \centering
@@ -86,13 +86,13 @@ Vale citar que para a implementação de \quotes{up-samplings}, originalmente na
 
 As vantagens inerentes a essa arquitetura incluem uma capacidade robusta para lidar com imagens de tamanhos variados, permitindo a aplicação eficiente em diversos contextos, como na análise de imagens médicas \citep{Ronneberger2015U-net:Segmentation}. Além disso, as U-Nets têm a habilidade de aprender representações altamente significativas em diferentes níveis de abstração, o que as torna eficazes na captura de detalhes importantes em uma imagem \citep{Alom2019RecurrentSegmentation}. Também é importante destacar que essas redes têm a capacidade de reduzir a tendência de gerar segmentações excessivamente granulares, fornecendo segmentações mais suaves e coerentes \citep{Du2020MedicalReview}. No entanto, é fundamental reconhecer que, como qualquer abordagem, as U-Nets também possuem desvantagens. Em particular, essas redes frequentemente possuem um grande número de parâmetros, o que pode aumentar os requisitos computacionais e tornar o treinamento mais demorado, dependendo do tamanho do conjunto de dados e da complexidade da tarefa \citep{Ronneberger2015U-net:Segmentation}. Além disso, pela grande quantidade de convoluções, muitas vezes a informação espacial é perdida, segundo \cite{Zhang2023LcmUNet:Segmentation}.
 
-Voltando ao contexto mais amplo, onde a segmentação semântica tem como objetivo atribuir rótulos de classe a cada pixel em uma imagem, a arquitetura da U-Net se mostra relevante e eficaz, sendo exemplificado pelos resultados obtidos desde seu desenvolvimento com \cite{Ronneberger2015U-net:Segmentation}. No entanto, questões que exploram a preservação da espacialidade da imagem durante a segmentação nesse tipo de estrutura ainda são pouco explorados, principalmente quando a proposta está em variações das tradicionais camadas de \textit{pooling} que são os atuais estado-da-arte \citep{Minaee2021}.
+Voltando ao contexto mais amplo, onde a segmentação semântica tem como objetivo atribuir rótulos de classe a cada pixel em uma imagem, a arquitetura da U-Net se mostra relevante e eficaz, sendo exemplificado pelos resultados obtidos desde seu desenvolvimento com \cite{Ronneberger2015U-net:Segmentation}. No entanto, questões que exploram a preservação da espacialidade da imagem durante a segmentação nesse tipo de estrutura ainda são pouco explorados, principalmente quando a proposta está em variações das tradicionais camadas de \textit{pooling} que são os atuais estado-da-arte.
 
 \subsubsection{U-Net-\textit{Like}}
 \label{semantic:unetlike}
 Após o surgimento e o êxito alcançado pelas U-Nets, surgiram variações dessas redes, frequentemente denominadas de U-Net-\textit{Like}, inspiradas pela estrutura original proposta por \cite{Ronneberger2015U-net:Segmentation} e amplamente documentada em \citep{Kugelman2022ASegmentation}.
 
-Essas redes mantêm a arquitetura de contração e expansão da U-Net original, mas apresentam características distintas. Uma das diferenças significativas é a adição de \textit{skip connections}, com a inclusão de uma camada extra, e a incorporação de técnicas como \textit{Batch Normalization} proposta por \cite{Ioffe2015BatchShift} e a função de ativação ReLU, discutida na Seção \ref{deep:relu}, nas camadas de contração. Essas alterações têm como objetivo manter as médias e variâncias das entradas constantes, acelerando o aprendizado e aumentando a estabilidade durante a fase de treinamento \citep{Pfister2019AutomatedNetworks}.
+Essas redes mantêm a arquitetura de contração e expansão da U-Net original, mas apresentam características distintas. Uma das diferenças significativas é a adição de \textit{skip connections} com a inclusão de uma camada extra, a incorporação de técnicas como \textit{Batch Normalization} proposta por \cite{Ioffe2015BatchShift} e a função de ativação ReLU, discutida na Seção \ref{deep:relu}, nas camadas de contração. Essas alterações têm como objetivo manter as médias e variâncias das entradas constantes, acelerando o aprendizado e aumentando a estabilidade durante a fase de treinamento \citep{Pfister2019AutomatedNetworks}.
 
 Outra modificação presente nas U-Net-\textit{Like} diz respeito à forma como as convoluções são aplicadas. Enquanto \cite{Ronneberger2015U-net:Segmentation} não aplicava preenchimento (\textit{padding}) devido ao processo de divisão de imagens maiores em blocos menores durante o processamento, a abordagem das U-Net-\textit{Like} introduz pixels adicionais ao redor das bordas da imagem. Esse procedimento permite que as convoluções utilizem pixels vizinhos, aprimorando a eficiência e a qualidade da segmentação \citep{Pfister2019AutomatedNetworks}.
 
@@ -109,13 +109,13 @@ Nesta seção, serão discutidas métricas comuns para avaliação de segmentaç
 
 \subsubsection{\textit{Pixel Accuracy}}
 \label{semantic:pa}
-A métrica de \textit{pixel accuracy} (PA) é uma das métricas mais simples utilizadas no contexto de segmentação semântica, em que, na prática, se resume na razão entre o pixel classificado corretamente em relação ao total de pixels na imagem \citep{Minaee2021}. Sendo assim, é possível expressar a sua fórmula pela Equação \ref{semantic:eq:1}:
+A métrica de \textit{pixel accuracy} (PA) é uma das métricas mais simples utilizadas no contexto de segmentação semântica, em que, na prática, se resume na razão entre o número de pixels classificados corretamente em relação ao total de pixels na imagem \citep{Minaee2021}. Sendo assim, é possível expressar a sua fórmula pela Equação \ref{semantic:eq:1} \citep{Minaee2021}:
 
 \begin{equation}
     \label{semantic:eq:1}
     PA = \frac{\sum_{i=0}^{K} p_{ij}}{\sum_{i=0}^{K} \sum_{j=0}^{K} p_{ij}},
 \end{equation}
-sendo $K$ as classes presentes na imagem, independente se para um plano de fundo ou para primeiro plano, e $p_{ij}$ é o número de pixels preditos como ($i$) pertencentes à classe $j$.
+sendo $K$ o número de classes presentes na imagem, independente se para um plano de fundo ou para primeiro plano, e $p_{ij}$ é o número de pixels preditos como $i$ pertencentes à classe $j$.
 
 Todavia, é relevante citar que essa métrica indicando apenas precisão dos pixels, como o nome sugere, não é adequada para situações que há um desequilíbrio de classes, situação em que determinadas classes dominam a cena e que se faz presente no mundo real.
 
@@ -124,7 +124,7 @@ Todavia, é relevante citar que essa métrica indicando apenas precisão dos pix
 \label{semantic:IoU}
 Já a métrica de intersecção entre a união, do inglês \textit{Intersection over Union} (IoU) ou Jaccard Index, é uma métrica que não passa por problemas de desbalanceamento de classes, além de ser considerada uma das métricas mais comuns para esse tipo de atividade \citep{Minaee2021}.
 
-Sua representação pode ser visualizada a partir da Figura \ref{semantic:fig:1}, além de que pela Equação \ref{semantic:eq:2} é possível entender que o resultado de $IoU$ se dá pela razão entre a intersecção da segmentação predita (A) e \textit{ground truth} (B), e a união entre a segmentação predita e o \textit{ground truth}, ou seja,
+Sua representação pode ser visualizada a partir da Figura \ref{semantic:fig:1}, além de que pela Equação \ref{semantic:eq:2} é possível entender que o resultado de $IoU$ se dá pela razão entre a intersecção das áreas da segmentação predita (A) e \textit{ground truth} (B), e a união entre a segmentação predita e o \textit{ground truth}, ou seja,
 
 \begin{equation}
     \label{semantic:eq:2}
@@ -155,7 +155,7 @@ A Equação \ref{semantic:eq:miou} pode ser utilizada para ilustrar o funcioname
 
 \subsubsection{F1-\textit{Score}}
 \label{semantic:f1}
-Para a definição da métrica F1-\textit{score}, que é extremamente comum na esfera de segmentação de imagens, é necessário ter ciência de antemão que ela é composta pelo uso de outras duas métricas, sendo elas: 1) precisão, que é a divisão de verdadeiros positivos ($VP$) pela soma de verdadeiros positivos ($VP$) e falsos positivos ($FP$); 2) revocação, que é a divisão de verdadeiros positivos ($VP$) pela soma de verdadeiros positivos ($VP$) e falsos negativos ($FN$), como mostrados nas Equações \ref{semantic:eq:3} e \ref{semantic:eq:4}, respectivamente,
+Para a definição da métrica F1-\textit{score}, que é comum na esfera de segmentação de imagens, é necessário ter ciência de antemão que ela é composta pelo uso de outras duas métricas, sendo elas: 1) precisão, que é a divisão de verdadeiros positivos ($VP$) pela soma de verdadeiros positivos ($VP$) e falsos positivos ($FP$); 2) revocação, que é a divisão de verdadeiros positivos ($VP$) pela soma de verdadeiros positivos ($VP$) e falsos negativos ($FN$), como mostrados nas Equações \ref{semantic:eq:3} e \ref{semantic:eq:4}, respectivamente,
 
 \begin{equation}
     \label{semantic:eq:3}
@@ -174,7 +174,7 @@ Assim, para a definição de F1-\textit{score} é utilizada a média harmônica 
     F1-score = \frac{2 \cdot \text{Precisão} \cdot \text{Revocação}}{\text{Precisão} + \text{Revocação}}.
 \end{equation}
 
-Por fim, vale comentar que para situações em que tem-se uma segmentação binária, o valor de F1-\textit{score} é semelhante ao valor do coeficiente Dice, o qual normalmente é utilizado para situações médicas \citep{Minaee2021} e utiliza conceitos de intersecção assim como a métrica de IoU (Seção \ref{semantic:IoU}), visto que quando não está assimilado a situações binárias, pode ser representado pela Equação \ref{semantic:eq:6} ou pela Figura \ref{semantic:fig:2}:
+Por fim, vale comentar que para situações em que tem-se uma segmentação binária. O valor de F1-\textit{score} é semelhante ao valor do coeficiente Dice, o qual normalmente é utilizado para situações médicas \citep{Minaee2021} e utiliza conceitos de intersecção assim como a métrica de IoU (Seção \ref{semantic:IoU}), visto que quando não está assimilado a situações binárias, pode ser representado pela Equação \ref{semantic:eq:6} ou pela Figura \ref{semantic:fig:2}:
 
 \begin{equation}
     \label{semantic:eq:6}
@@ -192,7 +192,7 @@ Por fim, vale comentar que para situações em que tem-se uma segmentação bin�
 
 \subsection{Considerações Finais do Capítulo}
 \label{semantic:conclusion}
-Em conclusão sobre as segmentações semânticas, é notável o avanço significativo em comparação com tarefas de detecção de objetos, como destacado em \cite{Vaillant1994}. Esses novos modelos de segmentação permitem o trabalho com um volume maior de dados em cenas complexas, como abordado neste capítulo (Capítulo \ref{semantic}).
+Em conclusão sobre as segmentações semânticas, é notável o avanço significativo em comparação com tarefas de detecção de objetos, como destacado em \cite{Vaillant1994}. Esses novos modelos de segmentação permitem o trabalho com um volume maior de dados em cenas complexas, como abordado neste capítulo.
 
 No entanto, é importante ressaltar que essas redes enfrentam dificuldades quando o problema requer a separação de objetos da mesma classe, mas distintos e sobrepostos, resultando na ausência de uma segmentação individualizada \citep{Kirillov2019a}. Isso fica evidente na Figura \ref{semantic:fig:4.1}, onde pessoas próximas estão conectadas, ou em situações que exigem uma segmentação detalhada da cena \citep{Ghosh2019}.
 
@@ -218,4 +218,4 @@ No entanto, é importante ressaltar que essas redes enfrentam dificuldades quand
     Fonte: \cite{Fischer2017}.
 \end{figure}
 
-Por fim, é relevante salientar que os modelos de segmentação semântica não são recomendados para sistemas que necessitam de segmentações em tempo real, especialmente quando operando com câmeras capturando menos de 25 quadros por segundo, devido ao seu desempenho computacional, conforme observado por \cite{Minaee2021}.
+Por fim, é importante ressaltar que os modelos de segmentação semântica podem não ser ideais para sistemas que requerem segmentações em tempo real, especialmente ao operar com câmeras que capturam menos de 25 quadros por segundo. Isso se deve ao seu custo computacional elevado, o qual pode dificultar a obtenção de resultados em tempo hábil para aplicações em tempo real. Essa limitação foi identificada e discutida por \cite{Minaee2021}. Além disso, é fundamental considerar as questões relacionadas ao desempenho das métricas de avaliação do modelo quando se busca preencher essa lacuna de tempo, visando compreender como os modelos se comportam em condições de processamento em tempo real. Essa análise é crucial para determinar a viabilidade e eficácia desses modelos em aplicações práticas que demandam segmentação em tempo real \citep{badrinarayanan2017segnet}.

@@ -6,11 +6,11 @@
 
 Dentre os diversos tipos de redes de aprendizado profundo, as mais amplamente utilizadas atualmente para lidar com visão computacional, processamento de imagens e possuindo um valor notável para o trabalho com dados espaciais \citep{Goodfellow2016, ponti2018funciona, Ghosh2019}, destacam-se as \textit{Convolutional Neural Networks} (CNNs) \citep{LeCun1999}. As CNNs recebem esse nome por empregarem camadas convolucionais, sendo especialmente proeminentes e eficazes nesses contextos.
 
-É inegável que as CNNs são consideradas o estado-da-arte em várias competições \citep{Parkhi2015}, além de serem modelos bioinspirados de sucesso \citep{Goodfellow2016}. Elas são capazes de simular pontos cerebrais responsáveis pela interpretação de impulsos visuais, reproduzindo propriedades do córtex visual. Além disso, essas redes têm a capacidade de extrair diferentes características, utilizando operações de \textit{pooling}, que serão detalhadas na Seção \ref{cnn:pooling}.
+É inegável que as CNNs são consideradas o estado-da-arte em várias competições \citep{Parkhi2015}, além de serem modelos bioinspirados de sucesso \citep{Goodfellow2016}. Elas são capazes de simular pontos cerebrais responsáveis pela interpretação de impulsos visuais, reproduzindo propriedades do córtex visual. Além disso, essas redes têm a capacidade de extrair diferentes características, utilizando a combinação das camadas de convolução (Seção \ref{cnn:conv}) juntamente com operações de \textit{pooling} que tem o papel de compressão e serão detalhadas na Seção \ref{cnn:pooling}.
 
 Entre a vasta gama de arquiteturas disponíveis para as CNNs, destacam-se algumas das mais influentes: AlexNet \citep{krizhevsky2012imagenet}, VGGNet \citep{Simonyan2015}, ResNet \citep{He2016}, GoogLeNet \citep{Szegedy2015}, MobileNet \citep{Howard2017} e DenseNet \citep{Huang2017}. Essas arquiteturas possuem contribuições significativas e têm sido aplicadas em uma variedade de contextos, cada uma com suas características e aplicações específicas.
 
-Um modelo indicando uma entrada, as camadas convolucionais iniciais e finais, que são utilizadas para extração de atributos, bem como o sistema de \textit{pooling} e a camada de saída (ou camada densa) são representados por meio da Figura \ref{cnn:fig:10}:
+Um modelo indicando uma entrada, as camadas convolucionais iniciais e finais, que são utilizadas para extração de atributos, bem como o sistema de \textit{pooling} e a camada de saída (ou camada densa) são representados por meio da Figura \ref{cnn:fig:10}.
 
 \begin{figure}[H]
     \centering
@@ -27,7 +27,7 @@ Dessa forma, nas seções seguintes, os elementos fundamentais que compõem uma 
 \subsection{Camada Convolucional}
 \label{cnn:conv}
 
-Na arquitetura das CNNs, a modelagem de cada neurônio presente na camada convolucional envolve a aplicação de um filtro na imagem em análise \citep{ponti2018funciona}. Esses filtros são compostos por pesos e a operação de convolução é categorizada como uma operação linear \citep{Goodfellow2016}, resultando nos chamados mapas de características (\textit{feature maps} em inglês).
+Na arquitetura das CNNs, a modelagem de cada neurônio presente na camada convolucional envolve a aplicação de um filtro na imagem em análise \citep{ponti2018funciona}. Esses filtros são compostos por pesos e a operação de convolução é categorizada como uma operação linear \citep{Goodfellow2016}, resultando nos chamados mapas de características (\textit{feature maps}, em inglês).
 
 É fundamental destacar que entre as camadas convolucionais existem $N$ filtros, cujos parâmetros são definidos de acordo com a natureza do problema em questão, utilizando seus resultados para formar tensores, conforme comentado por \cite{ponti2018funciona}.
 
@@ -45,6 +45,24 @@ Essas operações são fundamentais nas CNNs, pois permitem a extração eficien
 \end{figure}
 
 Ainda na Figura \ref{cnn:fig:6}, é possível observar o processo de deslizamento do \textit{kernel} durante a operação de convolução, resultando em um dos valores presentes na saída. Esse processo é repetido até que toda a imagem seja percorrida, de maneira sequencial da esquerda para a direita e de cima para baixo, movimentando-se através das linhas e colunas.
+
+O processo iterativo de aplicação da máscara sobre a imagem pode ser representado matematicamente pela Equação \ref{cnn:eq:conv} \citep{Gonzalez2009}:
+
+\begin{equation}
+    \label{cnn:eq:conv}
+    w(x,y)*f(x,y) = \sum\limits_{s=-a}^a \sum\limits_{t=-b}^b w(s,t)f(x-s,y-t),
+\end{equation}
+onde $x$ e $y$ representam coordenadas espaciais da matriz de entrada, $w(x,y)$ é o valor do \textit{pixel} na posição $(x,y)$ da janela e $f(x,y)$ é o valor do \textit{pixel} na posição $(x,y)$ da matriz de entrada. Além disso, vale citar que $s$ e $t$, representam variáveis de iteração usadas para percorrer a máscara e, $m$ e $n$ representam as dimensões da máscara, utilizadas para definir os limites de iteração nas somas duplas $a$ e $b$, conforme especificado pelas Equações \ref{cnn:eq:row} e \ref{cnn:eq:col} \citep{Gonzalez2009}:
+
+\begin{equation} 
+   \label{cnn:eq:row}
+   a = (m-1)/2,
+\end{equation}
+
+\begin{equation} 
+   \label{cnn:eq:col}
+   b = (n-1)/2.
+\end{equation}
 
 É crucial ressaltar que a convolução é um processo de média móvel, isto é, implica no cálculo da média ponderada de uma janela específica na imagem, correspondente ao tamanho do \textit{kernel} utilizado. Nesse contexto, o \textit{kernel} define os pesos aplicados aos pontos da janela. Consequentemente, à medida que o \textit{kernel} desliza pela imagem, novas janelas são definidas e suas médias ponderadas são computadas.
 
@@ -71,7 +89,9 @@ O funcionamento do \textit{max pooling}, denotado por $f_{\max}(\boldsymbol{X})$
 f_{\max}(\boldsymbol{X})_{i, j, k} = \max_{m, n} X_{i \cdot s_x + m, j \cdot s_{y} + n, k}.
 \end{equation}
 
-Nesta equação, $\boldsymbol{X}$ representa o valor de entrada, $(i, j)$ são os índices do valor de saída e $k$ é a quantidade de canais (ou camadas) associadas ao valor de entrada. Além disso, $s_{x}$ e $s_{y}$ representam os tamanhos de deslocamento (ou \textit{stride}) horizontal e vertical, respectivamente. O resultado da operação de \textit{max pooling} é obtido utilizando um \textit{kernel} como ilustrado na Figura \ref{cnn:fig:7}, onde a técnica captura apenas os maiores valores do mapa de características.
+Nesta equação, $\boldsymbol{X}$ representa o valor de entrada, $(i, j)$ são os índices do valor de saída e $k$ é a quantidade de canais (ou camadas) associadas ao valor de entrada. Além disso, $s_{x}$ e $s_{y}$ representam os tamanhos de deslocamento (ou \textit{stride}) horizontal e vertical, respectivamente. Finalmente, $m$ e $n$ representam as posições dentro da janela de \textit{pooling} ao longo das dimensões horizontal e vertical, respectivamente, sendo que essas variáveis variam de acordo com o tamanho da janela de pooling e o passo (\textit{stride}) ao percorrer a matriz de entrada para realizar a operação de \textit{max pooling}.
+
+O resultado da operação de \textit{max pooling} é obtido utilizando um \textit{kernel} como ilustrado na Figura \ref{cnn:fig:7}, onde a técnica captura apenas os maiores valores do mapa de características.
 
 \begin{figure}[H]
     \centering
@@ -84,7 +104,7 @@ Nesta equação, $\boldsymbol{X}$ representa o valor de entrada, $(i, j)$ são o
 
 É relevante destacar que a aplicação da técnica de \textit{max pooling} adiciona uma leve invariância por translação ao processo. No entanto, de modo geral, isso não afeta de maneira significativa os valores de saída da camada de \textit{pooling} \citep{Boureau2010ARecognition}.
 
-A técnica de \textit{max pooling} é conhecida por preservar características importantes da entrada, ao mesmo tempo em que reduz a dimensionalidade dos mapas de características, tornando-os mais computacionalmente eficientes e facilitando a detecção de padrões por camadas subsequentes da rede neural convolucional. Todavia, essa técnica não se demonstra adequada quando se trata da preservação de espacialidade da entradas \citep{Liu2019Multi-LevelNetworks}.
+A técnica de \textit{max pooling} é conhecida por preservar características importantes da entrada, ao mesmo tempo em que reduz a dimensionalidade dos mapas de características, tornando-os mais computacionalmente eficientes e facilitando a detecção de padrões por camadas subsequentes da rede neural convolucional. Todavia, essa técnica não se demonstra adequada quando se trata da preservação de informação da entradas \citep{Liu2019Multi-LevelNetworks}.
 
 \subsubsection{\textit{Average Pooling}}
 \label{cnn:pooling:avg_pooling}
@@ -95,7 +115,7 @@ A técnica de \textit{average pooling}, semelhante à técnica de \textit{max po
     f_{avg}(\boldsymbol{X})_{i, j, k} = \frac{1}{f{x} \cdot f_{y}} \sum_{m, n} X_{i \cdot s_x + m, j \cdot s_{y} + n, k}.
 \end{equation}
 
-Nesta equação, $\boldsymbol{X}$ representa o valor de entrada, $(i, j)$ são os índices do valor de saída e $k$ é o número de camadas. Os parâmetros $s_x$ e $s_y$ representam os valores de \textit{stride} vertical e horizontal, respectivamente, enquanto os tamanhos dos filtros $f_x$ e $f_y$ determinam a janela de \textit{pooling}, centrada nos índices de saída $(i,j)$. Uma representação visual dessa fórmula é ilustrada na Figura \ref{cnn:fig:avg_pooling}.
+Nesta equação, $\boldsymbol{X}$ representa o valor de entrada, $(i, j)$ são os índices do valor de saída e $k$ é o número de camadas. Os parâmetros $s_x$ e $s_y$ representam os valores de \textit{stride} vertical e horizontal, respectivamente, enquanto os tamanhos dos filtros $f_x$ e $f_y$ determinam a janela de \textit{pooling}, centrada nos índices de saída $(i,j)$, tendo $m$ e $n$ referentes às posições locais dentro da janela de \textit{pooling}, assim como na Equação \ref{cnn:eq:pooling:max_pooling}. Uma representação visual dessa fórmula é ilustrada na Figura \ref{cnn:fig:avg_pooling}.
 
 \begin{figure}[H]
     \centering
@@ -125,20 +145,20 @@ Neste caso, percebe-se que essa técnica é uma variação do \textit{Average Po
 
 \begin{equation}
     \label{cnn:eq:pooling:gavg_pooling}
-    f_{\text{global avg}}(\boldsymbol{X})_{k} = f_{avg}(\boldsymbol{X}:,:,k),
+    f_{\text{global avg}}(\boldsymbol{X})_{k} = \frac{1}{mn}\sum^{m}_{i=1}\sum^{n}_{j=1}\boldsymbol{X}_{i,j,k},
 \end{equation}
-onde $k$ representa o índice das camadas e $\boldsymbol{X}$ denota o valor de entrada.
+onde $k$ representa o índice das camadas, $\boldsymbol{X}$ denota o valor de entrada, $m$ é o tamanho do eixo $x$ e $n$ é o tamanho do eixo $y$ do mapa de características.
 
 É importante ressaltar que o \textit{Global Average Pooling} também pode ser empregado como uma operação para substituir as camadas totalmente conectadas (em inglês, \textit{fully connected layers}) em CNNs. Nessa abordagem, o método utiliza a média de cada mapa de características para alimentar uma camada de saída com Softmax, que será discutida na Seção \ref{cnn:output}, como foi realizado no trabalho de \cite{Kumar2021Multi-classPooling}.
 
 \subsubsection{\textit{Global Max Pooling}}
 \label{cnn:pooling:global_max_pooling}
 
-O método de \textit{Global Max Pooling} possui semelhanças em comparação com os métodos de \textit{Max Pooling} e \textit{Global Average Pooling}. Este método aplica a função de maximização ao longo de todo o mapa de características de cada camada dos valores de entrada, como pode ser visualizado na Equação \ref{cnn:eq:pooling:gmax_pooling}.
+O método de \textit{Global Max Pooling} possui semelhanças em comparação com os métodos de \textit{Max Pooling} e \textit{Global Average Pooling}. Este método aplica a função de maximização ao longo de todo o mapa de características de cada camada dos valores de entrada, como pode ser visualizado na Equação \ref{cnn:eq:pooling:gmax_pooling}:
 
 \begin{equation}
     \label{cnn:eq:pooling:gmax_pooling}
-    f_{\text{global max}}(\boldsymbol{X})_{k} = f_{max}(\boldsymbol{X}:,:,k),
+    f_{\text{global max}}(\boldsymbol{X})_{k} = \max_{i,j}\boldsymbol{X}_{i,j,k},
 \end{equation}
 onde $k$ representa o índice das camadas e $\boldsymbol{X}$ denota o valor de entrada. Essa representação também pode ser exemplificada por meio da Figura \ref{cnn:fig:gmax_pooling}.
 
@@ -155,7 +175,7 @@ Entretanto, é crucial ressaltar que os métodos convencionais não preservam in
 
 \subsubsection{\textit{Atrous Spatial Pyramid Pooling}(ASPP)}
 \label{cnn:pooling:aspp}
-Além da proposta de preservação de escala, embora ainda sem manter a espacialidade, foi introduzido o método \textit{Atrous Spatial Pyramid Pooling} (ASPP) por \cite{Chen2018}. Este tipo de operação de \textit{pooling} está intrinsecamente ligado às segmentações semânticas \citep{Mohan2020} (que serão discutidas na Seção \ref{semantic}). A principal vantagem desse algoritmo é a capacidade de capturar objetos e contexto relevantes da imagem em várias escalas distintas. Essa funcionalidade está associada à re-amostragem utilizando convoluções com diferentes taxas de dilatação para cada \textit{kernel}, permitindo explorar um mapa de características com múltiplos campos de visão antes mesmo do processo de convolução \citep{Chen2018}. Um exemplo desse módulo pode ser visualizado na Figura \ref{cnn:fig:aspp}.
+Além da proposta de preservação de escala, embora ainda sem manter a espacialidade, foi introduzido o método \textit{Atrous Spatial Pyramid Pooling} (ASPP) por \cite{Chen2018}. Este tipo de operação de \textit{pooling} está intrinsecamente ligado às segmentações semânticas \citep{Mohan2020} (que serão discutidas no Capítulo \ref{semantic}). A principal vantagem desse algoritmo é a capacidade de capturar objetos e contexto relevantes da imagem em várias escalas distintas. Essa funcionalidade está associada à reamostragem utilizando convoluções com diferentes taxas de dilatação para cada \textit{kernel}, permitindo explorar um mapa de características com múltiplos campos de visão antes mesmo do processo de convolução \citep{Chen2018}. Um exemplo desse módulo pode ser visualizado na Figura \ref{cnn:fig:aspp}.
 
 \begin{figure}[H]
     \centering
@@ -177,7 +197,7 @@ onde $r$ representa uma taxa de dilatação que determina as \textit{strides} pa
 \subsection{\textit{Dropout}}
 \label{cnn:dropout}
 
-Dentre as estratégias para mitigar o \textit{overfitting} ,citado na Seção \ref{deep:overunder}, destaca-se a técnica de \textit{dropout} \citep{Goodfellow2016}. Esta técnica, embora não seja aplicada durante a fase de testes, consiste no desligamento aleatório de neurônios em camadas ocultas de uma rede CNN. O propósito do \textit{dropout} é reduzir o viés dos neurônios e aumentar a importância dos neurônios restantes.
+Dentre as estratégias para mitigar o \textit{overfitting}, citado na Seção \ref{deep:overunder}, destaca-se a técnica de \textit{dropout} \citep{Goodfellow2016}. Esta técnica, embora não seja aplicada durante a fase de testes, consiste no desligamento aleatório de neurônios em camadas ocultas de uma rede CNN. O propósito do \textit{dropout} é reduzir o viés dos neurônios e aumentar a importância dos neurônios restantes.
 
 O processo de \textit{dropout} é ilustrado na Figura \ref{cnn:fig:9}, mostrando apenas as conexões entre os neurônios restantes, no lado direito da Figura \ref{cnn:fig:9}.
 
@@ -194,7 +214,7 @@ A técnica de \textit{dropout} é uma estratégia eficaz para regularização em
 
 \subsection{Camada de Saída}
 \label{cnn:output}
-Após a composição de várias camadas de convolução, utilizando filtros, e a aplicação de camadas de \textit{pooling}, os modelos de CNN geralmente incluem uma camada de saída, também conhecida como camada densa. Esta camada é fundamental para a determinação das classes identificadas na imagem. Vale destacar que essa camada não tem um impacto significativo no desempenho em relação ao tempo de convergência do modelo, nem interfere no progresso e evolução do processo de treinamento, sendo que o processo de inferência é muito similar ao usado pelas CNNs na Seção \ref{cnn}.
+Após a composição de várias camadas de convolução, utilizando filtros, e a aplicação de camadas de \textit{pooling}, os modelos de CNN geralmente incluem uma camada de saída. Esta camada é fundamental para a determinação das classes identificadas na imagem. Vale destacar que essa camada não tem um impacto significativo no desempenho em relação ao tempo de convergência do modelo, nem interfere no progresso e evolução do processo de treinamento, sendo que o processo de inferência é muito similar ao usado pelas redes neurais no Capitulo \ref{deep}.
 
 Por fim, para gerar a saída final, é comum utilizar funções de ativação como a Softmax (abordada na Seção \ref{deep:soft}). A aplicação da Softmax permite a identificação da classe de um objeto específico em uma imagem, por exemplo. Essa função de ativação é utilizada para a tarefa de classificação, fornecendo as probabilidades de pertencimento a cada classe no conjunto de dados.
 
@@ -203,7 +223,7 @@ Por fim, para gerar a saída final, é comum utilizar funções de ativação co
 
 A transferência de aprendizado é uma técnica valiosa no campo da aprendizagem profunda, que sustenta a ideia de usar conhecimento adquirido ao resolver um problema para ajudar a resolver um problema diferente, mas relacionado. Particularmente na aprendizagem profunda, a transferência de aprendizado tem se mostrado benéfica, especialmente, quando se lida com conjuntos de dados com limitações \citep{Pan2010}.
 
-A mais comum estratégia de aplicação da transferência de aprendizado em CNNs é o uso de modelos pré-treinados, onde uma rede treinada em uma tarefa grande e bem definida, como a classificação de imagens em ImageNet \citep{Deng2009ImageNet:Database}, é reutilizada em outra tarefa específica. Isso é feito substituindo as últimas camadas do modelo pré-treinado para se ajustar à tarefa específica e treinando o modelo para ajustar esses novos parâmetros \citep{Yosinski2014HowNetworks}. Com essa mudança, as camadas ou pesos reaproveitados veêm inicialmente de modo \quotes{congelado}, de modo que não há atualização dos erros dessa camada no processo de retro-propagação.
+A mais comum estratégia de aplicação da transferência de aprendizado em CNNs é o uso de modelos pré-treinados, onde uma rede treinada em uma tarefa grande e bem definida, como a classificação de imagens em ImageNet \citep{Deng2009ImageNet:Database}, é reutilizada em outra tarefa específica. Isso é feito substituindo as últimas camadas do modelo pré-treinado para se ajustar à tarefa específica e treinando o modelo para ajustar esses novos parâmetros \citep{Yosinski2014HowNetworks}. Com essa mudança, as camadas ou pesos reaproveitados veêm inicialmente de modo \quotes{congelado}, de modo que não há atualização dos erros dessa camada no processo de retropropagação.
 
 Essa abordagem é altamente eficaz, uma vez que durante a fase inicial do treinamento, conhecida como \textit{warmup}, os modelos aprendem características de baixo nível nas camadas iniciais e gradualmente capturam características mais abstratas nas camadas posteriores. A premissa é que as camadas iniciais do modelo extraem recursos genéricos, como bordas e texturas, que são fundamentais para uma ampla variedade de tarefas, enquanto as camadas finais são mais especializadas na tarefa específica para a qual o modelo foi originalmente treinado \citep{Yosinski2014HowNetworks}.
 
@@ -283,10 +303,10 @@ A VGG foi pioneira em demonstrar a utilidade de filtros convolutivos pequenos \c
 
 No entanto, a VGG também tem suas limitações. Devido à sua arquitetura profunda, a VGG demanda alto poder computacional e detém grande uso de memória. Além disso, a ausência de camadas totalmente conectadas reduziu a capacidade de modelar dependências de alto nível entre os recursos \citep{Simonyan2015}.
 
-Apesar dessas limitações, a VGG continua sendo amplamente usada na comunidade de aprendizado profundo, principalmente como ponto de partida para a transferência de aprendizado, onde os pesos pré-treinados da VGG são usados como inicialização de outras tarefas de aprendizado. Além disso, a VGG forneceu um ponto de partida sólido para o desenvolvimento de arquiteturas mais profundas e eficientes, como a ResNet \citep{He2016}. Ao introduzir a ideia de \quotes{profundidade} nas redes neurais convolutivas, a VGG marcou um passo importante na evolução das redes de aprendizado profundo.
+Apesar dessas limitações, a VGG continua sendo amplamente usada na comunidade de aprendizado profundo, principalmente como ponto de partida para a transferência de aprendizado, onde os pesos pré-treinados da VGG são usados como inicialização de outras tarefas de aprendizado. Além disso, a VGG forneceu um ponto de partida sólido para o desenvolvimento de arquiteturas mais profundas e eficientes, como a ResNet \citep{He2016}. Ao introduzir a ideia de profundidade nas redes neurais convolutivas, a VGG marcou um passo importante na evolução das redes de aprendizado profundo.
 
 \subsection{Considerações Finais do Capítulo}
 \label{cnn:conclusion}
-Neste capítulo, é evidenciada a importância das CNNs na abordagem de problemas espaciais, especialmente no domínio de imagens. São abordados detalhes sobre como as características são extraídas por meio de filtros e camadas convolucionais (Seção \ref{cnn:conv}), além da forma como as técnicas de \textit{pooling} (Seção \ref{cnn:pooling}) são empregadas para reduzir a dimensionalidade dos dados gerados pelas convoluções. Também se destaca a relevância das camadas de saída (Seção \ref{cnn:output}) na definição das classes presentes na imagem, assim como a aplicação de \textit{dropout} (Seção \ref{cnn:dropout}) para mitigar problemas de \textit{overfitting} (Seção \ref{deep:overunder}), formando assim, arquiteturas profundas, como é o caso das VGGs (Seção \ref{cnn:vgg}).
+Neste capítulo é evidenciada a importância das CNNs na abordagem de problemas espaciais, especialmente no domínio de imagens. Foram abordados detalhes sobre como as características são extraídas por meio de filtros e camadas convolucionais (Seção \ref{cnn:conv}), além da forma como as técnicas de \textit{pooling} (Seção \ref{cnn:pooling}) são empregadas para reduzir a dimensionalidade dos dados gerados pelas convoluções. Também se destaca a relevância das camadas de saída (Seção \ref{cnn:output}) na definição das classes presentes na imagem, assim como a aplicação de \textit{dropout} (Seção \ref{cnn:dropout}) para mitigar problemas de \textit{overfitting} (Seção \ref{deep:overunder}), formando assim, arquiteturas profundas, como é o caso das VGGs (Seção \ref{cnn:vgg}).
 
 No entanto, o próximo capítulo se concentrará na segmentação de imagens, uma tarefa mais específica que não requer necessariamente o uso de redes profundas. Muitos métodos podem ser explorados de forma mais artesanal e menos complexa, como será discutido na Seção \ref{segment:segment}.

@@ -84,7 +84,7 @@ Além disso, vale citar que um diferencial dos modelos de \textit{deep learning}
 
 Destarte, o uso e desenvolvimento de \textit{deep learning} tem se popularizado e sido considerado a resposta para problemas de diversas áreas, como segmentações em vários contextos, desenvolvimentos de carros autônomos, segurança, otimização de modelos de busca e afins \citep{Ghosh2019}, sendo que essa popularização é propícia devido: 1) ao desenvolvimento acelerado de \textit{hardwares} que acrescentam velocidade no treinamento dessas redes e 2) ao grande aumento de dados variados (com adventos como o \textit{big data}) \citep{Szegedy2015, ponti2018funciona}.
 
-Por conseguinte, nas demais seções deste capítulo serão apresentadas algumas variações de funções de ativação (Seção \ref{deep:activation}), sobre o processo de treinamento (Seção \ref{deep:train}) e de testes (Seção \ref{deep:test}), bem como algumas peculiaridades que são utilizadas para facilitar o trabalho com dados de grande dimensionalidades com a extração de características (Seção \ref{deep:feature_extraction}).
+Por conseguinte, nas demais seções deste capítulo serão apresentadas algumas variações de funções de ativação (Seção \ref{deep:activation}), sobre o processo de treinamento (Seção \ref{deep:train}) e de testes (Seção \ref{deep:test}).
 
 
 \subsection{Funções de Ativação}
@@ -244,7 +244,7 @@ Para abordar essa questão, diversos estudos têm sido realizados com o intuito 
 
 A aplicação da Parada Antecipada implica calcular a precisão da classificação nos dados de validação ao final de cada época \citep{Prechelt1998AutomaticCriteria}. Quando a precisão para de melhorar, encerramos o treinamento. Isso simplifica a definição do número de épocas, pois não é necessário explicitamente determinar como ele depende de outros hiperparâmetros - essa adaptação é feita automaticamente. Ademais, a Parada Antecipada atua como um mecanismo automático de prevenção ao \textit{overfitting}. Embora, em estágios iniciais de experimentação, possa ser útil desativar temporariamente a Parada Antecipada para identificar sinais de \textit{overfitting} e, assim, ajustar a abordagem de regularização.
 
-A implementação efetiva da parada antecipada exige uma definição mais precisa do que significa "parar de melhorar" em termos de precisão da classificação. Como observado anteriormente, a precisão pode oscilar mesmo durante uma tendência geral de melhora. Parar imediatamente quando há uma diminuição na precisão pode interromper o processo quando melhorias adicionais ainda são possíveis \citep{Prechelt1998EarlyWhen}. Uma regra mais sensata para a parada antecipada $n(i)$ no treinamento é se a melhor precisão de classificação não melhorar por um determinado número de épocas consecutivas $j$ a partir da época de melhor acurácia $n_{Acc}$, como representado pela Equação \ref{deep:eq:early_stopping} e também pela Figura \ref{deep:fig:earlystopping}:
+A implementação efetiva da parada antecipada exige uma definição mais precisa do que significa \quotes{parar de melhorar} em termos de precisão da classificação. Como observado anteriormente, a precisão pode oscilar mesmo durante uma tendência geral de melhora. Parar imediatamente quando há uma diminuição na precisão pode interromper o processo quando melhorias adicionais ainda são possíveis \citep{Prechelt1998EarlyWhen}. Uma regra mais sensata para a parada antecipada $n(i)$ no treinamento é se a melhor precisão de classificação não melhorar por um determinado número de épocas consecutivas $j$ a partir da época de melhor acurácia $n_{Acc}$, como representado pela Equação \ref{deep:eq:early_stopping} e também pela Figura \ref{deep:fig:earlystopping}:
 
 \begin{equation}
     \label{deep:eq:early_stopping}
@@ -319,7 +319,7 @@ Por fim, vale mencionar que propostas de decaimento da taxa de aprendizado, como
 \paragraph{Adam}
 \label{deep:optimization:adam}
 
-O algoritmo Adaptive Moment Estimation, conhecido como Adam, foi proposto por \cite{Kingma2014Adam:Optimizationb} com o objetivo de otimizar adaptativamente a taxa de aprendizado, integrando conceitos dos algoritmos RMSProp \citep{Hinton2012NeuralDescent} e Momentum \citep{Polyak1964SomeMethods}. A atualização dos parâmetros ocorre por meio do controle da média móvel exponencialmente ponderada de cada algoritmo mencionado, utilizando os parâmetros $\rho_{1}$ e $\rho_{2}$ em cada iteração para calcular a estimativa de primeira ordem $\boldsymbol{s}$, conforme a Equação \ref{deep:eq:adam_1} \citep{Goodfellow2016}:
+O algoritmo \textit{Adaptive Moment Estimation}, conhecido como Adam, foi proposto por \cite{Kingma2014Adam:Optimizationb} com o objetivo de otimizar adaptativamente a taxa de aprendizado, integrando conceitos dos algoritmos RMSProp \citep{Hinton2012NeuralDescent} e Momentum \citep{Polyak1964SomeMethods}. A atualização dos parâmetros ocorre por meio do controle da média móvel exponencialmente ponderada de cada algoritmo mencionado, utilizando os parâmetros $\rho_{1}$ e $\rho_{2}$ em cada iteração para calcular a estimativa de primeira ordem $\boldsymbol{s}$, conforme a Equação \ref{deep:eq:adam_1} \citep{Goodfellow2016}:
 
 \begin{equation}
     \label{deep:eq:adam_1}
@@ -353,11 +353,11 @@ Dessa forma, ao empregar o algoritmo Adam na otimização dos parâmetros, podem
 onde $\delta$ denota uma constante para estabilizar a divisão.
 
 
-\subsubsection{Retro-propagação}
+\subsubsection{Retropropagação}
 \label{deep:backprop}
 
 \begin{sloppypar}
-Por meio do desenvolvimento de \cite{rumelhart1986learning}, o algoritmo de retro-propagação (ou em inglês, \textit{Backpropagation}) foi capaz de contribuir diretamente no desenvolvimento dos modelos de redes neurais profundas, de modo que esse algoritmo conseguiu realizar o reajuste de pesos em camadas ocultas dos modelos. Com o auxílio de uma função de custo (Seção
+Por meio do desenvolvimento de \cite{rumelhart1986learning}, o algoritmo de retropropagação (ou em inglês, \textit{Backpropagation}) foi capaz de contribuir diretamente no desenvolvimento dos modelos de redes neurais profundas, de modo que esse algoritmo conseguiu realizar o reajuste de pesos em camadas ocultas dos modelos. Com o auxílio de uma função de custo (Seção
 \ref{deep:cust}), o erro é calculado na saída da rede $(y)$ e há a propagação do mesmo, iniciando da camada de saída em direção para a camada de entrada. Isso é realizado através do trabalho conjunto do algoritmo \textit{backpropagation} e de um algoritmo de otimização (Seção \ref{deep:optimization}), em que o \textit{backpropagation} realiza um cálculo rápido de gradientes utilizados pelos algoritmos de otimização.
 \end{sloppypar}
 
@@ -365,7 +365,7 @@ Dessa forma, a explicação dessa seção se resume em processos em que, dado o 
 
 \begin{equation}
     \label{deep:eq:11}
-    \frac{\partial E}{\partial x_j} = \frac{\partial E}{\partial y_j} . \frac{\partial g y_j}{\partial g x_j}.
+    \frac{\partial E}{\partial x_j} = \frac{\partial E}{\partial y_j} . \frac{g y_j}{g x_j}.
 \end{equation}
 
 A partir da expressão $\frac{\partial E}{\partial x_j}$ é possível visualizar que o erro será afetado na saída ($y$) a medida que a entrada ($x$) for alterada, segundo comentado por \cite{rumelhart1986learning}, que também exemplifica essa função na Equação \ref{deep:eq:12}, ao considerar a entrada como função linear, as conexões do neurônio $i$, assim como os pesos dos neurônios $i$ e $j$:
@@ -412,18 +412,13 @@ Quando se trata na divisão entre os \textit{datasets} de treino e teste, habitu
 
 Dessa forma, a validação cruzada (Seção \ref{deep:cross}), do inglês, \textit{cross validation}, trabalha com o principio de divisão entre os \textit{datasets} de treino e teste em subconjuntos que compõem o conjunto de dados original, realizando o cálculos a partir de escolhas de amostras no decorrer das interações. Dentre as técnicas mais conhecidas de \textit{cross validation} para a divisão dos conjuntos de dados, destacam-se os métodos \textit{k-fold} e \textit{leave-one-out}, sendo que preservam o princípio de dividir aleatoriamente o conjunto de dados original em um subconjunto de treinamento e de teste, tendo a premissa de auxiliar a avaliação do algoritimo em relação à sua capacidade de generalização.
 
-Dessa forma, o erro ($\varepsilon$) é computado do teste ($T$) pela média dos erros sobre interações ($\varepsilon_i$) em relação à quantidade de interações($N$), conforme a Equação \ref{deep:eq:15}:
+Dessa forma, o erro ($\varepsilon$) é computado no teste ($T$) pela média dos erros individuais ($\varepsilon_i$) em relação ao número de interações ($N$), como demonstrado na Equação \ref{deep:eq:15}:
 
 \begin{equation}
     \label{deep:eq:15}
-    \varepsilon_T = \frac{1}{N} \sum_{i=1}^{N} \varepsilon_i,
+    \varepsilon_T = \frac{1}{N} \sum_{i=1}^{N} \varepsilon_i.
 \end{equation}
-ou por meio da Equação \ref{deep:eq:16}, quando se refere ao \textit{k-fold cross validation}, ao calcular os testes de erro com base na média dos erros de teste na enésima iteração ($\varepsilon_{Ti}$) em relação a quantidade de \textit{folds} ($k$):
 
-\begin{equation}
-    \label{deep:eq:16}
-    \varepsilon_T = \frac{1}{k} \sum_{i=1}^{N} \varepsilon_{Ti}.
-\end{equation}
 
 \subsubsection{\textit{Overfitting} e \textit{Underfitting}}
 \label{deep:overunder}
@@ -464,72 +459,7 @@ Alerta-se que em situações em que a função de custo de treinamento continua 
 
 Sendo assim, \textit{underfitting} e \textit{overfitting}, quando presentes, devem ser corrigidos, embora os ajustes dos métodos à complexidade da situação ainda sejam feitos a partir de tentativa e erro e com o auxílio de gráficos \citep{Goodfellow2016}.
 
-\subsection{Extração de Características}
-\label{deep:feature_extraction}
-
-Lidar com grandes conjuntos de dados nas redes neurais profundas é um desafio, pois a análise desses dados pode ser pesada devido à sua densidade ou à dimensionalidade elevada \citep{Liang2017TextReview}. Essa questão demanda um hardware robusto, pois quanto maior a quantidade e a dimensionalidade dos dados, maior é a exigência de poder computacional \citep{Benyahia2022Multi-featuresClassification}. A abordagem de extração de características é especialmente comum em ambientes de aprendizado baseado em texto, conforme discutido por \cite{Liang2017TextReview}, e se estende ao uso de convoluções em CNNs, como será abordado na Seção \ref{cnn:conv}.
-
-Portanto, a extração de características surge como uma estratégia crucial para a redução da dimensionalidade, onde um conjunto inicial de dados brutos é transformado em grupos mais gerenciáveis para processamento \citep{Benyahia2022Multi-featuresClassification}. Esse processo frequentemente envolve a combinação ou seleção de variáveis, resultando em uma significativa redução na quantidade de dados a serem processados. Além disso, essas características ainda preservam a representatividade do conjunto original, sendo capazes de reduzir redundâncias para análises específicas.
-
-Um exemplo de algoritmo capaz de agregar essas vantagens ao processo extração de características é o \textit{Principal Component Analysis}, que será explorado a seguir (\ref{deep:feature_extraction:pca}). 
-
-
-\subsubsection{\textit{Principal Component Analysis} (PCA)}
-\label{deep:feature_extraction:pca}
-O \textit{Principal Component Analysis} (PCA) foi desenvolvido por \cite{Wold1987PrincipalAnalysis} como uma técnica estatística de transformações ortogonais que almeja transformar um conjunto de variáveis correlacionadas em um conjunto linearmente de variáveis não correlacionadas, extraindo de um conjunto de dados as características essenciais \citep{Wold1987PrincipalAnalysis} e obtendo como resultado, um conjunto de dados menor, mas sem perdas em relação ao conjunto original.
-
-O funcionamento do algoritmo de PCA para a extração de características pode ser resumido pelo passo-a-passo a seguir \citep{Song2010FeatureAnalysis}:
-
-\begin{enumerate}
-    \item Padronização dos dados, com a subtração da média $\mu$ de todas as dimensões em relação ao valor de entrada inicial $\boldsymbol{z}$, dividido pelo desvio padrão $\sigma$, como descrito na Equação \ref{deep:eq:pca_1}:
-
-    \begin{equation}
-        \label{deep:eq:pca_1}
-        z = \frac{\boldsymbol{x} - \mu}{\sigma};
-    \end{equation}
-
-    \item Cálculo da matriz de covariância, com o uso de  $X$ representando a primeira dimensão da entrada e $Y$ a segunda, como descrito na Equação \ref{deep:eq:pca_2}: 
-
-    \begin{equation}
-        \label{deep:eq:pca_2}
-        \boldsymbol{A} = cov(X, Y) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{x}) (Y_i - \bar{y});
-    \end{equation}
-
-    \item Cálculo dos autovetores e autovalores correspondentes. Para a realização desse passo, o calculo dos autovetores em relação à matriz de covariância $\boldsymbol{A}$ pode ser representado pela Equação \ref{deep:eq:pca_3}:
-
-    \begin{equation}
-        \label{deep:eq:pca_3}
-        A\overrightarrow{v} = \lambda\overrightarrow{v},
-    \end{equation}
-    em que $\lambda$ representa um valor escalar denominado autovalor. O que significa que a transformação linear é definida por $\lambda$ e a equação pode ser transcrita pela Equação \ref{deep:eq:pca_4}:
-
-        \begin{equation}
-        \label{deep:eq:pca_4}
-        A\overrightarrow{v} - \lambda\overrightarrow{v} = 0
-        \Rightarrow \overrightarrow{v}(\boldsymbol{A} - \lambda I) = 0,
-    \end{equation}
-    tendo $I$ como uma matriz identidade.
-
-    \item Escolha de $k$ autovetores com maiores autovalores, após realizar uma organização decrescente de autovalores, como demonstra a Equação \ref{deep:eq:pca_5}:
-
-    \begin{equation}
-        \label{deep:eq:pca_5}
-        \boldsymbol{W}_k = \begin{bmatrix} \overrightarrow{v}_1 & \overrightarrow{v}_2 & \cdots & \overrightarrow{v}_k \end{bmatrix}.
-    \end{equation}
-
-    Nessa equação, $\boldsymbol{W}_k$ representa a matriz formada pelos $k$ autovetores correspondentes aos maiores autovalores selecionados após a organização decrescente dos autovalores. Cada autovetor $\overrightarrow{v}_i$ faz parte da matriz $\boldsymbol{W}_k$ e compõe as novas dimensões do conjunto de dados transformado, onde $k$ é o número desejado de dimensões para o novo conjunto de dados após a aplicação do PCA.
-
-    
-\end{enumerate}
-
-Além disso, é importante mencionar que o PCA também pode ser obtido através do método de Decomposição em Valores Singulares (\textit{Singular Value Decomposition} - SVD) \citep{Stewart2006OnDecomposition}, o qual é utilizado para extrair os componentes principais do conjunto de dados de entrada.
-
-Entre as vantagens do algoritmo PCA, destaca-se a eliminação das correlações entre as características, garantindo a independência entre os componentes principais e evitando viés em relação a características específicas. Além disso, o algoritmo melhora o desempenho e reduz o custo computacional ao diminuir as dimensões dos dados, especialmente útil ao lidar com conjuntos de dados de alta dimensionalidade. Finalmente, o PCA ajuda a reduzir problemas de superajustamento ao diminuir o número de características, mitigando os riscos associados a ter muitas variáveis e, frequentemente, facilita a visualização dos dados ao transformar dados de alta dimensão em uma forma de dimensão mais baixa e mais gerenciável, simplificando a compreensão dos dados.
-
-No entanto, o PCA também apresenta desvantagens, como o fato de tornar os componentes gerados menos interpretáveis do que os dados originais, uma vez que os componentes principais gerados são combinações das características originais. Além disso, o PCA requer a padronização dos dados antes da implementação; sem isso, o algoritmo pode falhar em determinar os componentes principais ideais. Finalmente, embora o PCA busque capturar a máxima variância entre as características, uma seleção inadequada dos componentes principais pode resultar na perda de alguma informação em comparação com o conjunto original de características.
-
-
 \subsection{Considerações Finais do Capítulo}
 \label{deep:conclusion}
 
-Na Seção \ref{deep}, abordamos desde a concepção inicial das redes neurais profundas, apresentando as ideias propostas por \cite{mcculloch1943logical}, até detalhes das arquiteturas das \textit{deep learnings}. No entanto, é importante ressaltar que, após o surgimento das \textit{deep learnings}, algumas redes foram direcionadas para resolver problemas específicos. Um exemplo é o uso generalizado das Convolutional Neural Networks (CNNs) no contexto de processamento de imagens e informações espaciais, tópico que será discutido na próxima seção.
+Neste Capítulo \ref{deep}, abordamos desde a concepção inicial das redes neurais, apresentando as ideias propostas por \cite{mcculloch1943logical}, até detalhes gerais do funcionamento das redes neurais. No entanto, é importante ressaltar que, após o surgimento das \textit{deep learnings}, algumas redes foram direcionadas para resolver problemas específicos. Um exemplo é o uso generalizado das Convolutional Neural Networks (CNNs) no contexto de processamento de imagens e informações espaciais, tópico que será discutido no próximo capítulo.

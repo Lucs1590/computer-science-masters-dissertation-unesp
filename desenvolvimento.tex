@@ -18,7 +18,7 @@ Finalmente, vale citar que nesse capítulo será possível encontrar uma apresen
 
 \subsection{Materiais e Métodos}
 \label{project:matmet}
-A Seção de Materiais e Métodos busca esclarecer sobre todos os recursos tecnológicos, \textit{hardwares} e abordagens metodológicas que foram empregados para suportar a consecução dos experimentos deste estudo (Seção \ref{project:techard}). Neste contexto, é essencial elucidar acerca da implementação de uma nova técnica de \textit{pooling}, denominada BPCAPooling (Seção \ref{project:bpca}), aplicada em estruturas de CNNs. Além disso, a descrição dos conjuntos de dados utilizados fornece um embasamento sólido para compreender a motivação e a importância dos resultados obtidos ao longo das fases de desenvolvimento, treinamento, validação e teste (Seção \ref{project:dataset}).
+A Seção de Materiais e Métodos busca esclarecer sobre todos os recursos tecnológicos, \textit{hardwares} e abordagens metodológicas que foram empregados para suportar a consecução dos experimentos deste estudo (Seção \ref{project:techard}). Neste contexto, é essencial elucidar acerca das motivações e origens da técnica proposta com a extração de características (Seção \ref{project:feature_extraction}), bem como a implementação da nova técnica de \textit{pooling}, denominada BPCAPooling (Seção \ref{project:bpca}), aplicada em estruturas de CNNs. Além disso, a descrição dos conjuntos de dados utilizados fornece um embasamento sólido para compreender a motivação e a importância dos resultados obtidos ao longo das fases de desenvolvimento, treinamento, validação e teste (Seção \ref{project:dataset}).
 
 Nesta mesma Seção, procura-se detalhar a metodologia e as estratégias adotadas nos experimentos realizados. A abordagem de transferência de aprendizado, em particular, recebe destaque (Seção \ref{project:transf}). Tal técnica envolve a adaptação, ou o chamado \textit{fine-tuning}, de um pré-modelo treinado para operar especificamente na tarefa de interesse, iniciando o processo de aprendizagem a partir de uma configuração pré-definida de pesos, como foi citado na Seção \ref{cnn:augment}.
 
@@ -36,6 +36,65 @@ No que diz respeito ao \textit{hardware} empregado para a pesquisa e desenvolvim
 
 Por fim, é importante ressaltar que todos os métodos desenvolvidos neste projeto com o objetivo de realizar a segmentação semântica serão disponibilizados nos repositórios Github do autor\footnote{Perfil Github do autor - \url{https://github.com/Lucs1590}} de modo \textit{open-source}, em conformidade com a licença Apache v2.0 \citep{Licenses}. A intenção é fomentar o crescimento acadêmico e de pesquisa, assim como facilitar futuras melhorias no campo de segmentação com o uso de camadas de \textit{pooling} personalizadas, como a camada BPCAPooling, que é detalhada na Seção \ref{project:bpca}.
 
+\subsubsection{Extração de Características}
+\label{project:feature_extraction}
+
+Lidar com grandes conjuntos de dados nas redes neurais profundas é um desafio, pois a análise desses dados pode ser pesada devido à sua densidade ou à dimensionalidade elevada \citep{Liang2017TextReview}. Essa questão demanda um hardware robusto, pois quanto maior a quantidade e a dimensionalidade dos dados, maior é a exigência de poder computacional \citep{Benyahia2022Multi-featuresClassification}. A abordagem de extração de características é especialmente comum em ambientes de aprendizado baseado em texto, conforme discutido por \cite{Liang2017TextReview}, e se estende ao uso de convoluções em CNNs, como será abordado na Seção \ref{cnn:conv}.
+
+Portanto, a extração de características surge como uma estratégia crucial para a redução da dimensionalidade, onde um conjunto inicial de dados brutos é transformado em grupos mais gerenciáveis para processamento \citep{Benyahia2022Multi-featuresClassification}. Esse processo frequentemente envolve a combinação ou seleção de variáveis, resultando em uma significativa redução na quantidade de dados a serem processados. Além disso, essas características ainda preservam a representatividade do conjunto original, sendo capazes de reduzir redundâncias para análises específicas.
+
+Um exemplo de algoritmo capaz de agregar essas vantagens ao processo extração de características é o \textit{Principal Component Analysis} (PCA), que foi desenvolvido como uma técnica estatística de transformações ortogonais que almeja transformar um conjunto de variáveis correlacionadas em um conjunto linearmente de variáveis não correlacionadas, extraindo de um conjunto de dados as características essenciais \citep{Wold1987PrincipalAnalysis} e obtendo como resultado, um conjunto de dados menor, mas sem perdas em relação ao conjunto original.
+
+O funcionamento do algoritmo de PCA para a extração de características pode ser resumido pelo passo-a-passo a seguir \citep{Song2010FeatureAnalysis}:
+
+\begin{enumerate}
+    \item Padronização dos dados, com a subtração da média $\boldsymbol{\mu}$ de todas as dimensões em relação ao valor de entrada inicial $\boldsymbol{z}$, dividido pelo desvio padrão $\sigma$, como descrito na Equação \ref{deep:eq:pca_1}:
+
+    \begin{equation}
+        \label{deep:eq:pca_1}
+        \boldsymbol{z} = \frac{\boldsymbol{x} - \mu}{\sigma};
+    \end{equation}
+
+    \item Cálculo da matriz de covariância, com $X$ representando a primeira dimensão da entrada e $Y$ a segunda, conforme a Equação \ref{deep:eq:pca_2}:
+    
+    \begin{equation}
+        \label{deep:eq:pca_2}
+        \boldsymbol{A} = \text{cov}(X, Y) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{x}) (Y_i - \bar{y}),
+    \end{equation}
+    onde \(\bar{x}\) e \(\bar{y}\) representam as médias das variáveis $X$ e $Y$ respectivamente, e $n$ é o número de observações;
+
+    \item Cálculo dos autovetores e autovalores correspondentes. Para a realização desse passo, o calculo dos autovetores em relação à matriz de covariância $\boldsymbol{A}$ pode ser representado pela Equação \ref{deep:eq:pca_3}:
+
+    \begin{equation}
+        \label{deep:eq:pca_3}
+        \boldsymbol{A}\overrightarrow{v} = \lambda\overrightarrow{v},
+    \end{equation}
+    em que $\lambda$ representa um vetor de autovalores. O que significa que a transformação linear é definida por $\lambda$ e a equação pode ser transcrita pela Equação \ref{deep:eq:pca_4}:
+
+        \begin{equation}
+        \label{deep:eq:pca_4}
+        \boldsymbol{A}\overrightarrow{v} - \lambda\overrightarrow{v} = 0
+        \Rightarrow \overrightarrow{v}(\boldsymbol{A} - \lambda \boldsymbol{I}) = 0,
+    \end{equation}
+    tendo $I$ como uma matriz identidade.
+
+    \item Escolha de $k$ autovetores com maiores autovalores, após realizar uma organização decrescente de autovalores, como demonstra a Equação \ref{deep:eq:pca_5}:
+
+    \begin{equation}
+        \label{deep:eq:pca_5}
+        \boldsymbol{W}_k = \begin{bmatrix} \overrightarrow{v}_1 & \overrightarrow{v}_2 & \cdots & \overrightarrow{v}_k \end{bmatrix}.
+    \end{equation}
+
+    Nessa equação, $\boldsymbol{W}_k$ representa a matriz formada pelos $k$ autovetores correspondentes aos maiores autovalores selecionados após a organização decrescente dos autovalores. Cada autovetor $\overrightarrow{v}_i$ faz parte da matriz $\boldsymbol{W}_k$ e compõe as novas dimensões do conjunto de dados transformado, onde $k$ é o número desejado de bases para o novo conjunto de dados após a aplicação do PCA.
+
+    
+\end{enumerate}
+
+Além disso, é importante mencionar que o PCA também pode ser obtido através do método de Decomposição em Valores Singulares (\textit{Singular Value Decomposition} - SVD) \citep{Stewart2006OnDecomposition}, o qual é utilizado para extrair os componentes principais do conjunto de dados de entrada.
+
+Entre as vantagens do algoritmo PCA, destaca-se a eliminação das correlações entre as características, garantindo a independência entre os componentes principais e evitando viés em relação a características específicas. Além disso, o algoritmo melhora o desempenho e reduz o custo computacional ao diminuir as dimensões dos dados, especialmente útil ao lidar com conjuntos de dados de alta dimensionalidade. Finalmente, o PCA ajuda a reduzir problemas de superajustamento ao diminuir o número de características, mitigando os riscos associados a ter muitas variáveis e, frequentemente, facilita a visualização dos dados ao transformar dados de alta dimensão em uma forma de dimensão mais baixa e mais gerenciável, simplificando a compreensão dos dados.
+
+No entanto, o PCA também apresenta desvantagens, como o fato de tornar os componentes gerados menos interpretáveis do que os dados originais, uma vez que os componentes principais gerados são combinações das características originais. Além disso, o PCA requer a padronização dos dados antes da implementação; sem isso, o algoritmo pode falhar em determinar os componentes principais ideais. Finalmente, embora o PCA busque capturar a máxima variância entre as características, uma seleção inadequada dos componentes principais pode resultar na perda de alguma informação em comparação com o conjunto original de características.
 
 \subsubsection{\textit{Block-based Principal Component Analysis Pooling} (BPCAPooling)}
 \label{project:bpca}
@@ -58,7 +117,7 @@ Ao contrário de uma combinação linear simples de amostras distintas, BPCA com
 \label{project:bpca:pooling}
 As camadas de \textit{pooling} têm sido eficazes em CNNs para reduzir a dimensionalidade dos dados \citep{Paul2019DimensionalityPooling}. Neste trabalho, a inovação proposta é a aplicação da técnica BPCA como uma camada de \textit{pooling} - sendo nomeada de BPCAPooling - não mais para extração de características, conforme proposto originalmente por \cite{Salvadeo2011}, mas como uma estratégia para preservar a espacialidade da informação entre as camadas convolucionais, associada ao benefício proposto pela técnica de minimização do erro quadrático médio entre a entrada e saída como uma camada de \textit{pooling}.
 
-Essa camada de \textit{pooling} segue o processo original do BPCA, onde são extraídas informações principais de cada bloco, reduzindo a dimensionalidade dos dados e preservando características relevantes. Além disso, o método foi aprimorado pela normalização dos blocos utilizando média ($\mu$) e desvio padrão ($\sigma$). Na sequência, é aplicada a técnica de \textit{Singular Value Decomposition} (SVD) para extrair os componentes principais ($\text{{pca\_components}}$), como explicado na Seção \ref{deep:feature_extraction:pca}, e, finalmente, os blocos são transformados por meio da projeção nesses componentes selecionados. O resultado é um mapa de características menor em tamanho, porém, preservando informações essenciais ao concatenar os blocos transformados.
+Essa camada de \textit{pooling} segue o processo original do BPCA, onde são extraídas informações principais de cada bloco, reduzindo a dimensionalidade dos dados e preservando características relevantes. Além disso, o método foi aprimorado pela normalização dos blocos utilizando média ($\mu$) e desvio padrão ($\sigma$). Na sequência, é aplicada a técnica de \textit{Singular Value Decomposition} (SVD) para extrair os componentes principais ($\text{{pca\_components}}$), como explicado na Seção \ref{project:feature_extraction}, e, finalmente, os blocos são transformados por meio da projeção nesses componentes selecionados. O resultado é um mapa de características menor em tamanho, porém, preservando informações essenciais ao concatenar os blocos transformados.
 
 A formulação matemática do processo realizado pela camada de \textit{pooling} BPCAPooling pode ser representada pela Equação \ref{project:eq:bpca}:
 
