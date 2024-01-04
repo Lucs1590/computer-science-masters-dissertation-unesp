@@ -9,7 +9,7 @@ A estrutura do capítulo é delineada em seções que facilitam a compreensão d
 
 Na sequência, a Seção \ref{results:semantic} irá abordar os resultados obtidos nos experimentos que se destinam diretamente à área de segmentação, que constitui o núcleo da aplicação da técnica proposta. Aqui, expandiremos o foco para a parcela mais crítica de nossa pesquisa, apresentando a eficácia de nosso método na tarefa de segmentação semântica de imagens.
 
-Por fim, na Seção \ref{result:final} proporcionaremos as considerações finais em relação as seções anteriores, salientando as implicações dos resultados no campo de estudo do trabalho.
+Por fim, na Seção \ref{result:final} proporcionaremos as considerações finais em relação as seções anteriores, salientando às implicações dos resultados no campo de estudo do trabalho.
 
 \subsection{Resultados da Classificação de Imagens}
 \label{results:class}
@@ -34,7 +34,7 @@ Ao analisar o desempenho do modelo treinado no conjunto de dados CIFAR 100 utili
     Fonte: do próprio autor.
 \end{table}
 
-Mesmo após a conclusão do processo de \textit{fine-tuning} completo, o modelo treinado com a técnica BPCAPooling apresenta resultados inferiores, conforme evidenciado na Tabela \ref{results:class:tab:2}. Os métodos Max Pooling e Avg Pooling continuam a demonstrar uma superioridade significativa em relação ao método BPCAPooling. Os resultados mais promissores foram obtidos pela arquitetura VGG-16 com o método Max Pooling. A análise detalhada dos motivos subjacentes a essa discrepância será discutida na Seção \ref{results:class:datasets}.
+Mesmo após a conclusão do processo de \textit{fine-tuning} completo, o modelo treinado com a técnica BPCAPooling apresentou resultados inferiores, conforme evidenciado na Tabela \ref{results:class:tab:2}. Os métodos Max Pooling e Avg Pooling continuaram a demonstrar uma superioridade significativa em relação ao método BPCAPooling. Os resultados mais promissores foram obtidos pela arquitetura VGG-16 com o método Max Pooling. A análise detalhada dos motivos subjacentes a essa discrepância será discutida na Seção \ref{results:class:datasets}.
 
 \begin{table}[H]
     \centering
@@ -105,7 +105,7 @@ Apesar dos resultados inesperados em relação ao método BPCAPooling, alguns \t
 
 \subsubsection{Diferença de conjuntos de dados}
 \label{results:class:datasets}
-A utilização de múltiplos conjuntos de dados foi fundamental para o presente estudo, uma vez que a diversidade de informações teve um impacto significativo na capacidade da rede VGG-16 em capturar detalhes e características. Esse comportamento está diretamente alinhado com a motivação subjacente ao uso das Redes Neurais Convolucionais (CNNs), como discutido na Seção \ref{cnn}. A Figura \ref{results:fig:datasets:0} ilustra a diferença de resolução entre amostras dos conjuntos de dados CIFAR 100 e \textit{Food}-101, proporcionando uma melhor compreensão das disparidades entre eles.
+A utilização de múltiplos conjuntos de dados foi fundamental para o presente estudo, uma vez que a diversidade de informações teve um impacto significativo na capacidade da rede VGG-16 em capturar detalhes e características. Esse comportamento está diretamente alinhado com a motivação subjacente ao uso das Redes Neurais Convolucionais (CNNs), como discutido no Capítulo \ref{cnn}. A Figura \ref{results:fig:datasets:0} ilustra a diferença de resolução entre amostras dos conjuntos de dados CIFAR 100 e \textit{Food}-101, proporcionando uma melhor compreensão das disparidades entre eles.
 
 \begin{figure}[H]
     \centering
@@ -116,9 +116,9 @@ A utilização de múltiplos conjuntos de dados foi fundamental para o presente 
     Fonte: do próprio autor.
 \end{figure}
 
-Adicionalmente, é relevante mencionar que, em amostras pequenas como as do conjunto de dados CIFAR 100, a quantidade de informação a ser preservada é mínima. Isso pode explicar o desempenho inferior do método BPCAPooling, embora não tenha representado uma barreira significativa para os métodos de \textit{pooling} tradicionais, tais como \textit{Max Pooling} e \textit{Avg Pooling}, uma vez que a preservação da espacialidade das amostras de entrada não é a principal preocupação desses métodos.
+Adicionalmente, é relevante mencionar que, em amostras pequenas como as do conjunto de dados CIFAR 100, a quantidade de informação a ser preservada é mínima. Isso pode explicar o desempenho inferior do método BPCAPooling, embora não tenha representado uma barreira significativa para os métodos de \textit{pooling} tradicionais, tais como \textit{Max Pooling} e \textit{Avg Pooling}.
 
-Além disso, conforme discutido na Seção \ref{results:class}, ao analisar o processo de \textit{fine-tuning} utilizando o método BPCAPooling, destaca-se um comportamento notável no quarto bloco convolucional, onde ocorre uma tendência ascendente na acurácia e uma tendência de redução no \textit{loss} ao longo das épocas de treinamento e validação. Essa tendência sugere que características espaciais importantes provavelmente estão sendo capturadas e retidas no quarto bloco convolucional. É notável que o modelo não apresenta sinais de \textit{overfitting} nesse bloco, indicando que mais épocas poderiam ser empregadas nessa etapa do processo para explorar melhor essa tendência ascendente. Contudo, é crucial considerar que a condução de épocas adicionais demandaria recursos computacionais significativos, devido à complexidade do método e ao custo computacional associado.
+Além disso, conforme discutido na Seção \ref{results:class}, ao analisar o processo de \textit{fine-tuning} utilizando o método BPCAPooling, destaca-se um comportamento notável no quarto bloco convolucional, onde ocorre uma tendência ascendente na acurácia e uma tendência de redução na \textit{loss} ao longo das épocas de treinamento e validação. Essa tendência sugere que características espaciais importantes provavelmente estão sendo capturadas e retidas no quarto bloco convolucional. É notável que o modelo não apresenta sinais de \textit{overfitting} nesse bloco, indicando que mais épocas poderiam ser empregadas nessa etapa do processo para explorar melhor essa tendência ascendente. Contudo, é crucial considerar que a condução de épocas adicionais demandaria recursos computacionais significativos, devido à complexidade do método e ao custo computacional associado.
 
 A representação da acurácia e \textit{loss} para o conjunto de dados CIFAR 100 está ilustrada nas Figuras \ref{results:fig:datasets:1} e \ref{results:fig:datasets:2}, respectivamente, enquanto as Figuras \ref{results:fig:datasets:3} e \ref{results:fig:datasets:4} mostram a evolução da acurácia e \textit{loss} para o conjunto de dados \textit{Food}-101, todas referentes ao uso do método BPCAPooling.
 
@@ -268,7 +268,7 @@ A representação da acurácia e \textit{loss} para o conjunto de dados CIFAR 10
      Fonte: do próprio autor.
  \end{figure}
 
-Em suma, a diversidade dos conjuntos de dados utilizados neste estudo forneceu uma avaliação robusta do método BPCAPooling, destacando tanto o seus pontos potenciais quanto a necessidade de otimizações específicas para diferentes cenários. As diferenças nos resultados reforçam a importância da seleção apropriada do conjunto de dados considerando suas características particulares.
+Em suma, a diversidade dos conjuntos de dados utilizados neste estudo forneceu uma avaliação do método BPCAPooling, destacando pontos de atenção e a necessidade de otimizações específicas para diferentes cenários. As diferenças nos resultados reforçam a importância da seleção apropriada do conjunto de dados considerando suas características particulares.
 
 \subsubsection{LIME e Preservação de Espacialidade}
 \label{results:class:lime}
@@ -309,7 +309,7 @@ Ao analisar as camadas de \textit{pooling} aplicadas ao conjunto de dados \texti
     Fonte: do próprio autor.
 \end{figure}
 
-Outro ponto notável é a discrepância nas últimas camadas de BPCAPooling, como mencionado anteriormente no contexto do conjunto de dados CIFAR 100. As saídas dessas camadas finais de BPCAPooling parecem conter ruídos visuais, enquanto as saídas das últimas camadas com \textit{Max Pooling} aparentam conter mais informações agregadas. Isso é evidenciado na Figura \ref{results:fig:datasets:7}, que mostra resultados com resolução superior a $2 \times 2$, devido à resolução maior das imagens de entrada.
+Outro ponto é a discrepância nas últimas camadas de BPCAPooling, como mencionado anteriormente no contexto do conjunto de dados CIFAR 100. As saídas dessas camadas finais de BPCAPooling parecem conter ruídos visuais, enquanto as saídas das últimas camadas com \textit{Max Pooling} aparentam conter mais informações agregadas. Isso é evidenciado na Figura \ref{results:fig:datasets:7}, que mostra resultados com resolução superior a $2 \times 2$, devido à resolução maior das imagens de entrada.
 
 \begin{figure}[H]
     \centering
@@ -410,7 +410,7 @@ Em relação aos resultados da segmentação semântica, é relevante destacar q
     Fonte: do próprio autor.
 \end{table}
 
-Analisando as tabelas anteriores, observa-se que, embora as métricas adotadas para conduzir os experimentos sejam acurácia e mIoU, a \textit{loss} associada ao BPCAPooling foi menor nas etapas de validação, conforme evidenciado na Figuras \ref{results:fig:semantic:metrics1.2} e \ref{results:fig:semantic:metrics1.4}. Além disso, a métrica Dice demonstrou ser igual ou superior aos resultados obtidos com o uso do BPCAPooling. Entretanto, é importante ressaltar que, quantitativamente, a métrica mIoU tende a penalizar mais instâncias únicas com classificações ruins do que a métrica Dice, mesmo quando ambas concordam que essa instância é ruim. Ademais, a métrica mIoU tende a agravar os erros, resultando em um efeito de \quotes{quadratura} em relação ao Dice. Como resultado, a métrica Dice parece medir algo mais próximo do desempenho médio, como evidenciado nas Figuras \ref{results:fig:semantic:metrics2.3} e \ref{results:fig:semantic:metrics3.3}, enquanto a mIoU mede algo mais próximo do pior caso de desempenho.
+Analisando as tabelas anteriores, observa-se que, embora as métricas adotadas para conduzir os experimentos sejam acurácia e mIoU, a \textit{loss} associada ao BPCAPooling foi menor nas etapas de validação, conforme evidenciado na Figuras \ref{results:fig:semantic:metrics1.2} e \ref{results:fig:semantic:metrics1.4}. Além disso, a métrica Dice demonstrou ser igual ou superior aos resultados obtidos com o uso do BPCAPooling, apesar da diferença não ser significativa. Entretanto, é importante ressaltar que, quantitativamente, a métrica mIoU tende a penalizar mais instâncias únicas com classificações ruins do que a métrica Dice, mesmo quando ambas concordam que essa instância é ruim. Ademais, a métrica mIoU tende a agravar os erros, resultando em um efeito de \quotes{quadratura} em relação ao Dice. Como resultado, a métrica Dice parece medir algo mais próximo do desempenho médio, como evidenciado nas Figuras \ref{results:fig:semantic:metrics2.3} e \ref{results:fig:semantic:metrics3.3}, enquanto a mIoU mede algo mais próximo do pior caso de desempenho.
 
 \begin{figure}[H]
     \centering
@@ -569,7 +569,7 @@ Por fim, ao considerar um nível de significância de $5\%$ para os modelos U-Ne
     Fonte: do próprio autor.
 \end{figure}
 
-Três representações das máscaras previstas sobrepondo a imagem de entrada são exibidas para cada um dos modelos nas Figuras \ref{results:fig:semantic:2}, \ref{results:fig:semantic:3}, \ref{results:fig:semantic:4} e \ref{results:fig:semantic:5}. Observa-se que a aplicação da métrica mIoU se mostra mais eficaz quando comparada à acurácia. Além disso, o método BPCAPooling enfatiza mais os contornos em comparação com o método \textit{Max Pooling}, que aparentemente enfatiza mais os \textit{pets}, tendo que para ambos os métodos o fundo possui a mesma eficacia de segmentação.
+Três representações das máscaras previstas sobrepondo a imagem de entrada são exibidas para cada um dos modelos nas Figuras \ref{results:fig:semantic:2}, \ref{results:fig:semantic:3}, \ref{results:fig:semantic:4} e \ref{results:fig:semantic:5}. Observa-se que a aplicação da métrica mIoU se mostra mais eficaz quando comparada à acurácia. Além disso, o método BPCAPooling enfatiza mais os contornos em comparação com o método \textit{Max Pooling}, que aparentemente enfatiza mais os \textit{pets}, tendo que para ambos os métodos o fundo possui a mesma eficácia de segmentação.
 
 \begin{figure}[H]
     \centering
@@ -975,7 +975,7 @@ Por fim, ao analisar as Figuras \ref{results:fig:semantic:11}, \ref{results:fig:
 
 
 
-\subsubsection{Explicação de modelos}
+\subsubsection{Explicabilidade de modelos}
 \label{results:semantic:xai}
 Como discutido na Seção \ref{project:explain}, para realizar as análises de interpretabilidade nas segmentações semânticas, a ferramenta LIME não se mostrou adequada. Portanto, optou-se pelo uso da ferramenta Xplique, a qual oferece métodos de atribuição que permitem a visualização de pontos de destaque para a compreensão das segmentações, mapeamento das bordas das áreas de interesse ou bordas entre duas áreas distintas de interesse.
 
@@ -1332,7 +1332,7 @@ Na análise da arquitetura U-Net-\textit{Like}, quando a métrica principal util
 \label{results:semantic:future}
 Para contribuir com o avanço deste projeto, esta seção propõe identificar pontos de melhoria e desafios encontrados para a aplicação mais ampla e aprimoramento do BPCAPooling. O objetivo é potencializar seu desempenho em relação aos métodos tradicionais, não apenas reduzindo a dimensionalidade de entradas em arquiteturas de segmentação semântica, mas também preservando a espacialidade dessas informações.
 
-Um dos grandes desafios encontrados residia na combinação dos \textit{frameworks} Tensorflow e Keras. Dado que a abordagem proposta consistia no desenvolvimento de uma camada personalizada de \textit{pooling}, erros de desenvolvimento eram comuns, afetando significativamente o tempo de implementação e outros aspectos mencionados nesta seção. Portanto, uma proposta para futuros trabalhos seria a exploração de diferentes \textit{frameworks}, como PyTorch \citep{Paszke2017AutomaticPyTorch}. Além de potencialmente melhorar o desempenho do método, conforme discutido na Seção \ref{results:class:future}.
+Um dos grandes desafios encontrados residiu na combinação dos \textit{frameworks} Tensorflow e Keras. Dado que a abordagem proposta consistia no desenvolvimento de uma camada personalizada de \textit{pooling}, erros de desenvolvimento eram comuns, afetando significativamente o tempo de implementação e outros aspectos mencionados nesta seção. Portanto, uma proposta para futuros trabalhos seria a exploração de diferentes \textit{frameworks}, como PyTorch \citep{Paszke2017AutomaticPyTorch}. Além de potencialmente melhorar o desempenho do método, conforme discutido na Seção \ref{results:class:future}.
 
 A dificuldade enfrentada com o \textit{framework} também prejudicou a aplicação do método em mais de um conjunto de dados para a tarefa de segmentação semântica. Uma excelente proposta futura seria estender os testes para um segundo conjunto de dados, preferencialmente com múltiplos objetos de interesse em cada exemplo. Conjuntos como \textit{Cityscape} \citep{Cordts2016} e \textit{Lost and Found} \citep{Pinggera2016LostVehicles} oferecem condições ideais para avaliar as capacidades de preservação de espacialidade do BPCAPooling em cenários mais complexos.
 
@@ -1357,10 +1357,10 @@ Ao contrário do BPCAPooling, a aplicação do método BPCAUnpooling requer cama
     \end{split}
 \end{equation}
 
-Nesta equação, o parâmetro $\text{BPCAUnpooling}(Y_{i',j',k'})$ representa a aplicação do método BPCAUnpooling ao mapa de características de entrada $Y$. A função $pad(Y)$ preenche o mapa de características de entrada $Y$ com zeros para ajustar o tamanho necessário para a operação de \textit{unpooling}, enquanto $Dense(pad(Y))$ é utilizado para aprender os componentes do PCA, empregando uma camada densa com ativação. A função $\text{reshape}$, como no processo da equação \ref{project:eq:bpca}, remodela os argumentos para o tamanho correto, onde $S$ representa os valores singulares da decomposição PCA alinhados com os componentes PCA. A expressão $U \cdot (reshape(S) \cdot Dense(pad(Y)))$ reconstrói os dados não agrupados utilizando os componentes e valores singulares do PCA. Por fim, a multiplicação pelo desvio padrão ($\sigma$) e a adição da média ($\mu$) revertem a transformação PCA.
+Nesta equação, o parâmetro $\text{BPCAUnpooling}(Y_{i',j',k'})$ representa a aplicação do método BPCAUnpooling ao mapa de características de entrada $Y$. A função $pad(Y)$ preenche o mapa de características de entrada $Y$ com zeros para ajustar o tamanho necessário para a operação de \textit{unpooling}, enquanto $Dense(pad(Y))$ é utilizado para aprender os componentes do PCA, empregando uma camada densa com ativação. A função $\text{reshape}$, como no processo da Equação \ref{project:eq:bpca}, remodela os argumentos para o tamanho correto, onde $S$ representa os valores singulares da decomposição PCA alinhados com os componentes PCA. A expressão $U \cdot (reshape(S) \cdot Dense(pad(Y)))$ reconstrói os dados não agrupados utilizando os componentes e valores singulares do PCA. Por fim, a multiplicação pelo desvio padrão ($\sigma$) e a adição da média ($\mu$) revertem a transformação PCA.
 
 \subsection{Considerações Finais do Capítulo}
 \label{result:final}
-Neste capítulo, foram apresentados os resultados dos experimentos realizados, abordando tanto o processo de classificação (Seção \ref{results:class}) quanto os primeiros passos em direção ao objetivo final de empregar o BPCAPooling como uma proposta de camada de \textit{pooling} para segmentações semânticas, como explorado e detalhado na Seção \ref{results:semantic}. Além disso, foram delineadas ideias para melhorias e desenvolvimento futuro nestas áreas, destacadas nas Seções \ref{results:class:future} e \ref{results:semantic:future}.
+Neste capítulo, foram apresentados os resultados dos experimentos realizados, abordando tanto o processo de classificação (Seção \ref{results:class}) quanto os primeiros passos em direção ao objetivo final de empregar o BPCAPooling como uma proposta de camada de \textit{pooling} para segmentações semânticas, como explorado e detalhado na Seção \ref{results:semantic}.
 
-No próximo capítulo, as conclusões derivadas deste trabalho serão discutidas, demonstrando a efetividade do método proposto em relação à sua aplicabilidade e ao alcance dos objetivos estabelecidos no início deste estudo (Seção \ref{intro:objectives}).
+No próximo capítulo, as conclusões derivadas deste trabalho serão apontadas, à luz dos objetivos estabelecidos no início deste estudo (Seção \ref{intro:objectives}), além de sugestões de trabalhos futuros.
