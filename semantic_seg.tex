@@ -41,20 +41,13 @@ Para esmiuçar mais sobre essas arquiteturas, é importante ressaltar a diferen�
 
 \subsubsection{\textit{Fully Convolutional Networks} (FCN)}
 \label{semantic:FCN}
-Quando se trata de segmentações semânticas, várias arquiteturas e \textit{frameworks} foram propostos para a resolução deste problema, de modo que garanta evolução quanto ao desempenho e às suas capacidades. Contudo, o primeiro \textit{framework} a ser considerado estado-da-arte para esse atividade de segmentação baseia-se na arquitetura de \textit{Fully Convolutional Networks} \citep{Shelhamer2016} ou FCN, que propõem o trabalho apenas com camadas convolucionais - incluindo a última camada \citep{Hesamian2019}, como demonstrado na Figura \ref{semantic:fig:5} - assim, estabelecendo uma subamostragem de pixels (\textit{pixelwise}), seguida pela construção de um mapa de segmentação de mesmo tamanho que a imagem de entrada \citep{Minaee2021, Zhang2018, Hesamian2019}.
+Quando aborda-se o tema das segmentações semânticas, vale dizer que uma serie de arquiteturas e \textit{frameworks} foram desenvolvidos visando o avanço em termos de performance e capacidade. No entanto, o primeiro \textit{framework} a alcançar o status de estado-da-arte para esta tarefa de segmentação baseia-se na arquitetura  \textit{Fully Convolutional Networks} (FCN) \citep{Shelhamer2016}. Contrariamente às redes tradicionais que possuem camadas densas no final, a FCN é totalmente composta por camadas convolucionais, até mesmo na sua última camada \citep{Hesamian2019}.
 
-\begin{figure}[H]
-    \centering
-    \caption{Estrutura da arquitetura FCN.}
-    \includegraphics[width=1\linewidth]{recursos/imagens/semantic/fcn_arch.png}
-    \label{semantic:fig:5}
+Esta característica permite à FCN realizar uma análise \textit{pixelwise}, onde cada pixel da imagem é subamostrado. Em seguida, através de processos de convolução e \textit{upsampling}, um mapa de segmentação semântica é construído. Este mapa de segmentação possui dimensões idênticas à imagem de entrada, o que permite a atribuição de uma classe semântica para cada \textit{pixel} \citep{Minaee2021, Zhang2018, Hesamian2019}.
 
-    Fonte: retirada e adaptado de \cite{Shelhamer2016}.
-\end{figure}
+A aplicação do FCN nos \textit{datasets} PASCAL VOC 2011 \citep{everingham2010pascal}, SIFT Flow \citep{Liu2011} e NYUDv2 \citep{Silberman:ECCV12}, resultou numa precisão de \textit{pixel} (PA) de 90,3\% e uma mIoU de 62,7\% no primeiro \textit{dataset} mencionado \citep{Ghosh2019}. O FCN, portanto, estabeleceu um novo patamar de referência quanto ao estado-da-arte em segmentação semântica \citep{Minaee2021}.
 
-Essa configuração de FCN foi aplicada nos \textit{datasets} PASCAL VOC 2011 \citep{everingham2010pascal}, SIFT Flow \citep{Liu2011} e NYUDv2 \citep{Silberman:ECCV12}, chegando a resultados de 90,3\% de \textit{Pixel Accuracy} (PA) e 62,7\% de mIoU no primeiro \textit{dataset} citado \citep{Ghosh2019} e estabelecendo referência de estado-da-arte em sua performance \citep{Minaee2021}.
-
-Para sua configuração foram utilizados conceitos e modificações da arquitetura das CNNs VGG16 (explorada na Seção \ref{cnn:vgg}) e GoogLeNet \citep{Szegedy2015}, possibilitando a entrada e saída de tamanhos variados na rede \citep{Minaee2021}, de modo que a entrada e saída tenham o mesmo tamanho, o que fica visível na Figura \ref{semantic:fig:6}.
+A arquitetura da FCN é baseada nas arquiteturas das \textit{Convolutional Neural Networks} (CNNs) VGG-16 (explorada na Seção \ref{cnn:vgg}) e GoogLeNet \citep{Szegedy2015}. Esta adaptação permitiu que a FCN aceitasse entradas de tamanhos variáveis e produzisse saídas da mesma dimensão \citep{Minaee2021}, como pode ser visualizado na Figura \ref{semantic:fig:6}.
 
 \begin{figure}[H]
     \centering
@@ -64,6 +57,14 @@ Para sua configuração foram utilizados conceitos e modificações da arquitetu
 
     Fonte: retirada e adaptado de \cite{Shelhamer2016}.
 \end{figure}
+
+Essas saídas, que são mapas de características do mesmo tamanho da imagem de entrada, podem ser utilizadas para várias aplicações. Por exemplo, em uma tarefa de detecção de objetos, cada pixel da saída será classificado com a etiqueta do objeto à qual pertence, fornecendo portanto uma localização precisa dos objetos na imagem. Em uma aplicação de condução autônoma, a saída pode ser usada para identificar as zonas navegáveis ou obstáculos presentes na cena.
+
+É relevante notar que a eficácia da FCN também está ligada ao seu mecanismo de subamostragem e amostragem ascendente, também conhecido como \textit{upsampling}. As camadas inferiores da rede capturam características locais, como bordas e texturas, enquanto as camadas superiores conseguem captar características de nível superior, como classes de objetos e suas relações espaciais \citep{Shelhamer2016}.
+
+O desafio da subamostragem é que, enquanto ela contribui para a identificação de recursos em várias escalas e aumenta a eficiência computacional, também leva a uma perda de detalhes espaciais devido à redução da resolução da imagem. Para mitigar isso, a FCN implementa operações de \textit{upsampling}, que expandem a saída de baixa resolução para o tamanho original da imagem. Isso é realizado por meio de camadas de deconvolução ou interpolação, permitindo que a FCN produza uma segmentação densa em tempo de execução em uma única passagem para frente pela rede \citep{Shelhamer2016}.
+
+Além disso, a FCN integra previsões de várias camadas em vários níveis de resolução, conhecido como saltos de conexões (ou em inglês, \textit{skip connections}), para refinar ainda mais a precisão da segmentação \citep{Minaee2021}. Com isso, a FCN consegue garantir que a segmentação semântica final esteja em conformidade tanto com as características de nível inferior quanto de alto nível, proporcionando resultados de segmentação precisos e detalhados.
 
 Por fim, quanto às suas limitações, é informado que as configurações de FCN são ineficientes em trabalhos de segmentação 3D e para o uso em tempo real, visto que leva cerca de 100ms - em hardware não especificado pelo autor - para trabalhar com imagens de baixa resolução \citep{Minaee2021}, mas novas arquiteturas baseadas nesse modelo, como a ParseNet \citep{Liu2015} vêm evoluindo para suprir essas limitações.
 
