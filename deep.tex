@@ -319,7 +319,7 @@ Por fim, vale mencionar que propostas de decaimento da taxa de aprendizado, como
 \paragraph{Adam}
 \label{deep:optimization:adam}
 
-O algoritmo \textit{Adaptive Moment Estimation}, conhecido como Adam, foi proposto por \cite{Kingma2014Adam:Optimizationb} com o objetivo de otimizar adaptativamente a taxa de aprendizado, integrando conceitos dos algoritmos RMSProp \citep{Hinton2012NeuralDescent} e Momentum \citep{Polyak1964SomeMethods}. A atualização dos parâmetros ocorre por meio do controle da média móvel exponencialmente ponderada de cada algoritmo mencionado, utilizando os parâmetros $\rho_{1}$ e $\rho_{2}$ em cada iteração para calcular a estimativa de primeira ordem $\boldsymbol{s}$, conforme a Equação \ref{deep:eq:adam_1} \citep{Goodfellow2016}:
+O algoritmo \textit{Adaptive Moment Estimation}, conhecido como Adam, foi proposto por \cite{Kingma2014Adam:Optimization} com o objetivo de otimizar adaptativamente a taxa de aprendizado, integrando conceitos dos algoritmos RMSProp \citep{Hinton2012NeuralDescent} e Momentum \citep{Polyak1964SomeMethods}. A atualização dos parâmetros ocorre por meio do controle da média móvel exponencialmente ponderada de cada algoritmo mencionado, utilizando os parâmetros $\rho_{1}$ e $\rho_{2}$ em cada iteração para calcular a estimativa de primeira ordem $\boldsymbol{s}$, conforme a Equação \ref{deep:eq:adam_1} \citep{Goodfellow2016}:
 
 \begin{equation}
     \label{deep:eq:adam_1}
