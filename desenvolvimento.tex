@@ -98,9 +98,9 @@ No entanto, o PCA também apresenta desvantagens, como o fato de tornar os compo
 
 \subsubsection{\textit{Block-based Principal Component Analysis Pooling} (BPCAPooling)}
 \label{project:bpca}
-A técnica \textit{Block-based Principal Component Analysis} (BPCA) foi introduzida como uma variação do método convencional do \textit{Principal Component Analysis} (PCA) no trabalho de \cite{Salvadeo2011}, propondo um método que inicialmente foi utilizado para a extração de características de imagens como parte de uma \textit{pipeline} de reconhecimento de reconhecimento facial no conjunto de dados \textit{The AR Face Database}\footnote{\textit{AR Face Database Webpage} - \url{https://www2.ece.ohio-state.edu/~aleix/ARdatabase.html}} \citep{MartNez1998TheDatabase} , propondo um método de extração que trouxesse à análise menor custo computacional, redução de dimensionalidade e uma geometria de hiperespaço que fosse mais intuitiva, destacando o diferencial de que com esse método fosse possível preservar a espacialidade da informação.
+A técnica \textit{Block-based Principal Component Analysis} (BPCA) foi introduzida como uma variação do método convencional do \textit{Principal Component Analysis} (PCA) no trabalho de \cite{Salvadeo2011}, propondo um método que inicialmente foi utilizado para a extração de características de imagens como parte de uma \textit{pipeline} de reconhecimento de reconhecimento facial no conjunto de dados \textit{The AR Face Database}\footnote{\textit{AR Face Database Webpage} - \url{https://www2.ece.ohio-state.edu/~aleix/ARdatabase.html}} \citep{MartNez1998TheDatabase}, propondo um método de extração que trouxesse à análise menor custo computacional, redução de dimensionalidade e uma geometria de hiperespaço que fosse mais intuitiva, destacando o diferencial de que com esse método fosse possível preservar a espacialidade da informação.
 
-O método proposto opera por meio da subdivisão de uma imagem em blocos $k \times k$, em que os blocos geralmente possuem tamanhos iguais (por exemplo, $3 \times 3$, $8 \times 8$, etc.). Em seguida, considerando cada bloco como uma amostra, o PCA é aplicado , sendo que cada um desses blocos são projetados no espaço do componente principal. Consequentemente, cada bloco $k \times k$ passa a ter um tamanho reduzido, definindo uma imagem com $r$ características (o mesmo número de blocos), posicionadas espacialmente nos respectivos blocos. Esse processo pode ser visualizado através da Figura \ref{project:fig:bpca_1}.
+O método proposto opera por meio da subdivisão de uma imagem em blocos $k \times k$, em que os blocos geralmente possuem tamanhos iguais (por exemplo, $3 \times 3$, $8 \times 8$, etc.). Em seguida, considerando cada bloco como uma amostra, o PCA é aplicado, sendo que cada um desses blocos são projetados no espaço do componente principal. Consequentemente, cada bloco $k \times k$ passa a ter um tamanho reduzido, definindo uma imagem com $r$ características (o mesmo número de blocos), posicionadas espacialmente nos respectivos blocos. Esse processo pode ser visualizado através da Figura \ref{project:fig:bpca_1}.
 
 \begin{figure}[H]
     \centering
@@ -111,7 +111,7 @@ O método proposto opera por meio da subdivisão de uma imagem em blocos $k \tim
     Fonte: retirado e adaptado de \cite{Salvadeo2011}.
 \end{figure}
 
-Ao contrário de uma combinação linear simples de amostras distintas, BPCA compõe uma representação organizada, formada por pequenos blocos do mapa de características original, conforme exibido no canto inferior esquerdo da Figura \ref{project:fig:bpca_1}. Esta técnica incorpora a teoria do PCA para realização do mapeamento não supervisionado visando a minimização do erro quadrático médio entre a entrada original e a apresentação projetada. Dessa forma, é possível sintetizar características essenciais da imagem de entrada numa representação compacta de maior relevância contextual \citep{Kuncheva2014PCAData}. Isso permite que a BPCA seja um componente eficaz ao enfrentar grandes volumes de dados, como é comum no âmbito de processamento de imagens.
+Ao contrário de uma combinação linear simples de amostras distintas, BPCA compõe uma representação organizada, formada por pequenos blocos do mapa de características original, conforme exibido na Imagem final com $r$ \textit{pixels} da Figura \ref{project:fig:bpca_1}. Esta técnica incorpora a teoria do PCA para realização do mapeamento não supervisionado visando a minimização do erro quadrático médio entre a entrada original e a apresentação projetada. Dessa forma, é possível sintetizar características essenciais da imagem de entrada numa representação compacta de maior relevância contextual \citep{Kuncheva2014PCAData}. Isso permite que a BPCA seja um componente eficaz ao enfrentar grandes volumes de dados, como é comum no âmbito de processamento de imagens.
 
 \paragraph{Funcionamento como \textit{Pooling}}
 \label{project:bpca:pooling}
@@ -124,17 +124,27 @@ A formulação matemática do processo realizado pela camada de \textit{pooling}
 \begin{equation}
     \label{project:eq:bpca}
     \begin{split}
-        Y_{i,j,k} &= \text{BPCAPooling}(X_{i',j',k'}) \\
-                  &= \text{reshape}\left(\text{SVD}\left(\frac{{X - \mu}}{{\sigma}}\right) \cdot \text{pca\_components}\right),
+        Y_{i,j,k} &= \text{BPCAPooling}(\boldsymbol{X}_{i',j',k'}) \\
+                  &= \text{reshape}\left(\text{SVD}\left(\frac{{\boldsymbol{X} - \boldsymbol{\mu}}}{{\boldsymbol{\sigma}}}\right) \cdot \text{pca\_components}\right),
     \end{split}
 \end{equation}
-onde\textbf{ $X$} é a imagem de entrada com $i'$ como altura de entrada, $j'$ como largura de entrada e $k'$ como número de canais de entrada; e $Y$ é a imagem de saída, com $i$ representando altura de saída, $j$ como largura de saída e $k$ como profundidade de saída (ou seja, o número de canais). Aqui,\textit{ $\text{reshape}$} reorganiza os blocos transformados para uma estrutura de saída apropriada, $\text{SVD}$ representa a decomposição em valores singulares dos blocos normalizados, \textbf{$\mu$} é o vetor médio dos blocos extraídos, \textbf{$\sigma$} é o vetor de desvio padrão dos blocos extraídos, e {$\text{pca\_components}$ }é uma matriz contendo os primeiros componentes principais selecionados.
+onde $\boldsymbol{X}$ é a imagem de entrada com $i'$ como altura de entrada, $j'$ como largura de entrada e $k'$ como número de canais de entrada; e $Y$ é a imagem de saída, com $i$ representando altura de saída, $j$ como largura de saída e $k$ como profundidade de saída (ou seja, o número de canais). Aqui, $\text{\textit{reshape}}$ reorganiza os blocos transformados para uma estrutura de saída apropriada, $\text{SVD}$ representa a decomposição em valores singulares dos blocos normalizados, $\boldsymbol{\mu}$ é o vetor médio dos blocos extraídos, $\boldsymbol{\sigma}$ é o vetor de desvio padrão dos blocos extraídos, e $\text{pca\_components}$ é uma matriz contendo os primeiros componentes principais selecionados.
 
 Essa formulação matemática descreve o processo de \textit{pooling} realizado pela camada BPCAPooling, que extrai informações relevantes dos blocos de entrada, reduzindo sua dimensionalidade e preservando características importantes para o aprendizado eficiente da rede neural convolucional.
 
-Quando se trata de complexidade em notação Big O, uma forma de classificar o quanto a função é escalável, pode-se dizer que recebe a notação de ordem $O(mnp^2 + p^3)$ no pior caso. Isso se dá visto que o algoritmo BPCA, constituinte do BPCAPooling passa pelos processos de divisão dos blocos ($p^2$ para cada elemento da imagem de tamanho $m$ e $n$) e a decomposição em valores singulares (operação cúbica em $p$), sendo $m$ e $n$ as dimensões da imagem, e $p$ a profundidade dos blocos. Esse desempenho assinala um compromisso entre a eficiência computacional e a capacidade de extração de características relevantes, demonstrando a relevância do BPCAPooling no contexto da aprendizagem profunda.
+Quando se analisa a complexidade de uma função em notação Big O, que descreve o quão escalável é a função, pode-se expressá-la como $O(HWD * \min(P^2, ND))$ no pior caso. Isso é resultado da complexidade em cada um dos passos dos seguintes processos:
 
-Em suma, a camada de BPCAPooling emerge como uma proposta inovadora para aprimorar a atuação das redes neurais convolucionais ao lidar com tarefas de segmentação semântica. Ao incorporar a técnica de BPCA, essa camada de \textit{pooling} permite que a informação espacial seja preservada na passagem entre as camadas convolucionais, mantendo simultaneamente uma redução de dimensionalidade efetiva dos dados. Com seu mecanismo eficiente de extração de características cruciais, o BPCAPooling demonstra uma inovação para auxiliar aos modelos de aprendizado profundo, abrindo caminho para futuras investigações e desenvolvimentos com foco em técnicas de \textit{pooling}.
+\begin{enumerate}
+    \item Extração de \textit{patches} do mapa de características de entrada, de tamanho $(H,W,C)$, gerando \textit{patches} de dimensão $(P,P,D)$. Esse processo é representado pela notação $O(HWD * P^2)$;
+    \item Normalização utilizando a média e o desvio padrão, com a notação $O(HWD)$;
+    \item Aplicação da decomposição em valores singulares em uma matriz $(HWD, P^2)$, com notação $O(\min(P^2, HWD * D))$;
+    \item Multiplicação matricial entre os \textit{patches} $(HWD, P^2)$ e os componentes principais $(P^2, N)$, resultando em $O(HWD * N * D)$;
+    \item O processo de \textit{reshaping}, considerado de complexidade linear e desconsiderado na notação Big O \citep{devi2011abstract}.
+\end{enumerate}
+
+Resumindo, a complexidade é expressa como $O(HWD * \min(P^2, ND))$, onde $H$, $W$ e $C$ representam altura, largura e número de canais, respectivamente, $P$ é o tamanho dos \textit{patches}, $N$ é o número de componentes principais, e $D$ é a quantidade de blocos.
+
+Em suma, a camada de BPCAPooling emerge como uma proposta inovadora para aprimorar a atuação das redes neurais convolucionais ao lidar com tarefas de segmentação semântica. Ao incorporar a técnica de BPCA, essa camada de \textit{pooling} permite que a informação espacial seja preservada na passagem entre as camadas convolucionais, mantendo simultaneamente uma redução de dimensionalidade efetiva dos dados.% Com seu mecanismo de extração de características cruciais, o BPCAPooling demonstra uma inovação para auxiliar aos modelos de aprendizado profundo, abrindo caminho para futuras investigações e desenvolvimentos com foco em técnicas de \textit{pooling}.
 
 \subsubsection{Conjuntos de Dados}
 \label{project:dataset}
@@ -174,26 +184,27 @@ O conjunto de dados \textit{Oxford-III Pets} \footnote{Conjuntos de dados \texti
     Fonte: retirado e adaptado de \cite{Parkhi2012CatsDogs}.
 \end{figure}
 
-Vale dizer que originalmente essas amostras estão separadas entre $3.669$ ($49,925\%$) para a etapa de teste e $3.680$ ($50,074\%$) para a etapa de treinamento. Todavia, nos testes realizados foi utilizado também um conjunto de dados voltado para validação, o qual foi extraído a partir do \textit{dataset} de teste, sendo assim, para o presente trabalho, a divisão passou a ser de $669$ exemplos para teste, 3.000 amostras para validação e 3.680 instâncias para treino, levando em conta os conceitos tratados na Seções \ref{deep:train} e \ref{deep:test}.
+Vale dizer que originalmente essas amostras estão separadas entre $3.669$ ($49,925\%$) para a etapa de teste e $3.680$ ($50,075\%$) para a etapa de treinamento. Todavia, nos testes realizados foi utilizado também um conjunto de dados voltado para validação, o qual foi extraído a partir do \textit{dataset} de teste, sendo assim, para o presente trabalho, a divisão passou a ser de $669$ exemplos para teste, 3.000 amostras para validação e 3.680 instâncias para treino, levando em conta os conceitos tratados na Seções \ref{deep:train} e \ref{deep:test}.
 
 É relevante salientar que as imagens do conjunto de dados original são tridimensionais, ou seja, cada amostra inclui informações dos canais de cores vermelho, verde e azul. Já as máscaras são unidimensionais, apresentando um mapa de valores singulares para representar as regiões de interesse baseadas na imagem original. Os valores numéricos nas máscaras correspondem ao fundo, à borda ou ao animal.
 
 Vale observar que diferentemente de muitos outros conjuntos de dados de imagem \citep{Bossard2014Food-101Forests}, o \textit{Oxford-III Pets} não apresenta dimensões padronizadas para suas amostras. Todavia, no atual trabalho, houve uma alteração nesse aspecto, em que foram aplicadas duas técnicas, além da técnica de aumento de dados que será discutida na Seção \ref{project:augment}, em todos os exemplos do conjunto de dados. Sendo que a primeira técnica aplicada foi a padronização tanto das imagens originais, quanto das máscaras, em relação às suas dimensões, em que ambas passaram a ter o valor de $256 \times 256$, que é o um valor comumente utilizado na área de imagens para substanciar as características da mesma \citep{Lee1983DigitalFilter}.
 
-Além disso, foi realizada uma normalização dos valores do conjunto de dados. Todas as imagens e máscaras foram normalizadas para um intervalo de $0$ a $1$, conforme a Equação \ref{project:eq:dataset:pets_1}. Para a máscara, essa normalização foi conduzida subtraindo-se um valor unitário de cada pixel, transformando assim o intervalo de valores de $0$ a $1$, conforme a Equação \ref{project:eq:dataset:pets_2}.
+Além disso, procedeu-se à normalização dos valores do conjunto de dados. Tanto as imagens quanto as máscaras foram normalizadas para um intervalo de $0$ a $1$, como indicado pela Equação \ref{project:eq:dataset:pets_1}.
 
 \begin{equation}
     \label{project:eq:dataset:pets_1}
-    \text{imagem de entrada normalizada}_{(i,j,k)} = \frac{\text{imagem de entrada}_{(i,j,k)}}{255}
+    \text{imagem de entrada normalizada}_{(i,j,k)} = \frac{\text{imagem de entrada}_{(i,j,k)}}{255},
 \end{equation}
+onde $(i,j,k)$ representa as coordenadas de altura, largura e canal, respectivamente.
 
-e
+No caso das máscaras, essa normalização foi realizada subtraindo-se um valor unitário de cada pixel que inicialmente correspondia a 1, 2 e 3, representando o animal em questão, a borda e o fundo, respectivamente. Esse procedimento permitiu transformar o intervalo de valores para $0$ a $1$, conforme descrito pela Equação \ref{project:eq:dataset:pets_2}.
 
 \begin{equation}
     \label{project:eq:dataset:pets_2}
     \text{máscara de entrada normalizada} = \text{máscara de entrada} - 1,
 \end{equation}
-onde $(i,j,k)$ representa as coordenadas de altura, largura e canal, respectivamente.
+em que, assim como na Equação \ref{project:eq:dataset:pets_1}, $(i,j,k)$ representa as coordenadas de altura, largura e canal, respectivamente.
 
 Por fim, é relevante ressaltar que esse conjunto de dados se mostra adequado para o treinamento em segmentação semântica, uma vez que conta com todos os dados devidamente rotulados, proporcionando um cenário propício para esse propósito. O resultado gerado por essa abordagem será um mapa de características, ilustrado de forma análoga ao apresentado na Figura \ref{project:fig:dataset:pets_1.2}.
 
@@ -241,7 +252,7 @@ A técnica de transferência de aprendizado, empregada neste estudo, encontra in
 
 Sob essa perspectiva, o treinamento das redes de classificação VGG-16 para os conjuntos de dados CIFAR 100 e \textit{Food}-101 se ancorou nos conceitos de transferência de aprendizado. Utilizamos os pesos da rede VGG16 pré-treinada no \textit{dataset} ImageNet\footnote{Conjunto de dados ImageNet - \url{https://www.image-net.org/download.php}} \citep{Deng2009ImageNet:Database}, que dispõe de um milhar ($1.000$) de classes com $1.281.167$, $50.000$ e $100.000$ exemplos para treinamento, validação e testes, respectivamente.
 
-Dessa forma, a inicialização da rede contou com os pesos da VGG-16 pré-instanciados. Gradativamente durante os treinamentos, realizou-se o processo de descongelamento das camadas da VGG-16, a partir das camadas densas até o terceiro bloco convolucional, escolhendo sempre o melhor modelo, como ilustrado na Figura \ref{project:fig:transf1} e recomendado por \cite{Chollet2021DeepPython}, aplicando essa abordagem a ambos os conjuntos de dados e métodos de \textit{pooling} testados (\textit{AvgPooling}, \textit{MaxPooling}, e BPCAPooling).
+Dessa forma, a inicialização da rede neural ocorreu com os pesos pré-treinados da VGG-16. Ao longo dos treinamentos, foi empregado o procedimento de descongelamento progressivo das camadas da VGG-16, começando pelas camadas densas e alcançando até o terceiro bloco convolucional, sem ultrapassar esse ponto para preservar as características de baixo nível presentes nos pesos do treinamento com o ImageNet. A estratégia adotada foi a de alternar entre o descongelamento de blocos e a continuação dos treinamentos, sempre escolhendo o melhor modelo, conforme exemplificado na Figura \ref{project:fig:transf1} e sugerido por \cite{Chollet2021DeepPython}. Essa abordagem foi aplicada em ambos os conjuntos de dados e nos métodos de \textit{pooling} avaliados (\textit{AvgPooling}, \textit{MaxPooling} e BPCAPooling).
 
 \begin{figure}[H]
     \centering
@@ -265,7 +276,7 @@ As próximas seções, especificamente \ref{project:augment:cifar}, \ref{project
 
 \paragraph{CIFAR 100}
 \label{project:augment:cifar}
-Para o conjunto de dados CIFAR 100, optou-se primordialmente por aplicar transformações geométricas como técnicas de aumento de dados. Considerando a diversidade das classes presentes no conjunto e o baixo risco de distorção de significado do rótulo do exemplo em questão - uma preocupação discutida por \cite{Shorten2019ALearning} no contexto do conjunto de dados MNIST -, foi possível utilizar transformações com um intervalo considerável sem, contudo, deixar a imagem irreconhecível para a interpretação humana.
+Para o conjunto de dados CIFAR 100, optou-se primordialmente por aplicar transformações geométricas como técnicas de aumento de dados. Considerando a diversidade das classes presentes no conjunto e o baixo risco de distorção de significado do rótulo do exemplo em questão - uma preocupação discutida por \cite{Shorten2019ALearning} no contexto do conjunto de dados MNIST -, foi possível utilizar transformações com uma variação considerável sem, contudo, deixar a imagem irreconhecível para a interpretação humana.
 
 As transformações aplicadas no conjunto de dados CIFAR 100, bem como a variação permitida para cada uma delas, estão detalhadamente descritas na Tabela \ref{project:tab:augment:cifar}.
 
@@ -282,14 +293,14 @@ As transformações aplicadas no conjunto de dados CIFAR 100, bem como a variaç
         \textit{Zoom}                               &  $0\% - 25\%$              &  -                 \\
         Rotação                                     &  $0^{\circ} - 45^{\circ}$  &  -                 \\
         Espelhamento Horizontal                     &  -                         &  Verdadeiro        \\
-        Preenchimento                               &  -                         &  Mais próximo
+        Modo de Preenchimento                       &  -                         &  Mais próximo
     \end{tabular}}
 
     \vspace*{1 cm}
     Fonte: do próprio autor.
 \end{table}
 
-É importante ressaltar que, no contexto dos parâmetros listados na Tabela \ref{project:tab:augment:cifar}, os termos \quotes{Espelhamento Horizontal} e \quotes{Preenchimento} indicam, respectivamente, que a imagem pode ser submetida a um espelhamento horizontal e que o tipo de preenchimento escolhido, dentre as opções \quotes{constante}, \quotes{mais próximo}, \quotes{refletir} ou \quotes{envolver}, foi o método \quotes{mais próximo}. O efeito dessas transformações pode ser observado por meio do exemplo apresentado na Figura \ref{cnn:fig:augment}.
+É importante ressaltar que, no contexto dos parâmetros listados na Tabela \ref{project:tab:augment:cifar}, os termos \quotes{Espelhamento Horizontal} e \quotes{Modo de Preenchimento} indicam, respectivamente, que a imagem pode ser submetida a um espelhamento horizontal e que o tipo de preenchimento escolhido, dentre as opções \quotes{constante}, \quotes{mais próximo}, \quotes{refletir} ou \quotes{envolver}, foi o método \quotes{mais próximo}. O efeito dessas transformações pode ser observado por meio do exemplo apresentado na Figura \ref{cnn:fig:augment}.
 
 \paragraph{\textit{Food}-101}
 \label{project:augment:food}
@@ -318,12 +329,24 @@ Ressalta-se, no entanto, que similarmente ao conjunto CIFAR 100, o \textit{datas
 Neste conjunto de dados, nota-se uma ampliação na taxa de zoom em relação ao CIFAR, o que pôde ser explorado devido à maior resolução das amostras em relação ao primeiro conjunto. A representação visual do resultado da aplicação deste aumento de dados está evidenciada na Figura \ref{project:fig:augment:food}.
 
 \begin{figure}[H]
-    \centering
-    \caption{Ilustração do aumento de dados com transformações geométricas aplicadas ao conjunto de dados \textit{Food}-101.}
-    \label{project:fig:augment:food}
-    \includegraphics[width=1\textwidth]{recursos/imagens/project/dataaugmentation_food.png}
+   \centering
+   \caption{Ilustração do aumento de dados com transformações geométricas aplicadas ao conjunto de dados \textit{Food}-101.}
+   \label{project:fig:augment:food}
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/project/dataaugmentation_o_food.png}
+        \caption{Imagens Originais.}
+        \label{project:fig:augment:food1.1}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{recursos/imagens/project/dataaugmentation_food.png}
+        \caption{Imagens com transformações.}
+        \label{project:fig:augment:food1.2}
+    \end{subfigure}%
 
-    Fonte: do próprio autor, com base no conjunto de dados \textit{Food}-101 \citep{Bossard2014Food-101Forests}.
+    Fonte: do próprio autor. com base no conjunto de dados \textit{Food}-101 \citep{Bossard2014Food-101Forests}.
 \end{figure}
 
 
@@ -353,7 +376,7 @@ Contrariamente aos conjuntos de dados direcionados à classificação, nesse con
     Fonte: do próprio autor.
 \end{table}
 
-Neste conjunto de dados, percebe-se que as transformações de cor são bastante similares às aplicadas nos outros conjuntos de dados. Entretanto, aqui os intervalos se referem às intensidades de alteração no contraste, brilho e saturação das imagens. A Figura \ref{project:fig:augment:pets} ilustra a aplicação aleatória das transformações descritas na Tabela \ref{project:tab:augment:pets}, juntamente com a máscara correspondente.
+Neste conjunto de dados, percebe-se que as transformações aplicadas são similares às aplicadas nos outros conjuntos de dados senão pelas transformações de cor. Entretanto, aqui os intervalos se referem às intensidades de alteração no contraste, brilho e saturação das imagens. A Figura \ref{project:fig:augment:pets} ilustra a aplicação aleatória das transformações descritas na Tabela \ref{project:tab:augment:pets}, juntamente com a máscara correspondente.
 
 \begin{figure}[H]
     \centering
@@ -361,10 +384,10 @@ Neste conjunto de dados, percebe-se que as transformações de cor são bastante
     \label{project:fig:augment:pets}
     \includegraphics[width=1\textwidth]{recursos/imagens/project/dataaugmentation_pets.png}
 
-    Fonte: do próprio autor, com base no conjunto de dados \textit{Oxford-IIIT Pets} \citep{Parkhi2012CatsDogs}.
+    Fonte: do próprio autor. com base no conjunto de dados \textit{Oxford-IIIT Pets} \citep{Parkhi2012CatsDogs}.
 \end{figure}
 
-Estas manipulações através do aumento de dados favorecem a robustez dos modelos empregados, potencializando a captura de características úteis e reduzindo a probabilidade de \textit{overfitting}, mesmo quando enfrentamos cenários com diversidade e quantidade insatisfatória de amostras.
+% Estas manipulações através do aumento de dados favorecem a robustez dos modelos empregados, potencializando a captura de características úteis e reduzindo a probabilidade de \textit{overfitting}, mesmo quando enfrentamos cenários com diversidade e quantidade insatisfatória de amostras.
 
 \subsubsection{Alteração na Camada de \textit{Pooling}}
 \label{project:change_pooling}
@@ -396,7 +419,9 @@ Quanto à alteração da camada de \textit{pooling} na VGG-16 para o conjunto de
 
 Dessa forma, ao comparar as alterações nas camadas em relação à VGG-16 original para ambos os conjuntos de dados, nota-se a inclusão de uma camada de \textit{dropout} no final da rede, visando mitigar problemas de \textit{overfitting}, conforme discutido na Seção \ref{cnn:dropout}, que assim como as camadas de \textit{pooling}, não é visível uma influência quanto à quantidade de parâmetros treináveis. A rede para o conjunto de \textit{Food}-101 possui um total de $34.011.045$ de parâmetros, enquanto para o conjunto CIFAR-100, são $34.006.948$ parâmetros.
 
-Da mesma forma, na arquitetura U-Net-\textit{Like}, empregada para segmentação semântica no conjunto de dados \textit{Oxford-IIIT Pets}, as camadas de \textit{Max Pooling} foram substituídas pela BPCAPooling. Vale ressaltar que, para as arquiteturas de segmentação semântica, não foi explorado o uso de \textit{Avg Pooling}, pois esse tipo de \textit{pooling} não é comumente empregado em arquiteturas de estado da arte \citep{Ronneberger2015U-net:Segmentation,Kugelman2022ASegmentation}. Essa adaptação teve como objetivo potencializar a precisão da segmentação semântica, mantendo a espacialidade das entradas ao longo das camadas, como ilustrado na Figura \ref{project:fig:change_pooling:unet-like}.
+Da mesma forma, na arquitetura U-Net-\textit{Like}, empregada para segmentação semântica no conjunto de dados \textit{Oxford-IIIT Pets}, as camadas de \textit{Max Pooling} foram substituídas pela BPCAPooling. Vale ressaltar que, para as arquiteturas de segmentação semântica, não foi explorado o uso de \textit{Avg Pooling}, pois esse tipo de \textit{pooling} não é comumente empregado em arquiteturas de estado da arte \citep{Ronneberger2015U-net:Segmentation,Kugelman2022ASegmentation}. Essa adaptação foi realizada com o intuito de aprimorar a precisão da segmentação semântica, mantendo a informação espacial das entradas durante o processamento pelas diversas camadas. A ideia é que a estrutura geral da imagem fosse preservada ao longo das operações realizadas, garantindo que a imagem não fosse distorcida.
+
+A arquitetura com as modificações citadas, bem como a quantidade de parâmetros treináveis ao lado da camada representada, pode ser visualizado na Figura \ref{project:fig:change_pooling:unet-like}.
 
 \begin{figure}[H]
     \centering
@@ -425,7 +450,7 @@ A comparação entre as arquiteturas apresentadas nas Figuras \ref{project:fig:c
 \label{project:exp_result}
 Esta seção, busca elucidar as métricas de avaliação escolhidas para determinar o desempenho dos experimentos realizados neste estudo para atingir os objetivos mencionados na Seção \ref{intro:objectives}. Essas métricas são categorizadas em duas vertentes: classificação e segmentação semântica, que serão exploradas na Seção \ref{project:metrics}.
 
-Com o intuito de promover a reproduzibilidade deste trabalho, oferece-se na Seção \ref{project:params} detalhes acerca dos parâmetros empregados no treinamento e testes conduzidos. Adicionalmente, na Seção \ref{project:explain}, será discorrido sobre os projetos utilizados neste estudo para melhor entender as classificações e segmentações à luz das percepções derivadas dos modelos.
+Com o intuito de promover a reproduzibilidade deste trabalho, oferece-se na Seção \ref{project:params} detalhes acerca dos parâmetros empregados no treinamento e testes conduzidos. Adicionalmente, na Seção \ref{project:explain}, será discorrido sobre as técnicas de explicabilidade de modelos de IA utilizadas neste estudo para melhor entender as classificações e segmentações à luz das percepções derivadas dos modelos.
 
 \subsubsection{Escolha das Métricas}
 \label{project:metrics}
@@ -454,7 +479,7 @@ Os parâmetros de treinamento e teste são de extrema importância no desenvolvi
 
 \paragraph{VGG-16 + \textit{Food}-101}
 \label{params:vggfood}
-Na configuração da VGG-16 para o conjunto de dados \textit{Food}-101, é relevante destacar a definição inicial das sementes (\textit{seeds}) iguais à $77$ para as bibliotecas TensorFlow e NumPy. Essas sementes foram estabelecidas visando a reprodução consistente dos resultados nos testes, reduzindo variações indesejadas \citep{Alahmari2020ChallengesModels}. Além disso, durante a fase de preparação dos dados, um parâmetro crucial foi o tamanho do lote (\textit{batch size}), estabelecido em $64$. Este parâmetro determina a quantidade de imagens usadas no treinamento durante uma única época \citep{Kandel2020TheDataset}. Por fim, entre as variáveis mantidas constantes em todos os procedimentos, destaca-se a taxa de aprendizado definida como $1e^{-5}$, considerada uma taxa mais conservadora, cuja importância é discutida na Seção \ref{deep:optimization:dynamic_lr}.
+Na configuração da VGG-16 para o conjunto de dados \textit{Food}-101, é relevante destacar a definição inicial das sementes (\textit{seeds}) foram iguais à $77$ para as bibliotecas TensorFlow e NumPy, valor o qual foi escolhido empiricamente. Essas sementes foram estabelecidas visando a reprodução consistente dos resultados nos testes, reduzindo variações indesejadas \citep{Alahmari2020ChallengesModels}. Além disso, durante a fase de preparação dos dados, um parâmetro crucial foi o tamanho do lote (\textit{batch size}), estabelecido em $64$. Este parâmetro determina a quantidade de imagens usadas no treinamento durante uma única época \citep{Kandel2020TheDataset}. Por fim, entre as variáveis mantidas constantes em todos os procedimentos, destaca-se a taxa de aprendizado definida como $1e^{-5}$, considerada uma taxa mais conservadora, cuja importância é discutida na Seção \ref{deep:optimization:dynamic_lr}.
 
 Outros parâmetros relevantes incluem o número de épocas usadas para treinamento e teste do modelo, bem como as funções de otimização empregadas nesses processos. Adicionalmente, a estratégia de atualização dinâmica da taxa de aprendizado com CLR \citep{Smith2017CyclicalNetworks} é digna de menção. No entanto, devido à realização de um processo de ajuste fino (\textit{fine-tuning}) nas arquiteturas da VGG-16, é importante ressaltar que esses parâmetros variavam de acordo com a fase da execução. Cada modelo foi treinado quatro vezes, como ilustrado na Figura \ref{project:fig:transf1} e mencionado na Seção \ref{project:transf}. Portanto, as Tabelas \ref{project:tab:params:vggfoodbpca}, \ref{project:tab:params:vggfoodmax} e \ref{project:tab:params:vggfoodavg} apresentam os parâmetros utilizados em cada fase do processo de \textit{fine-tuning} com o uso de BPCAPooling, \textit{Max Pooling} e \textit{Avg Pooling}, respectivamente.
 
@@ -473,8 +498,8 @@ Outros parâmetros relevantes incluem o número de épocas usadas para treinamen
             Época de Parada                              & 188                                & -                       & 167                                & -                       & 700                                & -                       & 219                                & -                                                                  \\
             Parada Antecipada                            & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
             CLR                                          & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
-            Taxa de Aprendizado Mínima                   & 0.0001                             & -                       & 0.00001                            & -                       & 0.00001                            & -                       & 0.00001                            & -                                                                  \\
-            Taxa de Aprendizado Máxima                   & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                                                                  \\
+            Taxa de Aprendizado Mínima                   & 0,0001                             & -                       & 0,00001                            & -                       & 0,00001                            & -                       & 0,00001                            & -                                                                  \\
+            Taxa de Aprendizado Máxima                   & 0,0001                             & -                       & 0,0001                             & -                       & 0,0001                             & -                       & 0,0001                             & -                                                                  \\
             Função de Otimização                         & Adam                               & -                       & SGD                                & -                       & SGD                                & -                       & SGD                                & -                       
         \end{tabular}
         }
@@ -513,26 +538,26 @@ Outros parâmetros relevantes incluem o número de épocas usadas para treinamen
 \begin{table}[H]
     \centering
     \caption{Parâmetros de treinamento e teste com VGG-16 e \textit{Avg Pooling} no conjunto \textit{Food}-101.}
-    \label{project:tab:params:vggfoodavg}
-    \resizebox{1\textwidth}{!}{
-        \begin{tabular}{l|l|l|l|l|l|l|l|l}
-            % \firsthline
-            \multicolumn{1}{c|}{\textbf{Parâmetros}}      & \multicolumn{2}{c|}{\textbf{\textit{Warm-up}}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}     \\
-            \cline{2-9}
-            \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c}{\textbf{Uso}} \\
-            \hline
-            Épocas                                       & 700                                & -                       & 700                                & -                       & 700                                & -                       & 700                                & -                                                                  \\
-            Época de Parada                              & 700                                & -                       & 700                                & -                       & 700                                & -                       & 249                                & -                                                                  \\
-            Parada Antecipada                            & -                                  & Falso                   & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
-            CLR                                          & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
-            Taxa de Aprendizado Mínima                   & 0.0001                             & -                       & 0.00001                            & -                       & 0.00001                            & -                       & 0.00001                            & -                                                                  \\
-            Taxa de Aprendizado Máxima                   & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                                                                  \\
-            Função de Otimização                         & Adam                               & -                       & SGD                                & -                       & SGD                                & -                       & SGD                                & -                       
-        \end{tabular}
-        }
+\label{project:tab:params:vggfoodavg}
+\resizebox{1\textwidth}{!}{
+    \begin{tabular}{l|l|l|l|l|l|l|l|l}
+        % \firsthline
+        \multicolumn{1}{c|}{\textbf{Parâmetros}}      & \multicolumn{2}{c|}{\textbf{\textit{Warm-up}}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}     \\
+        \cline{2-9}
+        \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c}{\textbf{Uso}} \\
+        \hline
+        Épocas                                       & 700                                & -                       & 700                                & -                       & 700                                & -                       & 700                                & -                                                                  \\
+        Época de Parada                              & 700                                & -                       & 700                                & -                       & 700                                & -                       & 249                                & -                                                                  \\
+        Parada Antecipada                            & -                                  & Falso                   & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+        CLR                                          & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+        Taxa de Aprendizado Mínima                   & 0,0001                             & -                       & 0,00001                            & -                       & 0,00001                            & -                       & 0,00001                            & -                                                                  \\
+        Taxa de Aprendizado Máxima                   & 0,0001                             & -                       & 0,0001                             & -                       & 0,0001                             & -                       & 0,0001                             & -                                                                  \\
+        Função de Otimização                         & Adam                               & -                       & SGD                                & -                       & SGD                                & -                       & SGD                                & -                       
+    \end{tabular}
+    }
 
-    \vspace*{1 cm}
-    Fonte: do próprio autor.
+\vspace*{1 cm}
+Fonte: do próprio autor.
 \end{table}
 
 Analisando as Tabelas \ref{project:tab:params:vggfoodbpca}, \ref{project:tab:params:vggfoodmax} e \ref{project:tab:params:vggfoodavg}, observa-se que o parâmetro que mais se destaca é a Época de Parada, o qual é influenciado pela técnica de Parada Antecipada (\textit{Early Stopping}). Ademais, as variações entre as configurações se dão pelo emprego ou não da taxa de aprendizado dinâmica utilizando o método CLR (\textit{Cyclical Learning Rate}). Essas discrepâncias refletem diferentes estratégias adotadas no treinamento dos modelos.
@@ -545,88 +570,88 @@ A abordagem aplicada na combinação da VGG-16 com o conjunto de dados CIFAR-100
 \begin{table}[H]
     \centering
     \caption{Parâmetros de treinamento e teste com VGG-16 e BPCAPooling no conjunto CIFAR 100.}
-    \label{project:tab:params:vggcifarbpca}
-    \resizebox{1\textwidth}{!}{
-        \begin{tabular}{l|l|l|l|l|l|l|l|l}
-            % \firsthline
-            \multicolumn{1}{c|}{\textbf{Parâmetros}}      & \multicolumn{2}{c|}{\textbf{\textit{Warm-up}}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}     \\
-            \cline{2-9}
-            \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c}{\textbf{Uso}} \\
-            \hline
-            Épocas                                       & 700                                & -                       & 700                                & -                       & 700                                & -                       & 700                                & -                                                                  \\
-            Época de Parada                              & 700                                & -                       & 700                                & -                       & 473                                & -                       & 700                                & -                                                                  \\
-            Parada Antecipada                            & -                                  & Falso                   & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
-            CLR                                          & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
-            Taxa de Aprendizado Mínima                   & 0.0001                             & -                       & 0.00001                            & -                       & 0.00001                            & -                       & 0.00001                            & -                                                                  \\
-            Taxa de Aprendizado Máxima                   & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                                                                  \\
-            Função de Otimização                         & Adam                               & -                       & SGD                                & -                       & SGD                                & -                       & SGD                                & -                       
-        \end{tabular}
-        }
+\label{project:tab:params:vggcifarbpca}
+\resizebox{1\textwidth}{!}{
+    \begin{tabular}{l|l|l|l|l|l|l|l|l}
+        % \firsthline
+        \multicolumn{1}{c|}{\textbf{Parâmetros}}      & \multicolumn{2}{c|}{\textbf{\textit{Warm-up}}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}     \\
+        \cline{2-9}
+        \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c}{\textbf{Uso}} \\
+        \hline
+        Épocas                                       & 700                                & -                       & 700                                & -                       & 700                                & -                       & 700                                & -                                                                  \\
+        Época de Parada                              & 700                                & -                       & 700                                & -                       & 473                                & -                       & 700                                & -                                                                  \\
+        Parada Antecipada                            & -                                  & Falso                   & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+        CLR                                          & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+        Taxa de Aprendizado Mínima                   & 0,0001                             & -                       & 0,00001                            & -                       & 0,00001                            & -                       & 0,00001                            & -                                                                  \\
+        Taxa de Aprendizado Máxima                   & 0,0001                             & -                       & 0,0001                             & -                       & 0,0001                             & -                       & 0,0001                             & -                                                                  \\
+        Função de Otimização                         & Adam                               & -                       & SGD                                & -                       & SGD                                & -                       & SGD                                & -                       
+    \end{tabular}
+    }
 
-    \vspace*{1 cm}
-    Fonte: do próprio autor.
+\vspace*{1 cm}
+Fonte: do próprio autor.
 \end{table}
 
 
 \begin{table}[H]
     \centering
     \caption{Parâmetros de treinamento e teste com VGG-16 e \textit{Max Pooling} no conjunto CIFAR 100.}
-    \label{project:tab:params:vggcifarmax}
-    \resizebox{1\textwidth}{!}{
-        \begin{tabular}{l|l|l|l|l|l|l|l|l}
-            % \firsthline
-            \multicolumn{1}{c|}{\textbf{Parâmetros}}      & \multicolumn{2}{c|}{\textbf{\textit{Warm-up}}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}     \\
-            \cline{2-9}
-            \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c}{\textbf{Uso}} \\
-            \hline
-            Épocas                                       & 700                                & -                       & 700                                & -                       & 700                                & -                       & 700                                & -                                                                  \\
-            Época de Parada                              & 700                                & -                       & 700                                & -                       & 700                                & -                       & 550                                & -                                                                  \\
-            Parada Antecipada                            & -                                  & Falso                   & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
-            CLR                                          & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
-            Taxa de Aprendizado Mínima                   & 0.0001                             & -                       & 0.00001                            & -                       & 0.00001                            & -                       & 0.00001                            & -                                                                  \\
-            Taxa de Aprendizado Máxima                   & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                                                                  \\
-            Função de Otimização                         & Adam                               & -                       & SGD                                & -                       & SGD                                & -                       & SGD                                & -                       
-        \end{tabular}
-        }
+\label{project:tab:params:vggcifarmax}
+\resizebox{1\textwidth}{!}{
+    \begin{tabular}{l|l|l|l|l|l|l|l|l}
+        % \firsthline
+        \multicolumn{1}{c|}{\textbf{Parâmetros}}      & \multicolumn{2}{c|}{\textbf{\textit{Warm-up}}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}     \\
+        \cline{2-9}
+        \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c}{\textbf{Uso}} \\
+        \hline
+        Épocas                                       & 700                                & -                       & 700                                & -                       & 700                                & -                       & 700                                & -                                                                  \\
+        Época de Parada                              & 700                                & -                       & 700                                & -                       & 700                                & -                       & 550                                & -                                                                  \\
+        Parada Antecipada                            & -                                  & Falso                   & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+        CLR                                          & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+        Taxa de Aprendizado Mínima                   & 0,0001                             & -                       & 0,00001                            & -                       & 0,00001                            & -                       & 0,00001                            & -                                                                  \\
+        Taxa de Aprendizado Máxima                   & 0,0001                             & -                       & 0,0001                             & -                       & 0,0001                             & -                       & 0,0001                             & -                                                                  \\
+        Função de Otimização                         & Adam                               & -                       & SGD                                & -                       & SGD                                & -                       & SGD                                & -                       
+    \end{tabular}
+    }
 
-    \vspace*{1 cm}
-    Fonte: do próprio autor.
+\vspace*{1 cm}
+Fonte: do próprio autor.
 \end{table}
 
 
 \begin{table}[H]
     \centering
     \caption{Parâmetros de treinamento e teste com VGG-16 e \textit{Avg Pooling} no conjunto CIFAR 100.}
-    \label{project:tab:params:vggcifaravg}
-    \resizebox{1\textwidth}{!}{
-        \begin{tabular}{l|l|l|l|l|l|l|l|l}
-            % \firsthline
-            \multicolumn{1}{c|}{\textbf{Parâmetros}}      & \multicolumn{2}{c|}{\textbf{\textit{Warm-up}}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}     \\
-            \cline{2-9}
-            \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c}{\textbf{Uso}} \\
-            \hline
-            Épocas                                       & 700                                & -                       & 700                                & -                       & 700                                & -                       & 700                                & -                                                                  \\
-            Época de Parada                              & 700                                & -                       & 700                                & -                       & 700                                & -                       & 350                                & -                                                                  \\
-            Parada Antecipada                            & -                                  & Falso                   & -                                  & Falso                   & -                                  & Falso                   & -                                  & Verdadeiro                                                         \\
-            CLR                                          & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
-            Taxa de Aprendizado Mínima                   & 0.0001                             & -                       & 0.00001                            & -                       & 0.00001                            & -                       & 0.00001                            & -                                                                  \\
-            Taxa de Aprendizado Máxima                   & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                       & 0.0001                             & -                                                                  \\
-            Função de Otimização                         & Adam                               & -                       & SGD                                & -                       & SGD                                & -                       & SGD                                & -                       
-        \end{tabular}
-        }
+\label{project:tab:params:vggcifaravg}
+\resizebox{1\textwidth}{!}{
+    \begin{tabular}{l|l|l|l|l|l|l|l|l}
+        % \firsthline
+        \multicolumn{1}{c|}{\textbf{Parâmetros}}      & \multicolumn{2}{c|}{\textbf{\textit{Warm-up}}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 5}}                                          & \multicolumn{2}{c|}{\textbf{Bloco 4}}                                          & \multicolumn{2}{c}{\textbf{Bloco 3}}     \\
+        \cline{2-9}
+        \multicolumn{1}{c|}{\textbf{}}                & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c|}{\textbf{Uso}} & \multicolumn{1}{c|}{\textbf{Valor}} & \multicolumn{1}{c}{\textbf{Uso}} \\
+        \hline
+        Épocas                                       & 700                                & -                       & 700                                & -                       & 700                                & -                       & 700                                & -                                                                  \\
+        Época de Parada                              & 700                                & -                       & 700                                & -                       & 700                                & -                       & 350                                & -                                                                  \\
+        Parada Antecipada                            & -                                  & Falso                   & -                                  & Falso                   & -                                  & Falso                   & -                                  & Verdadeiro                                                         \\
+        CLR                                          & -                                  & Falso                   & -                                  & Verdadeiro              & -                                  & Verdadeiro              & -                                  & Verdadeiro                                                         \\
+        Taxa de Aprendizado Mínima                   & 0,0001                             & -                       & 0,00001                            & -                       & 0,00001                            & -                       & 0,00001                            & -                                                                  \\
+        Taxa de Aprendizado Máxima                   & 0,0001                             & -                       & 0,0001                             & -                       & 0,0001                             & -                       & 0,0001                             & -                                                                  \\
+        Função de Otimização                         & Adam                               & -                       & SGD                                & -                       & SGD                                & -                       & SGD                                & -                       
+    \end{tabular}
+    }
 
-    \vspace*{1 cm}
-    Fonte: do próprio autor.
+\vspace*{1 cm}
+Fonte: do próprio autor.
 \end{table}
 
 
 \paragraph{U-Net-\textit{Like} + \textit{Oxford-IIIT Pets}}
 \label{params:unetlikepets}
-Na configuração dos parâmetros para a arquitetura U-Net-\textit{Like} aplicada ao conjunto de dados \textit{Oxford-IIIT Pets}, é importante observar que não foi realizado um processo de \textit{fine-tuning}, diferentemente das arquiteturas utilizadas para classificação que foram mencionadas anteriormente. No entanto, muitos dos parâmetros se mantiveram consistentes. Neste contexto, foram adotadas sementes para as bibliotecas TensorFlow e Numpy, com um valor de $77$, garantindo a reprodutibilidade dos testes.
+Na configuração dos parâmetros para a arquitetura U-Net-\textit{Like} aplicada ao conjunto de dados \textit{Oxford-IIIT Pets}, é importante observar que não foi realizado um processo de \textit{fine-tuning}, diferentemente das arquiteturas utilizadas para classificação que foram mencionadas anteriormente. No entanto, muitos dos parâmetros se mantiveram consistentes. Neste contexto, foram adotadas sementes para as bibliotecas TensorFlow e Numpy, com um valor empírico de $77$, garantindo a reprodutibilidade dos testes.
 
 Para a U-Net-\textit{Like}, foram realizados treinamentos e testes ao longo de $20$ e $500$ épocas, respectivamente, antecedendo os experimentos relacionados à arquitetura U-Net, a qual será discutida na Seção \ref{params:unetpets}. Em relação à taxa de aprendizado máxima, vale ressaltar que seu valor foi mantido constante em $1 \times 10^{-4}$ para todos os experimentos realizados. Apesar de parecer uma taxa mais elevada em comparação com as anteriores, está dentro do limite recomendado quando comparado com outras pesquisas \citep{Fajar2023CyclicalSegmentation}. Além disso, a taxa de aprendizado mínima foi definida como $1 \times 10^{-5}$, sendo reduzida quando o modelo não apresentou evolução na métrica de avaliação principal após $25$ épocas para os testes com $500$ épocas, pois para os de $20$ épocas a redução não foi utilizada. Em relação ao valor do \textit{batch size}, esse se manteve constante em $64$, seguindo o padrão dos experimentos anteriores com a rede VGG-16.
 
-Em contraste com os experimentos anteriores, foram utilizadas fórmulas para calcular a quantidade de iterações por época, conforme representado pela Equação \ref{params:eq1:unetlikepets}, e para calcular a quantidade das iterações de validação, representadas pela Equação \ref{params:eq2:unetlikepets}.
+Em contraste com os experimentos anteriores, foram utilizadas fórmulas para calcular a quantidade de iterações por época, conforme representado pela Equação \ref{params:eq1:unetlikepets}, e para calcular a quantidade das iterações de validação, representadas pela Equação \ref{params:eq2:unetlikepets}, descritas respectivamente por:
 
 \begin{equation}
     \label{params:eq1:unetlikepets}
@@ -652,14 +677,18 @@ Assim como nos experimentos anteriores com a arquitetura U-Net-\textit{Like}, o 
 
 O critério de parada antecipada foi mantido constante em todos os experimentos realizados. A utilização das Equações \ref{params:eq1:unetlikepets} e \ref{params:eq2:unetlikepets} também foi aplicada nos experimentos da U-Net, resultando em $18$ passos de validação e $115$ passos por época, visto que as divisões de validação mantiveram-se no valor de $5$.
 
-Por fim, é relevante destacar que o valor da semente permaneceu em $77$ para garantir a reprodutibilidade dos resultados. No entanto, o tamanho do lote teve que ser reduzido para $32$, uma vez que o \textit{hardware}, apesar de possuir $24.564$ MiB, não suportava o uso do parâmetro igual a $64$, como feito nos demais testes.
+Por fim, é relevante destacar que o valor da semente permaneceu empiricamente em $77$ para garantir a reprodutibilidade dos resultados. No entanto, o tamanho do lote teve que ser reduzido para $32$, uma vez que o \textit{hardware}, apesar de possuir $24.564$ MiB, não suportava o uso do parâmetro igual a $64$, como feito nos demais testes.
 
 
 \subsubsection{Explicabilidade de Modelos}
 \label{project:explain}
 No contexto da explicação de modelos, abordaremos o uso de ferramentas pertencentes à área de Inteligência Artificial Explicável, também conhecida como \textit{Explainable Artificial Intelligence} (XAI) \citep{Gunning2019XAIExplainableIntelligence}. Essa área visa mitigar as limitações dos modelos de \quotes{caixa-preta}, tornando-os mais compreensíveis para os humanos, elucidando seu funcionamento de maneira mais transparente e interpretável \citep{Angelov2021ExplainableReview}.
 
-Durante os experimentos realizados com os modelos de classificação, empregou-se a ferramenta \textit{Local Interpretable Model-Agnostic Explanations} (LIME) \citep{Ribeiro2016WhyClassifier}. Essa ferramenta foi especialmente desenvolvida para explicar modelos de inteligência artificial, identificando as regiões de uma imagem que mais influenciam a inferência do modelo. Ao analisar as áreas destacadas geradas pelo LIME, é possível avaliar se o modelo é influenciado pelo fundo ou por objetos não relacionados à classe correta. Um exemplo disso é mostrado na Figura \ref{project:fig:explain:lime1}, onde o fundo nevado na imagem fez com que o modelo identificasse um cachorro Husky como um lobo, animal frequentemente fotografado em ambientes semelhantes.
+No decorrer dos experimentos com os modelos de classificação, aplicou-se o LIME, acrônimo para \textit{Local Interpretable Model-Agnostic Explanations}, uma técnica desenvolvida por \cite{Ribeiro2016WhyClassifier}. O LIME oportuniza entender as previsões de classificadores de uma maneira intuitiva, ao identificar as regiões críticas de uma imagem que mais contribuem para a decisão do modelo.
+
+O mecanismo do LIME baseia-se em aproximar o modelo original, em um determinado ponto de interesse, com um modelo linear interpretável localmente. Este processo é conduzido por meio da geração de novas amostras com perturbações ao redor do ponto de interesse, classificando-as com o uso do modelo original, e então ajustando um modelo linear com base na saída \citep{Ribeiro2016WhyClassifier}. As características mais relevantes, aquelas que contribuem mais para a tomada de decisão, são destacadas na imagem, proporcionando um entendimento de qual influência cada parte da imagem tem na decisão final do modelo.
+
+Ao se empregar essa perspectiva oferecida pelo LIME, observam-se as áreas de maior influência na classificação ressaltadas na imagem, tornando possível averiguar se a decisão do modelo é impactada pelo contexto da imagem, como o fundo, ou por elementos não pertinentes à classificação correta. Um exemplo ilustrativo dessa situação é demonstrado na Figura \ref{project:fig:explain:lime1}. Neste caso, o modelo confundiu um cachorro Husky com um lobo, dado que o fundo nevado no contexto da imagem é um ambiente comumente associado a fotos de lobos. Esta análise, viabilizada pela interpretabilidade proporcionada pelo LIME, auxilia em evidenciar e entender as falhas do modelo.
 
 \begin{figure}[H]
     \centering
@@ -705,11 +734,11 @@ Idealmente, o LIME destaca partes da imagem diretamente associadas às regiões 
     Fonte: retirado e adaptado de \cite{Ribeiro2016WhyClassifier}.
 \end{figure}
 
-Contudo, ao tentar aplicar os conceitos de \textit{Explainable AI} (XAI) com o uso do LIME em problemas de segmentação semântica, não se obteve sucesso, uma vez que todos os pixels nessas segmentações representam áreas de interesse. Diante dessa limitação, recorreu-se à ferramenta Xplique \citep{Fel2022}, que, dentre suas funcionalidades, apresenta métodos de atribuição destinados a produzir mapas de calor (\textit{heatmaps}) com o intuito de explicar as áreas de foco dos modelos em relação às instâncias segmentadas \citep{Fel2022}. Essa abordagem assemelha-se ao propósito do LIME e pode ser visualizada na Figura \ref{project:fig:explain:xplique}.
+Contudo, ao tentar aplicar os conceitos de \textit{Explainable AI} (XAI) com o uso do LIME em problemas de segmentação semântica, não se obteve sucesso, uma vez que todos os pixels nessas segmentações representam áreas de interesse. Diante dessa limitação, recorreu-se ao \textit{framework} Xplique \citep{Fel2022}, que, dentre suas funcionalidades, utiliza da aplicação de métodos de atribuição destinados a produzir mapas de calor (\textit{heatmaps}) com o intuito de explicar as áreas de foco dos modelos em relação às instâncias segmentadas \citep{Fel2022}. Essa abordagem assemelha-se ao propósito do LIME e a aplicação dos métodos de atribuição evidenciando áreas de maior influencia mapeadas pelo modelo, por meio de mapas de calor, podem ser visualizados na Figura \ref{project:fig:explain:xplique}.
 
 \begin{figure}[H]
     \centering
-    \caption{Aplicação das técnicas da ferramenta Xplique, evidenciando áreas de interesse por meio de mapas de calor.}
+    \caption{Exemplo de aplicação de métodos de atribuição da ferramenta Xplique.}
     \includegraphics[width=1\textwidth]{recursos/imagens/project/xplique.png}
     \label{project:fig:explain:xplique}
 
