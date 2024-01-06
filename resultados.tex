@@ -251,23 +251,109 @@ No conjunto de dados CIFAR 100, é visível que as características geométricas
     Fonte: do próprio autor.
 \end{figure}
 
-Ao analisar as camadas de \textit{pooling} aplicadas ao conjunto de dados \textit{Food}-101, representadas nas Figuras \ref{results:fig:datasets:6.1} e \ref{results:fig:datasets:6.2}, observa-se diferenças nas intensidades das saídas dessas camadas. As saídas resultantes do método \textit{Max Pooling} apresentam menor intensidade, enquanto as saídas do método BPCAPooling exibem maior intensidade, resultando em imagens com maior clareza e definição, principalmente de bordas.
+Ao analisar as camadas de \textit{pooling} aplicadas ao conjunto de dados \textit{Food}-101, representadas nas Figuras \ref{results:fig:datasets:max} e \ref{results:fig:datasets:bpca}, observa-se diferenças nas intensidades das saídas dessas camadas. As saídas resultantes do método \textit{Max Pooling} apresentam menor intensidade, enquanto as saídas do método BPCAPooling exibem maior intensidade, resultando em imagens com maior clareza e definição, principalmente de bordas.
 
-\begin{landscape}
-\begin{figure}
-  \centering
-  \includegraphics[width=\paperwidth,height=\textheight,keepaspectratio]{recursos/imagens/results/max_by_layer.png}
-  \caption{Resultado visual de camadas de \textit{pooling} do conjunto \textit{Food}-101. Camadas com \textit{Max Pooling}.}
-  \label{results:fig:datasets:6.1}
+\begin{figure}[p]
+    \caption{Resultado visual de camadas de \textit{pooling} do conjunto \textit{Food}-101. Camadas com \textit{Max Pooling}.}
+    \centering
+    \label{results:fig:datasets:max}
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/original.png}
+         \caption{Imagem original.}
+         \label{results:fig:datasets:max_original}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max1.png}
+         \caption{Bloco 5.}
+         \label{results:fig:datasets:max.1}
+     \end{subfigure}%
+     ~ 
+ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max2.png}
+         \caption{Bloco 4.}
+         \label{results:fig:datasets:max.2}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max3.png}
+         \caption{Bloco 3.}
+         \label{results:fig:datasets:max.3}
+     \end{subfigure}%
+     ~ 
+ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max4.png}
+         \caption{Bloco 2.}
+         \label{results:fig:datasets:max.4}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/max5.png}
+         \caption{Bloco 1.}
+         \label{results:fig:datasets:max.5}
+     \end{subfigure}%
+ 
+     Fonte: do próprio autor.
 \end{figure}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=\paperwidth,height=\textheight,keepaspectratio]{recursos/imagens/results/bpca_by_layer.png}
-  \caption{Resultado visual de camadas de \textit{pooling} do conjunto \textit{Food}-101. Camadas com BPCAPooling.}
-  \label{results:fig:datasets:6.2}
+\begin{figure}[H]
+    \caption{Resultado visual de camadas de \textit{pooling} do conjunto \textit{Food}-101. Camadas com BPCAPooling.}
+    \centering
+    \label{results:fig:datasets:bpca}
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/original.png}
+         \caption{Imagem original.}
+         \label{results:fig:datasets:bpca_original}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca1.png}
+         \caption{Bloco 5.}
+         \label{results:fig:datasets:bpca.1}
+     \end{subfigure}%
+     ~ 
+ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca2.png}
+         \caption{Bloco 4.}
+         \label{results:fig:datasets:bpca.2}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca3.png}
+         \caption{Bloco 3.}
+         \label{results:fig:datasets:bpca.3}
+     \end{subfigure}%
+     ~ 
+ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca4.png}
+         \caption{Bloco 2.}
+         \label{results:fig:datasets:bpca.4}
+     \end{subfigure}%
+     ~ 
+     \begin{subfigure}[t]{0.45\textwidth}
+         \centering
+         \includegraphics[width=1\linewidth]{recursos/imagens/results/bpca5.png}
+         \caption{Bloco 1.}
+         \label{results:fig:datasets:bpca.5}
+     \end{subfigure}%
+ 
+     Fonte: do próprio autor.
 \end{figure}
-\end{landscape}
 
 
 Outro ponto é a discrepância nas últimas camadas de BPCAPooling, como mencionado anteriormente no contexto do conjunto de dados CIFAR 100. As saídas dessas camadas finais de BPCAPooling parecem conter ruídos visuais, enquanto as saídas das últimas camadas com \textit{Max Pooling} aparentam conter mais informações agregadas. Isso é evidenciado na Figura \ref{results:fig:datasets:7}, que mostra resultados com resolução superior a $2 \times 2$, devido à resolução maior das imagens de entrada.
@@ -471,9 +557,9 @@ Analisando as tabelas anteriores, observa-se que, embora as métricas adotadas p
      Fonte: do próprio autor.
 \end{figure}
 
-Outro aspecto a se considerar ao analisar as Tabelas \ref{results:semantic:tab:1} e \ref{results:semantic:tab:2} é o tempo de execução durante os processos de treinamento e validação. Notavelmente, os tempos para o método \textit{Max Pooling} são significativamente mais rápidos quando comparado ao BPCAPooling, atribuídos à complexidade do método proposto discutida na Seção \ref{conclusion:class:future}. No entanto, é importante destacar que os modelos atingiram a convergência em um número próximo de épocas, os modelos baseados na métrica de acurácia convergiram em $168$ épocas para BPCAPooling e $172$ épocas para \textit{Max Pooling}. Enquanto, os modelos baseados na métrica mIoU convergiram em $102$ épocas para BPCAPooling e $101$ para \textit{Max Pooling}.
+Outro aspecto a se considerar ao analisar as Tabelas \ref{results:semantic:tab:1} e \ref{results:semantic:tab:2} é o tempo de execução durante os processos de treinamento e validação. Notavelmente, os tempos para o método \textit{Max Pooling} são significativamente mais rápidos quando comparado ao BPCAPooling, atribuídos à complexidade do método proposto discutida na Seção \ref{conclusion:future}. No entanto, é importante destacar que os modelos atingiram a convergência em um número próximo de épocas, os modelos baseados na métrica de acurácia convergiram em $168$ épocas para BPCAPooling e $172$ épocas para \textit{Max Pooling}. Enquanto, os modelos baseados na métrica mIoU convergiram em $102$ épocas para BPCAPooling e $101$ para \textit{Max Pooling}.
 
-Por fim, ao considerar um nível de significância de $5\%$ para os modelos U-Nets treinados durante $500$ épocas, observa-se que não há diferença significativa nos campos de acurácia, tanto nos conjuntos de teste quanto nos de validação, apresentando p-valores de $0.1479$ e $0.2192$, respectivamente. No entanto, ao analisar os valores de mIoU, embora os p-valores sejam de $0.0678$ e $0.0110$ para teste e validação, respectivamente, indicando ausência de diferença significativa no primeiro caso e uma diferença no segundo caso (considerando um nível de significância de $5\%$), é importante ressaltar que visualmente é desafiador discernir tais diferenças, uma vez que a segmentação apresenta uma semelhança notável, sendo assim maiores detalhes sobre as diferenças serão relatados na Seção \ref{results:semantic:xai}. Os resultados visuais podem ser observados nas Figuras \ref{results:fig:semantic:0} e \ref{results:fig:semantic:1}, correspondendo ao primeiro e segundo caso mencionados, respectivamente.
+Por fim, ao considerar um nível de significância de $5\%$ para os modelos U-Nets treinados durante $500$ épocas, observa-se que não há diferença significativa nos campos de acurácia, tanto nos conjuntos de teste quanto nos de validação, apresentando p-valores de $0.1479$ e $0.2192$, respectivamente. No entanto, ao analisar os valores de mIoU, embora os p-valores sejam de $0.0678$ e $0.0110$ para teste e validação, respectivamente, indicando ausência de diferença significativa no primeiro caso e uma diferença no segundo caso (considerando um nível de significância de $5\%$), é importante ressaltar que visualmente é desafiador discernir tais diferenças, uma vez que a segmentação apresenta uma semelhança notável, sendo assim maiores detalhes sobre as diferenças serão relatados ainda nessa seção. Os resultados visuais podem ser observados nas Figuras \ref{results:fig:semantic:0} e \ref{results:fig:semantic:1}, correspondendo ao primeiro e segundo caso mencionados, respectivamente.
 
 \begin{figure}[H]
     \centering
@@ -924,10 +1010,6 @@ Por fim, ao analisar as Figuras \ref{results:fig:semantic:11}, \ref{results:fig:
     Fonte: do próprio autor.
 \end{figure}
 
-
-
-\subsubsection{Explicabilidade de modelos}
-\label{results:semantic:xai}
 Como discutido na Seção \ref{project:explain}, para realizar as análises de interpretabilidade nas segmentações semânticas, a ferramenta LIME não se mostrou adequada. Portanto, optou-se pelo uso da ferramenta Xplique, a qual oferece métodos de atribuição que permitem a visualização de pontos de destaque para a compreensão das segmentações, mapeamento das bordas das áreas de interesse ou bordas entre duas áreas distintas de interesse.
 
 Neste estudo, as principais classes de interesse consistem nos animais de estimação, conforme proposto pelo conjunto de dados \textit{Oxford-IIIT Pets}. Para cada um dos modelos, foram aplicados dez métodos de atribuição destinados à tarefa de segmentação semântica. Isso visava identificar os pontos mais relevantes para a compreensão da qualidade da segmentação, por meio do mapa de calor gerado por cada um dos métodos, como representado na Figura \ref{project:fig:explain:xplique}. Os métodos específicos utilizados foram: \textit{Gradient Input}, \textit{Integrated Gradients}, \textit{Smooth Grad}, \textit{Var Grad}, \textit{Square Grad}, \textit{Occlusion}, \textit{Rise}, \textit{Sobol}, \textit{HSIC} e \textit{Saliency}.
@@ -1279,6 +1361,37 @@ Na análise da arquitetura U-Net-\textit{Like}, quando a métrica principal util
     Fonte: do próprio autor.
 \end{figure}
 
+Além disso, iniciou-se o desenvolvimento do método BPCAUnpooling, disponível no repositório do projeto \footnote{Repositório Github do projeto - \url{https://github.com/Lucs1590/USeS-BPCA}}, mas a implementação com o \textit{framework} atual representou uma barreira como será comentado na Seção \ref{conclusion:future}. Esse método seria uma abordagem alternativa de \textit{upsampling}, contrapartida ao BPCAPooling, revertendo o processo proposto por este último, preservando também a informação espacial com a consideração do contexto global no processo de reconstrução realizado pelas U-Nets e similares, como ilustrado na Figura \ref{results:fig:future:0}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Processo de redução e reconstrução de dimensionalidade com BPCAPooling e BPCAUnpooling, respectivamente.}
+    \label{results:fig:future:0}
+    \includegraphics[width=1\textwidth]{recursos/imagens/results/bpca_unpooling.png}
+
+    Fonte: do próprio autor.
+\end{figure}
+
+A técnica BPCAUnpooling, em contraste com o procedimento BPCAPooling, requisita a utilização de camadas densamente conectadas para obter um efeito similar ao oferecido por camadas convolucionais transpostas. A operação deste método é expressa na Equação \ref{results:eq:bpca_unpooling}, nela $\boldsymbol{X'}_{i,j,k}$ simboliza o mapa de características resultante, com suas dimensões correspondendo, respectivamente, à altura ($i$), largura ($j$) e canais ($k$).
+
+\begin{equation}
+    \label{results:eq:bpca_unpooling}
+    \begin{split}
+        \boldsymbol{X'}_{i,j,k} &= \text{BPCAUnpooling}(\boldsymbol{Y}_{i',j',k'}) \\
+                  &= \text{reshape}\left(U \cdot \left(\text{\textit{reshape}}(S) \cdot \text{Dense}\left(\text{pad}(\boldsymbol{Y})\right)\right)\right) \cdot {\boldsymbol{\sigma}} + {\boldsymbol{\mu}}.
+    \end{split}
+\end{equation}
+
+A equação expressa o processo de restauração da dimensionalidade pela aplicação do método BPCAUnpooling. Este processo envolve operações de preenchimento, remodelagem e reconstrução dos dados desagrupados com base na decomposição PCA. Na equação, o operador $\text{BPCAUnpooling}(\boldsymbol{Y}_{i',j',k'})$ retrata a execução do procedimento BPCAUnpooling ao mapa de características de entrada $\boldsymbol{Y}$.
+
+A função $pad(\boldsymbol{Y})$ preenche o mapa de características de entrada $\boldsymbol{Y}$ com zeros, adaptando o tamanho para a subsequente atividade de \textit{unpooling}. O termo matemático $\text{Dense}(\text{pad}(\boldsymbol{Y}))$ é empregado na aprendizagem dos componentes decorrentes da PCA, por meio da camada densa com função de ativação.
+
+A função $\text{\textit{reshape}}$ reorganiza seus argumentos para a estrutura adequada, onde $S$ simboliza os valores singulares oriundos da decomposição PCA em alinhamento com os componentes da PCA. A expressão $U \cdot (\text{\textit{reshape}}(S) \cdot \text{Dense}(\text{pad}(\boldsymbol{Y})))$ reconduz os dados desagrupados com o auxílio dos componentes e valores singulares fornecidos pela PCA.
+
+Finalmente, a operação de multiplicação pelo desvio padrão $\boldsymbol{\sigma}$ e acréscimo da média $\boldsymbol{\mu}$ refaz a normalização inicialmente feita antes da transformação PCA.
+
+No contexto desta equação, $U$ denota a matriz de componentes principais adquirida através da fórmula BPCAPooling, responsável por codificar a estrutura intrínseca dos dados. Esta matriz direciona a reestruturação dos dados para a dimensionalidade original.
+
 \subsection{Considerações Finais do Capítulo}
 \label{result:final}
-Neste capítulo, foram apresentados os resultados dos experimentos realizados, abordando tanto o processo de classificação (Seção \ref{results:class}) quanto os primeiros passos em direção ao objetivo final de empregar o BPCAPooling como uma proposta de camada de \textit{pooling} para segmentações semânticas, como explorado e detalhado na Seção \ref{results:semantic}.
+Neste capítulo, foram apresentados os resultados dos experimentos realizados, abordando tanto o processo de classificação (Seção \ref{results:class}) quanto os passos em direção ao objetivo final de empregar o BPCAPooling como uma proposta de camada de \textit{pooling} para segmentações semânticas, como explorado e detalhado na Seção \ref{results:semantic}.
