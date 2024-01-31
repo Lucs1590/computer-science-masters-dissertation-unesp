@@ -192,7 +192,7 @@ O funcionamento do ASPP, que realiza ajustes no mapa de características para ca
     \label{cnn:eq:pooling:aspp}
     y[i] = \sum_{k}x[i + r \cdot k]w [k],
 \end{equation}
-onde $r$ representa uma taxa de dilatação que determina as \textit{strides} para amostrar o mapa de características de entrada $x$, tendo que para cada pixel $i$ na saída $y$ e com o filtro $w$, a convolução dilatada (em inglês, \textit{atrous convolution}) sendo aplicada.
+onde $r$ representa uma taxa de dilatação que determina as \textit{strides} para amostrar o mapa de características de entrada $x$, tendo que para cada \textit{pixel} $i$ na saída $y$ e com o filtro $w$, a convolução dilatada (em inglês, \textit{atrous convolution}) sendo aplicada.
 
 \subsection{\textit{Dropout}}
 \label{cnn:dropout}
@@ -251,7 +251,7 @@ A utilização desse método apresenta a vantagem de aumentar a invariância do 
      Fonte: do próprio autor, utilizando o conjunto de dados CIFAR 100\citep{Bossard2014Food-101Forests}.
 \end{figure}
 
-Como mencionado anteriormente, é importante destacar que o aumento de dados geralmente envolve o uso de transformações geométricas e de intensidade. As transformações geométricas são responsáveis por aplicar mapeamentos e alterações nos pixels das imagens, incluindo rotação, cisalhamento, translação, redimensionamento e outras técnicas comuns usadas em processos de registro de imagens \citep{pedrini2008analise}. Por outro lado, as transformações de intensidade manipulam as cores e os valores dos pixels, modificando-os por meio de operações matemáticas como raiz quadrada, potenciação, logaritmos e outras técnicas similares \citep{pedrini2008analise}.
+Como mencionado anteriormente, é importante destacar que o aumento de dados geralmente envolve o uso de transformações geométricas e de intensidade. As transformações geométricas são responsáveis por aplicar mapeamentos e alterações nos \textit{pixels} das imagens, incluindo rotação, cisalhamento, translação, redimensionamento e outras técnicas comuns usadas em processos de registro de imagens \citep{pedrini2008analise}. Por outro lado, as transformações de intensidade manipulam as cores e os valores dos \textit{pixels}, modificando-os por meio de operações matemáticas como raiz quadrada, potenciação, logaritmos e outras técnicas similares \citep{pedrini2008analise}.
 
 No entanto, é crucial salientar que a seleção das transformações deve ser feita de maneira personalizada para cada problema específico a ser abordado. Isso ocorre porque, além de aumentar a carga computacional, muitas vezes as transformações podem levar à degradação do desempenho do modelo \citep{Carneiro2021EfficientProcessing, Hyttinen2020}. Essas transformações podem modificar o rótulo original do exemplo utilizado ou gerar casos que resultem em falsos positivos ou negativos, como no caso da inversão aplicada ao conjunto de dados MNIST \citep{LeCun2010MNISTDatabase}, ilustrado na Figura \ref{cnn:fig:augment2}, e o uso de \textit{Generative Adversarial Networks} (GANs) em áreas sensíveis, como na medicina.
 
@@ -299,7 +299,7 @@ A maior contribuição da VGG à comunidade de aprendizado de máquina foi a con
     Fonte: retirado e adaptado de \cite{Mahdianpari2018VeryImagery}.
 \end{figure}
 
-A VGG foi pioneira em demonstrar a utilidade de filtros convolutivos pequenos \citep{Simonyan2015}. Os filtros de $3 \times 3$ podem cobrir a vizinhança imediata de um pixel e, quando vários desses filtros são empilhados, a região do campo receptivo pode se expandir e abranger uma maior porção da imagem. Esse processo é similar a aplicar convoluções com filtros maiores, porém, com menos parâmetros. Isso evita o \textit{overfitting} e melhora a capacidade de generalização da rede \citep{Simonyan2015}.
+A VGG foi pioneira em demonstrar a utilidade de filtros convolutivos pequenos \citep{Simonyan2015}. Os filtros de $3 \times 3$ podem cobrir a vizinhança imediata de um \textit{pixel} e, quando vários desses filtros são empilhados, a região do campo receptivo pode se expandir e abranger uma maior porção da imagem. Esse processo é similar a aplicar convoluções com filtros maiores, porém, com menos parâmetros. Isso evita o \textit{overfitting} e melhora a capacidade de generalização da rede \citep{Simonyan2015}.
 
 No entanto, a VGG também tem suas limitações. Devido à sua arquitetura profunda, a VGG demanda alto poder computacional e detém grande uso de memória. Além disso, a ausência de camadas totalmente conectadas reduziu a capacidade de modelar dependências de alto nível entre os recursos \citep{Simonyan2015}.
 

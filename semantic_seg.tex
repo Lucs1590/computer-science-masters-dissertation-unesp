@@ -8,7 +8,7 @@ No contexto das segmentações baseadas em técnicas de \textit{deep learning} c
 
 O emprego de técnicas de segmentação semântica tem demonstrado utilidade em cenários onde o contexto é desconhecido, permitindo compreender a categoria dos objetos presentes na cena, além de suas propriedades de localização, espacialidade, dimensionalidade e formatos \citep{Zhang2018}. Essas abordagens são de extrema importância em áreas como imagens médicas, sistemas autônomos e campos correlatos.
 
-Normalmente, as saídas das redes de segmentação semântica consistem em máscaras de pixels organizadas como mapas de características, mapeando todas as classes na imagem original. Um exemplo visual dessa saída pode ser observado especificamente na Figura \ref{semantic:fig:3.2}, tendo a Figura \ref{semantic:fig:3.1} como referência da imagem original.
+Normalmente, as saídas das redes de segmentação semântica consistem em máscaras de \textit{pixels} organizadas como mapas de características, mapeando todas as classes na imagem original. Um exemplo visual dessa saída pode ser observado especificamente na Figura \ref{semantic:fig:3.2}, tendo a Figura \ref{semantic:fig:3.1} como referência da imagem original.
 
 \begin{figure}[H]
    \caption{Segmentação semântica.}
@@ -35,7 +35,7 @@ Portanto, neste capítulo, serão abordados tópicos relacionados às técnicas 
 
 \subsection{Arquiteturas}
 \label{semantic:arch}
-Quando abordamos as arquiteturas para os modelos de segmentação semântica, é evidente o crescente desenvolvimento de oportunidades para resolver a problemática de separar classes de objetos a nível de pixel, como mencionado por \citep{Guo2018ANetworks}. No contexto das arquiteturas de segmentação semântica, existe uma divisão relevante relacionada ao nível de supervisão da rede, que inclui abordagens totalmente supervisionadas, fracamente supervisionadas e semi-supervisionadas, conforme detalhado por \citep{Hao2020ALearning}. No entanto, este trabalho se concentra exclusivamente nas arquiteturas consideradas estado-da-arte na parte totalmente supervisionada, pressupondo a disponibilidade de dados de treinamento rotulados, incluindo imagens originais juntamente com suas respectivas máscaras anotadas \citep{Hao2020ALearning}.
+Quando abordamos as arquiteturas para os modelos de segmentação semântica, é evidente o crescente desenvolvimento de oportunidades para resolver a problemática de separar classes de objetos a nível de \textit{pixel}, como mencionado por \cite{Guo2018ANetworks}. No contexto das arquiteturas de segmentação semântica, existe uma divisão relevante relacionada ao nível de supervisão da rede, que inclui abordagens totalmente supervisionadas, fracamente supervisionadas e semi-supervisionadas, conforme detalhado por \citep{Hao2020ALearning}. No entanto, este trabalho se concentra exclusivamente nas arquiteturas consideradas estado-da-arte na parte totalmente supervisionada, pressupondo a disponibilidade de dados de treinamento rotulados, incluindo imagens originais juntamente com suas respectivas máscaras anotadas \citep{Hao2020ALearning}.
 
 Para esmiuçar mais sobre essas arquiteturas, é importante ressaltar a diferença em relação às CNNs convencionais, que tendem a perder detalhes espaciais devido aos processos de \textit{pooling} e convoluções. As redes de segmentação semântica, ao contrário, são mais atentas a esses detalhes. Nesse contexto, a colaboração adequada entre esses dois tipos de características possui o potencial de aprimorar significativamente o desempenho da segmentação semântica, seguindo a estratégia denominada de \quotes{aprimoramento de recursos}, a qual será explorada adiante.
 
@@ -43,7 +43,7 @@ Para esmiuçar mais sobre essas arquiteturas, é importante ressaltar a diferen�
 \label{semantic:FCN}
 Quando aborda-se o tema das segmentações semânticas, vale dizer que uma serie de arquiteturas e \textit{frameworks} foram desenvolvidos visando o avanço em termos de performance e capacidade. No entanto, o primeiro \textit{framework} a alcançar o status de estado-da-arte para esta tarefa de segmentação baseia-se na arquitetura  \textit{Fully Convolutional Networks} (FCN) \citep{Shelhamer2016}. Contrariamente às redes tradicionais que possuem camadas densas no final, a FCN é totalmente composta por camadas convolucionais, até mesmo na sua última camada \citep{Hesamian2019}.
 
-Esta característica permite à FCN realizar uma análise \textit{pixelwise}, onde cada pixel da imagem é subamostrado. Em seguida, através de processos de convolução e \textit{upsampling}, um mapa de segmentação semântica é construído. Este mapa de segmentação possui dimensões idênticas à imagem de entrada, o que permite a atribuição de uma classe semântica para cada \textit{pixel} \citep{Minaee2021, Zhang2018, Hesamian2019}.
+Esta característica permite à FCN realizar uma análise \textit{pixelwise}, onde cada \textit{pixel} da imagem é subamostrado. Em seguida, através de processos de convolução e \textit{upsampling}, um mapa de segmentação semântica é construído. Este mapa de segmentação possui dimensões idênticas à imagem de entrada, o que permite a atribuição de uma classe semântica para cada \textit{pixel} \citep{Minaee2021, Zhang2018, Hesamian2019}.
 
 A aplicação do FCN nos \textit{datasets} PASCAL VOC 2011 \citep{everingham2010pascal}, SIFT Flow \citep{Liu2011} e NYUDv2 \citep{Silberman:ECCV12}, resultou numa precisão de \textit{pixel} (PA) de 90,3\% e uma mIoU de 62,7\% no primeiro \textit{dataset} mencionado \citep{Ghosh2019}. O FCN, portanto, estabeleceu um novo patamar de referência quanto ao estado-da-arte em segmentação semântica \citep{Minaee2021}.
 
@@ -58,7 +58,7 @@ A arquitetura da FCN é baseada nas arquiteturas das \textit{Convolutional Neura
     Fonte: retirada e adaptado de \cite{Shelhamer2016}.
 \end{figure}
 
-Essas saídas, que são mapas de características do mesmo tamanho da imagem de entrada, podem ser utilizadas para várias aplicações. Por exemplo, em uma tarefa de detecção de objetos, cada pixel da saída será classificado com a etiqueta do objeto à qual pertence, fornecendo portanto uma localização precisa dos objetos na imagem. Em uma aplicação de condução autônoma, a saída pode ser usada para identificar as zonas navegáveis ou obstáculos presentes na cena.
+Essas saídas, que são mapas de características do mesmo tamanho da imagem de entrada, podem ser utilizadas para várias aplicações. Por exemplo, em uma tarefa de detecção de objetos, cada \textit{pixel} da saída será classificado com a etiqueta do objeto à qual pertence, fornecendo portanto uma localização precisa dos objetos na imagem. Em uma aplicação de condução autônoma, a saída pode ser usada para identificar as zonas navegáveis ou obstáculos presentes na cena.
 
 É relevante notar que a eficácia da FCN também está ligada ao seu mecanismo de subamostragem e amostragem ascendente, também conhecido como \textit{upsampling}. As camadas inferiores da rede capturam características locais, como bordas e texturas, enquanto as camadas superiores conseguem captar características de nível superior, como classes de objetos e suas relações espaciais \citep{Shelhamer2016}.
 
@@ -87,7 +87,7 @@ Vale citar que para a implementação de \quotes{up-samplings}, originalmente na
 
 As vantagens inerentes a essa arquitetura incluem uma capacidade robusta para lidar com imagens de tamanhos variados, permitindo a aplicação eficiente em diversos contextos, como na análise de imagens médicas \citep{Ronneberger2015U-net:Segmentation}. Além disso, as U-Nets têm a habilidade de aprender representações altamente significativas em diferentes níveis de abstração, o que as torna eficazes na captura de detalhes importantes em uma imagem \citep{Alom2019RecurrentSegmentation}. Também é importante destacar que essas redes têm a capacidade de reduzir a tendência de gerar segmentações excessivamente granulares, fornecendo segmentações mais suaves e coerentes \citep{Du2020MedicalReview}. No entanto, é fundamental reconhecer que, como qualquer abordagem, as U-Nets também possuem desvantagens. Em particular, essas redes frequentemente possuem um grande número de parâmetros, o que pode aumentar os requisitos computacionais e tornar o treinamento mais demorado, dependendo do tamanho do conjunto de dados e da complexidade da tarefa \citep{Ronneberger2015U-net:Segmentation}. Além disso, pela grande quantidade de convoluções, muitas vezes a informação espacial é perdida, segundo \cite{Zhang2023LcmUNet:Segmentation}.
 
-Voltando ao contexto mais amplo, onde a segmentação semântica tem como objetivo atribuir rótulos de classe a cada pixel em uma imagem, a arquitetura da U-Net se mostra relevante e eficaz, sendo exemplificado pelos resultados obtidos desde seu desenvolvimento com \cite{Ronneberger2015U-net:Segmentation}. No entanto, questões que exploram a preservação da espacialidade da imagem durante a segmentação nesse tipo de estrutura ainda são pouco explorados, principalmente quando a proposta está em variações das tradicionais camadas de \textit{pooling} que são os atuais estado-da-arte.
+Voltando ao contexto mais amplo, onde a segmentação semântica tem como objetivo atribuir rótulos de classe a cada \textit{pixel} em uma imagem, a arquitetura da U-Net se mostra relevante e eficaz, sendo exemplificado pelos resultados obtidos desde seu desenvolvimento com \cite{Ronneberger2015U-net:Segmentation}. No entanto, questões que exploram a preservação da espacialidade da imagem durante a segmentação nesse tipo de estrutura ainda são pouco explorados, principalmente quando a proposta está em variações das tradicionais camadas de \textit{pooling} que são os atuais estado-da-arte.
 
 \subsubsection{U-Net-\textit{Like}}
 \label{semantic:unetlike}
@@ -95,7 +95,7 @@ Após o surgimento e o êxito alcançado pelas U-Nets, surgiram variações dess
 
 Essas redes mantêm a arquitetura de contração e expansão da U-Net original, mas apresentam características distintas. Uma das diferenças significativas é a adição de \textit{skip connections} com a inclusão de uma camada extra, a incorporação de técnicas como \textit{Batch Normalization} proposta por \cite{Ioffe2015BatchShift} e a função de ativação ReLU, discutida na Seção \ref{deep:relu}, nas camadas de contração. Essas alterações têm como objetivo manter as médias e variâncias das entradas constantes, acelerando o aprendizado e aumentando a estabilidade durante a fase de treinamento \citep{Pfister2019AutomatedNetworks}.
 
-Outra modificação presente nas U-Net-\textit{Like} diz respeito à forma como as convoluções são aplicadas. Enquanto \cite{Ronneberger2015U-net:Segmentation} não aplicava preenchimento (\textit{padding}) devido ao processo de divisão de imagens maiores em blocos menores durante o processamento, a abordagem das U-Net-\textit{Like} introduz pixels adicionais ao redor das bordas da imagem. Esse procedimento permite que as convoluções utilizem pixels vizinhos, aprimorando a eficiência e a qualidade da segmentação \citep{Pfister2019AutomatedNetworks}.
+Outra modificação presente nas U-Net-\textit{Like} diz respeito à forma como as convoluções são aplicadas. Enquanto \cite{Ronneberger2015U-net:Segmentation} não aplicava preenchimento (\textit{padding}) devido ao processo de divisão de imagens maiores em blocos menores durante o processamento, a abordagem das U-Net-\textit{Like} introduz \textit{pixels} adicionais ao redor das bordas da imagem. Esse procedimento permite que as convoluções utilizem \textit{pixels} vizinhos, aprimorando a eficiência e a qualidade da segmentação \citep{Pfister2019AutomatedNetworks}.
 
 Dentre os últimos detalhes, vale dizer que diferente do método de \textit{up-sampling} com as convoluções transpostas em duas dimensões, esse método utiliza de um método chamado originalmente de \textit{Upsampling2D}, o qual emprega uma abordagem diferente para aumentar a resolução espacial dos dados. Enquanto as convoluções transpostas realizam a ampliação por meio do aprendizado de pesos, o método \textit{Upsampling2D} opera replicando os valores existentes nos mapas de características, efetivamente duplicando-os e, assim, aumentando a resolução espacial. Além disso, sua maior mudança em relação às convoluções transpostas em duas dimensões se dá pela ausência de parâmetros treináveis, resultando em uma operação mais simples e menos custosa computacionalmente.
 
@@ -103,22 +103,22 @@ Finalmente, vale dizer que no uso das U-Net-\textit{Like} é possível visualiza
 
 \subsection{Métricas}
 \label{semantic:metrics}
-Considerando que o objetivo principal das segmentações semânticas está relacionado à atribuição de classes para cada um dos pixels presentes na imagem \citep{Csurka2013}, é fundamental o uso de métricas para avaliar o desempenho positivo ou negativo dos modelos.
+Considerando que o objetivo principal das segmentações semânticas está relacionado à atribuição de classes para cada um dos \textit{pixels} presentes na imagem \citep{Csurka2013}, é fundamental o uso de métricas para avaliar o desempenho positivo ou negativo dos modelos.
 
-Nesta seção, serão discutidas métricas comuns para avaliação de segmentações semânticas: métricas baseadas em região, como a precisão de pixel (Seção \ref{semantic:pa}), a interseção sobre a união (Seção \ref{semantic:IoU}) e sua variação, a média da interseção sobre a união (Seção \ref{semantic:miou}), e por fim, o escore F1 (ou F1 \textit{score}) (Seção \ref{semantic:f1}).
+Nesta seção, serão discutidas métricas comuns para avaliação de segmentações semânticas: métricas baseadas em região, como a precisão de \textit{pixel} (Seção \ref{semantic:pa}), a interseção sobre a união (Seção \ref{semantic:IoU}) e sua variação, a média da interseção sobre a união (Seção \ref{semantic:miou}), e por fim, o escore F1 (ou F1 \textit{score}) (Seção \ref{semantic:f1}).
 
 
 \subsubsection{\textit{Pixel Accuracy}}
 \label{semantic:pa}
-A métrica de \textit{pixel accuracy} (PA) é uma das métricas mais simples utilizadas no contexto de segmentação semântica, em que, na prática, se resume na razão entre o número de pixels classificados corretamente em relação ao total de pixels na imagem \citep{Minaee2021}. Sendo assim, é possível expressar a sua fórmula pela Equação \ref{semantic:eq:1} \citep{Minaee2021}:
+A métrica de \textit{pixel accuracy} (PA) é uma das métricas mais simples utilizadas no contexto de segmentação semântica, em que, na prática, se resume na razão entre o número de \textit{pixels} classificados corretamente em relação ao total de \textit{pixels} na imagem \citep{Minaee2021}. Sendo assim, é possível expressar a sua fórmula pela Equação \ref{semantic:eq:1} \citep{Minaee2021}:
 
 \begin{equation}
     \label{semantic:eq:1}
     PA = \frac{\sum_{i=0}^{K} p_{ij}}{\sum_{i=0}^{K} \sum_{j=0}^{K} p_{ij}},
 \end{equation}
-sendo $K$ o número de classes presentes na imagem, independente se para um plano de fundo ou para primeiro plano, e $p_{ij}$ é o número de pixels preditos como $i$ pertencentes à classe $j$.
+sendo $K$ o número de classes presentes na imagem, independente se para um plano de fundo ou para primeiro plano, e $p_{ij}$ é o número de \textit{pixels} preditos como $i$ pertencentes à classe $j$.
 
-Todavia, é relevante citar que essa métrica indicando apenas precisão dos pixels, como o nome sugere, não é adequada para situações que há um desequilíbrio de classes, situação em que determinadas classes dominam a cena e que se faz presente no mundo real.
+Todavia, é relevante citar que essa métrica indicando apenas precisão dos \textit{pixels}, como o nome sugere, não é adequada para situações que há um desequilíbrio de classes, situação em que determinadas classes dominam a cena e que se faz presente no mundo real.
 
 
 \subsubsection{\textit{Intersection over Union} (IoU)}

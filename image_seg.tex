@@ -37,14 +37,14 @@ Compreendido o conceito de segmentação de imagens, esta área compreende uma a
 
 Quando se trata de segmentações, algumas técnicas são muito conhecidas e utilizadas, sendo que algumas são calculadas utilizando apenas convoluções matriciais simples \citep{Yuheng2017}.
 
-Sendo assim, nas próximas seções algumas técnicas de segmentação serão discutidas, das quais pode-se citar as segmentações baseadas em regiões (Seção \ref{segment:region}), bordas  (Seção \ref{segment:limit}), baseada em grafos (Seção \ref{segment:graph}), \textit{watershed} (Seção \ref{segment:watershed}), \textit{liveware} (Seção \ref{segment:livewire}), superpixel (Seção \ref{segment:superpixel}), agrupamentos (Seção \ref{segment:group}) e até mesmo as que fazem uso de redes neurais  (Seção \ref{segment:neural}) com a aplicação de alguns conceitos que foram comentados no Capítulo \ref{deep}.
+Sendo assim, nas próximas seções algumas técnicas de segmentação serão discutidas, das quais pode-se citar as segmentações baseadas em regiões (Seção \ref{segment:region}), bordas  (Seção \ref{segment:limit}), baseada em grafos (Seção \ref{segment:graph}), \textit{watershed} (Seção \ref{segment:watershed}), \textit{liveware} (Seção \ref{segment:livewire}), \textit{superpixel} (Seção \ref{segment:superpixel}), agrupamentos (Seção \ref{segment:group}) e até mesmo as que fazem uso de redes neurais  (Seção \ref{segment:neural}) com a aplicação de alguns conceitos que foram comentados no Capítulo \ref{deep}.
 
 \subsubsection{Segmentação Baseada em Regiões}
 \label{segment:region}
 
-Alguns tipos de segmentação comumente trabalham com os valores dos pixels, de modo que seja possível segregar áreas e regiões de interesse de regiões que não são possuem relevância. Dentre as diversas técnicas, vale destacar a técnica de \textit{Threshold Segmentation}, ou em português, segmentação limiar, a qual é desenvolvida e aplicada em diversos trabalhos \citep{Yanowitz1989}.
+Alguns tipos de segmentação comumente trabalham com os valores dos \textit{pixels}, de modo que seja possível segregar áreas e regiões de interesse de regiões que não são possuem relevância. Dentre as diversas técnicas, vale destacar a técnica de \textit{Threshold Segmentation}, ou em português, segmentação limiar, a qual é desenvolvida e aplicada em diversos trabalhos \citep{Yanowitz1989}.
 
-De um modo geral, a segmentação por meio da determinação de um limiar acontece em imagens que utilizam a escala de cinza ou algum sistema de cor que possua um canal voltado para intensidade, como o sistema HSV \citep{schneider2003experimentos}, visto que quando no sistema correto, há a determinação de um valor entre o fundo e a área de interesse da imagem. Dessa forma, os pixels acima do valor médio determinado são categorizados como área de intensidade e os inferiores são categorizados como fundo \citep{pedrini2008analise}, como é possível observar na Equação \ref{segment:eq:1}, em que $T$ representa o limiar determinado, $f(x,y)$ é um pixel da imagem $f$ e $g(x,y)$ é este pixel limiarizado:
+De um modo geral, a segmentação por meio da determinação de um limiar acontece em imagens que utilizam a escala de cinza ou algum sistema de cor que possua um canal voltado para intensidade, como o sistema HSV \citep{schneider2003experimentos}, visto que quando no sistema correto, há a determinação de um valor entre o fundo e a área de interesse da imagem. Dessa forma, os \textit{pixels} acima do valor médio determinado são categorizados como área de intensidade e os inferiores são categorizados como fundo \citep{pedrini2008analise}, como é possível observar na Equação \ref{segment:eq:1}, em que $T$ representa o limiar determinado, $f(x,y)$ é um \textit{pixel} da imagem $f$ e $g(x,y)$ é este \textit{pixel} limiarizado:
 
 \begin{equation}
 \label{segment:eq:1}
@@ -122,7 +122,7 @@ Sobre \textit{threshold segmentation}, vale citar que há uma série de técnica
     Fonte: retirado e adaptado de \cite{Neuhold2017_ICCV}.
 \end{figure}
 
-Por fim, no contexto da segmentação baseada em regiões, destaca-se a técnica de crescimento de regiões, também conhecida como \textit{Region Growing}. Essa abordagem consiste em definir um limiar e distribuir sementes na imagem, de forma que os \textit{pixels} vizinhos sejam incorporados à região se as diferenças entre eles e as sementes forem inferiores ao limiar estabelecido. O efeito desse procedimento pode ser visualizado na Figura \ref{segment:fig:4} ou representado matematicamente pela Equação \ref{segment:eq:3}, onde $P(R)$ é o predicado da região, $f(r,s)$ é o pixel semente, e $f(x,y)$ representa um pixel vizinho ao da semente na vizinhança-8:
+Por fim, no contexto da segmentação baseada em regiões, destaca-se a técnica de crescimento de regiões, também conhecida como \textit{Region Growing}. Essa abordagem consiste em definir um limiar e distribuir sementes na imagem, de forma que os \textit{pixels} vizinhos sejam incorporados à região se as diferenças entre eles e as sementes forem inferiores ao limiar estabelecido. O efeito desse procedimento pode ser visualizado na Figura \ref{segment:fig:4} ou representado matematicamente pela Equação \ref{segment:eq:3}, onde $P(R)$ é o predicado da região, $f(r,s)$ é o \textit{pixel} semente, e $f(x,y)$ representa um \textit{pixel} vizinho ao da semente na vizinhança-8:
 
 \begin{equation}
 \label{segment:eq:3}
@@ -132,7 +132,7 @@ P(R) = \begin{cases}
 \end{cases}.
 \end{equation}
 
-Esta técnica é ilustrada na Figura \ref{segment:fig:4}, onde a Figura \ref{segment:fig:4.1} mostra a imagem original com os pixels sementes em vermelho ($f(r,s)$). As Figuras \ref{segment:fig:4.2} e \ref{segment:fig:4.3} representam, respectivamente, o crescimento da região com limiares $T = 3$ e $T = 6$.
+Esta técnica é ilustrada na Figura \ref{segment:fig:4}, onde a Figura \ref{segment:fig:4.1} mostra a imagem original com os \textit{pixels} sementes em vermelho ($f(r,s)$). As Figuras \ref{segment:fig:4.2} e \ref{segment:fig:4.3} representam, respectivamente, o crescimento da região com limiares $T = 3$ e $T = 6$.
 
 \begin{figure}[H]
    \caption{Ilustração do crescimento de região.}
@@ -141,7 +141,7 @@ Esta técnica é ilustrada na Figura \ref{segment:fig:4}, onde a Figura \ref{seg
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[height=1.5in]{recursos/imagens/image_seg/m1.png}
-        \caption{Imagem original, sendo em vermelho os pixels sementes ($f(r,s)$).}
+        \caption{Imagem original, sendo em vermelho os \textit{pixels} sementes ($f(r,s)$).}
         \label{segment:fig:4.1}
     \end{subfigure}
     ~ 
@@ -244,7 +244,7 @@ Já em relação ao operador laplaciano, destaca-se que este faz uso de uma deri
 \end{equation}
 tendo que $f(x,y)$ é uma função bidimensional contínua e sendo recomendada para situações em que a imagem não tenha ruído e a posição da borda sejam mais relevantes \citep{Yuheng2017}. Isso se dá, visto que por contar com uma derivada de segunda ordem, torna-se muito sensível aos ruídos \citep{pedrini2008analise}.
 
-Ainda sobre o operador laplaciano, pode se dizer que há uma necessidade de que o coeficiente do pixel central resulte em um valor positivo e que os seus \textit{pixels} externos sejam negativos \citep{pedrini2008analise}. Assim, considerando uma matriz de vizinhança-8, pode-se exemplificar uma implementação do operador Laplaciano que considera as derivadas segundas em linhas e colunas tendo por base a matriz $H_1$ representada na Equação \ref{segment:eq:7}, resultando em aplicações como as visualizadas na Figura \ref{segment:fig:8}, sendo: 
+Ainda sobre o operador laplaciano, pode se dizer que há uma necessidade de que o coeficiente do \textit{pixel} central resulte em um valor positivo e que os seus \textit{pixels} externos sejam negativos \citep{pedrini2008analise}. Assim, considerando uma matriz de vizinhança-8, pode-se exemplificar uma implementação do operador Laplaciano que considera as derivadas segundas em linhas e colunas tendo por base a matriz $H_1$ representada na Equação \ref{segment:eq:7}, resultando em aplicações como as visualizadas na Figura \ref{segment:fig:8}, sendo: 
 
 \begin{equation}
     \label{segment:eq:7}
@@ -288,7 +288,7 @@ Ainda sobre o operador laplaciano, pode se dizer que há uma necessidade de que 
 
 \subsubsection{Segmentação Baseada em Grafo}
 \label{segment:graph}
-A segmentação baseada em grafo é uma técnica robusta e versátil utilizada para dividir uma imagem em segmentos ou regiões. Esta abordagem consiste em modelar uma imagem como um grafo, onde cada nó representa um pixel (ou um \textit{superpixel}, em certas implementações) e as arestas representam a relação entre os pixels vizinhos. Tipicamente, essa relação é baseada na similaridade entre os nós, ou seja, pixels com características visuais semelhantes, tais como intensidade, cor e textura, tendem a ser conectados por uma aresta \citep{Felzenszwalb2004EfficientSegmentation}.
+A segmentação baseada em grafo é uma técnica robusta e versátil utilizada para dividir uma imagem em segmentos ou regiões. Esta abordagem consiste em modelar uma imagem como um grafo, onde cada nó representa um \textit{pixel} (ou um \textit{superpixel}, em certas implementações) e as arestas representam a relação entre os \textit{pixels} vizinhos. Tipicamente, essa relação é baseada na similaridade entre os nós, ou seja, \textit{pixels} com características visuais semelhantes, tais como intensidade, cor e textura, tendem a ser conectados por uma aresta \citep{Felzenszwalb2004EfficientSegmentation}.
 
 A segmentação então envolve a subdivisão do grafo em subgrafos (ou regiões na imagem) que são internamente homogêneos e externamente heterogêneos. Existem diversos algoritmos para realizar essa tarefa, muitos deles baseados em técnicas de otimização de grafo, tais como o corte mínimo (\textit{min-cut}) e a expansão máxima de fluxo (\textit{max-flow}) \citep{Boykov2001FastCuts}.
 
@@ -321,7 +321,7 @@ O algoritmo \textit{watershed} (ou bacia hidrográfica, em português) é uma t�
     \begin{subfigure}[t]{0.5\textwidth}
         \centering
         \includegraphics[width=1\linewidth]{recursos/imagens/image_seg/segmented_watershed.png}
-        \caption{Imagem segmentada por \textit{watershed} com níveis do valor dos pixels à direita.}
+        \caption{Imagem segmentada por \textit{watershed} com níveis do valor dos \textit{pixels} à direita.}
         \label{segment:fig:watershed_1.2}
     \end{subfigure}%
     ~
@@ -334,7 +334,7 @@ Em resumo esse algoritmo pode ser realizado a partir do seguinte passo-a-passo:
 \begin{enumerate}
     \item Transformação da imagem a ser segmentada em uma imagem de gradiente;
     \item Definição dos mínimos locais da imagem de gradiente como marcadores iniciais;
-    \item Marcação dos pixels vizinhos aos marcadores como pertencentes às suas respectivas bacias de retenção;
+    \item Marcação dos \textit{pixels} vizinhos aos marcadores como pertencentes às suas respectivas bacias de retenção;
     \item Iterativamente, propagar as bacias de retenção até que elas se fundam em um \quotes{nível de água} comum;
     \item Extração das linhas de contorno das bacias de retenção para formar os objetos segmentados.
 \end{enumerate}
@@ -384,13 +384,13 @@ A deficiência desse algoritmo se dá pela sua sensibilidade em relação aos ru
 \label{segment:livewire}
 A segmentação \textit{livewire}, também conhecida como segmentação interativa ou segmentação assistida pelo usuário, é uma técnica na qual o usuário define um ponto inicial e um ponto final na imagem. A partir desses pontos, o processo da segmentação realiza automaticamente a identificação dos caminhos de menor custo entre o ponto inicial e final. Este custo geralmente é definido com base em características de borda, tal como o gradiente de intensidade, a direção de borda, e entre outros \citep{Falcao1997Paradigmas3D-Live-Wire}.
 
-O método \textit{livewire}, proposto por \cite{Barrett1997InteractiveExtraction}, é um dos mais conhecidos para a segmentação interativa. A técnica emprega uma estrutura de grafo para representar a imagem, na qual cada pixel é considerado como um nó e as arestas são definidas pelas distâncias euclidianas entre os pixels vizinhos. O custo de cada aresta é determinado com base nas características da borda. Assim, o problema da segmentação se transforma na busca pelas arestas de menor custo entre os pontos definidos pelo usuário \citep{Barrett1997InteractiveExtraction}. Esse processo pode ser visualizado matematicamente pela expressão representada pela Equação \ref{segment:eq:livewire},
+O método \textit{livewire}, proposto por \cite{Barrett1997InteractiveExtraction}, é um dos mais conhecidos para a segmentação interativa. A técnica emprega uma estrutura de grafo para representar a imagem, na qual cada \textit{pixel} é considerado como um nó e as arestas são definidas pelas distâncias euclidianas entre os \textit{pixels} vizinhos. O custo de cada aresta é determinado com base nas características da borda. Assim, o problema da segmentação se transforma na busca pelas arestas de menor custo entre os pontos definidos pelo usuário \citep{Barrett1997InteractiveExtraction}. Esse processo pode ser visualizado matematicamente pela expressão representada pela Equação \ref{segment:eq:livewire},
 
 \begin{equation}
     \label{segment:eq:livewire}
     c_{(i, j)} = f_{gradiente}(i, j) + f_{direcao}(i, j) + f_{tamanho}(i, j),
 \end{equation}
-onde $c_{(i, j)}$ é o custo total de uma aresta entre os nós $i$ e $j$ na estrutura de grafo, $f_{gradiente}(i, j)$ é uma função de custo baseada no gradiente de intensidade dos pixels em $i$ e $j$, $f_{direcao}(i, j)$ é uma função de custo baseada na direção de borda dos pixels em $i$ e $j$, $f_{tamanho}(i, j)$ é uma função de custo baseada na distância euclidiana (ou comprimento) dos pixels em $i$ e $j$.
+onde $c_{(i, j)}$ é o custo total de uma aresta entre os nós $i$ e $j$ na estrutura de grafo, $f_{gradiente}(i, j)$ é uma função de custo baseada no gradiente de intensidade dos \textit{pixels} em $i$ e $j$, $f_{direcao}(i, j)$ é uma função de custo baseada na direção de borda dos \textit{pixels} em $i$ e $j$, $f_{tamanho}(i, j)$ é uma função de custo baseada na distância euclidiana (ou comprimento) dos \textit{pixels} em $i$ e $j$.
 
 Essas funções de custo garantem que as bordas bem definidas na imagem realcem-se e que as bordas contínuas e mais longas tenham um custo menor, direcionando o caminho preferencial para estas.
 
@@ -409,11 +409,11 @@ Como ilustrado na Figura \ref{segment:fig:livewire}, o usuário pode iterativame
 
 \subsubsection{Segmentação \textit{Superpixels}}
 \label{segment:superpixel}
-A noção de \textit{superpixels} foi introduzida por \cite{Ren2003LearningSegmentation} como uma forma de agrupar pixels que compartilham características comuns, como cor, textura, e localização espacial, para formar uma unidade maior e mais coesa chamada de \textit{superpixel}. Essa abordagem de segmentação de imagens é frequentemente utilizada como um estágio preliminar para tarefas de compreensão de imagens e análise de cenas, pois pode reduzir significativamente a complexidade dos dados ao diminuir o número de unidades de processamento \citep{Achanta2012SLICMethods}.
+A noção de \textit{superpixels} foi introduzida por \cite{Ren2003LearningSegmentation} como uma forma de agrupar \textit{pixels} que compartilham características comuns, como cor, textura, e localização espacial, para formar uma unidade maior e mais coesa chamada de \textit{superpixel}. Essa abordagem de segmentação de imagens é frequentemente utilizada como um estágio preliminar para tarefas de compreensão de imagens e análise de cenas, pois pode reduzir significativamente a complexidade dos dados ao diminuir o número de unidades de processamento \citep{Achanta2012SLICMethods}.
 
 Diversos algoritmos foram propostos para a geração de \textit{superpixels}, tais como: \textit{Simple Linear Iterative Clustering} (SLIC) \citep{Achanta2012SLICMethods}, \textit{Quick Shift} \citep{Vedaldi2008QuickSeeking}, Felzenszwalb \textit{Efficient Graph-Based Image Segmentation} \citep{Felzenszwalb2004EfficientSegmentation} e outros.
 
-O algoritmo SLIC tem sido largamente utilizado devido à sua eficácia e eficiência. Esse método baseia-se no algoritmo K-means (que será discutido na Seção \ref{segment:group}) para clusterização de pixels, mas, ao contrário do K-means, leva em conta tanto a cor (ou intensidade para imagens em escala de cinza) quanto a proximidade espacial dos pixels \citep{Achanta2012SLICMethods}. Os \textit{superpixels} gerados com o algoritmo SLIC são compactos e pode-se controlar a quantidade desejada de \textit{superpixels}.
+O algoritmo SLIC tem sido largamente utilizado devido à sua eficácia e eficiência. Esse método baseia-se no algoritmo K-means (que será discutido na Seção \ref{segment:group}) para clusterização de \textit{pixels}, mas, ao contrário do K-means, leva em conta tanto a cor (ou intensidade para imagens em escala de cinza) quanto a proximidade espacial dos \textit{pixels} \citep{Achanta2012SLICMethods}. Os \textit{superpixels} gerados com o algoritmo SLIC são compactos e pode-se controlar a quantidade desejada de \textit{superpixels}.
 
 A Figura \ref{segment:fig:superpixel} ilustra a segmentação de \textit{superpixels} utilizando o algoritmo SLIC, \textit{Quick Shift} e Felzenszwalb em uma imagem. Cada segmento de \textit{superpixel} distinto na Figura \ref{segment:fig:superpixel.2} representa um separação de cor diferente. Como pode ser observado, os \textit{superpixels} aderem bem às bordas dos objetos na cena, o que os torna uma unidade de processamento útil para várias tarefas de análise de imagem no campo de visão computacional. Além disso, reduzir a imagem aos \textit{superpixels} em alguns casos, pode permitir diminuir o tempo de processamento para regiões de interesse, sem perder muita informação relevante.
 
@@ -456,7 +456,7 @@ A Figura \ref{segment:fig:superpixel} ilustra a segmentação de \textit{superpi
 \subsubsection{Segmentação Baseada em Agrupamentos}
 \label{segment:group}
 
-Como o nome propõe, as segmentações baseadas em agrupamentos na esfera de visão computacional e processamento de imagens são compostas pela agregação de pixels que possuem características similares em determinado espaço de características \citep{Yuheng2017}. No entanto, a definição de agrupamento (ou \textit{clustering}) ainda não é concreta \citep{Yuheng2017}, haja vista que não é categorizada como segmentação por alguns autores, pois os agrupamentos são realizados no espaço de medidas, enquanto a segmentação ocorre no domínio espacial da imagem \citep{Haralick1985}.
+Como o nome propõe, as segmentações baseadas em agrupamentos na esfera de visão computacional e processamento de imagens são compostas pela agregação de \textit{pixels} que possuem características similares em determinado espaço de características \citep{Yuheng2017}. No entanto, a definição de agrupamento (ou \textit{clustering}) ainda não é concreta \citep{Yuheng2017}, haja vista que não é categorizada como segmentação por alguns autores, pois os agrupamentos são realizados no espaço de medidas, enquanto a segmentação ocorre no domínio espacial da imagem \citep{Haralick1985}.
 
 Posto isso, destaca-se o uso do K-means \citep{macqueen1967some, bock2008origins}, o qual é um método não supervisionado que realiza agrupamento de dados de um \textit{dataset} de acordo com as suas similaridades e em quantidades desejadas ($k$). Ou seja, o algoritmo gera um ponto inicial randômico como centroide para um determinado \textit{cluster} e depois tenta atribuir os demais dados do \textit{dataset} aos \textit{clusters} de acordo com a sua proximidade. Para isso, o algoritmo usa técnicas de distância euclidiana \citep{Mahmud2012}. Vale ressaltar que os pontos centroides são atualizados conforme as classificações que são feitas no algoritmo, e os mesmos param de atualizar quando o algoritmo cumpre seu objetivo de convergência, há poucas interações dos dados com diferentes \textit{clusters} ou através de um número fixo de iterações \citep{dunham2006data}, conforme representado no fluxograma da Figura \ref{segment:fig:6}, tendo que $n \in \mathbb{Z}$.
 
@@ -517,11 +517,11 @@ Na Tabela \ref{segment:table:1}, é possível visualizar as técnicas comentadas
     \hline
     Segmentação por Bordas              & \begin{tabular}[c]{@{}l@{}}Realizado com base na\\detecção de descontinuidade,\\detectando bordas e definindo\\um limite do objeto.\end{tabular}                  & \begin{tabular}[c]{@{}l@{}}- Recomendável para imagens com bons\\~ contrastes entre os objetos.\end{tabular}                                                                                                          & \begin{tabular}[c]{@{}l@{}}- Perda de detalhes para imagens\\~com muitas bordas, ruidosas ou\\~com baixo contraste entre os objetos.\end{tabular}                                                   \\ 
     \hline
-    Segmentação Baseada em Agrupamentos & \begin{tabular}[c]{@{}l@{}}Divide os pixels da imagem\\em k \textit{clusters} homogêneos e\\exclusivos obtendo, assim,\\as segmentações.\end{tabular}             & \begin{tabular}[c]{@{}l@{}}- Conceitos já estabelecidos;\\ - Recomendado para aplicações em tempo\\~ real;\\ - Bom desempenho para pequenos\\~\textit{datasets};\\ - Não precisa de tempo de treinamento.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- Pode demandar muito tempo para\\~encontrar a minimização da função\\~de custo;\\ - Não é adequado para agrupar \\\textit{~clusters} não convexos.\end{tabular}         \\ 
+    Segmentação Baseada em Agrupamentos & \begin{tabular}[c]{@{}l@{}}Divide os \textit{pixels} da imagem\\em k \textit{clusters} homogêneos e\\exclusivos obtendo, assim,\\as segmentações.\end{tabular}             & \begin{tabular}[c]{@{}l@{}}- Conceitos já estabelecidos;\\ - Recomendado para aplicações em tempo\\~ real;\\ - Bom desempenho para pequenos\\~\textit{datasets};\\ - Não precisa de tempo de treinamento.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- Pode demandar muito tempo para\\~encontrar a minimização da função\\~de custo;\\ - Não é adequado para agrupar \\\textit{~clusters} não convexos.\end{tabular}         \\ 
     \hline
-    Segmentação Baseada em Grafos       & \begin{tabular}[c]{@{}l@{}}Representa uma imagem como\\um grafo, onde cada nó\\é um pixel e as arestas\\são a relação entre os pixels\\vizinhos.\end{tabular}     & \begin{tabular}[c]{@{}l@{}}- Robusto e preciso;\\ - Flexível com variados tipos de imagens;\\ - Compatibilidade com outros métodos\\~ de segmentação.\end{tabular}                                                     & \begin{tabular}[c]{@{}l@{}}- Parâmetros podem ser difíceis de determinar;\\ - Sensível aos parâmetros;\\ - Podem ocorrer segmentações em excesso;\\~especialmente em imagens ruidosas.\end{tabular} \\
+    Segmentação Baseada em Grafos       & \begin{tabular}[c]{@{}l@{}}Representa uma imagem como\\um grafo, onde cada nó\\é um \textit{pixel} e as arestas\\são a relação entre os \textit{pixels}\\vizinhos.\end{tabular}     & \begin{tabular}[c]{@{}l@{}}- Robusto e preciso;\\ - Flexível com variados tipos de imagens;\\ - Compatibilidade com outros métodos\\~ de segmentação.\end{tabular}                                                     & \begin{tabular}[c]{@{}l@{}}- Parâmetros podem ser difíceis de determinar;\\ - Sensível aos parâmetros;\\ - Podem ocorrer segmentações em excesso;\\~especialmente em imagens ruidosas.\end{tabular} \\
     \hline
-    Segmentação  \textit{Superpixel}    & \begin{tabular}[c]{@{}l@{}}Agrupa pixels que compartilham\\características comuns para\\formar uma maior unidade\\coesa denominada superpixel.\end{tabular}       & \begin{tabular}[c]{@{}l@{}}- Reduz a complexidade dos dados;\\ - Adere bem às bordas do objeto;\\ - Maior velocidade de processamento.\end{tabular}                                                                    & \begin{tabular}[c]{@{}l@{}}- Pode perder detalhes finos das imagens;\\ - Parâmetros podem ser difíceis de determinar.\end{tabular}                                                                  \\
+    Segmentação  \textit{Superpixel}    & \begin{tabular}[c]{@{}l@{}}Agrupa \textit{pixels} que compartilham\\características comuns para\\formar uma maior unidade\\coesa denominada \textit{superpixel}.\end{tabular}       & \begin{tabular}[c]{@{}l@{}}- Reduz a complexidade dos dados;\\ - Adere bem às bordas do objeto;\\ - Maior velocidade de processamento.\end{tabular}                                                                    & \begin{tabular}[c]{@{}l@{}}- Pode perder detalhes finos das imagens;\\ - Parâmetros podem ser difíceis de determinar.\end{tabular}                                                                  \\
     \hline
     Segmentação \textit{Watershed}      & \begin{tabular}[c]{@{}l@{}}Trata a imagem como um\\relevo topográfico, inundando\\todas as depressões a partir\\dos mínimos locais.\end{tabular}                  & \begin{tabular}[c]{@{}l@{}}- Recomendável para imagens com \\~bordas claras e bem definidas;\\ - Baixo custo computacional.\end{tabular}                                                                               & \begin{tabular}[c]{@{}l@{}}- Sensível a ruídos;\\ - Pode produzir segmentos excessivos.\end{tabular}                                                                                                \\
     \hline
@@ -537,4 +537,4 @@ Na Tabela \ref{segment:table:1}, é possível visualizar as técnicas comentadas
 Fonte: do próprio autor.
 \end{table}
 
-Na Seção \ref{segment:segment}, abordamos os algoritmos comumente utilizados para segmentações, indo desde técnicas mais simples, como o método de \textit{threshold segmentation} (Seção \ref{segment:region}), até abordagens de maior complexidade baseadas em redes neurais artificiais (Seção \ref{segment:neural}). Contudo, como discutido por \cite{Ghosh2019} e \cite{Minaee2021}, atualmente existem abordagens de segmentação que empregam \textit{deep learning} e apresentam excelentes desempenhos, sendo capazes de realizar segmentações de imagens e áreas de interesse em nível de pixel. Uma dessas abordagens será explorada no próximo capítulo.
+Na Seção \ref{segment:segment}, abordamos os algoritmos comumente utilizados para segmentações, indo desde técnicas mais simples, como o método de \textit{threshold segmentation} (Seção \ref{segment:region}), até abordagens de maior complexidade baseadas em redes neurais artificiais (Seção \ref{segment:neural}). Contudo, como discutido por \cite{Ghosh2019} e \cite{Minaee2021}, atualmente existem abordagens de segmentação que empregam \textit{deep learning} e apresentam excelentes desempenhos, sendo capazes de realizar segmentações de imagens e áreas de interesse em nível de \textit{pixel}. Uma dessas abordagens será explorada no próximo capítulo.
