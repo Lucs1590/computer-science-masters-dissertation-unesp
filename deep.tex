@@ -37,7 +37,7 @@ A partir do modelo de neurônio desenvolvido por \cite{mcculloch1943logical},  o
 \begin{equation}
     \label{deep:eq:2}
     A(Y') = \left\{\begin{matrix}
-     1,& se \sum_{N}^{i=1} w_i x_i + b \geq 0 \\ 
+     1,& se \sum_{i = 1}^{N} w_i x_i + b \geq 0 \\ 
      0,& caso \;  contrario.
     \end{matrix}\right.
 \end{equation}
@@ -78,9 +78,10 @@ Para suprir essa necessidade de trabalhar com problemas não lineares, \cite{Wer
     Fonte: do próprio autor.
 \end{figure}
 
-Entretanto, com o uso dos modelos citados, na tentativa de resolver problemas de nível de complexidade maior e do desenvolvimento de trabalhos que contribuíssem para o estado-da-arte, percebeu-se que ao adicionar mais camadas era possível trabalhar com uma base de dados maior e mais complexa, além de obter melhores resultados e uma etapa maior de treinamento, o que deu origem às intituladas redes neurais de aprendizado profundo, ou em inglês, \textit{deep learning} \citep{Goodfellow2016}. No que lhe concerne, essas possuem o princípio de aprender os parâmetros e representações dos dados de acordo com as suas interações \citep{ponti2018funciona}. Assim, possibilitando o algoritmo combinar parâmetros e simplificá-los antes de propagar as representações que consideram as demais camadas \citep{Goodfellow2016}.
+Entretanto, com o uso dos modelos citados, na tentativa de resolver problemas de nível de complexidade maior e do desenvolvimento de trabalhos que contribuíssem para o estado-da-arte, percebeu-se que ao adicionar mais camadas era possível trabalhar com uma base de dados maior e mais complexa, além de obter melhores resultados e uma etapa maior de treinamento, o que deu origem às intituladas redes neurais de aprendizado profundo, ou em inglês, \textit{deep learning} \citep{Goodfellow2016}. No que lhe concerne, essas possuem o princípio de aprender os parâmetros e representações dos dados de acordo com as suas interações \citep{ponti2018funciona}. 
+Assim, permitindo que o algoritmo combine e simplifique os parâmetros antes de propagar as representações para as demais camadas \citep{Goodfellow2016}.
 
-Além disso, vale citar que um diferencial dos modelos de \textit{deep learning} se materializa no fato de que seus neurônios se tornam especialistas em determinados objetivos e se tornam diferentes um dos outros, como o que ocorre com as CNNs que têm neurônios responsáveis por extrair características, enquanto os neurônios da camada final fazem classificação (ou regressão), simulando o tráfego da informação no córtex visual humano.
+Além disso, vale citar que um diferencial dos modelos de \textit{deep learning} se materializa no fato de que seus neurônios se tornam especialistas em determinados objetivos e se tornam diferentes um dos outros, como o que ocorre com as CNNs, que têm neurônios responsáveis por extrair características, enquanto os neurônios da camada final fazem classificação (ou regressão), simulando o tráfego da informação no córtex visual humano.
 
 Destarte, o uso e desenvolvimento de \textit{deep learning} tem se popularizado e sido considerado a resposta para problemas de diversas áreas, como segmentações em vários contextos, desenvolvimentos de carros autônomos, segurança, otimização de modelos de busca e afins \citep{Ghosh2019}, sendo que essa popularização é propícia devido: 1) ao desenvolvimento acelerado de \textit{hardwares} que acrescentam velocidade no treinamento dessas redes e 2) ao grande aumento de dados variados (com adventos como o \textit{big data}) \citep{Szegedy2015, ponti2018funciona}.
 
@@ -99,7 +100,7 @@ A função de ativação, como citado brevemente, é calculada pelo neurônio e 
 \label{deep:limiar}
 A função limiar define um limite (\textit{threshold}) $\gamma$, em que valores abaixo de $\gamma$ indicam uma saída sem excitação, para valores acima de $\gamma$, há a excitação para o neurônio, utilizando assim, de medidas binárias, que normalmente são representadas por 0 e 1, respectivamente.
 
-Essa função se faz eficiente quando trabalhando com 2 classes, todavia passa a ter dificuldades quando atuando em problemas multi-classes, visto que não garante a excitação de um único neurônio da camada de saída.
+Embora a função limiar seja eficaz ao lidar com problemas binários, sua aplicação torna-se desafiadora em cenários multiclasse. Isso se deve ao fato de que ela não assegura a ativação exclusiva de um único neurônio na camada de saída, dificultando a representação adequada de classes distintas.
 
 Em relação à função de ativação ($f(Y')$) desenvolvida e utilizada no Perceptron, pode-se dizer que o valor de $\gamma = 0$. A função limiar é definida matematicamente por \cite{mcculloch1943logical}, segundo a Equação \ref{deep:eq:3}:
 
@@ -124,9 +125,9 @@ Para suprir a problemática de trabalhar com contextos de multiclasse, saídas c
 
 \subsubsection{Função Sigmoide}
 \label{deep:sigmoide}
-As funções sigmoides não se limitam a problemas lineares, assim sendo caracterizada como função de ativação não-linear e possibilitando o uso de probabilidade quanto à saída do neurônio.
+As funções sigmoide têm uma ampla aplicação além de problemas lineares, caracterizando-se como uma função de ativação não linear. Elas permitem a modelagem de probabilidade em relação à saída do neurônio.
 
-Essa função de ativação também é cognominada e expressa por \cite{glorot2011deep} como função logística. Sua expressão matemática se dá por:
+Esta função de ativação também é conhecida como função logística. Sua expressão matemática é definida por \citep{glorot2011deep}:
 
 \begin{equation}
     \label{deep:eq:6}
@@ -212,16 +213,16 @@ De qualquer modo é interessante ter consciência que até então não há um co
 
 \paragraph{Gradiente Descendente}
 \label{deep:optimization:graddesc}
-O método do gradiente descendente representa uma técnica de otimização com a capacidade de encontrar soluções ideais em uma variedade de contextos, operando de maneira iterativa \citep{Geron2017Hands-onSystems}. Seu processo, por sua vez, inicia-se com o cálculo dos gradientes locais resultados da função de custo $f(\boldsymbol{\theta})$, bem como com a atualização do valor dos pesos $\boldsymbol{\theta}$ com base na magnitude do gradiente e na direção indicada pelo cálculo das derivadas. A derivada da função $f'(\boldsymbol{\theta})$, determina a inclinação da função $f(\boldsymbol{\theta})$ no ponto $\boldsymbol{\theta}$, permitindo a análise de como a variação nos valores de entrada $\boldsymbol{x}$ da função se reflete em mudanças correspondentes nos valores de saída \citep{Goodfellow2016}, sendo possível minimizar a função movendo os valores de $\boldsymbol{\theta}$ em pequenos incrementos no sentido oposto ao da derivada.
+O método do gradiente descendente representa uma técnica de otimização com a capacidade de encontrar soluções ideais em uma variedade de contextos, operando de maneira iterativa \citep{Geron2017Hands-onSystems}. Seu processo inicia-se com o cálculo dos gradientes locais resultados da função de custo $f(\boldsymbol{\theta})$, bem como com a atualização do valor dos pesos $\boldsymbol{\theta}$ com base na magnitude do gradiente e na direção indicada pelo cálculo das derivadas. A derivada da função $f'(\boldsymbol{\theta})$, determina a inclinação da função $f(\boldsymbol{\theta})$ no ponto $\boldsymbol{\theta}$, permitindo a análise de como a variação nos valores de entrada $\boldsymbol{x}$ da função se reflete em mudanças correspondentes nos valores de saída \citep{Goodfellow2016}, sendo possível minimizar a função movendo os valores de $\boldsymbol{\theta}$ em pequenos incrementos no sentido oposto ao da derivada.
 
-Em situações envolvendo funções com múltiplas variáveis de entrada, as derivadas parciais $\frac{\partial}{\partial_{\theta_{i}}}f(\boldsymbol{\theta})$ são levadas em consideração para mensurar o quanto a função $f$ varia quando a entrada $\theta_i$ é alterada no ponto, $\boldsymbol{\theta}$ Assim, o gradiente passa a ser representado por um vetor que encapsula os valores de todas as derivadas parciais \citep{Goodfellow2016}, sendo expresso por: $\nabla_{\boldsymbol{\theta}} f(\boldsymbol{\theta})$.  Por fim, a atualização dos parâmetros ocorre conforme a Equação \ref{deep:eq:graddesc} descrita por \cite{Goodfellow2016}:
+Em situações envolvendo funções com múltiplas variáveis de entrada, as derivadas parciais $\frac{\partial}{\partial_{\theta_{i}}}f(\boldsymbol{\theta})$ são levadas em consideração para mensurar o quanto a função $f$ varia quando a entrada $\theta_i$ é alterada no ponto, $\boldsymbol{\theta}$. Assim, o gradiente passa a ser representado por um vetor que encapsula os valores de todas as derivadas parciais \citep{Goodfellow2016}, sendo expresso por: $\nabla_{\boldsymbol{\theta}} f(\boldsymbol{\theta})$. Por fim, a atualização dos parâmetros ocorre conforme a Equação \ref{deep:eq:graddesc} descrita por \cite{Goodfellow2016}:
 
 \begin{equation}
     \label{deep:eq:graddesc}
-    \boldsymbol{\theta}' = \boldsymbol{\theta} - \epsilon \nabla_{\boldsymbol{}{\theta}} j(\boldsymbol{\theta}).
+    \boldsymbol{\theta}' = \boldsymbol{\theta} - \epsilon \nabla_{\boldsymbol{{\theta}}} f(\boldsymbol{\theta}).
 \end{equation}
 
-Dessa forma, o valor de entrada $\boldsymbol{\theta}$ é ajustado por meio da multiplicação das derivadas parciais pela taxa de aprendizado $\epsilon$, ilustrado na Figura \ref{deep:fig:otimizacao} com os círculos vermelhos.
+Dessa forma, o valor de entrada $\boldsymbol{\theta}$ é ajustado por meio da multiplicação das derivadas parciais pela taxa de aprendizado $\epsilon$, conforme mostrado na Figura \ref{deep:fig:otimizacao}, onde os círculos vermelhos indicam a evolução da taxa de aprendizado.
 
 \paragraph{Gradiente Descendente Estocástico}
 \label{deep:optimization:sgd}
@@ -385,32 +386,31 @@ Entendido isso, habitualmente, é encontrado um conjunto de dados com menos exem
 
 O processo de teste pode ser realizado entre as épocas do treinamento, assim, avaliando o desempenho do modelo em um conjunto desconhecido de dados e sendo possível avaliar se a rede está ou não melhorando a capacidade de generalização de acordo com o decorrer das épocas.
 
-Assim, nesta seção são descritos alguns dos elementos utilizados para auxiliar nos teste, como as métricas de avaliação (Seção \ref{deep:metrics}) e o algoritmo \textit{cross validation} (Seção \ref{deep:cross}), além de fenômenos que obstruem o desenvolvimento, como \textit{overfitting} e \textit{underfitting} (Seção \ref{deep:overunder}).
+Assim, nesta seção são descritos alguns dos elementos utilizados para auxiliar nos teste, como as métricas de avaliação (Seção \ref{deep:metrics}) e o método \textit{cross validation} (Seção \ref{deep:cross}), além de fenômenos que obstruem o desenvolvimento, como \textit{overfitting} e \textit{underfitting} (Seção \ref{deep:overunder}).
 
 
 \subsubsection{Métricas de Avaliação}
 \label{deep:metrics}
 
-Outro ponto adjutório à avaliação dos modelos, tanto para o conjunto de treinamento quanto para o conjunto de teste, são as métricas de avaliação de desempenho, que avaliam o andamento do treinamento do modelo do início ao fim. E referente a classificações, uma métrica que se destaca é a avaliação de acurácia (comumente vista como $Acc$), que pode ser expressa pela Equação \ref{deep:eq:13}:
+Outro ponto adjutório à avaliação dos modelos, tanto para o conjunto de treinamento quanto para o conjunto de teste, é crucial para entender o desempenho e a eficácia do modelo ao longo do treinamento.  Uma métrica fundamental nesse contexto é a acurácia, frequentemente representada como $Acc$, que mede a proporção de exemplos classificados corretamente pelo modelo. Matematicamente, a acurácia pode ser expressa pela Equação \ref{deep:eq:13}:
 
 \begin{equation}
     \label{deep:eq:13}
     Acc = \frac{\text{Quantidade de predições corretas}}{\text{Quantidade de predições realizadas}}.
 \end{equation}
 
-A acurácia, como demonstrado na Equação \ref{deep:eq:13}, basicamente se resume entre a razão de acertos pela quantidade total de exemplos no conjunto e é adequada para situações em que se tem classes balanceadas. Mas, quando se trata de classes desbalanceadas, o modelo em questão pode apresentar fenômeno de \textit{underfitting} ou \textit{overfitting}, como será explicado na Seção \ref{deep:overunder}, e que podem ser mapeados ao observar o desempenho da acurácia em bases de treino e teste.
+A acurácia, como demonstrado na Equação \ref{deep:eq:13}, basicamente se resume entre a razão de acertos pela quantidade total de exemplos no conjunto e é adequada para situações em que se tem classes balanceadas. Mas, quando se tratam de classes desbalanceadas, o modelo em questão pode apresentar fenômenos de \textit{underfitting} ou \textit{overfitting}, como será explicado na Seção \ref{deep:overunder}. Esses fenômenos podem ser identificados ao observar o desempenho da acurácia tanto no conjunto de treinamento quanto no conjunto de teste.
 
 Dessa forma, é desejado obter $Acc_{treino} \approx Acc_{teste}$, e com  acurácias altas. Sendo que as situações de \textit{overfitting} possuem a característica de casos em que $Acc_{treino}$ é exacerbadamente mais alta que $Acc_{teste}$. Por outro lado, tendo $Acc_{treino}$ muito baixa, é comum em casos de \textit{underfitting}.
 
-Já em casos de regressão, o mais comum é utilizarem a métrica MSE, conforme visto na Equação \ref{deep:eq:9}.
-
+Em situações de problemas relacionadas à regressão, é comum utilizar a métrica de Erro Quadrático Médio (ou MSE), conforme demonstrado na Equação \ref{deep:eq:9}. Essa métrica é amplamente empregada na avaliação de modelos de regressão devido à sua capacidade de quantificar a diferença entre os valores previstos pelo modelo e os valores reais observados nos dados de teste.
 
 \subsubsection{Validação Cruzada}
 \label{deep:cross}
 
 Quando se trata na divisão entre os \textit{datasets} de treino e teste, habitualmente é comentado sobre a configuração de 20\% para teste e 80\% para treino. Todavia, o fato de utilizar um conjunto fixo implica em uma incerteza estatística sobre a média estimada de erro do teste, visto que pode ocorrer um desbalanceamento imprevisto \citep{Goodfellow2016}.
 
-Dessa forma, a validação cruzada (Seção \ref{deep:cross}), do inglês, \textit{cross validation}, trabalha com o principio de divisão entre os \textit{datasets} de treino e teste em subconjuntos que compõem o conjunto de dados original, realizando o cálculos a partir de escolhas de amostras no decorrer das interações. Dentre as técnicas mais conhecidas de \textit{cross validation} para a divisão dos conjuntos de dados, destacam-se os métodos \textit{k-fold} e \textit{leave-one-out}, sendo que preservam o princípio de dividir aleatoriamente o conjunto de dados original em um subconjunto de treinamento e de teste, tendo a premissa de auxiliar a avaliação do algoritimo em relação à sua capacidade de generalização.
+Dessa forma, a validação cruzada, conhecida como \textit{cross validation} em inglês, opera com o princípio de dividir o conjunto de dados em subconjuntos que compõem o conjunto original, permitindo cálculos iterativos por meio de seleções amostrais. Entre as técnicas mais comuns de \textit{cross validation} para essa divisão, destacam-se os métodos \textit{k-fold} e \textit{leave-one-out}. Ambos mantêm a premissa de dividir aleatoriamente o conjunto de dados em subconjuntos de treinamento e teste, possibilitando a avaliação do algoritmo quanto à sua capacidade de generalização. O método \textit{k-fold} divide o conjunto de dados em $k$ grupos (ou dobras), onde cada grupo é utilizado uma vez como conjunto de teste enquanto os outros $k-1$ grupos são usados como conjunto de treinamento. Já o método \textit{leave-one-out} é uma forma extrema de \textit{k-fold} onde cada amostra é usada uma vez como conjunto de teste, enquanto todas as outras amostras formam o conjunto de treinamento. Essas técnicas são fundamentais para garantir uma avaliação robusta dos modelos de aprendizado de máquina, ajudando a estimar sua capacidade de generalização para dados não vistos.
 
 Dessa forma, o erro ($\varepsilon$) é computado no teste ($T$) pela média dos erros individuais ($\varepsilon_i$) em relação ao número de interações ($N$), como demonstrado na Equação \ref{deep:eq:15}:
 
@@ -423,7 +423,7 @@ Dessa forma, o erro ($\varepsilon$) é computado no teste ($T$) pela média dos 
 \subsubsection{\textit{Overfitting} e \textit{Underfitting}}
 \label{deep:overunder}
 
-As situações de \textit{overfitting} e \textit{underfitting} comumente ocorrem quando o modelo está com uma alta variância, em que os dados são \quotes{decorados} no conjunto de treino e não são generalizados quando apresentado a outros dados, como os do conjunto de teste, e, respectivamente, quando apresenta dificuldades de aprendizado, sendo assim caracterizado como um modelo enviesado e não atinge o mínimo de acurácia necessária, a qual normalmente é determinada pelo desenvolvedor.
+As situações de \textit{overfitting} e \textit{underfitting} são frequentemente observadas quando o modelo apresenta alta variância. No caso do \textit{overfitting}, o modelo tende a memorizar os dados do conjunto de treinamento, perdendo a capacidade de generalização para novos dados, como os do conjunto de teste. Por outro lado, o \textit{underfitting} ocorre quando o modelo não é capaz de aprender os padrões presentes nos dados de treinamento, resultando em um desempenho abaixo do esperado e uma baixa acurácia, que geralmente é definida pelo desenvolvedor como um critério mínimo de desempenho aceitável. Esses problemas podem prejudicar a eficácia do modelo em lidar com novos dados e comprometer sua utilidade em aplicações do mundo real.
 
 A partir da representação na Figura \ref{deep:fig:5} é possível exemplificar os fenômenos supracitados, em que na Figura \ref{deep:fig:5.1} se visualiza uma situação característica de \textit{underfitting} ao tentar utilizar um modelo linear para um tipo de problema não linear. Já na imagem \ref{deep:fig:5.2} se encontra uma situação em que há uma função que é utilizada adequadamente para a situação, tendo esta convergido e com uma boa adaptação para demais situações com contextos similares. E, por fim, há a representação de uma situação com \textit{overfitting} na Figura \ref{deep:fig:5.3}, em que o conjunto está decorado e o modelo se ajustou demais ao conjunto de dados - situação que acontece devido ao uso de funções complexas para situações simples.
 
@@ -462,4 +462,4 @@ Sendo assim, \textit{underfitting} e \textit{overfitting}, quando presentes, dev
 \subsection{Considerações Finais do Capítulo}
 \label{deep:conclusion}
 
-Neste Capítulo \ref{deep}, abordamos desde a concepção inicial das redes neurais, apresentando as ideias propostas por \cite{mcculloch1943logical}, até detalhes gerais do funcionamento das redes neurais. No entanto, é importante ressaltar que, após o surgimento das \textit{deep learnings}, algumas redes foram direcionadas para resolver problemas específicos. Um exemplo é o uso generalizado das Convolutional Neural Networks (CNNs) no contexto de processamento de imagens e informações espaciais, tópico que será discutido no próximo capítulo.
+Neste Capítulo \ref{deep}, foram abordados temas desde a concepção inicial das redes neurais, apresentando as ideias propostas por \cite{mcculloch1943logical}, até detalhes gerais do funcionamento das redes neurais. No entanto, é importante ressaltar que, após o surgimento das \textit{deep learnings}, algumas redes foram direcionadas para resolver problemas específicos. Um exemplo é o uso generalizado das Convolutional Neural Networks (CNNs) no contexto de processamento de imagens e informações espaciais, tópico que será discutido no próximo capítulo.

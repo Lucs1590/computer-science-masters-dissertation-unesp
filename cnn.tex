@@ -10,7 +10,7 @@ Dentre os diversos tipos de redes de aprendizado profundo, as mais amplamente ut
 
 Entre a vasta gama de arquiteturas disponíveis para as CNNs, destacam-se algumas das mais influentes: AlexNet \citep{krizhevsky2012imagenet}, VGGNet \citep{Simonyan2015}, ResNet \citep{He2016}, GoogLeNet \citep{Szegedy2015}, MobileNet \citep{Howard2017} e DenseNet \citep{Huang2017}. Essas arquiteturas possuem contribuições significativas e têm sido aplicadas em uma variedade de contextos, cada uma com suas características e aplicações específicas.
 
-Um modelo indicando uma entrada, as camadas convolucionais iniciais e finais, que são utilizadas para extração de atributos, bem como o sistema de \textit{pooling} e a camada de saída (ou camada densa) são representados por meio da Figura \ref{cnn:fig:10}.
+Por meio da Figura \ref{cnn:fig:10} é representada uma arquitetura de um modelo indicando uma entrada, as camadas convolucionais,  responsáveis pela extração de características dos dados de entrada, bem como o sistema de \textit{pooling} e a camada de saída (ou camada densa).
 
 \begin{figure}[H]
     \centering
@@ -197,9 +197,9 @@ onde $r$ representa uma taxa de dilatação que determina as \textit{strides} pa
 \subsection{\textit{Dropout}}
 \label{cnn:dropout}
 
-Dentre as estratégias para mitigar o \textit{overfitting}, citado na Seção \ref{deep:overunder}, destaca-se a técnica de \textit{dropout} \citep{Goodfellow2016}. Esta técnica, embora não seja aplicada durante a fase de testes, consiste no desligamento aleatório de neurônios em camadas ocultas de uma rede CNN. O propósito do \textit{dropout} é reduzir o viés dos neurônios e aumentar a importância dos neurônios restantes.
+Dentre as estratégias para mitigar o \textit{overfitting}, conforme discutido na Seção \ref{deep:overunder}, destaca-se a técnica de \textit{dropout} \citep{Goodfellow2016}. Esta técnica, embora não seja aplicada durante a fase de teste, consiste em desligar aleatoriamente neurônios em camadas ocultas de uma rede neural convolucional (CNN). O objetivo do \textit{dropout} é reduzir o viés dos neurônios e aumentar a importância dos neurônios restantes.
 
-O processo de \textit{dropout} é ilustrado na Figura \ref{cnn:fig:9}, mostrando apenas as conexões entre os neurônios restantes, no lado direito da Figura \ref{cnn:fig:9}.
+O processo de \textit{dropout} é ilustrado na Figura \ref{cnn:fig:9}, que mostra apenas as conexões entre os neurônios restantes, destacados no lado direito da Figura \ref{cnn:fig:9}.
 
 \begin{figure}[H]
     \centering
@@ -227,7 +227,7 @@ A mais comum estratégia de aplicação da transferência de aprendizado em CNNs
 
 Essa abordagem é altamente eficaz, uma vez que durante a fase inicial do treinamento, conhecida como \textit{warmup}, os modelos aprendem características de baixo nível nas camadas iniciais e gradualmente capturam características mais abstratas nas camadas posteriores. A premissa é que as camadas iniciais do modelo extraem recursos genéricos, como bordas e texturas, que são fundamentais para uma ampla variedade de tarefas, enquanto as camadas finais são mais especializadas na tarefa específica para a qual o modelo foi originalmente treinado \citep{Yosinski2014HowNetworks}.
 
-É importante ressaltar que a aplicação da transferência de aprendizado também contribui significativamente para mitigar o \textit{overfitting} \citep{Geron2017Hands-onSystems}. Após a fase de \textit{warmup}, ocorre o gradual \textit{descongelamento} das camadas, iniciando o processo de ajuste fino (ou \textit{fine-tuning}), permitindo que as camadas se adaptem melhor ao problema atual. Quanto mais dados estiverem disponíveis no conjunto, mais camadas ou blocos podem ser descongelados para ajustes finos \citep{Geron2017Hands-onSystems}.
+É importante ressaltar que a aplicação da transferência de aprendizado também contribui significativamente para mitigar o \textit{overfitting} \citep{Geron2017Hands-onSystems}. Após a fase de \textit{warmup}, ocorre o gradual \textit{descongelamento} das camadas, iniciando o processo de ajuste fino (ou em inglês, \textit{fine-tuning}), permitindo que as camadas se adaptem melhor ao problema atual. Quanto mais dados estiverem disponíveis no conjunto, mais camadas ou blocos podem ser descongelados para ajustes finos \citep{Geron2017Hands-onSystems}.
 
 Utilizando transferência de aprendizado, a comunidade pode economizar tempo e recursos computacionais, evitando treinar uma rede complexa do zero para cada nova tarefa. Além disso, modelos pré-treinados podem ajudar a melhorar o desempenho do aprendizado, principalmente quando o conjunto de dados da nova tarefa é pequeno ou semelhante ao conjunto de dados inicial do modelo pré-treinado \citep{Pan2010}.
 
@@ -245,7 +245,7 @@ A utilização desse método apresenta a vantagem de aumentar a invariância do 
 \begin{figure}[H]
     \centering
     \caption{Exemplo de aumento de dados com transformações geométricas em um exemplo de pimentão.}
-    \includegraphics[width=1\linewidth]{recursos/imagens/deep/dataaugmentation.png}
+    \includegraphics[width=0.8\linewidth]{recursos/imagens/deep/dataaugmentation.png}
     \label{cnn:fig:augment}
 
      Fonte: do próprio autor, utilizando o conjunto de dados CIFAR 100\citep{Bossard2014Food-101Forests}.
