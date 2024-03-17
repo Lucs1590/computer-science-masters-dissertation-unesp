@@ -115,11 +115,11 @@ Em relação à função de ativação ($f(Y')$) desenvolvida e utilizada no Per
 
 \subsubsection{Função Linear}
 \label{deep:linear}
-Para suprir a problemática de trabalhar com contextos de multiclasse, saídas contínuas podem ajudar quanto à interpretação e subjugar o problema da função limiar, sendo que para essa atividade é adequado o uso da função linear. Porém, é importante ter conhecimento que os resultados expressos por funções lineares também são lineares, não sendo recomendado o seu uso para atividades que não pertencem a problemas lineares. A função linear pode ser expressa pela Equação \ref{deep:eq:5}, segundo \cite{Rosenblatt1958}:
+Para suprir a problemática de trabalhar com contextos de multiclasse, saídas contínuas podem ajudar na interpretação e mitigar o problema da função de limiar. Nesse contexto, é apropriado o uso da função linear. É importante notar que os resultados produzidos por funções lineares são também lineares, tornando-as inadequadas para problemas não lineares. A função linear é expressa pela Equação \ref{deep:eq:5}, onde $\alpha$ representa um parâmetro ajustável, conforme definido por \cite{Rosenblatt1958}:
 
 \begin{equation}
-    \label{deep:eq:5}
-    f(Y') = \alpha Y'.
+\label{deep:eq:5}
+f(Y') = \alpha Y'.
 \end{equation}
 
 
@@ -182,7 +182,7 @@ Em meio às avaliações utilizadas como métrica para o cálculo da função de
     MSE(\boldsymbol{y}, \boldsymbol{y'}) = \frac{1}{MN} \sum_{i=1}^{M} \sum_{j=1}^{N} (\boldsymbol{y}_{i,j} - \boldsymbol{y'}_{i,j})^2.
 \end{equation}
 
-Ainda quanto às métricas para a realização de avaliação em relação a imagens, existem várias delas descritas na literatura, todavia,  cada uma delas possui seu uso especificado para o problema que deseja resolver, por exemplo o caso das métricas para segmentações semânticas na Seção \ref{semantic:metrics}, que também poderia ser empregadas como função de custo para o treinamento.
+Ainda quanto às métricas para a realização de avaliação em relação a imagens, existem várias delas descritas na literatura, todavia,  cada uma delas possui seu uso especificado para o problema que deseja resolver, por exemplo o caso das métricas para segmentações semânticas (Seção \ref{semantic:metrics}), que também poderia ser empregadas como função de custo para o treinamento.
 
 
 \subsubsection{Função de Otimização}
@@ -204,7 +204,7 @@ O grande objetivo das funções de otimização no contexto de aprendizado profu
     Fonte: do próprio autor. Inspirado em \cite{MontesinosLopez2022ArtificialOutcomes} e \cite{Geron2017Hands-onSystems}.
 \end{figure}
 
-A Figura \ref{deep:fig:otimizacao} proporciona uma visualização de alguns desafios para as funções de otimização, sendo 1) mínimos locais e 2) platô (\textit{plateau}, em inglês). Um mínimo local representa um ponto que é o menor em comparação com outros pontos em sua vizinhança próxima. Entretanto, é importante notar que um mínimo local nem sempre corresponde ao menor valor em todo o espaço de características. Dessa forma, a função de custo pode apresentar vários mínimos locais, o que frequentemente dificulta a busca pelo mínimo global desejado na otimização\citep{Goodfellow2016}. Já os pontos de platô indicam áreas onde o valor da função de custo permanece estagnado. Nestes locais, os gradientes são muito semelhantes, o que torna desafiadora a otimização do modelo \citep{Goodfellow2016}.
+A Figura \ref{deep:fig:otimizacao} proporciona uma visualização de alguns desafios para as funções de otimização, sendo 1) mínimos locais e 2) platô (\textit{plateau}, em inglês). Um mínimo local representa um ponto que é o menor em comparação com outros pontos em sua vizinhança próxima. Entretanto, é importante notar que um mínimo local nem sempre corresponde ao menor valor em todo o espaço de características. Dessa forma, a função de custo pode apresentar vários mínimos locais, o que frequentemente dificulta a busca pelo mínimo global desejado na otimização \citep{Goodfellow2016}. Já os pontos de platô indicam áreas onde o valor da função de custo permanece estagnado. Nestes locais, os gradientes são muito semelhantes, o que torna desafiadora a otimização do modelo \citep{Goodfellow2016}.
 
 Em meio às diversas funções disponíveis, considera-se que o método mais utilizado é o de gradiente descendente estocástico, ou em inglês, \textit{stochastic gradient descendent} (SGD), desenvolvido inicialmente por \cite{cauchy1847methode}, assim como suas variações \citep{Goodfellow2016}, sendo que o gradiente descendente estocástico é considerado como uma adaptação do gradiente descendente e que causa a aceleração do treinamento na maioria das vezes por selecionar aleatoriamente apenas uma parcela do conjunto de treinamento. Todavia, segundo \cite{Goodfellow2016}, há casos em que o SGD não tem bom desempenho para convergir e por conta disso são estudadas suas variações.
 

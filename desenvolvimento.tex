@@ -115,7 +115,7 @@ Ao contrário de uma combinação linear simples de amostras distintas, BPCA com
 
 As camadas de \textit{pooling} têm sido eficazes em CNNs para reduzir a dimensionalidade dos dados \citep{Paul2019DimensionalityPooling}. Neste trabalho, a inovação proposta é a aplicação da técnica BPCA como uma camada de \textit{pooling} - sendo nomeada de BPCAPooling - não mais para extração de características, conforme proposto originalmente por \cite{Salvadeo2011}, mas como uma estratégia para preservar a espacialidade da informação entre as camadas convolucionais, num olhar global para o mapa de atributos, associada ao benefício proposto pela técnica de minimização do erro quadrático médio entre a entrada e saída como uma camada de \textit{pooling}.
 
-Essa camada de \textit{pooling} segue o processo original do BPCA, onde são extraídas informações principais de cada bloco, reduzindo a dimensionalidade dos dados e preservando características relevantes. Além disso, o método foi aprimorado pela normalização dos blocos utilizando média ($\mu$) e desvio padrão ($\sigma$). Na sequência, é aplicada a técnica de \textit{Singular Value Decomposition} (SVD) para extrair os componentes principais ($\text{{pca\_components}}$), como explicado na Seção \ref{project:feature_extraction}, e, finalmente, os blocos são transformados por meio da projeção nesses componentes selecionados. O resultado é um mapa de características menor em tamanho, porém, preservando informações essenciais ao concatenar os blocos transformados.
+Essa camada de \textit{pooling} segue o processo original do BPCA, onde são extraídas informações principais de cada bloco, reduzindo a dimensionalidade dos dados e preservando características relevantes. Além disso, o método foi aprimorado pela normalização dos blocos utilizando média ($\mu$) e desvio padrão ($\sigma$). Na sequência, é aplicada a técnica de \textit{Singular Value Decomposition} (SVD) para extrair os componentes principais ($\boldsymbol{C}$), como explicado na Seção \ref{project:feature_extraction}, e, finalmente, os blocos são transformados por meio da projeção nesses componentes selecionados. O resultado é um mapa de características menor em tamanho, porém, preservando informações essenciais ao concatenar os blocos transformados.
 
 A formulação matemática do processo realizado pela camada de \textit{pooling} BPCAPooling pode ser representada pela Equação \ref{project:eq:bpca}:
 
@@ -123,24 +123,24 @@ A formulação matemática do processo realizado pela camada de \textit{pooling}
     \label{project:eq:bpca}
     \begin{split}
         Y_{i,j,k} &= \text{BPCAPooling}(\boldsymbol{X}_{i',j',k'}) \\
-                  &= \text{reshape}\left(\text{SVD}\left(\frac{{\boldsymbol{X} - \boldsymbol{\mu}}}{{\boldsymbol{\sigma}}}\right) \cdot \text{pca\_components}\right),
+                  &= \text{reshape}\left(\text{SVD}\left(\frac{{\boldsymbol{X} - \boldsymbol{\mu}}}{{\boldsymbol{\sigma}}}\right) \cdot \boldsymbol{C}\right),
     \end{split}
 \end{equation}
-onde $\boldsymbol{X}$ é a imagem de entrada com $i'$ como altura de entrada, $j'$ como largura de entrada e $k'$ como número de canais de entrada; e $Y$ é a imagem de saída, com $i$ representando altura de saída, $j$ como largura de saída e $k$ como profundidade de saída (ou seja, o número de canais). Aqui, $\text{\textit{reshape}}$ reorganiza os blocos transformados para uma estrutura de saída apropriada, $\text{SVD}$ representa a decomposição em valores singulares dos blocos normalizados, $\boldsymbol{\mu}$ é o vetor médio dos blocos extraídos, $\boldsymbol{\sigma}$ é o vetor de desvio padrão dos blocos extraídos, e $\text{pca\_components}$ é uma matriz contendo os primeiros componentes principais selecionados.
+onde $\boldsymbol{X}$ é a imagem de entrada com $i'$ como altura de entrada, $j'$ como largura de entrada e $k'$ como número de canais de entrada; e $Y$ é a imagem de saída, com $i$ representando altura de saída, $j$ como largura de saída e $k$ como profundidade de saída (ou seja, o número de canais). Aqui, $\text{\textit{reshape}}$ reorganiza os blocos transformados para uma estrutura de saída apropriada, $\text{SVD}$ representa a decomposição em valores singulares dos blocos normalizados, $\boldsymbol{\mu}$ é o vetor médio dos blocos extraídos, $\boldsymbol{\sigma}$ é o vetor de desvio padrão dos blocos extraídos, e $\boldsymbol{C}$ é uma matriz contendo os primeiros componentes principais selecionados.
 
 Essa formulação matemática descreve o processo de \textit{pooling} realizado pela camada BPCAPooling, que extrai informações relevantes dos blocos de entrada, reduzindo sua dimensionalidade e preservando características importantes para o aprendizado eficiente da rede neural convolucional.
 
 Quando se analisa a complexidade de uma função em notação Big O, que descreve o quão escalável é a função, pode-se expressá-la como $O(HWD * \min(P^2, ND))$ no pior caso. Isso é resultado da complexidade em cada um dos passos dos seguintes processos:
 
 \begin{enumerate}
-    \item Extração de \textit{patches} do mapa de características de entrada, de tamanho $(H,W,C)$, gerando \textit{patches} de dimensão $(P,P,D)$. Esse processo é representado pela notação $O(HWD * P^2)$;
+    \item Extração de \textit{patches} do mapa de características de entrada, de tamanho $(H,W,C)$, onde $H$, $W$ e $C$ representam altura, largura e número de canais, respectivamente, gerando \textit{patches} de dimensão $(P,P,D)$. Esse processo é representado pela notação $O(HWD * P^2)$;
     \item Normalização utilizando a média e o desvio padrão, com a notação $O(HWD)$;
     \item Aplicação da decomposição em valores singulares em uma matriz $(HWD, P^2)$, com notação $O(\min(P^2, HWD * D))$;
     \item Multiplicação matricial entre os \textit{patches} $(HWD, P^2)$ e os componentes principais $(P^2, N)$, resultando em $O(HWD * N * D)$;
     \item O processo de \textit{reshaping}, considerado de complexidade linear e desconsiderado na notação Big O \citep{devi2011abstract}.
 \end{enumerate}
 
-Resumindo, a complexidade é expressa como $O(HWD * \min(P^2, ND))$, onde $H$, $W$ e $C$ representam altura, largura e número de canais, respectivamente, $P$ é o tamanho dos \textit{patches}, $N$ é o número de componentes principais, e $D$ é a quantidade de blocos.
+Resumindo, a complexidade é expressa como $O(HWD * \min(P^2, ND))$, onde $P$ é o tamanho dos \textit{patches}, $N$ é o número de componentes principais, e $D$ é a quantidade de blocos.
 
 Em suma, a camada de BPCAPooling emerge como uma proposta inovadora para aprimorar a atuação das redes neurais convolucionais ao lidar com tarefas de segmentação semântica. Ao incorporar a técnica de BPCA, essa camada de \textit{pooling} permite que a informação espacial seja preservada na passagem entre as camadas convolucionais, mantendo simultaneamente uma redução de dimensionalidade efetiva dos dados.% Com seu mecanismo de extração de características cruciais, o BPCAPooling demonstra uma inovação para auxiliar aos modelos de aprendizado profundo, abrindo caminho para futuras investigações e desenvolvimentos com foco em técnicas de \textit{pooling}.
 
@@ -188,21 +188,23 @@ Vale dizer que originalmente essas amostras estão separadas entre $3.669$ ($49,
 
 Vale observar que diferentemente de muitos outros conjuntos de dados de imagem \citep{Bossard2014Food-101Forests}, o \textit{Oxford-III Pets} não apresenta dimensões padronizadas para suas amostras. Todavia, no atual trabalho, houve uma alteração nesse aspecto, em que foram aplicadas duas técnicas, além da técnica de aumento de dados que será discutida na Seção \ref{project:augment}, em todos os exemplos do conjunto de dados. Sendo que a primeira técnica aplicada foi a padronização tanto das imagens originais, quanto das máscaras, em relação às suas dimensões, em que ambas passaram a ter o valor de $256 \times 256$, que é o um valor comumente utilizado na área de imagens para substanciar as características da mesma \citep{Lee1983DigitalFilter}.
 
-Além disso, procedeu-se à normalização dos valores do conjunto de dados. Tanto as imagens quanto as máscaras foram normalizadas para um intervalo de $0$ a $1$, como indicado pela Equação \ref{project:eq:dataset:pets_1}.
+A normalização dos valores do conjunto de dados foi realizada para garantir que tanto as imagens quanto as máscaras estivessem dentro de um intervalo padronizado de $0$ a $1$, facilitando o processamento e a comparação entre diferentes conjuntos de dados.
+
+Para as imagens, essa normalização é feita dividindo cada valor de pixel pelo valor máximo possível, que é 255 para imagens de 8 bits, conforme mostrado na Equação \ref{project:eq:dataset:pets_1}:
 
 \begin{equation}
     \label{project:eq:dataset:pets_1}
-    \text{imagem de entrada normalizada}_{(i,j,k)} = \frac{\text{imagem de entrada}_{(i,j,k)}}{255},
+    I_{\text{norm}}{(i,j,k)} = \frac{I{(i,j,k)}}{255},
 \end{equation}
-onde $(i,j,k)$ representa as coordenadas de altura, largura e canal, respectivamente.
+onde $I_{\text{norm}}$ representa a imagem de entrada normalizada, $I$ representa a imagem de entrada e $(i,j,k)$ são as coordenadas de altura, largura e canal, respectivamente.
 
-No caso das máscaras, essa normalização foi realizada subtraindo-se um valor unitário de cada \textit{pixel} que inicialmente correspondia a 1, 2 e 3, representando o animal em questão, a borda e o fundo, respectivamente. Esse procedimento permitiu transformar o intervalo de valores para $0$ a $1$, conforme descrito pela Equação \ref{project:eq:dataset:pets_2}.
+No caso das máscaras, a normalização foi realizada de maneira diferente. Inicialmente, as máscaras tinham valores discretos de $1$, $2$ e $3$, representando o animal em questão, a borda e o fundo, respectivamente. Para normalizar esses valores para o intervalo de $0$ a $1$, foi subtraído um valor unitário de cada pixel, conforme mostrado na Equação \ref{project:eq:dataset:pets_2}:
 
 \begin{equation}
     \label{project:eq:dataset:pets_2}
-    \text{máscara de entrada normalizada} = \text{máscara de entrada} - 1,
+    M_{\text{norm}} = M - 1,
 \end{equation}
-em que, assim como na Equação \ref{project:eq:dataset:pets_1}, $(i,j,k)$ representa as coordenadas de altura, largura e canal, respectivamente.
+onde $M_{\text{norm}}$ representa a máscara de entrada normalizada, $M$ representa a máscara de entrada e $(i,j,k)$ são as coordenadas de altura, largura e canal, respectivamente. Essa transformação garante que as máscaras estejam na faixa desejada para facilitar o processamento subsequente.
 
 Por fim, é relevante ressaltar que esse conjunto de dados se mostra adequado para o treinamento em segmentação semântica, uma vez que conta com todos os dados devidamente rotulados, proporcionando um cenário propício para esse propósito. O resultado gerado por essa abordagem será um mapa de características, ilustrado de forma análoga ao apresentado na Figura \ref{project:fig:dataset:pets_1.2}.
 
@@ -397,7 +399,7 @@ Na arquitetura VGG-16, utilizada para classificação de imagens nos conjuntos d
 
 \begin{figure}[H]
     \centering
-    \caption{Demonstração da substituição das camadas de \textit{pooling} convencionais por BPCAPooling no conjunto de dados CIFAR-100.}
+    \caption{Demonstração da substituição das camadas de \textit{pooling} convencionais por BPCAPooling no conjunto de dados CIFAR-100. Os números sob cada camada representam o número de parâmetro.}
     \includegraphics[width=1\textwidth]{recursos/imagens/project/vgg-with-bpca-cifar.png}
     \label{project:fig:change_pooling:vgg-cifar}
 
@@ -408,7 +410,7 @@ Quanto à alteração da camada de \textit{pooling} na VGG-16 para o conjunto de
 
 \begin{figure}[H]
     \centering
-    \caption{Demonstração da substituição das camadas de \textit{pooling} convencionais por BPCAPooling no conjunto de dados \textit{Food}-101.}
+    \caption{Demonstração da substituição das camadas de \textit{pooling} convencionais por BPCAPooling no conjunto de dados \textit{Food}-101. Os números sob cada camada representam o número de parâmetro.}
     \includegraphics[width=1\textwidth]{recursos/imagens/project/vgg-with-bpca-food.png}
     \label{project:fig:change_pooling:vgg-food}
 

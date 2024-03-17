@@ -45,7 +45,7 @@ Quando aborda-se o tema das segmentações semânticas, vale dizer que arquitetu
 
 Esta característica permite à FCN realizar uma análise \textit{pixelwise}, onde cada \textit{pixel} da imagem é subamostrado. Em seguida, através de processos de convolução e \textit{upsampling}, um mapa de segmentação semântica é construído. Este mapa de segmentação possui dimensões idênticas à imagem de entrada, o que permite a atribuição de uma classe semântica para cada \textit{pixel} \citep{Minaee2021, Zhang2018, Hesamian2019}.
 
-A aplicação do FCN nos \textit{datasets} PASCAL VOC 2011 \citep{everingham2010pascal}, SIFT Flow \citep{Liu2011} e NYUDv2 \citep{Silberman:ECCV12}, resultou numa precisão de \textit{pixel} (PA) de 90,3\% e uma mIoU de 62,7\% no primeiro \textit{dataset} mencionado \citep{Ghosh2019}. O FCN, portanto, estabeleceu um novo patamar de referência quanto ao estado-da-arte em segmentação semântica \citep{Minaee2021}.
+A aplicação do FCN nos \textit{datasets} PASCAL VOC 2011 \citep{everingham2010pascal}, SIFT Flow \citep{Liu2011} e NYUDv2 \citep{Silberman:ECCV12}, resultou numa precisão de \textit{pixel} (PA) de 90,3\% e uma mIoU de 62,7\% no primeiro \textit{dataset} mencionado \citep{Ghosh2019}. O FCN, portanto, estabeleceu um novo patamar de referência quanto ao estado-da-arte em segmentação semântica \citep{Minaee2021} que antes era ocupado pelo modelo DeepLab \citep{Chen2017deeplab}.
 
 A arquitetura da FCN é baseada nas arquiteturas das \textit{Convolutional Neural Networks} (CNNs) VGG-16 (explorada na Seção \ref{cnn:vgg}) e GoogLeNet \citep{Szegedy2015}. Esta adaptação permitiu que a FCN aceitasse entradas de tamanhos variáveis e produzisse saídas da mesma dimensão \citep{Minaee2021}, como pode ser visualizado na Figura \ref{semantic:fig:6}.
 
@@ -66,7 +66,7 @@ O desafio da subamostragem é que, enquanto ela contribui para a identificação
 
 Além disso, a FCN integra previsões de várias camadas em vários níveis de resolução, conhecido como saltos de conexões (ou em inglês, \textit{skip connections}), para refinar ainda mais a precisão da segmentação \citep{Minaee2021}. Com isso, a FCN consegue garantir que a segmentação semântica final esteja em conformidade tanto com as características de nível inferior quanto de alto nível, proporcionando resultados de segmentação precisos e detalhados.
 
-Por fim, quanto às suas limitações, é informado que as configurações de FCN são ineficientes em trabalhos de segmentação 3D e para o uso em tempo real, visto que leva cerca de 100ms - em hardware não especificado pelo autor - para trabalhar com imagens de baixa resolução \citep{Minaee2021}, mas novas arquiteturas baseadas nesse modelo, como a ParseNet \citep{Liu2015} vêm evoluindo para suprir essas limitações.
+Por fim, quanto às suas limitações, é informado que as configurações de FCN são ineficientes em trabalhos de segmentação 3D e para o uso em tempo real, visto que leva cerca de 100ms - em hardware não especificado pelo autor - para trabalhar com imagens de baixa resolução \citep{Minaee2021}, mas novas arquiteturas baseadas nesse modelo e na arquitetura ParseNet \citep{Liu2015} vêm evoluindo para suprir essas limitações.
 
 \subsubsection{U-Net}
 \label{semantic:unet}
