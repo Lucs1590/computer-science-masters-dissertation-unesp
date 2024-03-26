@@ -1,14 +1,25 @@
 % PACKAGES
+%% Font Type
+%\usepackage{helvet}
+%\renewcommand{\familydefault}{\sfdefault}
+%\usepackage{mathptmx}
+\usepackage{tgtermes}
+
 %% ABNT packages
 \usepackage[utf8]{inputenc}
 \usepackage[lmargin=3cm,tmargin=3cm,rmargin=2cm,bmargin=2cm]{geometry}
 \usepackage{setspace}
 \usepackage[T1]{fontenc}
+\usepackage{ragged2e}
+\usepackage{lipsum}
+\setlength{\parindent}{1.25cm}
+\usepackage{titlesec}
+\titlespacing*{\paragraph}{0pt}{0pt}{0cm}
+
 \usepackage[brazil]{babel}
 \usepackage{csquotes}
 \newcommand{\quotes}[1]{``#1''}
 \newcommand*{\rom}[1]{\expandafter\@slowromancap\romannumeral #1@}
-
 
 %% Essential packages
 \usepackage{graphicx, xcolor, comment, enumerate, multirow, multicol, indentfirst}
@@ -19,8 +30,6 @@
 \usepackage{float}
 \usepackage{subcaption}
 \usepackage{colortbl}
-\usepackage{titlesec}
-
 
 %% Links
 \usepackage{hyperref}
@@ -43,7 +52,7 @@
 \usepackage{algpseudocode}
 % \usepackage{algorithm2e}
 
-% References and table
+% References and tables
 \usepackage{makecell}
 \usepackage{tabularx}
 \usepackage{adjustbox}
