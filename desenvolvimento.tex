@@ -43,7 +43,7 @@ Lidar com grandes conjuntos de dados nas redes neurais profundas é um desafio, 
 
 Portanto, a extração de características surge como uma estratégia crucial para a redução da dimensionalidade, onde um conjunto inicial de dados brutos é transformado em grupos mais gerenciáveis para processamento \citep{Benyahia2022Multi-featuresClassification}. Esse processo frequentemente envolve a combinação ou seleção de variáveis, resultando em uma significativa redução na quantidade de dados a serem processados. Além disso, essas características ainda preservam a representatividade do conjunto original, sendo capazes de reduzir redundâncias para análises específicas.
 
-Um exemplo de algoritmo capaz de agregar essas vantagens ao processo extração de características é o \textit{Principal Component Analysis} (PCA), que foi desenvolvido como uma técnica estatística de transformações ortogonais que almeja transformar um conjunto de variáveis correlacionadas em um conjunto linearmente de variáveis não correlacionadas, extraindo de um conjunto de dados as características essenciais \citep{Wold1987PrincipalAnalysis} e obtendo como resultado, um conjunto de dados menor, mas sem perdas em relação ao conjunto original.
+Um exemplo de algoritmo capaz de agregar essas vantagens ao processo extração de características é o \textit{Principal Component Analysis} (PCA) \citep{pearson1901liii}, que foi desenvolvido como uma técnica estatística de transformações ortogonais que almeja transformar um conjunto de variáveis correlacionadas em um conjunto linearmente de variáveis não correlacionadas, extraindo de um conjunto de dados as características essenciais \citep{pearson1901liii, Wold1987PrincipalAnalysis} e obtendo como resultado, um conjunto de dados menor, mas sem perdas em relação ao conjunto original.
 
 O funcionamento do algoritmo de PCA para a extração de características pode ser resumido pelo passo-a-passo a seguir \citep{Song2010FeatureAnalysis}:
 
@@ -55,26 +55,26 @@ O funcionamento do algoritmo de PCA para a extração de características pode s
         \boldsymbol{z} = \frac{\boldsymbol{x} - \mu}{\sigma};
     \end{equation}
 
-    \item Cálculo da matriz de covariância, com $X$ representando a primeira dimensão da entrada e $Y$ a segunda, conforme a Equação \ref{deep:eq:pca_2}:
+    \item Cálculo da matriz de covariância, com $X$ representando a primeira dimensão da entrada, conforme a Equação \ref{deep:eq:pca_2}:
     
     \begin{equation}
         \label{deep:eq:pca_2}
-        \boldsymbol{A} = \text{cov}(X, Y) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{x}) (Y_i - \bar{y}),
+        \boldsymbol{A} = \text{cov}(X) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{x}) (x_i - \bar{x})^T,
     \end{equation}
-    onde \(\bar{x}\) e \(\bar{y}\) representam as médias das variáveis $X$ e $Y$ respectivamente, e $n$ é o número de observações;
+    onde \(\bar{x}\) representa a média da variável $X$ e $n$ é o número de observações;
 
     \item Cálculo dos autovetores e autovalores correspondentes. Para a realização desse passo, o calculo dos autovetores em relação à matriz de covariância $\boldsymbol{A}$ pode ser representado pela Equação \ref{deep:eq:pca_3}:
 
     \begin{equation}
         \label{deep:eq:pca_3}
-        \boldsymbol{A}\overrightarrow{v} = \lambda\overrightarrow{v},
+        \boldsymbol{A}\overrightarrow{v} = \boldsymbol{\lambda}\overrightarrow{v},
     \end{equation}
-    em que $\lambda$ representa um vetor de autovalores. O que significa que a transformação linear é definida por $\lambda$ e a equação pode ser transcrita pela Equação \ref{deep:eq:pca_4}:
+    em que $\boldsymbol{\lambda}$ representa um vetor de autovalores. O que significa que a transformação linear é definida por $\boldsymbol{\lambda}$ e a equação pode ser transcrita pela Equação \ref{deep:eq:pca_4}:
 
         \begin{equation}
         \label{deep:eq:pca_4}
-        \boldsymbol{A}\overrightarrow{v} - \lambda\overrightarrow{v} = 0
-        \Rightarrow \overrightarrow{v}(\boldsymbol{A} - \lambda \boldsymbol{I}) = 0,
+        \boldsymbol{A}\overrightarrow{v} - \boldsymbol{\lambda}\overrightarrow{v} = 0
+        \Rightarrow \overrightarrow{v}(\boldsymbol{A} - \boldsymbol{\lambda} \boldsymbol{I}) = 0,
     \end{equation}
     tendo $I$ como uma matriz identidade.
 
@@ -111,7 +111,7 @@ O método proposto opera por meio da subdivisão de uma imagem em blocos $k \tim
     Fonte: retirado e adaptado de \cite{Salvadeo2011}.
 \end{figure}
 
-Ao contrário de uma combinação linear simples de amostras distintas, BPCA compõe uma representação organizada, formada por pequenos blocos do mapa de características original, conforme exibido na Imagem final com $r$ \textit{pixels} da Figura \ref{project:fig:bpca_1}. Esta técnica incorpora a teoria do PCA para realização do mapeamento não supervisionado visando a minimização do erro quadrático médio entre a entrada original e a apresentação projetada. Dessa forma, é possível sintetizar características essenciais da imagem de entrada numa representação compacta de maior relevância contextual \citep{Kuncheva2014PCAData}. Isso permite que a BPCA seja um componente eficaz ao enfrentar grandes volumes de dados, como é comum no âmbito de processamento de imagens.
+Ao contrário de uma simples combinação linear de amostras distintas, o BPCA compõe uma representação organizada, formada por pequenos blocos do mapa de características original, como ilustrado na Figura \ref{project:fig:bpca_1}. Essa técnica incorpora a teoria do PCA para realizar o mapeamento não supervisionado, visando a minimização do erro quadrático médio entre a entrada original e a representação projetada. Ao preservar mais informações relevantes, o BPCA é capaz de sintetizar características essenciais da imagem de entrada em uma representação compacta de maior relevância contextual \citep{Kuncheva2014PCAData}. Isso torna o BPCA um componente eficaz para lidar com grandes volumes de dados, como é comum no processamento de imagens. A compactação obtida pelo BPCA é particularmente benéfica, já que maximiza a variância dos dados e minimiza a perda de informações significativas, diferentemente de outros métodos de pooling que tendem a descartar uma quantidade considerável de informação relevante.
 
 As camadas de \textit{pooling} têm sido eficazes em CNNs para reduzir a dimensionalidade dos dados \citep{Paul2019DimensionalityPooling}. Neste trabalho, a inovação proposta é a aplicação da técnica BPCA como uma camada de \textit{pooling} - sendo nomeada de BPCAPooling - não mais para extração de características, conforme proposto originalmente por \cite{Salvadeo2011}, mas como uma estratégia para preservar a espacialidade da informação entre as camadas convolucionais, num olhar global para o mapa de atributos, associada ao benefício proposto pela técnica de minimização do erro quadrático médio entre a entrada e saída como uma camada de \textit{pooling}.
 

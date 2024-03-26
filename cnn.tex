@@ -50,7 +50,7 @@ O processo iterativo de aplicação da máscara sobre a imagem pode ser represen
 
 \begin{equation}
     \label{cnn:eq:conv}
-    w(x,y)*f(x,y) = \sum\limits_{s=-a}^a \sum\limits_{t=-b}^b w(s,t)f(x-s,y-t),
+    w(x,y)*f(x,y) = \sum\limits_{s=-a}^a \sum\limits_{t=-b}^b w(s,t)f(x+s,y+t),
 \end{equation}
 onde $x$ e $y$ representam coordenadas espaciais da matriz de entrada, $w(x,y)$ é o valor do \textit{pixel} na posição $(x,y)$ da janela e $f(x,y)$ é o valor do \textit{pixel} na posição $(x,y)$ da matriz de entrada. Além disso, vale citar que $s$ e $t$, representam variáveis de iteração usadas para percorrer a máscara e, $m$ e $n$ representam as dimensões da máscara, utilizadas para definir os limites de iteração nas somas duplas $a$ e $b$, conforme especificado pelas Equações \ref{cnn:eq:row} e \ref{cnn:eq:col} \citep{Gonzalez2009}:
 
@@ -91,7 +91,7 @@ f_{\max}(\boldsymbol{X})_{i, j, k} = \max_{m, n} X_{i \cdot s_x + m, j \cdot s_{
 
 Nesta equação, $\boldsymbol{X}$ representa o valor de entrada, $(i, j)$ são os índices do valor de saída e $k$ é a quantidade de canais (ou camadas) associadas ao valor de entrada. Além disso, $s_{x}$ e $s_{y}$ representam os tamanhos de deslocamento (ou \textit{stride}) horizontal e vertical, respectivamente. Finalmente, $m$ e $n$ representam as posições dentro da janela de \textit{pooling} ao longo das dimensões horizontal e vertical, respectivamente, sendo que essas variáveis variam de acordo com o tamanho da janela de pooling e o passo (\textit{stride}) ao percorrer a matriz de entrada para realizar a operação de \textit{max pooling}.
 
-O resultado da operação de \textit{max pooling} é obtido utilizando um \textit{kernel} como ilustrado na Figura \ref{cnn:fig:7}, onde a técnica captura apenas os maiores valores do mapa de características.
+O resultado da operação de \textit{max pooling} é obtido utilizando um \textit{kernel} como ilustrado na Figura \ref{cnn:fig:7} que representa a execução de deslizamento de um \textit{kernel} $2 \times 2$ com um \textit{stride} igual a $2$ mostrando que a técnica captura apenas os maiores valores do mapa de características.
 
 \begin{figure}[H]
     \centering
@@ -115,7 +115,7 @@ A técnica de \textit{average pooling}, semelhante à técnica de \textit{max po
     f_{avg}(\boldsymbol{X})_{i, j, k} = \frac{1}{f{x} \cdot f_{y}} \sum_{m, n} X_{i \cdot s_x + m, j \cdot s_{y} + n, k}.
 \end{equation}
 
-Nesta equação, $\boldsymbol{X}$ representa o valor de entrada, $(i, j)$ são os índices do valor de saída e $k$ é o número de camadas. Os parâmetros $s_x$ e $s_y$ representam os valores de \textit{stride} vertical e horizontal, respectivamente, enquanto os tamanhos dos filtros $f_x$ e $f_y$ determinam a janela de \textit{pooling}, centrada nos índices de saída $(i,j)$, tendo $m$ e $n$ referentes às posições locais dentro da janela de \textit{pooling}, assim como na Equação \ref{cnn:eq:pooling:max_pooling}. Uma representação visual dessa fórmula é ilustrada na Figura \ref{cnn:fig:avg_pooling}.
+Nesta equação, $\boldsymbol{X}$ representa o valor de entrada, $(i, j)$ são os índices do valor de saída e $k$ é o número de camadas. Os parâmetros $s_x$ e $s_y$ representam os valores de \textit{stride} vertical e horizontal, respectivamente, enquanto os tamanhos dos filtros $f_x$ e $f_y$ determinam a janela de \textit{pooling}, centrada nos índices de saída $(i,j)$, tendo $m$ e $n$ referentes às posições locais dentro da janela de \textit{pooling}, assim como na Equação \ref{cnn:eq:pooling:max_pooling}. Uma representação visual dessa fórmula é ilustrada na Figura \ref{cnn:fig:avg_pooling} que demonstra semelhanças quando comparada à Figura \ref{cnn:fig:7}, principalmente, no que diz ao funcionamento com o deslizamento de uma janela $2 \times 2$ com \textit{stride} igual a $2$.
 
 \begin{figure}[H]
     \centering

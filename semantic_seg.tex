@@ -145,7 +145,7 @@ Sua representação pode ser visualizada a partir da Figura \ref{semantic:fig:1}
 \label{semantic:miou}
 Após a introdução da métrica IoU, outras variações ganharam destaque, destacando-se o \textit{Mean Intersection-over-Union} (mIoU), que calcula a média dos valores de IoU para todas as classes presentes na cena, fornecendo um valor escalar como resultado para a segmentação como um todo \citep{Minaee2021}. Esta métrica tem sido empregada em estudos relevantes, como exemplificado por \cite{Mohan2020}.
 
-É relevante ressaltar que métricas como mIoU e também \textit{Mean Average Precision} (mAP), em relação à métrica \textit{Average Precision}, possuem maior relevância na análise de problemas com múltiplas classes ou objetos, permitindo medir a capacidade de generalização do modelo em questão.
+É relevante ressaltar que métricas como mIoU e \textit{Mean Average Precision} (mAP), em relação à métrica \textit{Average Precision} - também comentadas por \cite{Padilla2021} - possuem maior relevância na análise de problemas com múltiplas classes ou objetos, permitindo medir a capacidade de generalização do modelo em questão.
 
 A Equação \ref{semantic:eq:miou} pode ser utilizada para ilustrar o funcionamento do $mIoU$, onde $N$ é o número de regiões no conjunto de dados e as demais variáveis são baseadas na Equação \ref{semantic:eq:2}:
 
@@ -218,5 +218,7 @@ No entanto, é importante ressaltar que essas redes enfrentam dificuldades quand
 
     Fonte: \cite{Fischer2017}.
 \end{figure}
+
+É válido mencionar a emergência de abordagens estado da arte e arquiteturas baseadas em \textit{transformers}, que têm demonstrado excelente desempenho em uma variedade de tarefas de visão computacional, incluindo segmentação semântica. No entanto, considerando que o foco deste trabalho estavam mais focados nas questões de \textit{pooling} e nas arquiteturas clássicas de aprendizado profundo, essas abordagens mais novas, embora notáveis, estiveram fora do escopo da discussão atual.
 
 Por fim, é importante ressaltar que os modelos de segmentação semântica podem não ser ideais para sistemas que requerem segmentações em tempo real, especialmente ao operar com câmeras que capturam menos de 25 quadros por segundo. Isso se deve ao seu custo computacional elevado, o qual pode dificultar a obtenção de resultados em tempo hábil para aplicações em tempo real. Essa limitação foi identificada e discutida por \cite{Minaee2021}. Além disso, é fundamental considerar as questões relacionadas ao desempenho das métricas de avaliação do modelo quando se busca preencher essa lacuna de tempo, visando compreender como os modelos se comportam em condições de processamento em tempo real. Essa análise é crucial para determinar a viabilidade e eficácia desses modelos em aplicações práticas que demandam segmentação em tempo real \citep{badrinarayanan2017segnet}.
