@@ -30,6 +30,16 @@ A segmentação de imagens desempenha um papel fundamental em várias aplicaçõ
     Fonte: \cite{Nirkin2018} e \cite{Withey2008}, respectivamente.
 \end{figure}
 
+Para demonstrar o funcionamento das segmentações de maneira matemática, consideramos um conjunto de imagens $I$ definido em um domínio $\Omega \subset \mathbb{R}^d$, onde $d \geq 2$. A imagem observada $I_0$ e os predicados lógicos $P_1, \ldots, P_n$ são utilizados para verificar $n$ afirmações expressas com base em características da imagem, como bordas, suavidade, textura ou cor. O predicado $P_k(A)$ pe verdadeiro se todos os pontos de $A \subseteq \Omega$ satisfizerem a $k$-ésica afirmação. Essa abordagem é inspirada em trabalhos anteriores, como mencionado por \cite{antonelli2022view}.
+
+Por exemplo, para realizar uma segmentação de duas regiões em uma imagem em tons de cinza normalizada $I_0$, prdemos definir $n = 2$ afirmações simples. Essas afirmações estão relacionadas ao nível de cinza da intensidade da luz e são utilizadas para distinguir entre o plano de fundo e o primeiro plano, como demonstrado na Equação \ref{segment:eq:seg}.
+
+\begin{equation}
+\label{segment:eq:seg}
+    P_1(A) = \{ I^\ast(x) < \alpha, \forall x \in A \}, \quad P_2(A) = \{ I^\ast(x) \geq \alpha, \forall x \in A \},
+\end{equation}
+em que $I^\ast(x)$ representa uma aproximação adequada de $I_0$ e $\alpha \in (0,1)$ é um valor escolhido de forma apropriada.
+
 Compreendido o conceito de segmentação de imagens, esta área compreende uma ampla gama de técnicas, com a Seção \ref{segment:segment} abordando os métodos de segmentação tradicionais, que continuam sendo amplamente estudados e aplicados até os dias atuais.
 
 \subsection{Métodos e Técnicas Tradicionais}
@@ -302,6 +312,8 @@ onde $D(C_i, C_j)$ é a dissimilaridade entre os segmentos $C_i$ e $C_j$, $|B_{i
 
 Embora o algoritmo produza segmentações de alta qualidade, a seleção adequada dos parâmetros pode representar um desafio.
 
+O trabalho \cite{falcao2004image} traz uma inovação com a Transformada de Floresta de Imagens (IFT), uma metodologia que modela a imagem como um grafo, abrindo caminho para operações de processamento de imagens baseadas na identificação de caminhos de custo mínimo. Este procedimento, proposto por \cite{falcao2004image}, permite uma segmentação eficaz ao conectar cada \textit{pixel} a um caminho mínimo, derivado de várias sementes, destacando-se pela sua adaptabilidade e eficiência. A IFT apoia a versatilidade da segmentação baseada em grafo ao simplificar a análise de imagens, fornecendo uma abordagem unificada para a segmentação e análise de contorno.
+
 \subsubsection{Segmentação \textit{Watershed}}
 \label{segment:watershed}
 O algoritmo \textit{watershed} (ou bacia hidrográfica, em português) é uma técnica amplamente utilizada para segmentação de imagens. Seu nome se baseia na divisão das superfícies topográficas \citep{pedrini2008analise}, onde os valores dos \textit{pixels} formam determinadas \quotes{montanhas} e uma variação de duas intensidades altas forma um \quotes{vale}. O algoritmo \textit{watershed} tem como desafio encontrar um limiar para preencher esses vales a partir dos mínimos regionais, formando bacias de retenção e destacando algumas \quotes{montanhas} que consistem em segmentos de linhas de contorno dos objetos da imagem \citep{pedrini2008analise, SealWatershed:Approach}. É possível visualizar a imagem original e a imagem segmentada por meio do algoritmo \textit{watershed} a partir da Figura \ref{segment:fig:watershed_1}.
@@ -384,13 +396,21 @@ A deficiência desse algoritmo se dá pela sua sensibilidade em relação aos ru
 \label{segment:livewire}
 A segmentação \textit{livewire}, também conhecida como segmentação interativa ou segmentação assistida pelo usuário, é uma técnica na qual o usuário define um ponto inicial e um ponto final na imagem. A partir desses pontos, o processo da segmentação realiza automaticamente a identificação dos caminhos de menor custo entre o ponto inicial e final. Este custo geralmente é definido com base em características de borda, tal como o gradiente de intensidade, a direção de borda, e entre outros \citep{Falcao1997Paradigmas3D-Live-Wire}.
 
-O método \textit{livewire}, proposto por \cite{Barrett1997InteractiveExtraction}, é um dos mais conhecidos para a segmentação interativa. A técnica emprega uma estrutura de grafo para representar a imagem, na qual cada \textit{pixel} é considerado como um nó e as arestas são definidas pelas distâncias euclidianas entre os \textit{pixels} vizinhos. O custo de cada aresta é determinado com base nas características da borda. Assim, o problema da segmentação se transforma na busca pelas arestas de menor custo entre os pontos definidos pelo usuário \citep{Barrett1997InteractiveExtraction}. Esse processo pode ser visualizado matematicamente pela expressão representada pela Equação \ref{segment:eq:livewire},
+O método \textit{livewire}, proposto por \cite{Barrett1997InteractiveExtraction}, é um dos mais conhecidos para a segmentação interativa. A técnica emprega uma estrutura de grafo para representar a imagem, na qual cada \textit{pixel} é considerado como um nó e as arestas são definidas pelas distâncias euclidianas entre os \textit{pixels} vizinhos. O custo de cada aresta é determinado com base nas características da borda, onde:
+
+\begin{itemize}
+    \item $f_{gradiente}(i, j)$ é uma função de custo baseada no gradiente de intensidade dos \textit{pixels} em $i$ e $j$,
+    \item $f_{direcao}(i, j)$ é uma função de custo baseada na direção de borda dos \textit{pixels} em $i$ e $j$,
+    \item $f_{tamanho}(i, j)$ é uma função de custo baseada na distância euclidiana (ou comprimento) dos \textit{pixels} em $i$ e $j$.
+\end{itemize}
+
+Essas características são combinadas para formar o custo total de uma aresta na estrutura de grafo, como expresso matematicamente pela Equação \ref{segment:eq:livewire}:
 
 \begin{equation}
     \label{segment:eq:livewire}
     c_{(i, j)} = f_{gradiente}(i, j) + f_{direcao}(i, j) + f_{tamanho}(i, j),
 \end{equation}
-onde $c_{(i, j)}$ é o custo total de uma aresta entre os nós $i$ e $j$ na estrutura de grafo, $f_{gradiente}(i, j)$ é uma função de custo baseada no gradiente de intensidade dos \textit{pixels} em $i$ e $j$, $f_{direcao}(i, j)$ é uma função de custo baseada na direção de borda dos \textit{pixels} em $i$ e $j$, $f_{tamanho}(i, j)$ é uma função de custo baseada na distância euclidiana (ou comprimento) dos \textit{pixels} em $i$ e $j$.
+onde $c_{(i, j)}$ é o custo total de uma aresta entre os nós $i$ e $j$. 
 
 Essas funções de custo garantem que as bordas bem definidas na imagem realcem-se e que as bordas contínuas e mais longas tenham um custo menor, direcionando o caminho preferencial para estas.
 
@@ -504,37 +524,41 @@ Um método mais recente que aborda essa tarefa e segue essa linha de raciocínio
 
 Na Tabela \ref{segment:table:1}, é possível visualizar as técnicas comentadas no decorrer do capítulo, assim como uma breve descrição de seus usos, suas vantagens e desvantagens.
 
-\begin{table}[H]
-\centering
-\caption{Comparação entre os métodos de segmentações tradicionais.}
-\label{segment:table:1}
-\resizebox{\textwidth}{!}{%
-
-    \begin{tabular}{l|l|l|l}
-    \textbf{Técnica}                    & \textbf{Descrição}                                                                                                                                                & \textbf{Vantagens}                                                                                                                                                                                                     & \textbf{Desvantagens}                                                                                                                                                                               \\ 
-    \hline
-    Segmentação Baseada em Regiões      & \begin{tabular}[c]{@{}l@{}}Concentra-se em encontrar e\\agrupar valores semelhantes\\sendo separados por um limiar.\end{tabular}                                  & \begin{tabular}[c]{@{}l@{}}- Possui baixa complexidade\\~e alto desempenho;\\ - Não requer pré-processamento;\\ - Recomendado para imagens\\~com alto contraste entre fundo e\\~objeto de interesse.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}- Omissão de detalhes quando não\\~há um contraste significante.\end{tabular}                                                                                            \\ 
-    \hline
-    Segmentação por Bordas              & \begin{tabular}[c]{@{}l@{}}Realizado com base na\\detecção de descontinuidade,\\detectando bordas e definindo\\um limite do objeto.\end{tabular}                  & \begin{tabular}[c]{@{}l@{}}- Recomendável para imagens com bons\\~ contrastes entre os objetos.\end{tabular}                                                                                                          & \begin{tabular}[c]{@{}l@{}}- Perda de detalhes para imagens\\~com muitas bordas, ruidosas ou\\~com baixo contraste entre os objetos.\end{tabular}                                                   \\ 
-    \hline
-    Segmentação Baseada em Agrupamentos & \begin{tabular}[c]{@{}l@{}}Divide os \textit{pixels} da imagem\\em k \textit{clusters} homogêneos e\\exclusivos obtendo, assim,\\as segmentações.\end{tabular}             & \begin{tabular}[c]{@{}l@{}}- Conceitos já estabelecidos;\\ - Recomendado para aplicações em tempo\\~ real;\\ - Bom desempenho para pequenos\\~\textit{datasets};\\ - Não precisa de tempo de treinamento.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- Pode demandar muito tempo para\\~encontrar a minimização da função\\~de custo;\\ - Não é adequado para agrupar \\\textit{~clusters} não convexos.\end{tabular}         \\ 
-    \hline
-    Segmentação Baseada em Grafos       & \begin{tabular}[c]{@{}l@{}}Representa uma imagem como\\um grafo, onde cada nó\\é um \textit{pixel} e as arestas\\são a relação entre os \textit{pixels}\\vizinhos.\end{tabular}     & \begin{tabular}[c]{@{}l@{}}- Robusto e preciso;\\ - Flexível com variados tipos de imagens;\\ - Compatibilidade com outros métodos\\~ de segmentação.\end{tabular}                                                     & \begin{tabular}[c]{@{}l@{}}- Parâmetros podem ser difíceis de determinar;\\ - Sensível aos parâmetros;\\ - Podem ocorrer segmentações em excesso;\\~especialmente em imagens ruidosas.\end{tabular} \\
-    \hline
-    Segmentação  \textit{Superpixel}    & \begin{tabular}[c]{@{}l@{}}Agrupa \textit{pixels} que compartilham\\características comuns para\\formar uma maior unidade\\coesa denominada \textit{superpixel}.\end{tabular}       & \begin{tabular}[c]{@{}l@{}}- Reduz a complexidade dos dados;\\ - Adere bem às bordas do objeto;\\ - Maior velocidade de processamento.\end{tabular}                                                                    & \begin{tabular}[c]{@{}l@{}}- Pode perder detalhes finos das imagens;\\ - Parâmetros podem ser difíceis de determinar.\end{tabular}                                                                  \\
-    \hline
-    Segmentação \textit{Watershed}      & \begin{tabular}[c]{@{}l@{}}Trata a imagem como um\\relevo topográfico, inundando\\todas as depressões a partir\\dos mínimos locais.\end{tabular}                  & \begin{tabular}[c]{@{}l@{}}- Recomendável para imagens com \\~bordas claras e bem definidas;\\ - Baixo custo computacional.\end{tabular}                                                                               & \begin{tabular}[c]{@{}l@{}}- Sensível a ruídos;\\ - Pode produzir segmentos excessivos.\end{tabular}                                                                                                \\
-    \hline
-    Segmentação \textit{Livewire}       & \begin{tabular}[c]{@{}l@{}}Abordagem interativa que elege um\\caminho de menor custo entre\\dois pontos escolhidos pelo\\usuário.\end{tabular}                    & \begin{tabular}[c]{@{}l@{}}- Proporciona resultados de segmentação\\~precisos;\\ - Aproveita a intuição do usuário;\\ - Eficiência em imagens médicas com\\~ bordas claras e consistentes.\end{tabular}                 & \begin{tabular}[c]{@{}l@{}}- Desempenho insatisfatório em imagens\\~com ruído, baixo contraste ou\\~descontinuidade nas bordas.\end{tabular}                                                        \\
-    \hline
-    Segmentação com Redes Neurais       & \begin{tabular}[c]{@{}l@{}}Normalmente relacionada\\a algoritmos de aprendizado\\profundo e CNNs.\end{tabular}                                                    & \begin{tabular}[c]{@{}l@{}}- Conceito já estabelecido;\\ - Abordagem simples e flexível.\end{tabular}                                                                                                                  & \begin{tabular}[c]{@{}l@{}}- O treinamento do modelo pode\\~consumir muito tempo e recursos.\end{tabular}                                                                                           \\
-    \hline
+\begin{landscape}
+    \begin{table}[p]
+    \centering
+    \caption{Comparação entre os métodos de segmentações tradicionais.}
+    \label{segment:table:1}
     
-    \end{tabular}
-}
+    \resizebox{\linewidth}{!}{%
+        \scriptsize
+        \begin{tabularx}{\linewidth}{l|X|X|X}
+        \textbf{Técnica}                    & \textbf{Descrição}                                                                                                                                                & \textbf{Vantagens}                                                                                                                                                                                                     & \textbf{Desvantagens}                                                                                                                                                                               \\ 
+        \hline
+        Segmentação Baseada em Regiões      & Concentra-se em encontrar e agrupar valores semelhantes sendo separados por um limiar.                                                                             & - Possui baixa complexidade e alto desempenho; \newline - Não requer pré-processamento; \newline - Recomendado para imagens com alto contraste entre fundo e objeto de interesse.                                       & - Omissão de detalhes quando não há um contraste significante.                                                                                                                                       \\ 
+        \hline
+        Segmentação por Bordas              & Realizado com base na detecção de descontinuidade, detectando bordas e definindo um limite do objeto.                                                               & - Recomendável para imagens com bons contrastes entre os objetos.                                                                                                                                                        & - Perda de detalhes para imagens com muitas bordas, ruidosas ou com baixo contraste entre os objetos.                                                                                                 \\ 
+        \hline
+        Segmentação Baseada em Agrupamentos & Divide os \textit{pixels} da imagem em k \textit{clusters} homogêneos e exclusivos obtendo, assim, as segmentações.                                                  & - Conceitos já estabelecidos; \newline - Recomendado para aplicações em tempo real; \newline - Bom desempenho para pequenos \textit{datasets}; \newline - Não precisa de tempo de treinamento.                          & - Pode demandar muito tempo para encontrar a minimização da função de custo; \newline - Não é adequado para agrupar \textit{clusters} não convexos.                                                  \\ 
+        \hline
+        Segmentação Baseada em Grafos       & Representa uma imagem como um grafo, onde cada nó é um \textit{pixel} e as arestas são a relação entre os \textit{pixels} vizinhos.                                 & - Robusto e preciso; \newline - Flexível com variados tipos de imagens; \newline - Compatibilidade com outros métodos de segmentação.                                                                             & - Parâmetros podem ser difíceis de determinar; \newline - Sensível aos parâmetros; \newline - Podem ocorrer segmentações em excesso; especialmente em imagens ruidosas.                               \\
+        \hline
+        Segmentação  \textit{Superpixel}    & Agrupa \textit{pixels} que compartilham características comuns para formar uma maior unidade coesa denominada \textit{superpixel}.                                  & - Reduz a complexidade dos dados; \newline - Adere bem às bordas do objeto; \newline - Maior velocidade de processamento.                                                                                                 & - Pode perder detalhes finos das imagens; \newline - Parâmetros podem ser difíceis de determinar.                                                                                                    \\
+        \hline
+        Segmentação \textit{Watershed}      & Trata a imagem como um relevo topográfico, inundando todas as depressões a partir dos mínimos locais.                                                              & - Recomendável para imagens com bordas claras e bem definidas; \newline - Baixo custo computacional.                                                                                                                     & - Sensível a ruídos; \newline - Pode produzir segmentos excessivos.                                                                                                                                   \\
+        \hline
+        Segmentação \textit{Livewire}       & Abordagem interativa que elege um caminho de menor custo entre dois pontos escolhidos pelo usuário.                                                                 & - Proporciona resultados de segmentação precisos; \newline - Aproveita a intuição do usuário; \newline - Eficiência em imagens médicas com bordas claras e consistentes.                                                   & - Desempenho insatisfatório em imagens com ruído, baixo contraste ou descontinuidade nas bordas.                                                                                                    \\
+        \hline
+        Segmentação com Redes Neurais       & Normalmente relacionada a algoritmos de aprendizado profundo e CNNs.                                                                                               & - Conceito já estabelecido; \newline - Abordagem simples e flexível.                                                                                                                                                    & - O treinamento do modelo pode consumir muito tempo e recursos.                                                                                                                                       \\
+        \hline
+        
+        \end{tabularx}%
+    }
+    
+    \vspace*{1 cm}
+    Fonte: do próprio autor.
+    \end{table}
+\end{landscape}
 
-\vspace*{1 cm}
-Fonte: do próprio autor.
-\end{table}
 
 Na Seção \ref{segment:segment}, abordamos os algoritmos comumente utilizados para segmentações, indo desde técnicas mais simples, como o método de \textit{threshold segmentation} (Seção \ref{segment:region}), até abordagens de maior complexidade baseadas em redes neurais artificiais (Seção \ref{segment:neural}). Contudo, como discutido por \cite{Ghosh2019} e \cite{Minaee2021}, atualmente existem abordagens de segmentação que empregam \textit{deep learning} e apresentam excelentes desempenhos, sendo capazes de realizar segmentações de imagens e áreas de interesse em nível de \textit{pixel}. Uma dessas abordagens será explorada no próximo capítulo.

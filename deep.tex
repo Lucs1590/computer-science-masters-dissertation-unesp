@@ -122,6 +122,12 @@ Para suprir a problemática de trabalhar com contextos de multiclasse, saídas c
 f(Y') = \alpha Y'.
 \end{equation}
 
+O \textit{Adaptive Linear Neuron} (ADALINE) \citep{Widrow199030YO} e a regra de aprendizado de Widrow-Hoff são marcos históricos na evolução dos algoritmos de aprendizado de máquina. O ADALINE, representa uma evolução do Perceptron, sendo que esse função linear para computar sua saída a partir das entradas. Diferentemente do Perceptron, que atualiza seus pesos baseado em erros de classificação binários, o ADALINE ajusta os pesos através de uma função de erro contínuo, usando a diferença entre a saída esperada e a saída calculada pela função linear, o que representa uma abordagem mais granular para a correção dos pesos.
+
+A regra de aprendizado de Widrow-Hoff, foi desenvolvida especificamente para o ADALINE. Ela se concentra em minimizar a soma dos quadrados dos erros entre as saídas desejadas e as saídas produzidas pela rede, um método que demonstra ser eficaz para ajustar os parâmetros ($\alpha$) do modelo de forma a reduzir esse erro. Este princípio é aplicado em algoritmos de aprendizado profundo, enfatizando a relevância histórica e prática do ADALINE e da regra de Widrow-Hoff na fundação das redes neurais modernas e no aprendizado de máquina como um todo.
+
+Embora o ADALINE seja restrito a problemas lineares, seu desenvolvimento foi um passo cruciais para os modelos subsequentes, que generalizam a abordagem para contextos não lineares, aprimorando as capacidades de modelagem e de aprendizado das redes.
+
 
 \subsubsection{Função Sigmoide}
 \label{deep:sigmoide}
