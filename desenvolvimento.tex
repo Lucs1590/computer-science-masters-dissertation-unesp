@@ -163,7 +163,7 @@ O conjunto de dados \textit{Oxford-III Pets} \footnote{Conjuntos de dados \texti
 
 \begin{figure}[H]
    \centering
-   \caption{Exemplo de amostra com máscara de características.}
+   \caption[Amostra com máscara de características.]{Exemplo de amostra com máscara de características.}
    \label{project:fig:dataset:pets_1}
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
@@ -181,6 +181,7 @@ O conjunto de dados \textit{Oxford-III Pets} \footnote{Conjuntos de dados \texti
 
     Fonte: retirado e adaptado de \cite{Parkhi2012CatsDogs}.
 \end{figure}
+
 
 Vale dizer que originalmente essas amostras estão separadas entre $3.669$ ($49,925\%$) para a etapa de teste e $3.680$ ($50,075\%$) para a etapa de treinamento. Todavia, nos testes realizados foi utilizado também um conjunto de dados voltado para validação, o qual foi extraído a partir do \textit{dataset} de teste. Sendo assim, para o presente trabalho, a divisão passou a ser de $669$ exemplos para teste, 3.000 amostras para validação e 3.680 instâncias para treino, levando em conta os conceitos tratados na Seções \ref{deep:train} e \ref{deep:test}.
 
@@ -216,12 +217,13 @@ De maneira geral, o \textit{dataset} possui $100$ classes, com $600$ amostras em
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplos de amostras do conjunto de dados CIFAR-100.}
+    \caption[Amostras do CIFAR-100.]{Exemplos de amostras do conjunto de dados CIFAR-100.}
     \includegraphics[width=0.8\textwidth]{recursos/imagens/project/cifar100v2.png}
     \label{project:fig:dataset:cifar}
 
     Fonte: retirado e adaptado de \cite{Krizhevsky2014TheDataset}.
 \end{figure}
+
 
 Em contraste com a configuração original proposta por \cite{Krizhevsky2014TheDataset}, dividimos o conjunto de dados em $83,33\%$ para treinamento, $11,66\%$ para validação e $5\%$ para teste, visando evitar qualquer viés nos resultados, conforme recomendado por \cite{Domingos2012ALearning}. Além de aplicar um processo de normalização das amostras, deixando o valor de todos os \textit{pixels} das amostras entre o domínio de $[0, 1]$, com um processo muito semelhante ao da Equação \ref{project:eq:dataset:pets_1}.
 
@@ -235,7 +237,7 @@ Ao contrário do conjunto CIFAR-100, que abrange classes mais generalistas (vide
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplos de amostras do conjunto de dados \textit{Food}-101.}
+    \caption[Amostras do \textit{Food}-101.]{Exemplos de amostras do conjunto de dados \textit{Food}-101.}
     \label{project:fig:dataset:food}
     \includegraphics[width=1\textwidth]{recursos/imagens/project/food101v2.png}
 
@@ -256,12 +258,13 @@ Dessa forma, a inicialização da rede neural ocorreu com os pesos pré-treinado
 
 \begin{figure}[H]
     \centering
-    \caption{Processo de \textit{fine-tuning} da VGG-16, com o descongelamento dos blocos representados pelo fundo azul.}
+    \caption[Processo de \textit{fine-tuning} da VGG-16.]{Processo de \textit{fine-tuning} da VGG-16, com o descongelamento dos blocos representados pelo fundo azul.}
     \includegraphics[width=1\textwidth]{recursos/imagens/project/fine-tunning.png}
     \label{project:fig:transf1}
 
     Fonte: do próprio autor.
 \end{figure}
+
 
 No que tange aos testes efetuados com os modelos U-Net e U-Net-Like, é relevante salientar que não se empregou as técnicas de transferência de aprendizado, devido a alguns aspectos cruciais da própria técnica. O primeiro desafio é a necessidade de utilizar a mesma arquitetura para o modelo de base adotado para a transferência de aprendizado e para o modelo treinado. Ainda que soluções para essa questão tenham sido propostas, como a adoção de camadas da VGG-16 dentro da estrutura de uma U-Net \citep{Pravitasari2020UNet-VGG16Segmentation}, a aplicação de tal técnica poderia afetar os resultados pretendidos decorrentes exclusivamente da modificação da camada de \textit{pooling} nos modelos U-Net e U-Net-Like. Adicionalmente, a escassez de conjuntos de dados robustos, similares ao ImageNet, direcionados ao processo de segmentação semântica, configura outro obstáculo, especialmente considerando a falta de padronização no formato das anotações. Como referência para um adequado conjunto de dados e modelo de anotação, podemos citar o COCO-\textit{stuff} \citep{Caesar2016} e o formato de anotação COCO, que pode ser desenvolvido a partir da ferramenta \textit{COCO Annotator} \citep{Brooks2019COCOAnnotator}.
 
@@ -330,7 +333,7 @@ Neste conjunto de dados, nota-se uma ampliação na taxa de zoom em relação ao
 
 \begin{figure}[H]
    \centering
-   \caption{Ilustração do aumento de dados com transformações geométricas aplicadas ao conjunto de dados \textit{Food}-101.}
+   \caption[Aumento de dados com transformações geométricas - \textit{Food}-101.]{Ilustração do aumento de dados com transformações geométricas aplicadas ao conjunto de dados \textit{Food}-101.}
    \label{project:fig:augment:food}
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
@@ -348,6 +351,7 @@ Neste conjunto de dados, nota-se uma ampliação na taxa de zoom em relação ao
 
     Fonte: do próprio autor. com base no conjunto de dados \textit{Food}-101 \citep{Bossard2014Food-101Forests}.
 \end{figure}
+
 
 
 \paragraph{\textit{Oxford-IIIT Pets}}
@@ -380,7 +384,7 @@ Neste conjunto de dados, percebe-se que as transformações aplicadas são simil
 
 \begin{figure}[H]
     \centering
-    \caption{Ilustração do aumento de dados com transformações aplicadas ao conjunto de dados \textit{Oxford-IIIT Pets}.}
+   \caption[Aumento de dados com transformações geométricas - \textit{Oxford-IIIT Pets}.]{Ilustração do aumento de dados com transformações aplicadas ao conjunto de dados \textit{Oxford-IIIT Pets}.}
     \label{project:fig:augment:pets}
     \includegraphics[width=1\textwidth]{recursos/imagens/project/dataaugmentation_pets.png}
 
@@ -399,23 +403,25 @@ Na arquitetura VGG-16, utilizada para classificação de imagens nos conjuntos d
 
 \begin{figure}[H]
     \centering
-    \caption{Demonstração da substituição das camadas de \textit{pooling} convencionais por BPCAPooling no conjunto de dados CIFAR-100. Os números sob cada camada representam o número de parâmetro.}
+    \caption[Substituição das camadas de \textit{pooling} por BPCAPooling - CIFAR-100.]{Demonstração da substituição das camadas de \textit{pooling} convencionais por BPCAPooling no conjunto de dados CIFAR-100. Os números sob cada camada representam o número de parâmetro.}
     \includegraphics[width=1\textwidth]{recursos/imagens/project/vgg-with-bpca-cifar.png}
     \label{project:fig:change_pooling:vgg-cifar}
 
     Fonte: do próprio autor.
 \end{figure}
 
+
 Quanto à alteração da camada de \textit{pooling} na VGG-16 para o conjunto de dados \textit{Food}-101, a única diferença notável foi na camada de saída, que agora possui $413.797$ parâmetros. Isso se deve ao fato de que a camada de saída é sensível ao tamanho da imagem. A Figura \ref{project:fig:change_pooling:vgg-food} ilustra essa mudança para o conjunto de dados \textit{Food}-101.
 
 \begin{figure}[H]
     \centering
-    \caption{Demonstração da substituição das camadas de \textit{pooling} convencionais por BPCAPooling no conjunto de dados \textit{Food}-101. Os números sob cada camada representam o número de parâmetro.}
+    \caption[Substituição das camadas de \textit{pooling} por BPCAPooling - \textit{Food}-101.]{Demonstração da substituição das camadas de \textit{pooling} convencionais por BPCAPooling no conjunto de dados \textit{Food}-101. Os números sob cada camada representam o número de parâmetro.}
     \includegraphics[width=1\textwidth]{recursos/imagens/project/vgg-with-bpca-food.png}
     \label{project:fig:change_pooling:vgg-food}
 
     Fonte: do próprio autor.
 \end{figure}
+
 
 Dessa forma, ao comparar as alterações nas camadas em relação à VGG-16 original para ambos os conjuntos de dados, nota-se a inclusão de uma camada de \textit{dropout} no final da rede, visando mitigar problemas de \textit{overfitting}, conforme discutido na Seção \ref{cnn:dropout}, que assim como as camadas de \textit{pooling}, não é visível uma influência quanto à quantidade de parâmetros treináveis. A rede para o conjunto de \textit{Food}-101 possui um total de $34.011.045$ de parâmetros, enquanto para o conjunto CIFAR-100, são $34.006.948$ parâmetros.
 
@@ -485,7 +491,7 @@ Outros parâmetros relevantes incluem o número de épocas usadas para treinamen
 
 \begin{table}[H]
     \centering
-    \caption{Parâmetros de treinamento e teste com VGG-16 e BPCAPooling no conjunto \textit{Food}-101.}
+    \caption[Treinamento e Teste VGG-16 + BPCAPooling (\textit{Food}-101)]{Parâmetros de treinamento e teste com VGG-16 e BPCAPooling no conjunto \textit{Food}-101.}
     \label{project:tab:params:vggfoodbpca}
     \resizebox{1\textwidth}{!}{
         \begin{tabular}{l|l|l|l|l|l|l|l|l}
@@ -511,7 +517,7 @@ Outros parâmetros relevantes incluem o número de épocas usadas para treinamen
 
 \begin{table}[H]
     \centering
-    \caption{Parâmetros de treinamento e teste com VGG-16 e \textit{Max Pooling} no conjunto \textit{Food}-101.}
+    \caption[Treinamento e Teste VGG-16 + \textit{Max Pooling} (\textit{Food}-101)]{Parâmetros de treinamento e teste com VGG-16 e \textit{Max Pooling} no conjunto \textit{Food}-101.}
     \label{project:tab:params:vggfoodmax}
     \resizebox{1\textwidth}{!}{
         \begin{tabular}{l|l|l|l|l|l|l|l|l}
@@ -537,7 +543,7 @@ Outros parâmetros relevantes incluem o número de épocas usadas para treinamen
 
 \begin{table}[H]
     \centering
-    \caption{Parâmetros de treinamento e teste com VGG-16 e \textit{Avg Pooling} no conjunto \textit{Food}-101.}
+    \caption[Treinamento e Teste VGG-16 + \textit{Avg Pooling} (\textit{Food}-101)]{Parâmetros de treinamento e teste com VGG-16 e \textit{Avg Pooling} no conjunto \textit{Food}-101.}
 \label{project:tab:params:vggfoodavg}
 \resizebox{1\textwidth}{!}{
     \begin{tabular}{l|l|l|l|l|l|l|l|l}
@@ -569,7 +575,7 @@ A abordagem aplicada na combinação da VGG-16 com o conjunto de dados CIFAR-100
 
 \begin{table}[H]
     \centering
-    \caption{Parâmetros de treinamento e teste com VGG-16 e BPCAPooling no conjunto CIFAR 100.}
+    \caption[Treinamento e Teste VGG-16 + BPCAPooling (CIFAR 100)]{Parâmetros de treinamento e teste com VGG-16 e BPCAPooling no conjunto CIFAR 100.}
 \label{project:tab:params:vggcifarbpca}
 \resizebox{1\textwidth}{!}{
     \begin{tabular}{l|l|l|l|l|l|l|l|l}
@@ -595,7 +601,7 @@ Fonte: do próprio autor.
 
 \begin{table}[H]
     \centering
-    \caption{Parâmetros de treinamento e teste com VGG-16 e \textit{Max Pooling} no conjunto CIFAR 100.}
+    \caption[Treinamento e Teste VGG-16 + \textit{Max Pooling} (CIFAR 100)]{Parâmetros de treinamento e teste com VGG-16 e \textit{Max Pooling} no conjunto CIFAR 100.}
 \label{project:tab:params:vggcifarmax}
 \resizebox{1\textwidth}{!}{
     \begin{tabular}{l|l|l|l|l|l|l|l|l}
@@ -621,7 +627,7 @@ Fonte: do próprio autor.
 
 \begin{table}[H]
     \centering
-    \caption{Parâmetros de treinamento e teste com VGG-16 e \textit{Avg Pooling} no conjunto CIFAR 100.}
+    \caption[Treinamento e Teste VGG-16 + \textit{Avg Pooling} (CIFAR 100)]{Parâmetros de treinamento e teste com VGG-16 e \textit{Avg Pooling} no conjunto CIFAR 100.}
 \label{project:tab:params:vggcifaravg}
 \resizebox{1\textwidth}{!}{
     \begin{tabular}{l|l|l|l|l|l|l|l|l}
@@ -738,12 +744,13 @@ Contudo, ao tentar aplicar os conceitos de \textit{Explainable AI} (XAI) com o u
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplo de aplicação de métodos de atribuição da ferramenta Xplique.}
+    \caption[Aplicação de métodos de atribuição do Xplique.]{Exemplo de aplicação de métodos de atribuição da ferramenta Xplique.}
     \includegraphics[width=1\textwidth]{recursos/imagens/project/xplique.png}
     \label{project:fig:explain:xplique}
 
     Fonte: retirado e adaptado de \cite{Fel2022}.
 \end{figure}
+
 
 Por fim, é evidente que a incorporação de ferramentas de Inteligência Artificial Explicável (XAI) proporciona \textit{insights} cruciais sobre a dinâmica interna dos modelos de aprendizagem profunda. A capacidade de revelar as regiões da imagem de entrada que mais influenciam as predições do modelo, viabilizada pelo uso do LIME e do Xplique, oferece uma visão mais detalhada do processo interpretativo dos modelos. Assim, a adoção dessas abordagens explanatórias não apenas promove a confiança nos modelos de Aprendizado Profundo, mas também aprimora sua compreensibilidade, aspectos essenciais tanto em aplicações do mundo real quanto em propostas de pesquisas futuras.
 

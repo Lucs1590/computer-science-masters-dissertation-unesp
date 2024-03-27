@@ -21,7 +21,7 @@ Mesmo após a conclusão do processo de \textit{fine-tuning} completo, o modelo 
 
 \begin{table}[H]
     \centering
-    \caption{Resultados por fase de \textit{fine-tuning} de VGG-16 aplicada no conjunto de dados CIFAR 100.}
+    \caption[\textit{Fine-tuning} de VGG-16 (CIFAR 100)]{Resultados por fase de \textit{fine-tuning} de VGG-16 aplicada no conjunto de dados CIFAR 100.}
     \label{results:class:tab:2}
     \resizebox{1\textwidth}{!}{
     \begin{tabular}{l|l|l|l|l|l|l|l|l}
@@ -44,7 +44,7 @@ No contexto da aplicação do processo de \textit{fine-tuning}, observa-se consi
 
 \begin{table}[H]
     \centering
-    \caption{Resultados por fase de \textit{fine-tuning} de VGG-16 aplicada no conjunto de dados \textit{Food}-101.}
+    \caption[\textit{Fine-tuning} de VGG-16 (\textit{Food}-101)]{Resultados por fase de \textit{fine-tuning} de VGG-16 aplicada no conjunto de dados \textit{Food}-101.}
     \label{results:class:tab:4}
     \resizebox{1\textwidth}{!}{
     \begin{tabular}{l|l|l|l|l|l|l|l|l}
@@ -75,12 +75,13 @@ A utilização de múltiplos conjuntos de dados foi fundamental para o presente 
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplo do conjunto de dados CIFAR 100 à esquerda e \textit{Food}-101 à direita, em escala real.}
+    \caption[Comparação dos conjuntos de dados CIFAR-100 e \textit{Food}-101.]{Exemplo do conjunto de dados CIFAR-100 à esquerda e \textit{Food}-101 à direita, em escala real.}
     \label{results:fig:datasets:0}
     \includegraphics[width=1\textwidth]{recursos/imagens/results/dataset_diff.png}
 
     Fonte: do próprio autor.
 \end{figure}
+
 
 Adicionalmente, é relevante mencionar que em conjuntos de dados com amostras pequenas, como é o caso do CIFAR-100, a quantidade de informação a ser preservada é mínima. Isso pode explicar o desempenho inferior do método BPCAPooling em comparação com os métodos de \textit{pooling} tradicionais, como \textit{Max Pooling} e \textit{Avg Pooling}. Outra possível explicação para o resultado inferior do uso do conjunto de dados \textit{Food}-101 em relação ao CIFAR-100 é que, com o CIFAR-100 possuindo amostras de menor resolução, a variabilidade dos dados também é menor. Isso permite que o BPCAPooling tenha uma representação mais eficiente de blocos. No entanto, no conjunto de dados \textit{Food}-101, que apresenta uma variabilidade mais alta nas configurações de blocos, o BPCAPooling pode não preservar informações suficientes no mapa de características ao representar com o uso de um único componente.
 
@@ -244,7 +245,7 @@ No conjunto de dados CIFAR 100, é visível que as características geométricas
 
 \begin{figure}[H]
     \centering
-    \caption{Representação com primeira e segunda camada de \textit{pooling} aplicada no conjunto de dados CIFAR 100.}
+    \caption[Camadas de \textit{pooling} no CIFAR-100]{Representação com primeira e segunda camada de \textit{pooling} aplicada no conjunto de dados CIFAR-100.}
     \label{results:fig:datasets:5}
     \includegraphics[width=1\textwidth]{recursos/imagens/results/cifar_blocks.png}
 
@@ -253,7 +254,7 @@ No conjunto de dados CIFAR 100, é visível que as características geométricas
 
 \begin{figure}[H]
     \centering
-    \caption{Representação ampliada da Figura \ref{results:fig:datasets:5}.}
+    \caption[Ampliação das camadas de \textit{pooling}]{Representação ampliada da Figura \ref{results:fig:datasets:5}.}
     \label{results:fig:datasets:5v2}
     \includegraphics[width=1\textwidth]{recursos/imagens/results/cifar_blocksv2.png}
 
@@ -261,10 +262,11 @@ No conjunto de dados CIFAR 100, é visível que as características geométricas
 \end{figure}
 
 
+
 Ao analisar as camadas de \textit{pooling} aplicadas ao conjunto de dados \textit{Food}-101, representadas nas Figuras \ref{results:fig:datasets:max} e \ref{results:fig:datasets:bpca}, observa-se diferenças nas intensidades das saídas dessas camadas. As saídas resultantes do método \textit{Max Pooling} apresentam menor intensidade, enquanto as saídas do método BPCAPooling exibem maior intensidade, resultando em imagens com maior clareza e definição, principalmente de bordas.
 
 \begin{figure}[p]
-    \caption{Resultado visual de camadas de \textit{pooling} do conjunto \textit{Food}-101. Camadas com \textit{Max Pooling}.}
+    \caption[Visualização de camadas de \textit{Max Pooling} - \textit{Food}-101]{Resultado visual de camadas de \textit{pooling} do conjunto \textit{Food}-101. Camadas com \textit{Max Pooling}.}
     \centering
     \label{results:fig:datasets:max}
      \begin{subfigure}[t]{0.45\textwidth}
@@ -314,8 +316,9 @@ Ao analisar as camadas de \textit{pooling} aplicadas ao conjunto de dados \texti
      Fonte: do próprio autor.
 \end{figure}
 
+
 \begin{figure}[H]
-    \caption{Resultado visual de camadas de \textit{pooling} do conjunto \textit{Food}-101. Camadas com BPCAPooling.}
+    \caption[Visualização de camadas de BPCAPooling - \textit{Food}-101]{Resultado visual de camadas de \textit{pooling} do conjunto \textit{Food}-101. Camadas com BPCAPooling.}
     \centering
     \label{results:fig:datasets:bpca}
      \begin{subfigure}[t]{0.45\textwidth}
@@ -394,7 +397,7 @@ No contexto das análises realizadas com LIME, é importante ressaltar um fator 
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplo de imagens explicadas por LIME no conjunto de dados CIFAR 100.}
+    \caption[LIME no CIFAR 100.]{Exemplo de imagens explicadas por LIME no conjunto de dados CIFAR 100.}
     \label{results:fig:datasets:8}
     \includegraphics[width=1\textwidth]{recursos/imagens/results/lime_explanations_cifar.png}
 
@@ -405,7 +408,7 @@ Por outro lado, ao examinar as imagens relacionadas ao conjunto de dados \textit
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplo de imagens explicadas por LIME no conjunto de dados \textit{Food}-100.}
+    \caption[LIME no \textit{Food}-101.]{Exemplo de imagens explicadas por LIME no conjunto de dados \textit{Food}-101.}
     \label{results:fig:datasets:9}
     \includegraphics[width=1\textwidth]{recursos/imagens/results/lime_explanations_food.png}
 
@@ -421,7 +424,7 @@ Em relação aos resultados da segmentação semântica, é relevante destacar q
 
 \begin{table}[H]
     \centering
-    \caption{Resultados de U-Nets treinadas por 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} com base em acurácia.}
+    \caption[Desempenho de acurácia das U-Nets (\textit{Oxford-IIIT Pets})]{Resultados de U-Nets treinadas por 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} com base em acurácia.}
     \label{results:semantic:tab:1}
     \resizebox{1\textwidth}{!}{
         \begin{tabular}{l|l|l|l|l|l}
@@ -440,7 +443,7 @@ Em relação aos resultados da segmentação semântica, é relevante destacar q
 
 \begin{table}[H]
     \centering
-    \caption{Resultados de U-Nets treinadas por 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} com base em mIoU.}
+    \caption[Desempenho de mIoU das U-Nets (\textit{Oxford-IIIT Pets})]{Resultados de U-Nets treinadas por 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} com base em mIoU.}
     \label{results:semantic:tab:2}
     \resizebox{1\textwidth}{!}{
         \begin{tabular}{l|l|l|l|l|l|l|l|l|l}
@@ -461,7 +464,7 @@ Analisando as tabelas anteriores, observa-se que, embora as métricas adotadas p
 
 \begin{figure}[H]
     \centering
-    \caption{Métricas de U-Nets com 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
+    \caption[Métricas com U-Net, 500 épocas, \textit{Oxford-IIIT Pets}, acurácia.]{Métricas de U-Nets com 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
     \label{results:fig:semantic:metrics1}
      \begin{subfigure}[t]{0.45\textwidth}
          \centering
@@ -497,7 +500,7 @@ Analisando as tabelas anteriores, observa-se que, embora as métricas adotadas p
 
 \begin{figure}[H]
     \centering
-    \caption{Métricas de U-Net com BPCAPooling e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \caption[Métricas com U-Net, 500 épocas, \textit{Oxford-IIIT Pets}, mIoU]{Métricas de U-Net com BPCAPooling e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
     \label{results:fig:semantic:metrics2}
      \begin{subfigure}[t]{0.45\textwidth}
          \centering
@@ -533,7 +536,7 @@ Analisando as tabelas anteriores, observa-se que, embora as métricas adotadas p
 
 \begin{figure}[H]
     \centering
-    \caption{Métricas de U-Net com \textit{Max Pooling} e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \caption[Métricas com U-Net, \textit{Max Pooling}, 500 épocas, \textit{Oxford-IIIT Pets}, mIoU]{Métricas de U-Net com \textit{Max Pooling} e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
     \label{results:fig:semantic:metrics3}
      \begin{subfigure}[t]{0.45\textwidth}
          \centering
@@ -573,7 +576,7 @@ Por fim, ao considerar um nível de significância de $5\%$ para os modelos U-Ne
 
 \begin{figure}[H]
     \centering
-   \caption{Imagem de entrada, máscara e saída do modelo U-Net baseado em acurácia, respectivamente.}
+   \caption[Aplicação de U-Net com acurácia.]{Imagem de entrada, máscara e saída do modelo U-Net baseado em acurácia, respectivamente.}
     \label{results:fig:semantic:0}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -596,7 +599,7 @@ Por fim, ao considerar um nível de significância de $5\%$ para os modelos U-Ne
 
 \begin{figure}[H]
     \centering
-   \caption{Imagem de entrada, máscara e saída do modelo U-Net baseado em mIoU, respectivamente.}
+   \caption[Aplicação de U-Net com mIoU.]{Imagem de entrada, máscara e saída do modelo U-Net baseado em mIoU, respectivamente.}
     \label{results:fig:semantic:1}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -620,7 +623,7 @@ Três representações das máscaras previstas sobrepondo a imagem de entrada s�
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplos segmentados a partir de U-Net com \textit{Max Pooling} e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \caption[Segmentação com U-Net, \textit{Max Pooling}, 500 épocas, \textit{Oxford-IIIT Pets}, mIoU]{Exemplos segmentados a partir de U-Net com \textit{Max Pooling} e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
     \label{results:fig:semantic:2}
      \begin{subfigure}[t]{0.32\textwidth}
          \centering
@@ -645,7 +648,7 @@ Três representações das máscaras previstas sobrepondo a imagem de entrada s�
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplos segmentados a partir de U-Net com BPCAPooling e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \caption[Segmentação com U-Net, BPCAPooling, 500 épocas, \textit{Oxford-IIIT Pets}, mIoU]{Exemplos segmentados a partir de U-Net com BPCAPooling e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
     \label{results:fig:semantic:3}
      \begin{subfigure}[t]{0.32\textwidth}
          \centering
@@ -670,7 +673,7 @@ Três representações das máscaras previstas sobrepondo a imagem de entrada s�
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplos segmentados a partir de U-Net com \textit{Max Pooling} e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
+    \caption[Segmentação com U-Net, \textit{Max Pooling}, 500 épocas, \textit{Oxford-IIIT Pets}, acurácia]{Exemplos segmentados a partir de U-Net com \textit{Max Pooling} e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
     \label{results:fig:semantic:4}
      \begin{subfigure}[t]{0.32\textwidth}
          \centering
@@ -695,7 +698,7 @@ Três representações das máscaras previstas sobrepondo a imagem de entrada s�
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplos segmentados a partir de U-Net com BPCAPooling e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
+    \caption[Segmentação com U-Net, BPCAPooling, 500 épocas, \textit{Oxford-IIIT Pets}, acurácia]{Exemplos segmentados a partir de U-Net com BPCAPooling e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
     \label{results:fig:semantic:5}
      \begin{subfigure}[t]{0.32\textwidth}
          \centering
@@ -722,7 +725,7 @@ Os resultados obtidos com a arquitetura U-Net-\textit{Like} não apresentaram gr
 
 \begin{table}[H]
     \centering
-    \caption{Resultados de U-Net-\textit{Likes} treinadas por 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} com base em acurácia.}
+    \caption[Desempenho de acurácia das U-Net-\textit{Likes} (\textit{Oxford-IIIT Pets})]{Resultados de U-Net-\textit{Likes} treinadas por 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} com base em acurácia.}
     \label{results:semantic:tab:3}
     \resizebox{1\textwidth}{!}{
         \begin{tabular}{l|l|l|l|l|l}
@@ -741,7 +744,7 @@ Os resultados obtidos com a arquitetura U-Net-\textit{Like} não apresentaram gr
 
 \begin{table}[H]
     \centering
-    \caption{Resultados de U-Net-\textit{Likes} treinadas por 20 épocas no conjunto de dados \textit{Oxford-IIIT Pets} com base em mIoU.}
+    \caption[Desempenho de mIoU das U-Net-\textit{Likes} (\textit{Oxford-IIIT Pets})]{Resultados de U-Net-\textit{Likes} treinadas por 20 épocas no conjunto de dados \textit{Oxford-IIIT Pets} com base em mIoU.}
     \label{results:semantic:tab:4}
     \resizebox{1\textwidth}{!}{
         \begin{tabular}{l|l|l|l|l|l|l|l|l|l}
@@ -764,7 +767,7 @@ A Figura \ref{results:fig:semantic:6} ilustra o progresso das métricas durante 
 
 \begin{figure}[H]
     \centering
-    \caption{Métricas de U-Net-\textit{Likes} com 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
+    \caption[Métricas com U-Net-\textit{Likes}, 500 épocas, \textit{Oxford-IIIT Pets}, acurácia.]{Métricas de U-Net-\textit{Likes} com 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
     \label{results:fig:semantic:6}
      \begin{subfigure}[t]{0.45\textwidth}
          \centering
@@ -800,7 +803,7 @@ A Figura \ref{results:fig:semantic:6} ilustra o progresso das métricas durante 
 
 \begin{figure}[H]
     \centering
-    \caption{Métricas de U-Net-\textit{Likes} com BPCAPooling e 20 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \caption[Métricas de U-Net-\textit{Likes}, BPCAPooling, 20 épocas, \textit{Oxford-IIIT Pets}, mIoU.]{Métricas de U-Net-\textit{Likes} com BPCAPooling e 20 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
     \label{results:fig:semantic:7}
      \begin{subfigure}[t]{0.45\textwidth}
          \centering
@@ -836,7 +839,7 @@ A Figura \ref{results:fig:semantic:6} ilustra o progresso das métricas durante 
 
 \begin{figure}[H]
     \centering
-    \caption{Métricas de U-Net-\textit{Likes} com \textit{Max Pooling} e 20 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \caption[Métricas com U-Net-\textit{Likes}, \textit{Max Pooling}, 20 épocas, \textit{Oxford-IIIT Pets}, mIoU.]{Métricas de U-Net-\textit{Likes} com \textit{Max Pooling} e 20 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
     \label{results:fig:semantic:8}
      \begin{subfigure}[t]{0.45\textwidth}
          \centering
@@ -876,7 +879,7 @@ Em termos visuais, assim como constatado anteriormente com as U-Nets, além da a
 
 \begin{figure}[H]
     \centering
-   \caption{Imagem de entrada, máscara e saída do modelo U-Net-\textit{Like} baseado em acurácia, respectivamente.}
+    \caption[Aplicação de U-Net-\textit{Like} baseada em acurácia.]{Imagem de entrada, máscara e saída do modelo U-Net-\textit{Like} baseado em acurácia, respectivamente.}
     \label{results:fig:semantic:9}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -898,7 +901,7 @@ Em termos visuais, assim como constatado anteriormente com as U-Nets, além da a
 
 \begin{figure}[H]
     \centering
-   \caption{Imagem de entrada, máscara e saída do modelo U-Net-\textit{Like} baseado em mIoU, respectivamente.}
+   \caption[Aplicação de U-Net-\textit{Like} baseada em mIoU.]{Imagem de entrada, máscara e saída do modelo U-Net-\textit{Like} baseado em mIoU, respectivamente.}
     \label{results:fig:semantic:10}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -922,7 +925,7 @@ Por fim, ao analisar as Figuras \ref{results:fig:semantic:11}, \ref{results:fig:
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplos segmentados a partir de U-Net-\textit{Like} com \textit{Max Pooling} e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
+    \caption[Segmentação com U-Net-\textit{Like}, \textit{Max Pooling}, 500 épocas, \textit{Oxford-IIIT Pets}, acurácia.]{Exemplos segmentados a partir de U-Net-\textit{Like} com \textit{Max Pooling} e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
     \label{results:fig:semantic:11}
      \begin{subfigure}[t]{0.32\textwidth}
          \centering
@@ -947,7 +950,7 @@ Por fim, ao analisar as Figuras \ref{results:fig:semantic:11}, \ref{results:fig:
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplos segmentados a partir de U-Net-\textit{Like} com BPCAPooling e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
+    \caption[Segmentação com U-Net-\textit{Like}, BPCAPooling, 500 épocas, \textit{Oxford-IIIT Pets}, acurácia.]{Exemplos segmentados a partir de U-Net-\textit{Like} com BPCAPooling e 500 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em acurácia.}
     \label{results:fig:semantic:12}
      \begin{subfigure}[t]{0.32\textwidth}
          \centering
@@ -972,7 +975,7 @@ Por fim, ao analisar as Figuras \ref{results:fig:semantic:11}, \ref{results:fig:
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplos segmentados a partir de U-Net-\textit{Like} com \textit{Max Pooling} e 20 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \caption[Segmentação com U-Net-\textit{Like}, \textit{Max Pooling}, 20 épocas, \textit{Oxford-IIIT Pets}, mIoU.]{Exemplos segmentados a partir de U-Net-\textit{Like} com \textit{Max Pooling} e 20 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
     \label{results:fig:semantic:13}
      \begin{subfigure}[t]{0.32\textwidth}
          \centering
@@ -997,7 +1000,7 @@ Por fim, ao analisar as Figuras \ref{results:fig:semantic:11}, \ref{results:fig:
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplos segmentados a partir de U-Net-\textit{Like} com BPCAPooling e 20 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
+    \caption[Segmentação com U-Net-\textit{Like}, BPCAPooling, 20 épocas, \textit{Oxford-IIIT Pets}, mIoU.]{Exemplos segmentados a partir de U-Net-\textit{Like} com BPCAPooling e 20 épocas no conjunto de dados \textit{Oxford-IIIT Pets} baseada em mIoU.}
     \label{results:fig:semantic:14}
      \begin{subfigure}[t]{0.32\textwidth}
          \centering
@@ -1032,7 +1035,7 @@ Nos modelos U-Nets baseados na métrica de acurácia, os gráficos dos escores e
 
 \begin{figure}[H]
     \centering
-    \caption{Gráfico com os escores dos métodos de atribuição nas U-Nets baseada na acurácia.}
+    \caption[Escores de métodos com U-Nets e acurácia.]{Gráfico com os escores dos métodos de atribuição nas U-Nets baseada na acurácia.}
     \label{results:fig:xai:1}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -1054,7 +1057,7 @@ Nos modelos U-Nets baseados na métrica de acurácia, os gráficos dos escores e
 
 \begin{figure}[H]
     \centering
-   \caption{Métodos de atribuição destaque na U-Net com BPCAPooling baseada em acurácia para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+   \caption[Métodos destaque em U-Net com BPCAPooling e acurácia.]{Métodos de atribuição destaque na U-Net com BPCAPooling baseada em acurácia para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
     \label{results:fig:xai:2}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -1084,7 +1087,7 @@ Nos modelos U-Nets baseados na métrica de acurácia, os gráficos dos escores e
 
 \begin{figure}[H]
     \centering
-   \caption{Métodos de atribuição destaque na U-Net com \textit{Max Pooling} baseada em acurácia para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+   \caption[Métodos destaque em U-Net com \textit{Max Pooling} e acurácia.]{Métodos de atribuição destaque na U-Net com \textit{Max Pooling} baseada em acurácia para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
     \label{results:fig:xai:3}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -1119,7 +1122,7 @@ Para a utilização do modelo U-Net com o BPCAPooling, baseado na métrica de mI
 
 \begin{figure}[H]
     \centering
-    \caption{Gráfico com os escores dos métodos de atribuição na U-Nets baseadas em mIoU.}
+    \caption[Escores de métodos com U-Nets e mIoU.]{Gráfico com os escores dos métodos de atribuição na U-Nets baseadas em mIoU.}
     \label{results:fig:xai:4}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -1141,7 +1144,7 @@ Para a utilização do modelo U-Net com o BPCAPooling, baseado na métrica de mI
 
 \begin{figure}[H]
     \centering
-   \caption{Métodos de atribuição destaque na U-Net com BPCAPooling baseada em mIoU para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+   \caption[Métodos destaque em U-Net com BPCAPooling e mIoU.]{Métodos de atribuição destaque na U-Net com BPCAPooling baseada em mIoU para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
     \label{results:fig:xai:5}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -1171,7 +1174,7 @@ Para a utilização do modelo U-Net com o BPCAPooling, baseado na métrica de mI
 
 \begin{figure}[H]
     \centering
-   \caption{Métodos de atribuição destaque na U-Net com \textit{Max Pooling} baseada em mIoU para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+   \caption[Métodos destaque em U-Net com \textit{Max Pooling} e mIoU.]{Métodos de atribuição destaque na U-Net com \textit{Max Pooling} baseada em mIoU para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
     \label{results:fig:xai:6}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -1205,7 +1208,7 @@ Ao analisar o desempenho das U-Net-\textit{Likes}, primeiramente com base na mé
 
 \begin{figure}[H]
     \centering
-    \caption{Gráfico com os escores dos métodos de atribuição nas U-Net-\textit{Likes} baseada em acurácia.}
+    \caption[Escores de métodos com U-Net-\textit{Likes} e acurácia.]{Gráfico com os escores dos métodos de atribuição nas U-Net-\textit{Likes} baseada em acurácia.}
     \label{results:fig:xai:7}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -1227,7 +1230,7 @@ Ao analisar o desempenho das U-Net-\textit{Likes}, primeiramente com base na mé
 
 \begin{figure}[H]
     \centering
-   \caption{Métodos de atribuição destaque na U-Net-\textit{Like} com BPCAPooling baseada em acurácia para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+   \caption[Métodos destaque em U-Net-\textit{Likes} com BPCAPooling e acurácia.]{Métodos de atribuição destaque na U-Net-\textit{Like} com BPCAPooling baseada em acurácia para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
     \label{results:fig:xai:8}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -1257,7 +1260,7 @@ Ao analisar o desempenho das U-Net-\textit{Likes}, primeiramente com base na mé
 
 \begin{figure}[H]
     \centering
-   \caption{Métodos de atribuição destaque na U-Net-\textit{Like} com \textit{Max Pooling} baseada em acurácia para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+   \caption[Métodos destaque em U-Net-\textit{Likes} com \textit{Max Pooling} e acurácia.]{Métodos de atribuição destaque na U-Net-\textit{Like} com \textit{Max Pooling} baseada em acurácia para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
     \label{results:fig:xai:9}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -1291,7 +1294,7 @@ Na análise da arquitetura U-Net-\textit{Like}, quando a métrica principal util
 
 \begin{figure}[H]
     \centering
-    \caption{Gráfico com os escores dos métodos de atribuição nas U-Net-\textit{Likes} baseada em mIoU.}
+    \caption[Escores de métodos com U-Net-\textit{Likes} e mIoU]{Gráfico com os escores dos métodos de atribuição nas U-Net-\textit{Likes} baseada em mIoU.}
     \label{results:fig:xai:10}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -1313,7 +1316,7 @@ Na análise da arquitetura U-Net-\textit{Like}, quando a métrica principal util
 
 \begin{figure}[H]
     \centering
-   \caption{Métodos de atribuição destaque na U-Net-\textit{Like} com BPCAPooling baseada em mIoU para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+   \caption[Métodos destaque em U-Net-\textit{Likes} com BPCAPooling e mIoU.]{Métodos de atribuição destaque na U-Net-\textit{Like} com BPCAPooling baseada em mIoU para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
     \label{results:fig:xai:11}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -1343,7 +1346,7 @@ Na análise da arquitetura U-Net-\textit{Like}, quando a métrica principal util
 
 \begin{figure}[H]
     \centering
-   \caption{Métodos de atribuição destaque na U-Net-\textit{Like} com \textit{Max Pooling} baseada em mIoU para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
+   \caption[Métodos destaque em U-Net-\textit{Like} com \textit{Max Pooling} e mIoU.]{Métodos de atribuição destaque na U-Net-\textit{Like} com \textit{Max Pooling} baseada em mIoU para \textit{Deletion}, \textit{Mu Fidelity} e \textit{Insertion}, respectivamente.}
     \label{results:fig:xai:12}
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
@@ -1375,7 +1378,7 @@ Além disso, iniciou-se o desenvolvimento do método BPCAUnpooling, disponível 
 
 \begin{figure}[H]
     \centering
-    \caption{Processo de redução e reconstrução de dimensionalidade com BPCAPooling e BPCAUnpooling, respectivamente.}
+    \caption[Aplicação de BPCAPooling e BPCAUnpooling.]{Processo de redução e reconstrução de dimensionalidade com BPCAPooling e BPCAUnpooling, respectivamente.}
     \label{results:fig:future:0}
     \includegraphics[width=1\textwidth]{recursos/imagens/results/bpca_unpooling.png}
 

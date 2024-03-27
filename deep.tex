@@ -47,7 +47,7 @@ Dessa forma, entende-se que $b$ representa o viés que determina um limiar para 
 Dentre as vantagens para o modelo Perceptron, pode-se salientar a sua aptidão para resolução de alguns problemas lógicos, basicamente problemas linearmente separáveis, todavia, em meio às suas limitações, reforça-se sua imperícia em relação a problemas não linearmente separáveis como os do exemplo na Figura \ref{deep:fig:3.2}.
 
 \begin{figure}[H]
-   \caption{Representação de problemas linearmente e não linearmente separáveis.}
+   \caption[Problemas de separabilidade.]{Representação de problemas linearmente e não linearmente separáveis.}
    \centering
    \label{deep:fig:3}
     \begin{subfigure}[t]{0.45\textwidth}
@@ -66,6 +66,7 @@ Dentre as vantagens para o modelo Perceptron, pode-se salientar a sua aptidão p
 
     Fonte: do próprio autor.
 \end{figure}
+
 
 Para suprir essa necessidade de trabalhar com problemas não lineares, \cite{Werbos:74} realizou uma proposta de utilizar várias camadas de neurônios Perceptron juntos, de modo que obrigatoriamente possuísse camadas de entrada, ocultas e de saída. Assim, esse modelo - nomeado de \textit{Multi Layer Perceptron} (MLP) \citep{Werbos:74} e representado na Figura \ref{deep:fig:4} - ensejou o trabalho com funções de ativação não lineares e o desenvolvimento de técnicas de aprendizado, como a \textit{backpropagation}, desenvolvida por \cite{rumelhart1986learning}, a qual será detalhada na Seção \ref{deep:backprop}.
 
@@ -203,12 +204,13 @@ O grande objetivo das funções de otimização no contexto de aprendizado profu
 
 \begin{figure}[H]
     \centering
-    \caption{Representação da otimização da função de custo em um espaço de características.}
+    \caption[Otimização da função de custo.]{Representação da otimização da função de custo em um espaço de características.}
     \includegraphics[width=1\linewidth]{recursos/imagens/deep/funcao_otimizacao.png}
     \label{deep:fig:otimizacao}
 
     Fonte: do próprio autor. Inspirado em \cite{MontesinosLopez2022ArtificialOutcomes} e \cite{Geron2017Hands-onSystems}.
 \end{figure}
+
 
 A Figura \ref{deep:fig:otimizacao} proporciona uma visualização de alguns desafios para as funções de otimização, sendo 1) mínimos locais e 2) platô (\textit{plateau}, em inglês). Um mínimo local representa um ponto que é o menor em comparação com outros pontos em sua vizinhança próxima. Entretanto, é importante notar que um mínimo local nem sempre corresponde ao menor valor em todo o espaço de características. Dessa forma, a função de custo pode apresentar vários mínimos locais, o que frequentemente dificulta a busca pelo mínimo global desejado na otimização \citep{Goodfellow2016}. Já os pontos de platô indicam áreas onde o valor da função de custo permanece estagnado. Nestes locais, os gradientes são muito semelhantes, o que torna desafiadora a otimização do modelo \citep{Goodfellow2016}.
 
@@ -265,12 +267,13 @@ A implementação efetiva da parada antecipada exige uma definição mais precis
 
 \begin{figure}[H]
     \centering
-    \caption{Representação de momento ideal para parada antecipada.}
+    \caption[Parada antecipada.]{Representação do momento ideal para parada antecipada.}
     \includegraphics[width=0.6\linewidth]{recursos/imagens/deep/early_stopping.png}
     \label{deep:fig:earlystopping}
 
     Fonte: do próprio autor.
 \end{figure}
+
 
 \paragraph{Taxa de Aprendizado Dinâmica}
 \label{deep:optimization:dynamic_lr}
@@ -280,9 +283,9 @@ A taxa de aprendizado (\textit{learning rate}, em inglês), como demonstrado ant
 Definir a taxa de aprendizado, assim como abordado na situação de parada antecipada mencionada na Seção \ref{deep:optimization:early_stoping}, muitas vezes torna-se um desafio sem que tenha um veredito definido como estado da arte \citep{Goodfellow2016}. Isso se deve ao fato de que quanto maior o valor definido, mais acentuada é a atualização dos parâmetros, possibilitando uma exploração mais rápida do espaço de características, como ilustrado na Figura \ref{deep:fig:dynamic_lr.1}. No entanto, essa abordagem frequentemente resulta na perda do valor ótimo \citep{Tang2021AnPump}. Por outro lado, ao diminuir o valor da taxa de aprendizado, a atualização dos parâmetros torna-se mais gradual, o que ajuda a evitar a perda de mínimos globais, como apresentado na Figura \ref{deep:fig:dynamic_lr.2}. Contudo, é importante salientar que essa estratégia consome consideravelmente mais recursos computacionais e, muitas vezes, não atinge o valor mínimo global devido ao grande número de iterações necessárias para a convergência \citep{Tang2021AnPump}.
 
 \begin{figure}[H]
-   \caption{Representação de atualização da taxa de aprendizado.}
-   \centering
-   \label{deep:fig:dynamic_lr}
+    \centering
+    \caption[Atualização da taxa de aprendizado.]{Representação de atualização da taxa de aprendizado.}
+    \label{deep:fig:dynamic_lr}
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=1\linewidth]{recursos/imagens/deep/lr_high.png}
@@ -295,10 +298,11 @@ Definir a taxa de aprendizado, assim como abordado na situação de parada antec
         \includegraphics[width=1\linewidth]{recursos/imagens/deep/lr_low.png}
         \caption{Taxa de aprendizado muito baixa.}
         \label{deep:fig:dynamic_lr.2}
-    \end{subfigure}%
+    \end{subfigure}
 
     Fonte: do próprio autor.
 \end{figure}
+
 
 Essas representações visuais na Figura \ref{deep:fig:dynamic_lr} evidenciam os impactos da variação da taxa de aprendizado na otimização do modelo. A escolha adequada desse hiperparâmetro é crucial para encontrar um equilíbrio entre a velocidade de convergência e a busca pelo valor ótimo da função de custo.
 
@@ -316,12 +320,13 @@ Por fim, vale mencionar que propostas de decaimento da taxa de aprendizado, como
 
 \begin{figure}[H]
     \centering
-    \caption{Comparação de convergência de modelos no \textit{dataset} CIFAR \citep{Krizhevsky2014TheDataset} com uso de taxa de aprendizado cíclica.}
+    \caption[Comparação de convergência de modelos no CIFAR.]{Comparação de convergência de modelos no \textit{dataset} CIFAR \citep{Krizhevsky2014TheDataset} com uso de taxa de aprendizado cíclica.}
     \includegraphics[width=0.8\linewidth]{recursos/imagens/deep/cifar_lr.png}
     \label{deep:optimization:cyclical_lr}
 
     Fonte: retirado e adaptado de \cite{Smith2017CyclicalNetworks}.
 \end{figure}
+
 
 \paragraph{Adam}
 \label{deep:optimization:adam}

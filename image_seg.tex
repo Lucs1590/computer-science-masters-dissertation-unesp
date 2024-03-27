@@ -319,7 +319,7 @@ O trabalho \cite{falcao2004image} traz uma inovação com a Transformada de Flor
 O algoritmo \textit{watershed} (ou bacia hidrográfica, em português) é uma técnica amplamente utilizada para segmentação de imagens. Seu nome se baseia na divisão das superfícies topográficas \citep{pedrini2008analise}, onde os valores dos \textit{pixels} formam determinadas \quotes{montanhas} e uma variação de duas intensidades altas forma um \quotes{vale}. O algoritmo \textit{watershed} tem como desafio encontrar um limiar para preencher esses vales a partir dos mínimos regionais, formando bacias de retenção e destacando algumas \quotes{montanhas} que consistem em segmentos de linhas de contorno dos objetos da imagem \citep{pedrini2008analise, SealWatershed:Approach}. É possível visualizar a imagem original e a imagem segmentada por meio do algoritmo \textit{watershed} a partir da Figura \ref{segment:fig:watershed_1}.
 
 \begin{figure}[H]
-   \caption{Exemplos de segmentação com a aplicação de \textit{watershed}.}
+   \caption[Segmentação com \textit{watershed}.]{Exemplos de segmentação com a aplicação de \textit{watershed}.}
    \centering
    \label{segment:fig:watershed_1}
     \begin{subfigure}[t]{0.5\textwidth}
@@ -340,6 +340,7 @@ O algoritmo \textit{watershed} (ou bacia hidrográfica, em português) é uma t�
 
     Fonte: retirado e adaptado de \cite{Neuhold2017_ICCV}.
 \end{figure}
+
 
 Em resumo esse algoritmo pode ser realizado a partir do seguinte passo-a-passo:
 
@@ -418,12 +419,13 @@ Vale citar que geralmente, a técnica \textit{livewire} é muito eficiente em im
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplo da segmentação \textit{livewire} para extração dos contornos da imagem.}
+    \caption[Segmentação \textit{livewire}.]{Exemplo da segmentação \textit{livewire} para extração dos contornos da imagem.}
     \label{segment:fig:livewire}
     \includegraphics[width=0.8\linewidth]{recursos/imagens/image_seg/livewire.png}
     
     Fonte: retirado e adaptado de \cite{Zheng2011ScaledFluoroscopy}.
 \end{figure}
+
 
 Como ilustrado na Figura \ref{segment:fig:livewire}, o usuário pode iterativamente definir vários pontos iniciais e finais, e a técnica \textit{livewire} irá automaticamente conectar esses pontos formando a borda do objeto de interesse. Assim, a segmentação \textit{livewire} é um método semi-automático que combina a intuição do usuário com a eficiência da computação, fornecendo resultados de segmentação bastante precisos.
 

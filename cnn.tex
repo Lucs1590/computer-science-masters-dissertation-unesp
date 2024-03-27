@@ -244,12 +244,13 @@ A utilização desse método apresenta a vantagem de aumentar a invariância do 
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplo de aumento de dados com transformações geométricas em um exemplo de pimentão.}
+    \caption[Exemplo de aumento de dados.]{Exemplo de aumento de dados com transformações geométricas em um exemplo de pimentão.}
     \includegraphics[width=0.8\linewidth]{recursos/imagens/deep/dataaugmentation.png}
     \label{cnn:fig:augment}
 
      Fonte: do próprio autor, utilizando o conjunto de dados CIFAR 100\citep{Bossard2014Food-101Forests}.
 \end{figure}
+
 
 Como mencionado anteriormente, é importante destacar que o aumento de dados geralmente envolve o uso de transformações geométricas e de intensidade. As transformações geométricas são responsáveis por aplicar mapeamentos e alterações nos \textit{pixels} das imagens, incluindo rotação, cisalhamento, translação, redimensionamento e outras técnicas comuns usadas em processos de registro de imagens \citep{pedrini2008analise}. Por outro lado, as transformações de intensidade manipulam as cores e os valores dos \textit{pixels}, modificando-os por meio de operações matemáticas como raiz quadrada, potenciação, logaritmos e outras técnicas similares \citep{pedrini2008analise}.
 
@@ -257,11 +258,12 @@ No entanto, é crucial salientar que a seleção das transformações deve ser f
 
 \begin{figure}[H]
     \centering
-    \caption{Exemplo de inversão no conjunto de dados MNIST, em que o dígito \quotes{5} é alterado para \quotes{2}.}
+    \caption[Inversão no conjunto MNIST.]{Exemplo de inversão no conjunto de dados MNIST, em que o dígito \quotes{5} é alterado para \quotes{2}.}
     \includegraphics[width=1\linewidth]{recursos/imagens/deep/fivetwo.png}
     \label{cnn:fig:augment2}
     Fonte: do próprio autor, utilizando o conjunto de dados \cite{LeCun2010MNISTDatabase}.
 \end{figure}
+
 
 Por fim, é importante destacar que o processo de aumento de dados geralmente ocorre durante o treinamento do modelo, garantindo que os exemplos utilizados para o aprendizado nunca sejam idênticos, contribuindo para a robustez do modelo. Outra abordagem é aplicar o aumento de dados antes do treinamento, mas essa prática pode resultar em um maior consumo de memória e armazenamento.
 
