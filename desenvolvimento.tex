@@ -59,7 +59,7 @@ O funcionamento do algoritmo de PCA para a extração de características pode s
     
     \begin{equation}
         \label{deep:eq:pca_2}
-        \boldsymbol{A} = \text{cov}(X) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{x}) (x_i - \bar{x})^T,
+        \boldsymbol{A} = \text{cov}(X,X) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{x}) (X_i - \bar{x})^T,
     \end{equation}
     onde \(\bar{x}\) representa a média da variável $X$ e $n$ é o número de observações;
 
@@ -403,7 +403,7 @@ Na arquitetura VGG-16, utilizada para classificação de imagens nos conjuntos d
 
 \begin{figure}[H]
     \centering
-    \caption[Substituição das camadas de \textit{pooling} por BPCAPooling - CIFAR-100.]{Demonstração da substituição das camadas de \textit{pooling} convencionais por BPCAPooling no conjunto de dados CIFAR-100. Os números sob cada camada representam o número de parâmetro.}
+    \caption[Substituição das camadas de \textit{pooling} por BPCAPooling - CIFAR-100.]{Demonstração da substituição das camadas de \textit{pooling} convencionais por BPCAPooling no conjunto de dados CIFAR-100. Os números sob cada camada representam o número de parâmetros treináveis.}
     \includegraphics[width=1\textwidth]{recursos/imagens/project/vgg-with-bpca-cifar.png}
     \label{project:fig:change_pooling:vgg-cifar}
 

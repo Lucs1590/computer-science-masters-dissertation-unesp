@@ -241,7 +241,7 @@ Em suma, a diversidade dos conjuntos de dados utilizados neste estudo forneceu u
 \label{results:class:lime}
 Em termos de preservação das informações espaciais entre as camadas de \textit{pooling}, o método BPCAPooling se destacou em relação a outros métodos quando analisado em camadas de \textit{pooling} de alto nível em ambos os conjuntos de dados (3ª camada).
 
-No conjunto de dados CIFAR 100, é visível que as características geométricas das imagens são mantidas ao usar o BPCAPooling. Em contraste com os métodos convencionais, não se observam imagens completamente escurecidas ou com ruído nas camadas de mais baixo nível, como ilustrado na Figura \ref{results:fig:datasets:5} e ampliado na Figura \ref{results:fig:datasets:5v2}, indicado destaque em vermelho. Apesar do tamanho menor da imagem no conjunto CIFAR 100, resultando em mapas de características de dimensão $2 \times 2$ nas camadas posteriores, o que torna a preservação espacial um desafio, optou-se por manter a arquitetura VGG-16 original sem alterações estruturais, em vez de remover os blocos convolucionais ulteriores.
+No conjunto de dados CIFAR 100, é visível que as características geométricas das imagens são mantidas ao usar o BPCAPooling. Em contraste com os métodos convencionais, não se observam imagens completamente escurecidas ou com ruído nas camadas de mais baixo nível, como ilustrado na Figura \ref{results:fig:datasets:5} e indicado em destaque em vermelho. Apesar do tamanho menor da imagem no conjunto CIFAR 100, resultando em mapas de características de dimensão $2 \times 2$ nas camadas posteriores, o que torna a preservação espacial um desafio, optou-se por manter a arquitetura VGG-16 original sem alterações estruturais, em vez de remover os blocos convolucionais ulteriores.
 
 \begin{figure}[H]
     \centering
@@ -251,17 +251,6 @@ No conjunto de dados CIFAR 100, é visível que as características geométricas
 
     Fonte: do próprio autor.
 \end{figure}
-
-\begin{figure}[H]
-    \centering
-    \caption[Ampliação das camadas de \textit{pooling}]{Representação ampliada da Figura \ref{results:fig:datasets:5}.}
-    \label{results:fig:datasets:5v2}
-    \includegraphics[width=1\textwidth]{recursos/imagens/results/cifar_blocksv2.png}
-
-    Fonte: do próprio autor.
-\end{figure}
-
-
 
 Ao analisar as camadas de \textit{pooling} aplicadas ao conjunto de dados \textit{Food}-101, representadas nas Figuras \ref{results:fig:datasets:max} e \ref{results:fig:datasets:bpca}, observa-se diferenças nas intensidades das saídas dessas camadas. As saídas resultantes do método \textit{Max Pooling} apresentam menor intensidade, enquanto as saídas do método BPCAPooling exibem maior intensidade, resultando em imagens com maior clareza e definição, principalmente de bordas.
 

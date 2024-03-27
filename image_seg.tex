@@ -30,9 +30,9 @@ A segmentação de imagens desempenha um papel fundamental em várias aplicaçõ
     Fonte: \cite{Nirkin2018} e \cite{Withey2008}, respectivamente.
 \end{figure}
 
-Para demonstrar o funcionamento das segmentações de maneira matemática, consideramos um conjunto de imagens $I$ definido em um domínio $\Omega \subset \mathbb{R}^d$, onde $d \geq 2$. A imagem observada $I_0$ e os predicados lógicos $P_1, \ldots, P_n$ são utilizados para verificar $n$ afirmações expressas com base em características da imagem, como bordas, suavidade, textura ou cor. O predicado $P_k(A)$ pe verdadeiro se todos os pontos de $A \subseteq \Omega$ satisfizerem a $k$-ésica afirmação. Essa abordagem é inspirada em trabalhos anteriores, como mencionado por \cite{antonelli2022view}.
+Para demonstrar o funcionamento das segmentações de maneira matemática, consideramos um conjunto de imagens $I$ definido em um domínio $\Omega \subset \mathbb{R}^d$, onde $d \geq 2$. A imagem observada $I_0$ e os predicados lógicos $P_1, \ldots, P_n$ são utilizados para verificar $n$ afirmações expressas com base em características da imagem, como bordas, suavidade, textura ou cor. O predicado $P_k(A)$ é verdadeiro se todos os pontos de $A \subseteq \Omega$ satisfizerem a $k$-ésima afirmação. Essa abordagem é inspirada em trabalhos anteriores, como mencionado por \cite{antonelli2022view}.
 
-Por exemplo, para realizar uma segmentação de duas regiões em uma imagem em tons de cinza normalizada $I_0$, prdemos definir $n = 2$ afirmações simples. Essas afirmações estão relacionadas ao nível de cinza da intensidade da luz e são utilizadas para distinguir entre o plano de fundo e o primeiro plano, como demonstrado na Equação \ref{segment:eq:seg}.
+Por exemplo, para realizar uma segmentação de duas regiões em uma imagem em tons de cinza normalizada $I_0$, pode-se definir $n = 2$ afirmações simples. Essas afirmações estão relacionadas ao nível de cinza da intensidade da luz e são utilizadas para distinguir entre o plano de fundo e o primeiro plano, como demonstrado na Equação \ref{segment:eq:seg}:
 
 \begin{equation}
 \label{segment:eq:seg}
